@@ -1,8 +1,8 @@
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
 
 from .mixins import HybridTemplateView
-from .models import Branch, District
-from .tables import BranchTable, DistrictTable
+from .models import Branch, SubscriptionPlan
+from .tables import BranchTable, SubscriptionPlanTable
 
 
 class DashboardView(HybridTemplateView):
@@ -13,27 +13,27 @@ class DashboardView(HybridTemplateView):
         return context
 
 
-class DistrictListView(HybridListView):
-    model = District
+class SubscriptionPlanListView(HybridListView):
+    model = SubscriptionPlan
     filterset_fields = ("name",)
-    table_class = DistrictTable
+    table_class = SubscriptionPlanTable
     search_fields = ("name", "code")
 
 
-class DistrictCreateView(HybridCreateView):
-    model = District
+class SubscriptionPlanCreateView(HybridCreateView):
+    model = SubscriptionPlan
 
 
-class DistrictDetailView(HybridDetailView):
-    model = District
+class SubscriptionPlanDetailView(HybridDetailView):
+    model = SubscriptionPlan
 
 
-class DistrictUpdateView(HybridUpdateView):
-    model = District
+class SubscriptionPlanUpdateView(HybridUpdateView):
+    model = SubscriptionPlan
 
 
-class DistrictDeleteView(HybridDeleteView):
-    model = District
+class SubscriptionPlanDeleteView(HybridDeleteView):
+    model = SubscriptionPlan
 
 
 class BranchListView(HybridListView):

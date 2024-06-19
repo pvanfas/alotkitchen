@@ -1,11 +1,11 @@
 from main.base import BaseTable
 
-from .models import Branch, District
+from .models import Branch, SubscriptionPlan
 
 
-class DistrictTable(BaseTable):
+class SubscriptionPlanTable(BaseTable):
     class Meta:
-        model = District
+        model = SubscriptionPlan
         fields = ("name", "code")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 

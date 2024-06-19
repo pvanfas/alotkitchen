@@ -6,12 +6,12 @@ app_name = "main"
 
 urlpatterns = [
     path("", views.DashboardView.as_view(), name="dashboard_view"),
-    # District
-    path("districts/", views.DistrictListView.as_view(), name="district_list"),
-    path("districts/create/", views.DistrictCreateView.as_view(), name="district_create"),
-    path("districts/detail/<str:pk>/", views.DistrictDetailView.as_view(), name="district_detail"),
-    path("districts/update/<str:pk>/", views.DistrictUpdateView.as_view(), name="district_update"),
-    path("districts/delete/<str:pk>/", views.DistrictDeleteView.as_view(), name="district_delete"),
+    # SubscriptionPlan
+    path("subscriptionplans/", views.SubscriptionPlanListView.as_view(), name="subscriptionplan_list"),
+    path("subscriptionplans/create/", views.SubscriptionPlanCreateView.as_view(), name="subscriptionplan_create"),
+    path("subscriptionplans/detail/<str:pk>/", views.SubscriptionPlanDetailView.as_view(), name="subscriptionplan_detail"),
+    path("subscriptionplans/update/<str:pk>/", views.SubscriptionPlanUpdateView.as_view(), name="subscriptionplan_update"),
+    path("subscriptionplans/delete/<str:pk>/", views.SubscriptionPlanDeleteView.as_view(), name="subscriptionplan_delete"),
     # Branch
     path("branches/", views.BranchListView.as_view(), name="branch_list"),
     path("branches/create/", views.BranchCreateView.as_view(), name="branch_create"),

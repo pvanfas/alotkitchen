@@ -1,13 +1,24 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
 MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("DINNER", "Dinner"))
+WEEK_CHOICES = ((1, "1st & 3rd Week"), (2, "2nd & 4th Week"))
+DAY_CHOICES = (
+    ("Monday", "Monday"),
+    ("Tuesday", "Tuesday"),
+    ("Wednesday", "Wednesday"),
+    ("Thursday", "Thursday"),
+    ("Friday", "Friday"),
+    ("Saturday", "Saturday"),
+    ("Sunday", "Sunday"),
+)
+PLANTYPE_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
 
 
 class ItemCategory(BaseModel):
@@ -27,6 +38,7 @@ class Item(BaseModel):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    available_on = MultiSelectField(max_length=200, choices=DAY_CHOICES, null=True, blank=True)
     is_veg = models.BooleanField(default=True)
 
     class Meta:
@@ -44,27 +56,20 @@ class Combo(BaseModel):
     name = models.CharField(max_length=200, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
     mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
+    week = models.PositiveIntegerField(choices=WEEK_CHOICES)
+    available_on = models.CharField(max_length=200, choices=DAY_CHOICES)
     is_veg = models.BooleanField(default=True)
     is_default = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ("name",)
+        ordering = ("week", "available_on", "mealtype")
         verbose_name = _("Combo")
         verbose_name_plural = _("Combos")
 
     def get_combo_name(self):
         return ", ".join(item.name for item in self.items.all())
 
-    def clean(self):
-        existing_combos = Combo.objects.filter(items__in=self.items.all()).distinct()
-        for combo in existing_combos:
-            if self.pk and combo.pk == self.pk:
-                continue  # Skip current instance being edited
-            if set(combo.items.all()) == set(self.items.all()):
-                raise ValidationError("This combination of items already exists in another Combo.")
-
     def save(self, *args, **kwargs):
-        self.clean()
         if not self.pk:
             self.name = "Unnamed Combo"
         super().save(*args, **kwargs)
@@ -80,30 +85,35 @@ def update_combo_name(sender, instance, action, reverse, pk_set, **kwargs):
         instance.save()
 
 
-class District(BaseModel):
+class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
+    plantype = models.CharField(max_length=200, choices=PLANTYPE_CHOICES)
+    regular_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    first_order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    monthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    bimonthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
         ordering = ("name",)
-        verbose_name = _("District")
-        verbose_name_plural = _("Districts")
+        verbose_name = _("Subscription Plan")
+        verbose_name_plural = _("Subscription Plans")
 
     def get_absolute_url(self):
-        return reverse_lazy("main:district_detail", kwargs={"pk": self.pk})
+        return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
 
     @staticmethod
     def get_list_url():
-        return reverse_lazy("main:district_list")
+        return reverse_lazy("main:subscriptionplan_list")
 
     @staticmethod
     def get_create_url():
-        return reverse_lazy("main:district_create")
+        return reverse_lazy("main:subscriptionplan_create")
 
     def get_update_url(self):
-        return reverse_lazy("main:district_update", kwargs={"pk": self.pk})
+        return reverse_lazy("main:subscriptionplan_update", kwargs={"pk": self.pk})
 
     def get_delete_url(self):
-        return reverse_lazy("main:district_delete", kwargs={"pk": self.pk})
+        return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
         return str(self.name)

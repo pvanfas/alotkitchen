@@ -4,16 +4,16 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Combo, Item, ItemCategory
+from .models import Combo, Item, ItemCategory, SubscriptionPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
 
 
-# @admin.register(District)
-# class DistrictAdmin(BaseAdmin):
-#     list_display = ("name", "is_active")
-#     search_fields = ("name",)
+@admin.register(SubscriptionPlan)
+class SubscriptionPlanAdmin(BaseAdmin):
+    list_display = ("name", "is_active")
+    search_fields = ("name",)
 
 
 # @admin.register(Branch)
@@ -30,15 +30,14 @@ class ItemCategoryAdmin(BaseAdmin):
 
 @admin.register(Item)
 class ItemAdmin(BaseAdmin):
-    list_display = ("name", "category", "price", "is_veg", "is_active")
+    list_display = ("name", "category", "price", "is_veg", "available_on", "is_active")
     search_fields = ("name", "category__name")
-    list_filter = ("category", "is_veg", "is_active")
+    list_filter = ("category", "is_veg", "is_active", "available_on")
 
 
 @admin.register(Combo)
 class ComboAdmin(BaseAdmin):
-    list_display = ("name", "price", "is_veg", "mealtype", "is_active", "is_default")
+    list_display = ("name", "is_veg", "mealtype", "week", "available_on", "is_default")
     search_fields = ("name", "items")
     list_filter = ("is_veg", "mealtype", "is_active")
     autocomplete_fields = ("items",)
-    list_display_links = ("name", "price", "is_veg", "mealtype", "is_active")
