@@ -9,7 +9,7 @@ module_urls = i18n_patterns(
     path("admin/", admin.site.urls),
     path("accounts/", include("registration.backends.simple.urls")),
     path("users/", include("users.urls", namespace="users")),
-    path("web/", include("web.urls", namespace="web")),
+    path("", include("web.urls", namespace="web")),
     path("", include("main.urls", namespace="main")),
     prefix_default_language=False,
 )

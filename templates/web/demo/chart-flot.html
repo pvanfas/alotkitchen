@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- chart-flot.html 01:54:46 GMT -->
+<head>
+         <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="FoodDesk - Online Food Delivery Admin Dashboard" />
+	<meta property="og:title" content="FoodDesk - Online Food Delivery Admin Dashboard" />
+	<meta property="og:description" content="FoodDesk - Online Food Delivery Admin Dashboard" />
+	<meta property="og:image" content="social-image.png" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- PAGE TITLE HERE -->
+		<title>FoodDesk - Online Food Delivery Admin Dashboard</title>
+	
+	<!-- FAVICONS ICON -->
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+	<link href="/static/web/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+    <link href="/static/web/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+     <link href="/static/web/vendor/swiper/css/swiper-bundle.min.css" rel="stylesheet">
+<link href="/static/web/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+   <div id="preloader">
+		<div class="lds-ripple">
+			<div></div>
+			<div></div>
+		</div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+		{% include 'web/partials/header.html' %}
+
+        <div class="content-body">
+            <div class="container">
+				
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item active"><a href="javascript:void(0)">Charts</a></li>
+						<li class="breadcrumb-item"><a href="javascript:void(0)">Flot</a></li>
+					</ol>
+                </div>
+                <!-- row -->
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Bar Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotBar1" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Bar Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotBar2" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Line Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotLine1" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Line Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotLine2" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Line Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotLine3" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Area Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotArea1" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Area Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotArea2" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Realtime Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotRealtime1" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Realtime Chart</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="flotRealtime2" class="flot-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+           <div class="copyright border-top">
+   <p>Copyright © Designed   by <a href="https://themeforest.net/user/dexignlabs" target="_blank">DexignLab</a> 2022</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+        
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="/static/web/vendor/global/global.min.js"></script>
+	<script src="/static/web/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="/static/web/vendor/chart.js/Chart.bundle.min.js"></script>
+	<!-- Apex Chart -->
+	<script src="/static/web/vendor/apexchart/apexchart.js"></script>
+    
+	<script src="/static/web/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+
+
+    <script src="/static/web/vendor/flot/jquery.flot.js"></script>
+    <script src="/static/web/vendor/flot/jquery.flot.pie.js"></script>
+    <script src="/static/web/vendor/flot/jquery.flot.resize.js"></script>
+    <script src="/static/web/vendor/flot-spline/jquery.flot.spline.min.js"></script>
+    <script src="/static/web/js/plugins-init/flot-init.js"></script>
+	
+    <script src="/static/web/js/custom.js"></script>
+	<script src="/static/web/js/dlabnav-init.js"></script>
+<script src="/static/web/vendor/swiper/js/swiper-bundle.min.js"></script>
+
+	
+    
+</body>
+
+<!-- chart-flot.html 01:54:51 GMT -->
+</html>

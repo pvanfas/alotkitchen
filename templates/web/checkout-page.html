@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- checkout-page.html 01:57:29 GMT -->
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="FoodDesk - Online Food Delivery Admin Dashboard" />
+	<meta property="og:title" content="FoodDesk - Online Food Delivery Admin Dashboard" />
+	<meta property="og:description" content="FoodDesk - Online Food Delivery Admin Dashboard" />
+	<meta property="og:image" content="social-image.png" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- PAGE TITLE HERE -->
+	<title>FoodDesk - Online Food Delivery Admin Dashboard</title>
+	
+	<!-- FAVICONS ICON -->
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+	<link href="/static/web/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+	<link href="/static/web/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	<link href="/static/web/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">	
+	<!-- Style css -->
+	<link href="/static/web/vendor/swiper/css/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/static/web/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+     <link href="/static/web/vendor/swiper/css/swiper-bundle.min.css" rel="stylesheet">
+<link href="/static/web/css/style.css" rel="stylesheet">
+
+	
+</head>
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+		<div class="lds-ripple">
+			<div></div>
+			<div></div>
+		</div>
+    </div>
+	
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+		{% include 'web/partials/header.html' %}
+
+		
+		<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <!-- row -->
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="card">
+							
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xl-8">
+										<h4>Chosse a plan</h4>
+										<div class="d-flex align-items-center veg mb-3">
+											<div class="form-check me-3">
+											  <input class="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+											  <label class="form-check-label" for="flexRadioDefault1">Non-veg</label>
+											</div>
+											<div class="form-check style-1">
+											  <input class="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+											  <label class="form-check-label" for="flexRadioDefault2">Veg</label>
+											</div>
+										</div>
+										<div class="basci-bx mb-3">
+											<div class="basci-title">
+												<h4>Your basic information</h4>
+											</div>
+											<div class="row">
+												<div class="col-xl-6">
+													<form>
+													  <div class="mb-3">
+														<input type="Text" class="form-control" placeholder="First Name">
+													  </div>
+													 </form>
+												</div>
+												<div class="col-xl-6">
+													<form>
+													  <div class="mb-3">
+														<input type="Text" class="form-control" placeholder="Last Name">
+													  </div>
+													 </form>
+												</div>
+												<div class="col-xl-12">
+													<div class="mb-3">
+														<input type="email" class="form-control" placeholder="Email Address">
+													</div>
+												</div>
+												<div class="col-xl-12">
+													<div class="mb-3">
+														<input type="text" class="form-control" placeholder="Company Name">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="Billing-bx mb-3">
+											<div class="billing-title">
+												<h4>Billing address</h4>
+											</div>
+											<div class="row">
+												<div class="col-xl-12">
+													<div class="mb-3">
+														<input type="email" class="form-control" placeholder="Email Address">
+													</div>
+												</div>
+												<div class="col-xl-6">
+													<div class="mb-3">
+														<input type="Text" class="form-control" placeholder="City">
+													 </div>
+												</div>
+												<div class="col-xl-6">
+													<select class="form-control default-select ms-0 py-4 mb-xl-0 mb-3" style="display: none;">
+														<option>Country</option>
+														<option>India</option>
+														<option>Usa</option>
+														<option>Canada</option>
+													</select>
+												</div>
+												<div class="col-xl-6">
+													<div class="mb-3">
+														<input type="number" class="form-control" placeholder="Enter a pin no.">
+													 </div>
+												</div>
+												<div class="col-xl-6">
+													<div class="mb-3">
+														<input type="number" class="form-control" placeholder="Enter a phone no.">
+													 </div>
+												</div>
+											</div>
+										</div>
+										<div class="payment-bx mb-3">
+											<div class="payment-title">
+												<h4>Your payment information</h4>
+											</div>
+											<div class="row">
+												<div class="col-xl-12">
+													<div class="mb-3">
+														<input type="number" class="form-control" placeholder="Enter a card no.">
+													 </div>
+												</div>
+												<div class="col-xl-4">
+													<select class="form-control default-select ms-0 py-4 wide mb-xl-0 mb-3" style="display: none;">
+														<option>Month</option>
+														<option>Jan</option>
+														<option>Feb</option>
+														<option>march</option>
+														<option>April</option>
+														<option>May</option>
+														<option>June</option>
+														<option>July</option>
+														<option>Aug</option>
+														<option>Sept</option>
+														<option>Oct</option>
+														<option>Nov</option>
+														<option>Dec</option>
+													</select>
+												</div>
+												<div class="col-xl-4">
+													<select class="form-control default-select ms-0 py-4 wide mb-xl-0 mb-3" style="display: none;">
+														<option>1997</option>
+														<option>1998</option>
+														<option>1999</option>
+														<option>2000</option>
+														<option>2001</option>
+														<option>2002</option>
+														<option>2003</option>
+														<option>2004</option>
+														<option>2005</option>
+														<option>2006</option>
+														<option>2007</option>
+														<option>2008</option>
+														<option>2009</option>
+													</select>
+												</div>
+												<div class="col-xl-4">
+													<div class="input-group mb-3">
+													  <input type="number" class="form-control" placeholder="cvv">
+													  <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-credit-card"></i></span>
+													</div>
+												</div>
+											</div>
+											<span>By clicking Checkout Now you agree to the <a href="javascript:void(0);" class="text-primary fw-bold">Term of Service</a>  and <a href="javascript:void(0);" class="text-primary fw-bold">privacy policey</a></span>
+											
+										</div>
+									</div>
+									<div class="col-xl-4">
+										<div class="card">
+											<div class="card-header py-3">
+												<h4 class="mb-0">Your Cart</h4>
+											</div>
+											<div class="card-body pt-3">
+												<div class="checkout-right">
+													<span class="checkout-title">ADD A TIP FOR YOUR RIDER</span>
+													<p>The entire amount will be transfered to the rider.valid only if you pay online</p>
+													<div class="">
+														<span class="badge badge-primary me-2 c-pointer"><i class="fa-solid fa-dollar-sign"></i>+5</span>
+														<span class="badge badge-primary me-2 c-pointer"><i class="fa-solid fa-dollar-sign"></i>+5</span>
+														<span class="badge badge-primary me-2 c-pointer"><i class="fa-solid fa-dollar-sign"></i>+5</span>
+													</div>
+													<div class="bill-details mt-4 border-bottom">
+														<h6>Bill Details</h6>
+														<div class="d-flex align-items-center justify-content-between mb-3">
+															<span>item Total</span>
+															<span><i class="fa-solid fa-dollar-sign">585</i></span>
+														</div>
+														<div class="d-flex align-items-center justify-content-between mb-3">
+															<span>Deliver Fee | 4.7kms</span>
+															<span class="text-primary"><del class="me-3 del-color"><i class="fa-solid fa-dollar-sign"></i>24.00</del>FREE</span>
+														</div>
+													</div>
+													<div class="d-flex align-items-center justify-content-between mt-3 border-bottom">
+														<span class="mb-3">item Discount <i class="fa-solid fa-circle-exclamation"></i></span>
+														<span class="text-primary mb-3">-<i class="fa-solid fa-dollar-sign"></i>79.99</span>
+													</div>
+													<div class="d-flex align-items-center justify-content-between my-3">
+														<span class="mb-3">To pay</span>
+														<span class="text-primary mb-3">-<i class="fa-solid fa-dollar-sign"></i>23.99</span>
+													</div>
+													<button class="btn btn-primary btn-block" id="b3">PLACE ORDER</button> 
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+            </div>
+        </div>
+		
+		<!-- Button trigger modal -->
+
+        <!--**********************************
+            Content body end
+        ***********************************-->
+		
+		
+		
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright border-top">
+   <p>Copyright © Designed   by <a href="https://themeforest.net/user/dexignlabs" target="_blank">DexignLab</a> 2022</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+		<!--**********************************
+           Support ticket button start
+        ***********************************-->
+		
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+
+	</div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="/static/web/vendor/global/global.min.js"></script>
+	<script src="/static/web/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+	<script src="/static/web/vendor/chart.js/Chart.bundle.min.js"></script>
+	<script src="/static/web/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	
+	<!-- Apex Chart -->
+	
+
+	<!-- Dashboard 1 -->
+	
+	
+    <script src="/static/web/js/custom.js"></script>
+	<script src="/static/web/js/dlabnav-init.js"></script>
+<script src="/static/web/vendor/swiper/js/swiper-bundle.min.js"></script>
+
+	
+    
+	 <script src="/static/web/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+	 <script src="/static/web/js/plugins-init/sweetalert.init.js"></script>
+	<!-- Swiper-js -->
+	<script src="/static/web/vendor/swiper/js/swiper-bundle.min.js"></script>
+	
+	<script>
+		document.getElementById('b3').onclick = function(){
+		swal("Good job!", "You order received", "success");
+	};
+	</script>
+	
+	 <script>
+      var swiper = new Swiper(".mySwiper-1", {
+		loop:true,
+		dots:true,
+       
+        pagination: {
+          el: ".swiper-pagination-banner",
+		   clickable: true,
+        },
+        mousewheel: false,
+        keyboard: false,
+      });
+	  </script>
+	  <script>
+	  var swiper = new Swiper(".mySwiper-2", {
+        slidesPerView: 5,
+        spaceBetween: 20,
+		loop:true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+		breakpoints: {
+          360: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+		  600: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+		  1920: {
+            slidesPerView: 5,
+            spaceBetween: 20,
+          },
+          
+        },
+		
+      });
+	  
+	  var swiper = new Swiper(".mySwiper-3", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+		breakpoints: {
+		360: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          600: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+		  768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+         
+          
+        },
+      });
+    </script>
+	<script>
+	$(function() {
+	$('[data-decrease]').click(decrease);
+	$('[data-increase]').click(increase);
+	$('[data-value]').change(valueChange);
+});
+
+function decrease() {
+	var value = $(this).parent().find('[data-value]').val();
+	if(value > 1) {
+		value--;
+		$(this).parent().find('[data-value]').val(value);
+	}
+}
+
+function increase() {
+	var value = $(this).parent().find('[data-value]').val();
+	if(value < 100) {
+		value++;
+		$(this).parent().find('[data-value]').val(value);
+	}
+}
+
+function valueChange() {
+	var value = $(this).val();
+	if(value == undefined || isNaN(value) == true || value <= 0) {
+		$(this).val(1);
+	} else if(value >= 101) {
+		$(this).val(100);
+	}
+}
+	</script>
+	
+		<script>
+	
+	$(document).ready(function(){
+  $(".plus").click(function(){
+    $(this).toggleClass("active");
+	
+  });
+});
+$(document).ready(function(){
+  $(".c-heart").click(function(){
+    $(this).toggleClass("active");
+	
+  });
+});
+
+$(document).ready(function(){
+  $("#p1").mouseenter(function(){
+    alert("You entered p1!");
+  });
+});
+
+</script>
+</body>
+
+<!-- checkout-page.html 01:57:30 GMT -->
+</html>
