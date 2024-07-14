@@ -13,7 +13,7 @@ def main_context(request):
 
     return {
         "current_user": current_user,
-        "default_user_avatar": f"https://ui-avatars.com/api/?name={name}&background=fdc010&color=fff&size=128",
+        "default_user_avatar": f"/static/app/config/default_user_avatar.jpeg",
         "app_settings": app_settings,
         "current_version": "?v=2.0",
         "company_name": org_data.get("company_name"),

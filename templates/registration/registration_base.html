@@ -2,22 +2,41 @@
 {% load static crispy_forms_tags i18n %}
 {% block body %}
 
-<div class="page  responsive-log">
+<div class="page responsive-log">
 	<div class="page-single">
 		<div class="container">
 			<div class="row">
 				<div class="col mx-auto">
-					<div class="row justify-content-center">
-						<div class="col-md-8 col-lg-6 col-xl-4 col-xxl-4">
-							<div class="card my-5 p-5">
-								<div class="p-4 text-center">
-									<img src="{{app_settings.logo}}" class="d-block mb-3" alt="" style="width:100%;height:60px;object-fit:contain">
-								</div>
-								{% block content %}
+					<div class="row justify-content-center py-7">
+						<div class="col-md-12 col-lg-10 col-xl-8 col-xxl-8">
+							<div class="card border border-dark">
+								<div class="row">
+									<div class="col-md-6 d-md-block d-none">
+										<div class="w-100 h-100" style="
+											background-image: url('https://images.unsplash.com/photo-1506084868230-bb9d95c24759');
+											background-size: cover;
+											background-position: center;
+											background-repeat: no-repeat;
+											border-radius: 10px 0 0 10px;">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="p-6">
+											<div class="p-4 text-center">
+												<img src="{{app_settings.logo}}" class="d-block mb-3" alt=""
+													style="width:100%;height:60px;object-fit:contain">
+											</div>
+											{% block content %}
 
-								{% endblock content %}
+											{% endblock content %}
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
+
+
+
 					</div>
 				</div>
 			</div>

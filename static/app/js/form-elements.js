@@ -28,7 +28,7 @@ $(function() {
 		showAlpha: true
 	});
 	$('#showPaletteOnly').spectrum({
-		color: '#3366ff',
+		color: '#000',
 		showAlpha: true
 	});
 });

@@ -18,3 +18,5 @@ django-rosetta==0.10.0
 django-ckeditor==6.1.0
 django-htmlmin==0.11.0
 django-weasyprint
+django-multiselectfield
+pytz

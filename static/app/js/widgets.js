@@ -1,6 +1,6 @@
 $(function(e){
   'use strict'
-  
+
 	/* sparkline_bar11 */
 	$(".sparkline_bar11").sparkline([2, 4, 3, 4, 5, 4,5,3,4,5,2,4,5,4,3,5,4,3,4,5,4,5,4,3,5,4,3,4,5], {
 		type: 'bar',
@@ -92,7 +92,7 @@ $(function(e){
       yaxis: {
         min: 0
       },
-      colors: ['#3366ff'],
+      colors: ['#000'],
 
     }
 	var spark1 = new ApexCharts(document.querySelector("#spark1"), spark1);

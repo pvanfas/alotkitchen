@@ -108,10 +108,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    # {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    # {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    # {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 LANGUAGE_CODE = "en-us"
@@ -152,10 +152,10 @@ REGISTRATION_AUTO_LOGIN = True
 SEND_ACTIVATION_EMAIL = False
 REGISTRATION_EMAIL_SUBJECT_PREFIX = ""
 
-REGISTRATION_OPEN = False
+REGISTRATION_OPEN = True
 LOGIN_URL = "/accounts/login/"
 LOGOUT_URL = "/accounts/logout/"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/dash/"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -171,14 +171,14 @@ STATICFILES_DIRS = ((BASE_DIR / "static"),)
 STATIC_ROOT = BASE_DIR / "assets"
 
 APP_SETTINGS = {
-    "logo": "/static/app/config/logo.svg",
+    "logo": "/static/app/config/logo.png",
     "logo_mini": "/static/app/config/logo_mini.png",
     "favicon": "/static/app/config/favicon.png",
     "site_name": "ALOT KITCHEN",
     "site_title": "ALOT KITCHEN",
     "site_description": "ALOT KITCHEN",
     "site_keywords": "ALOT KITCHEN",
-    "background_image": "/static/app/config/background.jpg",
+    "background_image": "#fff",
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

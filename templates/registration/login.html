@@ -8,9 +8,14 @@
     {% csrf_token %}
     {{form|crispy}}
 
-    <div class="submit">
+    <div class="submit pt-3">
         <button type="submit" class="btn btn-primary btn-block">SIGN IN</button>
     </div>
+
+    <div class="text-center mt-3">
+        <a  href="{% url 'auth_password_reset' %}" class="border btn btn-block">{% translate "Forgot your password?" %}</a>
+    </div>
+
 </form>
 
 {% endblock content %}

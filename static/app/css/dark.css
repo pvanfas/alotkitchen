@@ -298,21 +298,21 @@ body.dark-mode {
   color: #505662;
 }
 .dark-mode .valid-feedback {
-  color: #0dcd94;
+  color: #0E8345;
 }
 .dark-mode .valid-tooltip {
   color: #fff;
   background-color: rgba(94, 186, 0, 0.8);
 }
 .dark-mode .was-validated .form-control:valid, .dark-mode .form-control.is-valid, .dark-mode .was-validated .custom-select:valid, .dark-mode .custom-select.is-valid {
-  border-color: #0dcd94;
+  border-color: #0E8345;
 }
 .dark-mode .was-validated .form-control:valid:focus, .dark-mode .form-control.is-valid:focus, .dark-mode .was-validated .custom-select:valid:focus, .dark-mode .custom-select.is-valid:focus {
-  border-color: #0dcd94;
+  border-color: #0E8345;
   box-shadow: 0 0 0 2px rgba(94, 186, 0, 0.25);
 }
 .dark-mode .was-validated .form-check-input:valid ~ .form-check-label, .dark-mode .form-check-input.is-valid ~ .form-check-label, .dark-mode .was-validated .custom-control-input:valid ~ .custom-control-label, .dark-mode .custom-control-input.is-valid ~ .custom-control-label {
-  color: #0dcd94;
+  color: #0E8345;
 }
 .dark-mode .was-validated .custom-control-input:valid ~ .custom-control-label::before, .dark-mode .custom-control-input.is-valid ~ .custom-control-label::before {
   background-color: #9eff3b;
@@ -324,7 +324,7 @@ body.dark-mode {
   box-shadow: 0 0 0 1px #25274a, 0 0 0 2px rgba(94, 186, 0, 0.25);
 }
 .dark-mode .was-validated .custom-file-input:valid ~ .custom-file-label, .dark-mode .custom-file-input.is-valid ~ .custom-file-label {
-  border-color: #0dcd94;
+  border-color: #0E8345;
 }
 .dark-mode .was-validated .custom-file-input:valid:focus ~ .custom-file-label, .dark-mode .custom-file-input.is-valid:focus ~ .custom-file-label {
   box-shadow: 0 0 0 2px rgba(94, 186, 0, 0.25);
@@ -1612,7 +1612,7 @@ body.dark-mode {
   background-color: #fe7f00 !important;
 }
 .dark-mode .bg-success {
-  background-color: #0dcd94 !important;
+  background-color: #0E8345 !important;
 }
 .dark-mode .bg-info {
   background-color: #128af9 !important;
@@ -1718,7 +1718,7 @@ body.dark-mode {
   border-color: #fe7f00 !important;
 }
 .dark-mode .border-success {
-  border-color: #0dcd94 !important;
+  border-color: #0E8345 !important;
 }
 .dark-mode .border-info {
   border-color: #128af9 !important;
@@ -2529,7 +2529,7 @@ body.dark-mode {
 }
 .dark-mode .avatar-green {
   background-color: #cfeab3;
-  color: #0dcd94;
+  color: #0E8345;
 }
 .dark-mode .avatar-teal {
   background-color: #bfefea;
@@ -2698,7 +2698,7 @@ body.dark-mode {
   color: #fff;
 }
 .dark-mode .tag-green {
-  background-color: #0dcd94;
+  background-color: #0E8345;
   color: #fff;
 }
 .dark-mode .tag-teal {
@@ -2738,7 +2738,7 @@ body.dark-mode {
   color: #fff;
 }
 .dark-mode .tag-success {
-  background-color: #0dcd94;
+  background-color: #0E8345;
   color: #fff;
 }
 .dark-mode .tag-info {
@@ -4137,7 +4137,7 @@ body.dark-mode {
   background-color: var(--primary-bg-color);
 }
 .dark-mode .wizard > .steps .done a .number, .dark-mode .wizard > .steps .done a:hover .number, .dark-mode .wizard > .steps .done a:active .number {
-  background-color: #0dcd94;
+  background-color: #0E8345;
 }
 .dark-mode .wizard > .actions .disabled a {
   background-color: #2a3450;
@@ -4989,10 +4989,10 @@ body.dark-mode .switcher-wrapper *::-webkit-scrollbar-track {
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 .dark-mode .hr-checkall .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
-  background: #0dcd94;
+  background: #0E8345;
 }
 .dark-mode .hr-checkall .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
-  border-color: #0dcd94;
+  border-color: #0E8345;
 }
 .dark-mode .daterangepicker {
   background: #25274a;
@@ -5006,7 +5006,7 @@ body.dark-mode .switcher-wrapper *::-webkit-scrollbar-track {
   background: #262b5a;
 }
 .dark-mode .custom-radio.success .custom-control-input:checked ~ .custom-control-label::before {
-  background: #0dcd94;
+  background: #0E8345;
 }
 .dark-mode .note-toolbar {
   background: #25274a;
@@ -5066,7 +5066,7 @@ body.dark-mode .switcher-wrapper *::-webkit-scrollbar-track {
 }
 .dark-mode .bg-success-transparent {
   background: rgba(13, 205, 148, 0.1);
-  color: #0dcd94;
+  color: #0E8345;
 }
 .dark-mode .bg-info-transparent {
   background: rgba(18, 138, 249, 0.1);

@@ -13,15 +13,32 @@
         <div class="app-sidebar3">
             <div class="main-menu">
 
+                <a href="#" class="app-sidebar__user d-flex align-items-center pb-3">
+                    <div class="dropdown user-pro-body text-center me-3">
+                        <div class="user-pic mb-0">
+                            {% if request.user.photo %}
+                            <img src="{{request.user.photo.crop.74x74}}" alt="img" class="avatar-xxl rounded-circle mb-1" />
+                            {% elif request.user.get_doc_photo.attachment %}
+                            <img src="{{request.user.get_doc_photo.attachment.url}}" alt="img" class="avatar-xxl rounded-circle mb-1" />
+                            {% else %}
+                            <img src="{{default_user_avatar}}" alt="img" class="avatar-lg rounded-circle mb-1" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="user-info mb-0">
+                        <h5 class="mb-2">{{request.user|upper}}</h5>
+                        <span class="app-sidebar__user-name text-sm text-success">Manage Account</span>
+                    </div>
+                </a>
+
+                <div class="slide-left disabled" id="slide-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
+                    </svg>
+                </div>
+
+
                 <ul class="side-menu">
-
-                    <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:dashboard_view' %}">
-                            <i class="feather feather-shield sidemenu_icon"></i>
-                            <span class="side-menu__label">Dashboard</span>
-                        </a>
-                    </li>
-
 
                     <li class="slide">
                         <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:dashboard_view' %}">
@@ -31,78 +48,45 @@
                     </li>
 
                     <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:dashboard_view' %}">
-                            <i class="feather feather-star sidemenu_icon"></i>
-                            <span class="side-menu__label">Menu</span>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:favourites_view' %}">
+                            <i class="feather feather-heart sidemenu_icon"></i>
+                            <span class="side-menu__label">Favourites</span>
                         </a>
                     </li>
 
                     <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
-                            <i class="feather feather-chrome sidemenu_icon"></i>
-                            <span class="side-menu__label">{% translate 'Masters' %}</span>
-                            <i class="angle fa fa-angle-right"></i>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:featured_eats_view' %}">
+                            <i class="feather feather-pie-chart sidemenu_icon"></i>
+                            <span class="side-menu__label">Featured Eats</span>
                         </a>
-                        <ul class="slide-menu">
-                            <li class="sub-slide">
-                                <a class="sub-side-menu__item" data-bs-toggle="sub-slide"
-                                    href="{% url 'main:district_list' %}">
-                                    <span class="sub-side-menu__label">{% translate 'Districts' %}</span>
-                                </a>
-                            </li>
-                            
-                            <li class="sub-slide">
-                                <a class="sub-side-menu__item" data-bs-toggle="sub-slide"
-                                    href="{% url 'main:branch_list' %}">
-                                    <span class="sub-side-menu__label">{% translate 'Branches' %}</span>
-                                </a>
-                            </li>
-    
-                        </ul>
                     </li>
 
                     <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
-                            <i class="feather feather-grid sidemenu_icon"></i>
-                            <span class="side-menu__label">{% translate 'Reports' %}</span>
-                            <i class="angle fa fa-angle-right"></i>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:wallet_view' %}">
+                            <i class="feather feather-shopping-bag sidemenu_icon"></i>
+                            <span class="side-menu__label">Wallet</span>
                         </a>
-                        <ul class="slide-menu">
-                            <li class="sub-slide">
-                                <a class="sub-side-menu__item" data-bs-toggle="sub-slide"
-                                    href="{% url 'main:dashboard_view' %}">
-                                    <span class="sub-side-menu__label">{% translate 'Nothing' %}</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
-                            <i class="feather feather-chrome sidemenu_icon"></i>
-                            <span class="side-menu__label">{% translate 'Help' %}</span>
-                            <i class="angle fa fa-angle-right"></i>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:pricing_view' %}">
+                            <i class="feather feather-zap sidemenu_icon"></i>
+                            <span class="side-menu__label">Pricing</span>
                         </a>
-                        <ul class="slide-menu">
-                            <li class="sub-slide">
-                                <a class="sub-side-menu__item" data-bs-toggle="sub-slide"
-                                    href="{% url 'main:dashboard_view' %}">
-                                    <span class="sub-side-menu__label">{% translate 'FAQ' %}</span>
-                                </a>
-                            </li>
-                            <li class="sub-slide">
-                                <a class="sub-side-menu__item" data-bs-toggle="sub-slide"
-                                    href="{% url 'main:dashboard_view' %}">
-                                    <span class="sub-side-menu__label">{% translate 'Tutorials' %}</span>
-                                </a>
-                            </li>
-                            <li class="sub-slide">
-                                <a class="sub-side-menu__item" data-bs-toggle="sub-slide"
-                                    href="{% url 'main:dashboard_view' %}">
-                                    <span class="sub-side-menu__label">{% translate 'Support' %}</span>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:manage_account_view' %}">
+                            <i class="feather feather-settings sidemenu_icon"></i>
+                            <span class="side-menu__label">Manage Account</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:help_view' %}">
+                            <i class="feather feather-help-circle sidemenu_icon"></i>
+                            <span class="side-menu__label">Help</span>
+                        </a>
                     </li>
 
                 </ul>

@@ -57,3 +57,27 @@ class BranchUpdateView(HybridUpdateView):
 
 class BranchDeleteView(HybridDeleteView):
     model = Branch
+
+
+class FavouritesView(HybridTemplateView):
+    template_name = "app/main/favourites.html"
+
+
+class FeaturedEatsView(HybridTemplateView):
+    template_name = "app/main/featured_eats.html"
+
+
+class WalletView(HybridTemplateView):
+    template_name = "app/main/wallet.html"
+
+
+class PricingView(HybridTemplateView):
+    template_name = "app/main/pricing.html"
+
+
+class ManageAccountView(HybridTemplateView):
+    template_name = "app/main/manage_account.html"
+
+
+class HelpView(HybridTemplateView):
+    template_name = "app/main/help.html"

@@ -1,6 +1,6 @@
 
 	function chartstatistics(){
-		"use strict"; 
+		"use strict";
 
 		/*Bar-Chart */
 		var ctx = document.getElementById('chartbar-statistics').getContext('2d');
@@ -56,7 +56,7 @@
 							color: "rgba(142, 156, 173,0.1)",
 							display: false
 						},
-	
+
 					}],
 					yAxes: [{
 						gridLines: {
@@ -81,7 +81,7 @@
 				}
 			}
 		});
-	
+
 	}
 function analysis(){
 	/*----- Advancedtask ------*/
@@ -151,9 +151,9 @@ function analysis(){
 			}
 		}],
 		labels: ["Design","Development" , "Service"],
-		colors: [myVarVal, '#fe7f00' , '#0dcd94'],
+		colors: [myVarVal, '#fe7f00' , '#0E8345'],
 	};
-	document.getElementById('analysis').innerHTML = ''; 
+	document.getElementById('analysis').innerHTML = '';
 	var chart = new ApexCharts(document.querySelector("#analysis"), options);
 	chart.render();
 	if (document.querySelectorAll('#analysis svg').length >= 2) {
@@ -309,4 +309,3 @@ function expenses(){
 	})
 
 })( jQuery );
-

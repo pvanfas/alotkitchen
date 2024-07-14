@@ -11,9 +11,9 @@ $(function(e){
 				label: 'Total Assigned Tickets',
 				data: [20, 17, 14, 13, 17, 19, 20, 17, 13, 18, 12, 17],
 				borderWidth: 3,
-				backgroundColor: '#3366ff',
-				borderColor: '#3366ff',
-				pointBackgroundColor: '#3366ff',
+				backgroundColor: '#000',
+				borderColor: '#000',
+				pointBackgroundColor: '#000',
 				pointRadius: 0,
 				type: 'bar',
 			},
@@ -123,4 +123,3 @@ $(function(e){
 	});
 
  });
-

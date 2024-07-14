@@ -1,7 +1,7 @@
 $(function(e){
 	'use strict';
 
-	//LIne-Chart 
+	//LIne-Chart
 	var ctx = document.getElementById("chartLine").getContext('2d');
 	var myChart = new Chart(ctx, {
 		type: 'bar',
@@ -22,9 +22,9 @@ $(function(e){
 				label: 'Total Closed Tickets',
 				data: [28,22,21,18,13,22,24,18,16,21,18,24],
 				borderWidth: 3,
-				backgroundColor: '#3366ff',
-				borderColor: '#3366ff',
-				pointBackgroundColor: '#3366ff',
+				backgroundColor: '#000',
+				borderColor: '#000',
+				pointBackgroundColor: '#000',
 				pointRadius: 0,
 				type: 'bar',
 
@@ -113,4 +113,3 @@ $(function(e){
 	});
 
  });
-

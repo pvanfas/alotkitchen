@@ -65,7 +65,7 @@ $(function(e){
 			}
 		}],
 		labels: ["Casual Leaves","Sick Leaves", "Gifted Leaves", "Remaining Leaves"],
-		colors: ['#3366ff', '#f7284a', '#fe7f00', '#01c353'],
+		colors: ['#000', '#f7284a', '#fe7f00', '#01c353'],
 	};
 	var chart = new ApexCharts(document.querySelector("#leavesoverview"), options);
 	chart.render();

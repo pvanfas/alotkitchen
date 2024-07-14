@@ -129,11 +129,12 @@ body.dark-mode {
 }
 
 .app-sidebar {
-    background-color: #F5F9F8;
+    background-color: #FFF;
+    border-right: 1px solid #e9ebfa !important;
 }
 
 .app-header {
-    background-color: #F5F9F8;
+    background-color: #FFF;
 }
 
 .nav-link.icon,
@@ -805,6 +806,7 @@ body:not(.dark-mode) .transparent-container .list-group-item:last-child {
 
 .horizontalMenucontainer .header-brand-img {
     height: 36px;
+    border-radius: 0;
 }
 
 .nullbooleanselect {
@@ -1224,12 +1226,12 @@ body:not(.dark-mode) .module_info {
 }
 
 .onoffswitch2-checkbox:checked+.onoffswitch2-label {
-    background-color: #3366ff;
+    background-color: #000;
 }
 
 .onoffswitch2-checkbox:checked+.onoffswitch-label2,
 .onoffswitch2-checkbox:checked+.onoffswitch2-label:before {
-    border-color: #3366ff;
+    border-color: #000;
 }
 
 .onoffswitch2-checkbox:checked+.onoffswitch2-label:before {
