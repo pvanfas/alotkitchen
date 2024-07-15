@@ -1,13 +1,13 @@
 from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("DINNER", "Dinner"))
+MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("DINNER", "Dinner"), ("ADDON", "Addon"))
 WEEK_CHOICES = ((1, "1st & 3rd Week"), (2, "2nd & 4th Week"))
 DAY_CHOICES = (
     ("Monday", "Monday"),
@@ -19,6 +19,7 @@ DAY_CHOICES = (
     ("Sunday", "Sunday"),
 )
 PLANTYPE_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
+ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
 
 
 class ItemCategory(BaseModel):
@@ -92,7 +93,7 @@ def update_combo_name(sender, instance, action, reverse, pk_set, **kwargs):
 
 class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
-    plantype = models.CharField(max_length=200, choices=PLANTYPE_CHOICES)
+    plantype = models.IntegerField(choices=PLANTYPE_CHOICES)
     regular_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     first_order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     monthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -163,7 +164,20 @@ class MealOrder(BaseModel):
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
     date = models.DateField()
     quantity = models.PositiveIntegerField(default=1)
-    status = models.CharField(max_length=200, default="PENDING")
+    status = models.CharField(max_length=200, default="PENDING", choices=ORDER_STATUS_CHOICES)
+
+    def flag(self):
+        data = {
+            "PENDING": "warning",
+            "IN_PREPERATION": "info",
+            "IN_TRANSIT": "primary",
+            "DELIVERED": "success",
+            "CANCELLED": "danger",
+        }
+        return data[self.status]
+
+    def get_absolute_url(self):
+        return reverse("main:history_detail_view", kwargs={"pk": self.pk})
 
     class Meta:
         ordering = ("date",)

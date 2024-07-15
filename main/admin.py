@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Combo, Item, ItemCategory, SubscriptionPlan, MealOrder
+from .models import Combo, Item, ItemCategory, MealOrder, SubscriptionPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)

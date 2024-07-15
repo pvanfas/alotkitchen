@@ -8,12 +8,103 @@
 
     <div class="page-header d-xl-flex d-block">
         <div class="page-leftheader">
-            <div class="page-title">Hello, {{request.user}}! 👋</div>
+            <div class="page-title">Featured Eats 🍔</div>
         </div>
     </div>
 
     <div class="row">
+        <div class="hero_thumb">
+            <img src="{% static 'app/images/new/header.jpeg' %}" alt="hero_thumb" class="img-fluid shadow-sm">
+        </div>
 
+        <div class="col-12">
+            <div class="row">
+
+                {% if breakfasts %}
+                <div class="col-12">
+                    <h2 class="h4 fw-bold">Break Fast</h2>
+                </div>
+                {% for item in breakfasts %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title lh-sm">{{item.name}}</h5>
+                                    {% if item.is_veg %}
+                                    <img src="/static/app/images/new/veg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% else %}
+                                    <img src="/static/app/images/new/nonveg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="object-fit: contain; border-radius: 10px;" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+
+                {% if lunches %}
+                <div class="col-12">
+                    <h2 class="h4 fw-bold">Lunch</h2>
+                </div>
+                {% for item in lunches %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title lh-sm">{{item.name}}</h5>
+                                    {% if item.is_veg %}
+                                    <img src="/static/app/images/new/veg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% else %}
+                                    <img src="/static/app/images/new/nonveg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="object-fit: contain; border-radius: 10px;" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+
+                {% if dinners %}
+                <div class="col-12">
+                    <h2 class="h4 fw-bold">Dinner</h2>
+                </div>
+                {% for item in dinners %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title lh-sm">{{item.name}}</h5>
+                                    {% if item.is_veg %}
+                                    <img src="/static/app/images/new/veg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% else %}
+                                    <img src="/static/app/images/new/nonveg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="object-fit: contain; border-radius: 10px;" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
 
     </div>
 </div>

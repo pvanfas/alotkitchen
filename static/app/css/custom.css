@@ -73,6 +73,13 @@ td {
     font-size: 0.85rem;
     font-style: italic;
 }
+.alert-warning {
+    background-color: #fff;
+    border-color: #e3b113;
+    color: #e3b113;
+    font-size: 0.85rem;
+    font-style: italic;
+}
 
 ::-webkit-scrollbar-corner {
     display: none;
@@ -2014,4 +2021,39 @@ form .btn {
 
 .bradius-sm {
     border-radius: 10px
+}
+.hero_thumb {
+margin-bottom: 25px;
+
+}
+.hero_thumb img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.order-menu img {
+    width: 3.313rem;
+    height: 3.313rem;
+    object-fit: contain;
+    border: 1px solid #000;
+    border-radius: 0.625rem;
+}
+.font-w600 {
+    font-weight: 600;
+}
+.font-w500 {
+    font-weight: 500;
+}
+hr {
+    margin: 1rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    opacity: 0.25;
+}
+.card.active {
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
 }

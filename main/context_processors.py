@@ -3,17 +3,16 @@ from django.conf import settings
 
 def main_context(request):
     current_user = None
-    name = None
     app_settings = settings.APP_SETTINGS
     org_data = settings.ORG_DATA
 
     if request.user.is_authenticated:
         current_user = request.user
-        name = current_user.first_name
+        current_user.first_name
 
     return {
         "current_user": current_user,
-        "default_user_avatar": f"/static/app/config/default_user_avatar.jpeg",
+        "default_user_avatar": "/static/app/config/default_user_avatar.jpeg",
         "app_settings": app_settings,
         "current_version": "?v=2.0",
         "company_name": org_data.get("company_name"),

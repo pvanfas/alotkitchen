@@ -2,7 +2,7 @@
 /*------------------------------------------------------------------
 [Master Stylesheet]
 
-Project        :   TRAVEL MNAGAEMENT - The complete office productivity suite
+Project        :   ALOT CLOUD KITCHEN
 Version        :   V.1
 Create Date    :   01/05/2024
 Copyright      :   Intelnest Innovations Pvt Ltd
@@ -1014,7 +1014,7 @@ h6,
 .h6 {
     margin-bottom: 0.66em;
     font-family: Lato, verdana, arial, sans-serif !important;
-    font-weight: 500 !important;
+    font-weight: 500;
     line-height: 1.1 !important;
     /* color: inherit !important; */
 }

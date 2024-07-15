@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+{% load static i18n crispy_forms_tags django_tables2 humanize %}
+{% block title %}Home: {{app_settings.site_title}}{% endblock %}
+
+{% block content %}
+
+<div class="side-app main-container">
+
+    <div class="page-header d-xl-flex d-block">
+        <div class="page-leftheader">
+            <div class="page-title">Order History 🍟</div>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="col-lg-12">
+
+          <div class="card">
+            {% if table.paginated_rows %}
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                {% render_table table %}
+              </div>
+            </div>
+            {% else %}
+            <div class="card-body">
+              {{title|title}} {% translate "list is empty." %}
+              {% if can_add %}<a href="{{create_url}}">{% translate "Add New One" %}</a>{% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock content %}
