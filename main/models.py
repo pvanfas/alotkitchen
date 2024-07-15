@@ -18,9 +18,9 @@ DAY_CHOICES = (
     ("Saturday", "Saturday"),
     ("Sunday", "Sunday"),
 )
-VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
+VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"), (44, "44 Days"), (52, "52 Days"), (60, "60 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
-PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"))
+PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
 
 
 class ItemCategory(BaseModel):
@@ -92,17 +92,28 @@ def update_combo_name(sender, instance, action, reverse, pk_set, **kwargs):
         instance.save()
 
 
-class SubscriptionPlan(BaseModel):
+class PlanGroup(BaseModel):
     name = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = _("Plan Group")
+        verbose_name_plural = _("Plan Groups")
+
+    def __str__(self):
+        return self.name
+
+
+class SubscriptionPlan(BaseModel):
+    group = models.ForeignKey(PlanGroup, on_delete=models.CASCADE, related_name="plans", blank=True, null=True)
     validity = models.IntegerField(choices=VALIDITY_CHOICES)
     plantype = models.CharField(max_length=200, choices=PLANTYPE_CHOICES)
     regular_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     first_order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    monthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    bi_monthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    offer_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
-        ordering = ("name",)
+        ordering = ("group",)
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 
@@ -124,7 +135,7 @@ class SubscriptionPlan(BaseModel):
         return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return str(self.name)
+        return f"{self.group} - {self.plantype} - {self.validity} Days"
 
 
 class Branch(BaseModel):

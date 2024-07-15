@@ -5,7 +5,7 @@ from django.utils import timezone
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, MealOrder, SubscriptionPlan
+from .models import Branch, Combo, MealOrder, SubscriptionPlan, PlanGroup
 from .tables import BranchTable, MealOrderTable, SubscriptionPlanTable
 
 
@@ -77,7 +77,7 @@ class DashboardView(HybridTemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        orders = MealOrder.objects.filter(date=datetime.today(), user=self.request.user)
+        orders = MealOrder.objects.filter(date=datetime.today(), user=self.request.user, is_active=True)
         context["orders"] = orders
         return context
 
@@ -97,10 +97,10 @@ class FeaturedEatsView(HybridTemplateView):
         context = super().get_context_data(**kwargs)
         context["week_number"] = get_week_of_month()
         context["day_name"] = get_day_name()
-        available_combos = Combo.objects.filter(week=get_week_value(get_week_of_month()), available_on=get_day_name())
-        context["breakfasts"] = available_combos.filter(mealtype="BREAKFAST")
-        context["lunches"] = available_combos.filter(mealtype="LUNCH")
-        context["dinners"] = available_combos.filter(mealtype="DINNER")
+        available_combos = Combo.objects.filter(is_active=True, week=get_week_value(get_week_of_month()), available_on=get_day_name())
+        context["breakfasts"] = available_combos.filter(is_active=True, mealtype="BREAKFAST")
+        context["lunches"] = available_combos.filter(is_active=True, mealtype="LUNCH")
+        context["dinners"] = available_combos.filter(is_active=True, mealtype="DINNER")
         return context
 
 
@@ -121,6 +121,12 @@ class PricingView(HybridTemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        weekly_plans = SubscriptionPlan.objects.filter(is_active=True, plantype="WEEKLY")
+        monthly_plans = SubscriptionPlan.objects.filter(is_active=True, plantype="MONTHLY")
+        plans = PlanGroup.objects.filter(is_active=True)
+        context["weekly_plans"] = weekly_plans
+        context["monthly_plans"] = monthly_plans
+        context["plans"] = plans
         return context
 
 

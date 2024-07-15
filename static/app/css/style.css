@@ -9360,16 +9360,6 @@ ol.list-order-style {
     border-top: 2px solid #dee2e6;
 }
 
-.table .table,
-.text-wrap table .table,
-.table .text-wrap table {
-    background-color: #ebeff8;
-}
-
-.text-wrap .table table,
-.text-wrap table table {
-    background-color: #ebeff8;
-}
 
 .table-sm th,
 .table-sm td {
@@ -9382,7 +9372,7 @@ ol.list-order-style {
 .text-wrap table th,
 .table-bordered td,
 .text-wrap table td {
-    border: 1px solid #e9ebfa;
+    border: 1px solid #00000038;
 }
 
 .table-bordered thead th,
