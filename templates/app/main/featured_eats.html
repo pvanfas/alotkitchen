@@ -25,10 +25,10 @@
                     <h2 class="h4 fw-bold">Break Fast</h2>
                 </div>
                 {% for item in breakfasts %}
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-6 col-12">
                     <div class="card">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="card-body">
                                     <h5 class="card-title lh-sm">{{item.name}}</h5>
                                     {% if item.is_veg %}
@@ -38,8 +38,10 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="object-fit: contain; border-radius: 10px;" alt="...">
+                            <div class="col-md-4">
+                                {% if item.image %}
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="max-height:200px;object-fit: contain; border-radius: 10px;" alt="...">
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -53,10 +55,10 @@
                     <h2 class="h4 fw-bold">Lunch</h2>
                 </div>
                 {% for item in lunches %}
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-6 col-12">
                     <div class="card">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="card-body">
                                     <h5 class="card-title lh-sm">{{item.name}}</h5>
                                     {% if item.is_veg %}
@@ -66,8 +68,10 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="object-fit: contain; border-radius: 10px;" alt="...">
+                            <div class="col-md-4">
+                                {% if item.image %}
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="max-height:200px;object-fit: contain; border-radius: 10px;" alt="...">
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -81,10 +85,10 @@
                     <h2 class="h4 fw-bold">Dinner</h2>
                 </div>
                 {% for item in dinners %}
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-6 col-12">
                     <div class="card">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="card-body">
                                     <h5 class="card-title lh-sm">{{item.name}}</h5>
                                     {% if item.is_veg %}
@@ -94,8 +98,10 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="object-fit: contain; border-radius: 10px;" alt="...">
+                            <div class="col-md-4">
+                                {% if item.image %}
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="max-height:200px;object-fit: contain; border-radius: 10px;" alt="...">
+                                {% endif %}
                             </div>
                         </div>
                     </div>

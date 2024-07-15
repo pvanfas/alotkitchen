@@ -18,8 +18,9 @@ DAY_CHOICES = (
     ("Saturday", "Saturday"),
     ("Sunday", "Sunday"),
 )
-PLANTYPE_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
+VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
+PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"))
 
 
 class ItemCategory(BaseModel):
@@ -93,11 +94,12 @@ def update_combo_name(sender, instance, action, reverse, pk_set, **kwargs):
 
 class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
-    plantype = models.IntegerField(choices=PLANTYPE_CHOICES)
+    validity = models.IntegerField(choices=VALIDITY_CHOICES)
+    plantype = models.CharField(max_length=200, choices=PLANTYPE_CHOICES)
     regular_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     first_order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     monthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    bimonthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    bi_monthly_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
         ordering = ("name",)
