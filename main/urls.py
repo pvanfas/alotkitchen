@@ -27,6 +27,8 @@ urlpatterns = [
     path("favourites/", views.FavouritesView.as_view(), name="favourites_view"),
     path("featured_eats/", views.FeaturedEatsView.as_view(), name="featured_eats_view"),
     path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),
+    path("eats/view/<str:pk>/", views.CategoryDetailView.as_view(), name="category_detail_view"),
+
     path("history/", views.HistoryView.as_view(), name="history_view"),
     path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
     path("pricing/", views.PricingView.as_view(), name="pricing_view"),

@@ -43,6 +43,9 @@ class ItemCategory(BaseModel):
         verbose_name = _("Item Category")
         verbose_name_plural = _("Item Categories")
 
+    def get_absolute_url(self):
+        return reverse("main:category_detail_view", kwargs={"pk": self.pk})
+
     def items_count(self):
         return self.items.count()
 
@@ -69,6 +72,7 @@ class Item(BaseModel):
 
 
 class Combo(BaseModel):
+    category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, related_name="combos")
     items = models.ManyToManyField(Item, related_name="combos")
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     name = models.CharField(max_length=200, blank=True, null=True)

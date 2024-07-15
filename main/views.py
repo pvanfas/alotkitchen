@@ -5,9 +5,10 @@ from django.utils import timezone
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, MealOrder, PlanGroup, SubscriptionPlan, UserAddress
+from .models import Branch, Combo, MealOrder, PlanGroup, SubscriptionPlan, UserAddress, ItemCategory
 from .tables import BranchTable, MealOrderTable, SubscriptionPlanTable, UserAddressTable
 from django.views.generic import ListView
+
 
 def get_week_of_month():
     today = timezone.localdate()
@@ -106,7 +107,23 @@ class FeaturedEatsView(HybridTemplateView):
 
 class AllEatsView(ListView):
     template_name = "app/main/all_eats.html"
+    model = ItemCategory
+    context_object_name = 'categories'
+
+
+class CategoryDetailView(ListView):
+    template_name = "app/main/category_detail.html"
+    context_object_name = 'items'
     model = Combo
+
+    def get_object(self):
+        return ItemCategory.objects.get(pk=self.kwargs["pk"])
+
+    def get_queryset(self):
+        return Combo.objects.filter(is_active=True, category=self.get_object())
+
+
+
 
 
 class HistoryView(HybridListView):

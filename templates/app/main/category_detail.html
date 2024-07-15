@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% load static i18n crispy_forms_tags django_tables2 humanize %}
+{% block title %}Home: {{app_settings.site_title}}{% endblock %}
+
+{% block content %}
+
+<div class="side-app main-container">
+
+    <div class="page-header d-xl-flex d-block">
+        <div class="page-leftheader">
+            <div class="page-title">Featured Eats 🍔</div>
+        </div>
+        <div class="page-righttheader">
+            <a href="{% url 'main:all_eats_view' %}">Go Back</a>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-12">
+            <div class="row">
+                {% for item in items %}
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title lh-sm">{{item.name}}</h5>
+                                    <p class="mb-2">Breakfast</p>
+                                    <p class="mb-2">Available on {{item.available_on}} - {{item.get_week_display}}</p>
+                                    {% if item.is_veg %}
+                                    <img src="/static/app/images/new/veg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% else %}
+                                    <img src="/static/app/images/new/nonveg.svg" alt="" style="height: 12px;border-radius: 0;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                {% if item.image %}
+                                <img src="{{item.image.url}}" class="card-img-top h-100 w-100" style="max-height:200px;object-fit: contain; border-radius: 10px;" alt="...">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
