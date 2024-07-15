@@ -5,9 +5,9 @@ from django.utils import timezone
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, MealOrder, SubscriptionPlan, PlanGroup
-from .tables import BranchTable, MealOrderTable, SubscriptionPlanTable
-
+from .models import Branch, Combo, MealOrder, PlanGroup, SubscriptionPlan, UserAddress
+from .tables import BranchTable, MealOrderTable, SubscriptionPlanTable, UserAddressTable
+from django.views.generic import ListView
 
 def get_week_of_month():
     today = timezone.localdate()
@@ -104,6 +104,11 @@ class FeaturedEatsView(HybridTemplateView):
         return context
 
 
+class AllEatsView(ListView):
+    template_name = "app/main/all_eats.html"
+    model = Combo
+
+
 class HistoryView(HybridListView):
     template_name = "app/main/history.html"
     model = MealOrder
@@ -144,3 +149,32 @@ class HelpView(HybridTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class UserAddressListView(HybridListView):
+    model = UserAddress
+    filterset_fields = ("name", "mobile",)
+    search_fields = ("name", "mobile",)
+    table_class = UserAddressTable
+
+
+class UserAddressCreateView(HybridCreateView):
+    model = UserAddress
+    fields = ("name", "room_no", "floor", "building_name", "street_name","area", "mobile", "is_default")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class UserAddressUpdateView(HybridUpdateView):
+    model = UserAddress
+    fields = ("name", "room_no", "floor", "building_name", "street_name","area", "mobile", "is_default")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class UserAddressDeleteView(HybridDeleteView):
+    model = UserAddress

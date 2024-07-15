@@ -15,16 +15,7 @@
       <div class="btn-list">
 
         {% if can_add and create_url %}
-        <a href="{{create_url}}" class="btn btn-sm btn-white" data-bs-placement="top" data-bs-toggle="tooltip"
-          title="New"> <i class="feather feather-plus"></i> </a>
-        {% endif %}
-
-        <a class="btn btn-sm btn-white" data-bs-toggle="offcanvas" href="#offcanvasFilter" role="button"
-          aria-controls="offcanvasFilter" title="Filter Data"> <i class="feather feather-filter"></i> </a>
-
-        {% if table.paginated_rows %}
-        <a href="{% export_url 'xlsx' %}" class="btn btn-sm btn-white" data-bs-placement="top" data-bs-toggle="tooltip"
-          title="Export"> <i class="feather feather-download-cloud"></i> </a>
+        <a href="{{create_url}}" class="btn btn-sm text-white bg-black" title="New">Add New </a>
         {% endif %}
 
       </div>

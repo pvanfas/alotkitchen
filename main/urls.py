@@ -18,12 +18,17 @@ urlpatterns = [
     path("dash/branches/detail/<str:pk>/", views.BranchDetailView.as_view(), name="branch_detail"),
     path("dash/branches/update/<str:pk>/", views.BranchUpdateView.as_view(), name="branch_update"),
     path("dash/branches/delete/<str:pk>/", views.BranchDeleteView.as_view(), name="branch_delete"),
+    # Address
+    path("manage_address/", views.UserAddressListView.as_view(), name="useraddress_list"),
+    path("manage_address/create/", views.UserAddressCreateView.as_view(), name="useraddress_create"),
+    path("manage_address/update/<str:pk>/", views.UserAddressUpdateView.as_view(), name="useraddress_update"),
+    path("manage_address/delete/<str:pk>/", views.UserAddressDeleteView.as_view(), name="useraddress_delete"),
     # Pages
     path("favourites/", views.FavouritesView.as_view(), name="favourites_view"),
     path("featured_eats/", views.FeaturedEatsView.as_view(), name="featured_eats_view"),
+    path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),
     path("history/", views.HistoryView.as_view(), name="history_view"),
     path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
     path("pricing/", views.PricingView.as_view(), name="pricing_view"),
-    path("manage_account/", views.ManageAccountView.as_view(), name="manage_account_view"),
     path("help/", views.HelpView.as_view(), name="help_view"),
 ]

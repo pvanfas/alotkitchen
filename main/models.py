@@ -23,6 +23,17 @@ ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparati
 PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
 
 
+class Area(BaseModel):
+    name = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = _("Area")
+        verbose_name_plural = _("Areas")
+
+    def __str__(self):
+        return self.name
+
 class ItemCategory(BaseModel):
     name = models.CharField(max_length=100)
     icon = models.ImageField(upload_to="categories", height_field=None, width_field=None, max_length=None)
@@ -199,3 +210,35 @@ class MealOrder(BaseModel):
 
     def __str__(self):
         return f"{self.combo} - {self.date}"
+
+
+class UserAddress(BaseModel):
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="addresses")
+    name = models.CharField(max_length=200, help_text="Home, Office, etc.")
+    room_no = models.CharField(max_length=200)
+    floor = models.CharField(max_length=200)
+    building_name = models.CharField(max_length=200)
+    street_name = models.CharField(max_length=200)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="addresses")
+    mobile = models.CharField(max_length=200)
+    is_default = models.BooleanField("Set as my Default Address", default=False)
+    status = models.CharField(max_length=50, default="UNDER_REVIEW", choices=(("UNDER_REVIEW", "Under Review"), ("ACTIVE", "Active"), ("NOT_DELIVERABLE", "Not Deliverable")))
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = _("User Address")
+        verbose_name_plural = _("User Addresses")
+        unique_together = ("user", "is_default")
+
+    @staticmethod
+    def get_create_url():
+        return reverse_lazy("main:useraddress_create")
+
+    def get_update_url(self):
+        return reverse_lazy("main:useraddress_update", kwargs={"pk": self.pk})
+
+    def get_list_url(self):
+        return reverse_lazy("main:useraddress_list")
+
+    def __str__(self):
+        return self.name

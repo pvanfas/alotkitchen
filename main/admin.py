@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Combo, Item, ItemCategory, MealOrder, SubscriptionPlan, PlanGroup
+from .models import Combo, Item, ItemCategory, MealOrder, PlanGroup, SubscriptionPlan, Area, UserAddress
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -12,7 +12,7 @@ admin.site.unregister(RegistrationProfile)
 
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
-    list_display = ("group","regular_price", "first_order_price","validity", "plantype", "is_active")
+    list_display = ("group", "regular_price", "first_order_price", "validity", "plantype", "is_active")
     list_filter = ("validity", "plantype", "group")
 
 
@@ -39,7 +39,7 @@ class ItemAdmin(BaseAdmin):
 class ComboAdmin(BaseAdmin):
     list_display = ("name", "is_veg", "mealtype", "week", "available_on", "is_default")
     search_fields = ("name", "items")
-    list_filter = ("is_veg", "mealtype","week", "is_active")
+    list_filter = ("is_veg", "mealtype", "week", "is_active")
     autocomplete_fields = ("items",)
 
 
@@ -56,3 +56,18 @@ class PlanGroupAdmin(BaseAdmin):
     list_display = ("name",)
     search_fields = ("name",)
     list_filter = ("is_active",)
+
+
+@admin.register(Area)
+class AreaAdmin(BaseAdmin):
+    list_display = ("name", "is_active")
+    search_fields = ("name",)
+    list_filter = ("is_active",)
+
+
+@admin.register(UserAddress)
+class UserAddressAdmin(BaseAdmin):
+    list_display = ("user", "area", "is_default")
+    search_fields = ("user__email",)
+    list_filter = ("is_default", "is_active")
+    autocomplete_fields = ("user", "area")
