@@ -19,3 +19,12 @@ def get_price(group, validity, price_type, plantype):
             return 0
     else:
         return 0
+
+
+@register.simple_tag
+def get_plan_link(group, validity, plantype):
+    if SubscriptionPlan.objects.filter(group=group, validity=validity, plantype=plantype).exists():
+        plans = SubscriptionPlan.objects.filter(group=group, validity=validity, plantype=plantype)
+        return plans.first().get_absolute_url()
+    else:
+        return "javascript:void(0);"

@@ -5,7 +5,7 @@ from django.utils import timezone
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, MealOrder, PlanGroup, SubscriptionPlan, UserAddress, ItemCategory
+from .models import Branch, Combo, MealOrder, PlanGroup, SubscriptionPlan, UserAddress, ItemCategory, Subscription
 from .tables import BranchTable, MealOrderTable, SubscriptionPlanTable, UserAddressTable
 from django.views.generic import ListView
 
@@ -29,7 +29,7 @@ def get_week_value(n):
 
 class SubscriptionPlanListView(HybridListView):
     model = SubscriptionPlan
-    filterset_fields = ("name",)
+    filterset_fields = ()
     table_class = SubscriptionPlanTable
     search_fields = ("name", "code")
 
@@ -108,12 +108,12 @@ class FeaturedEatsView(HybridTemplateView):
 class AllEatsView(ListView):
     template_name = "app/main/all_eats.html"
     model = ItemCategory
-    context_object_name = 'categories'
+    context_object_name = "categories"
 
 
 class CategoryDetailView(ListView):
     template_name = "app/main/category_detail.html"
-    context_object_name = 'items'
+    context_object_name = "items"
     model = Combo
 
     def get_object(self):
@@ -121,9 +121,6 @@ class CategoryDetailView(ListView):
 
     def get_queryset(self):
         return Combo.objects.filter(is_active=True, category=self.get_object())
-
-
-
 
 
 class HistoryView(HybridListView):
@@ -170,14 +167,20 @@ class HelpView(HybridTemplateView):
 
 class UserAddressListView(HybridListView):
     model = UserAddress
-    filterset_fields = ("name", "mobile",)
-    search_fields = ("name", "mobile",)
+    filterset_fields = (
+        "name",
+        "mobile",
+    )
+    search_fields = (
+        "name",
+        "mobile",
+    )
     table_class = UserAddressTable
 
 
 class UserAddressCreateView(HybridCreateView):
     model = UserAddress
-    fields = ("name", "room_no", "floor", "building_name", "street_name","area", "mobile", "is_default")
+    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -186,7 +189,7 @@ class UserAddressCreateView(HybridCreateView):
 
 class UserAddressUpdateView(HybridUpdateView):
     model = UserAddress
-    fields = ("name", "room_no", "floor", "building_name", "street_name","area", "mobile", "is_default")
+    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -195,3 +198,13 @@ class UserAddressUpdateView(HybridUpdateView):
 
 class UserAddressDeleteView(HybridDeleteView):
     model = UserAddress
+
+
+class SubscriptionListView(HybridListView):
+    model = Subscription
+    filterset_fields = ("user",)
+    search_fields = ("user",)
+
+
+class SubscriptionDetailView(HybridDetailView):
+    model = Subscription

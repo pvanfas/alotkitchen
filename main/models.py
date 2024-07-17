@@ -34,6 +34,7 @@ class Area(BaseModel):
     def __str__(self):
         return self.name
 
+
 class ItemCategory(BaseModel):
     name = models.CharField(max_length=100)
     icon = models.ImageField(upload_to="categories", height_field=None, width_field=None, max_length=None)
@@ -139,18 +140,50 @@ class SubscriptionPlan(BaseModel):
     def get_list_url():
         return reverse_lazy("main:subscriptionplan_list")
 
-    @staticmethod
-    def get_create_url():
-        return reverse_lazy("main:subscriptionplan_create")
+    # @staticmethod
+    # def get_create_url():
+    #     return reverse_lazy("main:subscriptionplan_create")
 
-    def get_update_url(self):
-        return reverse_lazy("main:subscriptionplan_update", kwargs={"pk": self.pk})
+    # def get_update_url(self):
+    #     return reverse_lazy("main:subscriptionplan_update", kwargs={"pk": self.pk})
 
-    def get_delete_url(self):
-        return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
+    # def get_delete_url(self):
+    #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.group} - {self.plantype} - {self.validity} Days"
+
+
+class Subscription(BaseModel):
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscriptions")
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscriptions")
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    class Meta:
+        ordering = ("start_date",)
+        verbose_name = _("Subscription")
+        verbose_name_plural = _("Subscriptions")
+
+    def get_absolute_url(self):
+        return reverse_lazy("main:subscription_detail", kwargs={"pk": self.pk})
+
+    @staticmethod
+    def get_list_url():
+        return reverse_lazy("main:subscription_list")
+
+    # @staticmethod
+    # def get_create_url():
+    #     return reverse_lazy("main:subscription_create")
+
+    # def get_update_url(self):
+    #     return reverse_lazy("main:subscription_update", kwargs={"pk": self.pk})
+
+    # def get_delete_url(self):
+    #     return reverse_lazy("main:subscription_delete", kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return f"{self.user} - {self.plan} - {self.start_date}"
 
 
 class Branch(BaseModel):
@@ -172,15 +205,15 @@ class Branch(BaseModel):
     def get_list_url():
         return reverse_lazy("main:branch_list")
 
-    @staticmethod
-    def get_create_url():
-        return reverse_lazy("main:branch_create")
+    # @staticmethod
+    # def get_create_url():
+    #     return reverse_lazy("main:branch_create")
 
-    def get_update_url(self):
-        return reverse_lazy("main:branch_update", kwargs={"pk": self.pk})
+    # def get_update_url(self):
+    #     return reverse_lazy("main:branch_update", kwargs={"pk": self.pk})
 
-    def get_delete_url(self):
-        return reverse_lazy("main:branch_delete", kwargs={"pk": self.pk})
+    # def get_delete_url(self):
+    #     return reverse_lazy("main:branch_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
         return str(self.name)
@@ -209,8 +242,8 @@ class MealOrder(BaseModel):
 
     class Meta:
         ordering = ("date",)
-        verbose_name = _("Meal")
-        verbose_name_plural = _("Meals")
+        verbose_name = _("Meal Order")
+        verbose_name_plural = _("Meal Orders")
 
     def __str__(self):
         return f"{self.combo} - {self.date}"

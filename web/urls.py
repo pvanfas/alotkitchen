@@ -5,7 +5,7 @@ app_name = "main"
 
 urlpatterns = [
     path("app-profile.html", TemplateView.as_view(template_name="web/app-profile.html")),
-    path("", TemplateView.as_view(template_name="web/base.html")),
+    path("index.html", TemplateView.as_view(template_name="web/base.html")),
     path("base.html", TemplateView.as_view(template_name="web/base.html")),
     path("bill.html", TemplateView.as_view(template_name="web/bill.html")),
     path("chart-chartist.html", TemplateView.as_view(template_name="web/chart-chartist.html")),

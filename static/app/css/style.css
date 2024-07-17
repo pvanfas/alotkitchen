@@ -1694,7 +1694,7 @@ fieldset:disabled a.btn {
 .btn-primary:hover {
     color: #fff !important;
     background-color: var(--primary-bg-color);
-    border-color: #295cf5;
+    border-color: #000;
     opacity: 0.9;
 }
 
