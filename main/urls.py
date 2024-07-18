@@ -6,6 +6,7 @@ app_name = "main"
 
 urlpatterns = [
     path("dash/", views.DashboardView.as_view(), name="dashboard_view"),
+    path("", views.DashboardView.as_view(), name="home_view"),
     # SubscriptionPlan
     path("dash/subscriptionplans/", views.SubscriptionPlanListView.as_view(), name="subscriptionplan_list"),
     # path("dash/subscriptionplans/create/", views.SubscriptionPlanCreateView.as_view(), name="subscriptionplan_create"),
