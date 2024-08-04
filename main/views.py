@@ -223,3 +223,8 @@ class CustomerListView(HybridListView):
 
     def get_queryset(self):
         return User.objects.filter(usertype="Customer", is_active=True)
+
+
+class CustomerDetailView(HybridDetailView):
+    model = User
+    permissions = ("Administrator",)

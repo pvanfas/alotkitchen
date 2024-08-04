@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 USERTYPE_CHOICES = (
@@ -32,5 +33,12 @@ class CustomUser(AbstractUser):
     def has_zero_subscription(self):
         return not self.subscriptions.filter(is_active=True).exists()
 
+    def get_absolute_url(self):
+        return reverse("main:customer_detail", args=[str(self.id)])
+
     def __str__(self):
+        if self.first_name and self.last_name:
+            return self.first_name + " " + self.last_name
+        elif self.first_name:
+            return self.first_name
         return self.username
