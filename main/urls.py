@@ -5,8 +5,9 @@ from . import views
 app_name = "main"
 
 urlpatterns = [
-    path("dash/", views.DashboardView.as_view(), name="dashboard_view"),
     path("", views.DashboardView.as_view(), name="home_view"),
+    path("dash/", views.DashboardView.as_view(), name="dashboard_view"),
+    path("dash/tomorrow/", views.TomorrowOrdersView.as_view(), name="tomorrow_orders_view"),
     # SubscriptionPlan
     # path("dash/subscriptionplans/", views.SubscriptionPlanListView.as_view(), name="subscriptionplan_list"),
     # path("dash/subscriptionplans/create/", views.SubscriptionPlanCreateView.as_view(), name="subscriptionplan_create"),
@@ -36,4 +37,5 @@ urlpatterns = [
     path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
     path("pricing/", views.PricingView.as_view(), name="pricing_view"),
     path("help/", views.HelpView.as_view(), name="help_view"),
+    path("customers/", views.CustomerListView.as_view(), name="customer_list"),
 ]

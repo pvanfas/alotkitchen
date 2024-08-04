@@ -6,6 +6,8 @@ from django.utils import timezone
 from django.views.generic import ListView
 
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
+from users.models import CustomUser as User
+from users.tables import UserTable
 
 from .mixins import HybridTemplateView
 from .models import Branch, Combo, ItemCategory, MealOrder, PlanGroup, Subscription, SubscriptionPlan, UserAddress
@@ -33,7 +35,7 @@ def get_week_value(n):
 
 class DashboardView(HybridTemplateView):
     template_name = "app/main/home.html"
-    permissions = ("Customer", "Delivery")
+    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -42,6 +44,20 @@ class DashboardView(HybridTemplateView):
             context["orders"] = orders
         else:
             context["orders"] = MealOrder.objects.filter(date=datetime.today(), is_active=True)
+        return context
+
+
+class TomorrowOrdersView(HybridTemplateView):
+    template_name = "app/main/home.html"
+    permissions = ("Administrator", "KitchenManager")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.usertype == "Customer":
+            orders = MealOrder.objects.filter(date=datetime.today() + timezone.timedelta(days=1), user=self.request.user, is_active=True)
+            context["orders"] = orders
+        else:
+            context["orders"] = MealOrder.objects.filter(date=datetime.today() + timezone.timedelta(days=1), is_active=True)
         return context
 
 
@@ -195,3 +211,15 @@ class HelpView(HybridTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class CustomerListView(HybridListView):
+    filterset_fields = ("username", "email")
+    search_fields = ("username", "email", "mobile")
+    permissions = ("Administrator",)
+    model = User
+    title = "Customers"
+    table_class = UserTable
+
+    def get_queryset(self):
+        return User.objects.filter(usertype="Customer", is_active=True)

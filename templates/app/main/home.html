@@ -10,7 +10,8 @@
         <div class="page-leftheader">
             <div class="page-title">Hello, {{request.user}}! 👋</div>
         </div>
-        {% if request.user.has_active_subscription %}
+
+        {% if request.user.usertype == "Customer" and request.user.has_active_subscription %}
         <div class="page-rightheader">
             <div class="mb-2">
                 <div class="alert alert-block alert-warning py-2" role="alert">
