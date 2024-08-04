@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %}
+{% load static i18n crispy_forms_tags django_tables2 humanize %}
+{% block title %}Home: {{app_settings.site_title}}{% endblock %}
+
+{% block content %}
+
+<div class="side-app main-container">
+
+    <div class="page-header d-xl-flex d-block">
+        <div class="page-leftheader">
+            <div class="page-title">{{object}}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>1. Submit form and create subscription</p>
+            <p>2. Add subscription items/ customize subscription</p>
+            <p>3. Add subscription schedule</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

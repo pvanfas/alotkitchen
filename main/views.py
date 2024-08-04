@@ -1,13 +1,17 @@
 from datetime import datetime
 
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.views.generic import ListView
 
 from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, MealOrder, PlanGroup, SubscriptionPlan, UserAddress, ItemCategory, Subscription
-from .tables import BranchTable, MealOrderTable, SubscriptionPlanTable, UserAddressTable
-from django.views.generic import ListView
+from .models import Branch, Combo, ItemCategory, MealOrder, PlanGroup, Subscription, SubscriptionPlan, UserAddress
+from .tables import BranchTable, MealOrderTable, UserAddressTable
+
+# permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
 
 def get_week_of_month():
@@ -27,27 +31,36 @@ def get_week_value(n):
     return 2 if n % 2 == 0 else 1
 
 
-class SubscriptionPlanListView(HybridListView):
-    model = SubscriptionPlan
-    filterset_fields = ()
-    table_class = SubscriptionPlanTable
-    search_fields = ("name", "code")
+class DashboardView(HybridTemplateView):
+    template_name = "app/main/home.html"
+    permissions = ("Customer", "Delivery")
 
-
-class SubscriptionPlanCreateView(HybridCreateView):
-    model = SubscriptionPlan
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.usertype == "Customer":
+            orders = MealOrder.objects.filter(date=datetime.today(), user=self.request.user, is_active=True)
+            context["orders"] = orders
+        else:
+            context["orders"] = MealOrder.objects.filter(date=datetime.today(), is_active=True)
+        return context
 
 
 class SubscriptionPlanDetailView(HybridDetailView):
     model = SubscriptionPlan
+    permissions = ("Customer",)
+    template_name = "app/main/subscription_detail.html"
 
 
-class SubscriptionPlanUpdateView(HybridUpdateView):
-    model = SubscriptionPlan
+class SubscriptionListView(HybridListView):
+    model = Subscription
+    filterset_fields = ("user",)
+    search_fields = ("user",)
+    permissions = ("Customer",)
 
 
-class SubscriptionPlanDeleteView(HybridDeleteView):
-    model = SubscriptionPlan
+class SubscriptionDetailView(HybridDetailView):
+    model = Subscription
+    permissions = ("Customer",)
 
 
 class BranchListView(HybridListView):
@@ -55,44 +68,62 @@ class BranchListView(HybridListView):
     filterset_fields = ("name", "code", "address", "phone")
     table_class = BranchTable
     search_fields = ("name", "code", "address", "phone")
+    permissions = ("Customer",)
 
 
-class BranchCreateView(HybridCreateView):
-    model = Branch
+class UserAddressListView(HybridListView):
+    model = UserAddress
+    filterset_fields = ("name", "mobile")
+    search_fields = ("name", "mobile")
+    table_class = UserAddressTable
+    permissions = ("Customer",)
+
+    def get_queryset(self):
+        return UserAddress.objects.filter(user=self.request.user, is_active=True)
 
 
-class BranchDetailView(HybridDetailView):
-    model = Branch
+class UserAddressCreateView(HybridCreateView):
+    model = UserAddress
+    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
+    permissions = ("Customer",)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-class BranchUpdateView(HybridUpdateView):
-    model = Branch
+class UserAddressUpdateView(HybridUpdateView):
+    model = UserAddress
+    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
+    permissions = ("Customer",)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return UserAddress.objects.filter(user=self.request.user, is_active=True)
 
 
-class BranchDeleteView(HybridDeleteView):
-    model = Branch
+class UserAddressDeleteView(HybridDeleteView):
+    model = UserAddress
+    permissions = ("Customer",)
 
+    def get_queryset(self):
+        return UserAddress.objects.filter(user=self.request.user, is_active=True)
 
-class DashboardView(HybridTemplateView):
-    template_name = "app/main/home.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        orders = MealOrder.objects.filter(date=datetime.today(), user=self.request.user, is_active=True)
-        context["orders"] = orders
-        return context
-
-
-class FavouritesView(HybridTemplateView):
-    template_name = "app/main/favourites.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+    def form_valid(self, form):
+        self.object = self.get_object()
+        if self.object.is_default:
+            messages.error(self.request, "You cannot delete the default address.")
+        if not UserAddress.objects.filter(user=self.request.user).exclude(pk=self.object.pk).exists():
+            messages.error(self.request, "You cannot delete the last address.")
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class FeaturedEatsView(HybridTemplateView):
     template_name = "app/main/featured_eats.html"
+    permissions = ("Customer",)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -109,15 +140,17 @@ class AllEatsView(ListView):
     template_name = "app/main/all_eats.html"
     model = ItemCategory
     context_object_name = "categories"
+    permissions = ("Customer",)
 
 
 class CategoryDetailView(ListView):
     template_name = "app/main/category_detail.html"
     context_object_name = "items"
     model = Combo
+    permissions = ("Customer",)
 
     def get_object(self):
-        return ItemCategory.objects.get(pk=self.kwargs["pk"])
+        return ItemCategory.objects.get(pk=self.kwargs["pk"], is_active=True)
 
     def get_queryset(self):
         return Combo.objects.filter(is_active=True, category=self.get_object())
@@ -129,14 +162,20 @@ class HistoryView(HybridListView):
     filterset_fields = ()
     table_class = MealOrderTable
     search_fields = ("combo__name",)
+    permissions = ("Customer",)
+
+    def get_queryset(self):
+        return MealOrder.objects.filter(user=self.request.user, is_active=True)
 
 
 class HistoryDetailView(HybridDetailView):
     model = MealOrder
+    permissions = ("Customer",)
 
 
 class PricingView(HybridTemplateView):
     template_name = "app/main/pricing.html"
+    permissions = ("Customer",)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -149,62 +188,10 @@ class PricingView(HybridTemplateView):
         return context
 
 
-class ManageAccountView(HybridTemplateView):
-    template_name = "app/main/manage_account.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
 class HelpView(HybridTemplateView):
     template_name = "app/main/help.html"
+    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
-class UserAddressListView(HybridListView):
-    model = UserAddress
-    filterset_fields = (
-        "name",
-        "mobile",
-    )
-    search_fields = (
-        "name",
-        "mobile",
-    )
-    table_class = UserAddressTable
-
-
-class UserAddressCreateView(HybridCreateView):
-    model = UserAddress
-    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
-class UserAddressUpdateView(HybridUpdateView):
-    model = UserAddress
-    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
-class UserAddressDeleteView(HybridDeleteView):
-    model = UserAddress
-
-
-class SubscriptionListView(HybridListView):
-    model = Subscription
-    filterset_fields = ("user",)
-    search_fields = ("user",)
-
-
-class SubscriptionDetailView(HybridDetailView):
-    model = Subscription

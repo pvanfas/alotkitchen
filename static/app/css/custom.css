@@ -86,14 +86,6 @@ td {
     display: none;
 }
 
-.dark-mode .header {
-    box-shadow: none;
-}
-
-body.dark-mode {
-    background-color: #F5F9F8;
-    background-blend-mode: darken;
-}
 
 .app-content {
     min-height: 100vh;
@@ -182,14 +174,6 @@ body:not(.dark-mode) .card>a:hover {
     background: rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .card>a {
-    height: 100%;
-}
-
-.dark-mode .card>a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #e9ebfa;
-}
 
 .border-radius {
     border-radius: 4px;
@@ -259,10 +243,6 @@ body:not(.dark-mode) .card>a:hover {
     border-radius: 10px;
 }
 
-.dark-mode .sub-slide:hover>a>.sub-side-menu__label {
-    color: #fff;
-}
-
 .form-check-input[type=checkbox] {
     margin-right: 10px;
 }
@@ -278,21 +258,6 @@ body:not(.dark-mode) .card>a:hover {
     color: rgb(60, 58, 58);
 }
 
-.dark-mode .app-sidebar .app-sidebar__logo .header-brand .header-brand-img.dark-logo {
-    filter: invert(1);
-}
-
-.dark-mode .side-menu__item:hover .side-menu__label,
-.dark-mode .side-menu__item:hover .side-menu__icon,
-.dark-mode .side-menu__item:hover .angle,
-.dark-mode .slide a.active .sidemenu_icon,
-.dark-mode .side-menu__item:hover .sidemenu_icon {
-    color: #fff;
-}
-
-.dark-mode .app-sidebar .side-menu .slide-menu li a {
-    color: #e9ebfa;
-}
 
 small {
     display: block;
@@ -354,14 +319,6 @@ body:not(.dark-mode) table>tbody>tr:last-child {
 .text-wrap table thead th {
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
-}
-
-.dark-mode .table tbody a {
-    color: #e9ebfa;
-}
-
-.dark-mode .offcanvas {
-    background: #1e1e1e;
 }
 
 body:not(.dark-mode) .table tbody a {
@@ -786,9 +743,6 @@ body:not(.dark-mode) .transparent-container .list-group-item:last-child {
     background: #fff;
 }
 
-.dark-mode .h-card {
-    background: unset;
-}
 
 #quick-access {
     text-decoration: none;
@@ -1067,9 +1021,7 @@ body:not(.dark-mode) .module_info {
     background-color: rgb(255 255 255 / 60%);
 }
 
-.dark-mode .card-icon {
-    background-color: rgb(0 0 0 / 9%);
-}
+
 
 .ui-menu.ui-front {
     z-index: 1300;
@@ -1362,26 +1314,6 @@ a.switcher-style.active {
 
 .light-bg {
     display: none !important;
-}
-
-.dark-mode .dark-bg {
-    display: none !important;
-}
-
-.dark-mode .light-bg {
-    display: block !important;
-}
-
-.dark-mode .dark-bgmenu {
-    display: none !important;
-}
-
-.dark-mode .bg_dark {
-    background: #fff;
-}
-
-.dark-mode .demo_changer i {
-    color: #000;
 }
 
 .leftmenu-bgimage .bg9 {

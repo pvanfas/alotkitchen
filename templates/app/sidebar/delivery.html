@@ -1,0 +1,74 @@
+{% load static i18n %}
+<!--app-sidebar-->
+<div class="sticky">
+    <aside class="app-sidebar">
+        <div class="app-sidebar__logo">
+            <a class="header-brand" href="/">
+                <img src="{{app_settings.logo}}" class="header-brand-img desktop-lgo" alt="">
+                <img src="{{app_settings.logo}}" class="header-brand-img dark-logo" alt="">
+                <img src="{{app_settings.favicon}}" class="header-brand-img mobile-logo" alt="">
+                <img src="{{app_settings.favicon}}" class="header-brand-img darkmobile-logo" alt="">
+            </a>
+        </div>
+        <div class="app-sidebar3">
+            <div class="main-menu">
+
+                <a href="#" class="app-sidebar__user d-flex align-items-center pb-3">
+                    <div class="dropdown user-pro-body text-center me-3">
+                        <div class="user-pic mb-0">
+                            {% if request.user.photo %}
+                            <img src="{{request.user.photo.crop.74x74}}" alt="img" class="avatar-xxl rounded-circle mb-1" />
+                            {% elif request.user.get_doc_photo.attachment %}
+                            <img src="{{request.user.get_doc_photo.attachment.url}}" alt="img" class="avatar-xxl rounded-circle mb-1" />
+                            {% else %}
+                            <img src="{{default_user_avatar}}" alt="img" class="avatar-lg rounded-circle mb-1" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="user-info mb-0">
+                        <h5 class="mb-2">{{request.user|upper}}</h5>
+                        <span class="app-sidebar__user-name text-sm text-success">Manage Account</span>
+                    </div>
+                </a>
+
+                <div class="slide-left disabled" id="slide-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
+                    </svg>
+                </div>
+
+
+                <ul class="side-menu">
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:dashboard_view' %}">
+                            <i class="feather feather-package sidemenu_icon"></i>
+                            <span class="side-menu__label">Orders</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'auth_password_change' %}">
+                            <i class="feather feather-settings sidemenu_icon"></i>
+                            <span class="side-menu__label">Change Password</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:help_view' %}">
+                            <i class="feather feather-help-circle sidemenu_icon"></i>
+                            <span class="side-menu__label">Help</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="slide-right" id="slide-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>

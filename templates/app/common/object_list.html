@@ -35,7 +35,7 @@
         {% else %}
         <div class="card-body">
           {{title|title}} {% translate "list is empty." %}
-          {% if can_add %}<a href="{{create_url}}">{% translate "Add New One" %}</a>{% endif %}
+          {% if can_add and create_url %}<a href="{{create_url}}">{% translate "Add New One" %}</a>{% endif %}
         </div>
         {% endif %}
       </div>

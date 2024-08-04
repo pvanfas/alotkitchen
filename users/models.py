@@ -4,8 +4,9 @@ from django.utils import timezone
 
 USERTYPE_CHOICES = (
     ("Administrator", "Administrator"),
-    ("BranchConvenor", "Branch Convenor"),
-    ("User", "User"),
+    ("KitchenManager", "Kitchen Manager"),
+    ("Delivery", "Delivery Staff"),
+    ("Customer", "Customer"),
 )
 
 

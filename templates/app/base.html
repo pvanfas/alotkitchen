@@ -62,7 +62,17 @@
       {% endblock %}
 
       {% block sidebar %}
-      {% include 'app/sidebar/main.html' %}
+
+      {% if request.user.usertype == "Administrator" %}
+        {% include 'app/sidebar/administrator.html' %}
+      {% elif request.user.usertype == "Customer" %}
+        {% include 'app/sidebar/customer.html' %}
+      {% elif request.user.usertype == "Delivery" %}
+        {% include 'app/sidebar/delivery.html' %}
+      {% elif request.user.usertype == "KitchenManager" %}
+        {% include 'app/sidebar/kitchenmanager.html' %}
+      {% endif %}
+
       {% endblock %}
 
       <div class="app-content main-content">
@@ -99,6 +109,14 @@
     {% comment %}
     <a href="#top" id="back-to-top"><span class="feather feather-chevrons-up"></span></a>
     {% endcomment %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     {% compress js %}
     <script src="{% static 'app/plugins/bootstrap/js/popper.min.js' %}?v=1.9"></script>

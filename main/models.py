@@ -21,6 +21,7 @@ DAY_CHOICES = (
 VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"), (44, "44 Days"), (52, "52 Days"), (60, "60 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
 PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
+TIER_CHOICES = (("Standard", "Standard"), ("Premium", "Premium"), ("Deluxe", "Deluxe"))
 
 
 class Area(BaseModel):
@@ -77,6 +78,8 @@ class Combo(BaseModel):
     items = models.ManyToManyField(Item, related_name="combos")
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     name = models.CharField(max_length=200, blank=True, null=True)
+    item_code = models.CharField(max_length=200, blank=True, null=True)
+    tier = models.CharField(max_length=200, choices=TIER_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
     mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
     week = models.PositiveIntegerField(choices=WEEK_CHOICES)
@@ -136,9 +139,9 @@ class SubscriptionPlan(BaseModel):
     def get_absolute_url(self):
         return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
 
-    @staticmethod
-    def get_list_url():
-        return reverse_lazy("main:subscriptionplan_list")
+    # @staticmethod
+    # def get_list_url():
+    #     return reverse_lazy("main:subscriptionplan_list")
 
     # @staticmethod
     # def get_create_url():
@@ -159,6 +162,9 @@ class Subscription(BaseModel):
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscriptions")
     start_date = models.DateField()
     end_date = models.DateField()
+    breakfast_address = models.ForeignKey("main.UserAddress", on_delete=models.CASCADE, related_name="breakfast_subscriptions", blank=True, null=True)
+    lunch_address = models.ForeignKey("main.UserAddress", on_delete=models.CASCADE, related_name="lunch_subscriptions", blank=True, null=True)
+    dinner_address = models.ForeignKey("main.UserAddress", on_delete=models.CASCADE, related_name="dinner_subscriptions", blank=True, null=True)
 
     class Meta:
         ordering = ("start_date",)
@@ -265,7 +271,14 @@ class UserAddress(BaseModel):
         ordering = ("name",)
         verbose_name = _("User Address")
         verbose_name_plural = _("User Addresses")
-        unique_together = ("user", "is_default")
+
+    def save(self, *args, **kwargs):
+        print(UserAddress.objects.filter(user=self.user, is_active=True).count())
+        if UserAddress.objects.filter(user=self.user, is_active=True).exclude(pk=self.pk).count() == 0:
+            self.is_default = True
+        if self.is_default:
+            UserAddress.objects.filter(user=self.user, is_active=True).update(is_default=False)
+        super().save(*args, **kwargs)
 
     @staticmethod
     def get_create_url():
@@ -274,7 +287,11 @@ class UserAddress(BaseModel):
     def get_update_url(self):
         return reverse_lazy("main:useraddress_update", kwargs={"pk": self.pk})
 
-    def get_list_url(self):
+    def get_delete_url(self):
+        return reverse_lazy("main:useraddress_delete", kwargs={"pk": self.pk})
+
+    @staticmethod
+    def get_list_url():
         return reverse_lazy("main:useraddress_list")
 
     def __str__(self):

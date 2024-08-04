@@ -19,6 +19,15 @@ def convert_to_spaces(text):
     return result
 
 
+class PermissionMixin(LoginRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(self, "permissions"):
+            if self.request.user.usertype in self.permissions:
+                return super().dispatch(request, *args, **kwargs)
+            return self.handle_no_permission()
+        return self.handle_no_permission()
+
+
 class CustomModelFormMixin:
     def get_form_class(self):
         model = getattr(self, "model", None)
@@ -34,7 +43,7 @@ class CustomModelFormMixin:
         return super().get_form_class()
 
 
-class HybridDetailView(LoginRequiredMixin, DetailView):
+class HybridDetailView(PermissionMixin, DetailView):
     template_name = "app/common/object_view.html"
 
     def get_context_data(self, **kwargs):
@@ -43,7 +52,7 @@ class HybridDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class HybridCreateView(LoginRequiredMixin, CustomModelFormMixin, CreateView):
+class HybridCreateView(PermissionMixin, CustomModelFormMixin, CreateView):
     template_name = "app/common/object_form.html"
 
     def get_success_url(self):
@@ -59,7 +68,7 @@ class HybridCreateView(LoginRequiredMixin, CustomModelFormMixin, CreateView):
         return context
 
 
-class HybridUpdateView(LoginRequiredMixin, CustomModelFormMixin, UpdateView):
+class HybridUpdateView(PermissionMixin, CustomModelFormMixin, UpdateView):
     template_name = "app/common/object_form.html"
 
     def get_success_url(self):
@@ -73,7 +82,7 @@ class HybridUpdateView(LoginRequiredMixin, CustomModelFormMixin, UpdateView):
         return context
 
 
-class HybridDeleteView(LoginRequiredMixin, DeleteView):
+class HybridDeleteView(PermissionMixin, DeleteView):
     template_name = "app/common/confirm_delete.html"
 
     def get_success_url(self):
@@ -85,7 +94,7 @@ class HybridDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-class HybridListView(LoginRequiredMixin, ExportMixin, SingleTableMixin, FilterView, ListView):
+class HybridListView(PermissionMixin, ExportMixin, SingleTableMixin, FilterView, ListView):
     table_pagination = {"per_page": 100}
     template_name = "app/common/object_list.html"
 
@@ -107,7 +116,7 @@ class HybridListView(LoginRequiredMixin, ExportMixin, SingleTableMixin, FilterVi
         return context
 
 
-class HybridFormView(LoginRequiredMixin, FormView):
+class HybridFormView(PermissionMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if hasattr(self, "title"):
@@ -115,7 +124,7 @@ class HybridFormView(LoginRequiredMixin, FormView):
         return context
 
 
-class HybridTemplateView(LoginRequiredMixin, TemplateView):
+class HybridTemplateView(PermissionMixin, TemplateView):
     template_name = "app/common/object_view.html"
 
     def get_context_data(self, **kwargs):
@@ -125,7 +134,7 @@ class HybridTemplateView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class HybridView(LoginRequiredMixin, View):
+class HybridView(PermissionMixin, View):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if hasattr(self, "title"):

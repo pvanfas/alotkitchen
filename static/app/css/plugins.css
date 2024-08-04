@@ -2712,10 +2712,6 @@ Author         :   PV Anfas
     border-radius: 13px;
 }
 
-.dark-mode .cookie-popup.position-topleft {
-    box-shadow: none;
-}
-
 .cookie-popup.position-topleft .cookie-popup-right {
     width: initial;
 }
@@ -3085,9 +3081,6 @@ Author         :   PV Anfas
     border-radius: 13px;
 }
 
-.dark-mode .cookie-popup.position-topleft {
-    box-shadow: none;
-}
 
 .cookie-popup.position-topleft .cookie-popup-right {
     width: initial;
