@@ -49,7 +49,7 @@ class MyUserAdmin(UserAdmin):
         "usertype",
     )
     fieldsets = (
-        ("Basic Info", {"fields": ("username", "password", "email", "usertype", "mobile")}),
+        ("Basic Info", {"fields": ("username", "password", "email", "usertype", "mobile", "first_name", "last_name")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
         ("Groups", {"fields": ("groups",)}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
