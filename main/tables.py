@@ -2,7 +2,7 @@ from django_tables2 import columns
 
 from main.base import BaseTable
 
-from .models import Branch, MealOrder, SubscriptionPlan, UserAddress
+from .models import Branch, Combo, MealOrder, SubscriptionPlan, UserAddress
 
 
 class SubscriptionPlanTable(BaseTable):
@@ -43,4 +43,11 @@ class UserAddressTable(BaseTable):
     class Meta:
         model = UserAddress
         fields = ("name", "room_no", "floor", "building_name", "street_name", "mobile", "status", "is_default")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+
+
+class ComboTable(BaseTable):
+    class Meta:
+        model = Combo
+        fields = ("item_code", "name", "tier", "price", "mealtype", "is_veg", "is_default")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012

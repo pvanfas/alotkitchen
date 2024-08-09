@@ -11,7 +11,7 @@ from users.tables import UserTable
 
 from .mixins import HybridTemplateView
 from .models import Branch, Combo, ItemCategory, MealOrder, PlanGroup, Subscription, SubscriptionPlan, UserAddress
-from .tables import BranchTable, MealOrderTable, UserAddressTable
+from .tables import BranchTable, ComboTable, MealOrderTable, UserAddressTable
 
 # permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
@@ -228,3 +228,12 @@ class CustomerListView(HybridListView):
 class CustomerDetailView(HybridDetailView):
     model = User
     permissions = ("Administrator",)
+
+
+class ComboListView(HybridListView):
+    filterset_fields = ("mealtype", "is_veg", "is_default")
+    search_fields = ("name",)
+    permissions = ("Administrator",)
+    model = Combo
+    title = "Item Master"
+    table_class = ComboTable

@@ -36,9 +36,12 @@ class CustomUser(AbstractUser):
     def get_absolute_url(self):
         return reverse("main:customer_detail", args=[str(self.id)])
 
-    def __str__(self):
+    def fullname(self):
         if self.first_name and self.last_name:
             return self.first_name + " " + self.last_name
         elif self.first_name:
             return self.first_name
         return self.username
+
+    def __str__(self):
+        return self.fullname()
