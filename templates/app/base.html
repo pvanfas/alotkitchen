@@ -133,12 +133,18 @@
     <script src="{% static 'app/plugins/date-picker/jquery-ui.js' %}?v=1.9"></script>
     <script src="{% static 'app/js/masonry.pkgd.min.js' %}?v=1.9" async></script>
     {% endcompress %}
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
+
     {% block js_plugins %}{% endblock %}
+
     <script src="{% static 'app/js/sticky.js' %}?v=1.9"></script>
     <script src="{% static 'app/js/custom.js' %}?v=1.9"></script>
     <script src="{% static 'app/js/script.js' %}?v=1.9"></script>
+
     {% block javascript %}{% endblock %}
+    
     <script>
       // if any .slide-menu is empty, then hide closest .slide
       $('.slide-menu').each(function () {

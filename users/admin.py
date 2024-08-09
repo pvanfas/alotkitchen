@@ -30,6 +30,7 @@ class MyUserAdmin(UserAdmin):
     ordering = ("username",)
     list_display = (
         "username",
+        "mobile",
         "usertype",
         "is_active",
         "last_login",
@@ -48,7 +49,7 @@ class MyUserAdmin(UserAdmin):
         "usertype",
     )
     fieldsets = (
-        ("Basic Info", {"fields": ("username", "password", "email", "usertype")}),
+        ("Basic Info", {"fields": ("username", "password", "email", "usertype", "mobile")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
         ("Groups", {"fields": ("groups",)}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),

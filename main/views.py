@@ -11,7 +11,7 @@ from users.tables import UserTable
 
 from .mixins import HybridTemplateView
 from .models import Branch, Combo, ItemCategory, MealOrder, PlanGroup, Subscription, SubscriptionPlan, UserAddress
-from .tables import BranchTable, ComboTable, MealOrderTable, UserAddressTable
+from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable, UserAddressTable
 
 # permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
@@ -256,3 +256,14 @@ class MealOrderListView(HybridListView):
 class MealOrderDetailView(HybridDetailView):
     model = MealOrder
     permissions = ("Administrator",)
+
+
+class MealOrderListData(HybridListView):
+    model = MealOrder
+    permissions = ("Administrator",)
+    title = "Order Master Excel"
+    table_class = MealOrderDataTable
+    template_name = "app/main/mealorder_list_data.html"
+
+    def get_queryset(self):
+        return MealOrder.objects.filter(is_active=True)

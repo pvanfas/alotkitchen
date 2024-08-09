@@ -1885,7 +1885,7 @@ a.point_btn:hover {
 
 
 .offcanvas-end {
-    width: 500px;
+    width: 400px;
 }
 
 .action-btns1 {
@@ -2013,4 +2013,13 @@ del {
     justify-content: space-between;
     align-items: center;
     border: 0 !important;
+}
+
+.normalcase>thead>tr>th,
+.normalcase>thead>tr>th a {
+    text-transform: none;
+}
+
+.table-responsive {
+    border-radius: 10px;
 }

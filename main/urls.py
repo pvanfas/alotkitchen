@@ -44,4 +44,5 @@ urlpatterns = [
     path("combos/detail/<str:pk>/", views.ComboDetailView.as_view(), name="combo_detail"),
     path("orders/", views.MealOrderListView.as_view(), name="mealorder_list"),
     path("orders/detail/<str:pk>/", views.MealOrderDetailView.as_view(), name="mealorder_detail"),
+    path("orders/data/", views.MealOrderListData.as_view(), name="mealorder_list_data"),
 ]

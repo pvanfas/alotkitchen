@@ -12,6 +12,7 @@ USERTYPE_CHOICES = (
 
 
 class CustomUser(AbstractUser):
+    mobile = models.CharField(max_length=15, blank=True, null=True)
     usertype = models.CharField(max_length=20, choices=USERTYPE_CHOICES, default="User")
 
     class Meta:

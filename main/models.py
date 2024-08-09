@@ -21,7 +21,7 @@ DAY_CHOICES = (
 VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"), (44, "44 Days"), (52, "52 Days"), (60, "60 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
 PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
-TIER_CHOICES = (("Standard", "Standard"), ("Premium", "Premium"), ("Deluxe", "Deluxe"))
+TIER_CHOICES = (("Standard", "Standard"), ("D", "Premium"), ("Deluxe", "Deluxe"))
 
 
 class Area(BaseModel):
@@ -253,6 +253,44 @@ class MealOrder(BaseModel):
         ordering = ("date",)
         verbose_name = _("Meal Order")
         verbose_name_plural = _("Meal Orders")
+
+    def DocNum(self):
+        return " "
+
+    def Series(self):
+        return "70"
+
+    def DocDate(self):
+        return self.date.strftime("%Y%m%d")
+
+    def DocDueDate(self):
+        return self.date.strftime("%Y%m%d")
+
+    def CardCode(self):
+        return self.user.mobile
+
+    def U_OrderType(self):
+        if self.combo.is_veg:
+            return "Veg"
+        return "Non Veg"
+
+    def U_Order_Catg(self):
+        return self.combo.tier
+
+    def U_MealType(self):
+        return self.combo.mealtype
+
+    def ParentKey(self):
+        return " "
+
+    def LineNum(self):
+        return 1
+
+    def Quantity(self):
+        return self.quantity
+
+    def ItemCode(self):
+        return self.combo.item_code
 
     def __str__(self):
         return f"{self.combo} - {self.date}"
