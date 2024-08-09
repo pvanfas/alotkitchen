@@ -36,7 +36,8 @@
                                     {% else %}
                                         AED {% get_price plan 5 "regular_price" "WEEKLY" %}
                                     {% endif %}
-                                    <span class="spacerbw"></span>                                </div>
+                                    <span class="spacerbw"></span> <a href="{% get_plan_link plan 5 'WEEKLY' %}" class="btn btn-primary btn-sm">Subscribe</a>
+                                </div>
                             </td>
                             <td>
                                 <div class="dxc">
@@ -45,7 +46,8 @@
                                     {% else %}
                                         AED {% get_price plan 5 "regular_price" "WEEKLY" %}
                                     {% endif %}
-                                    <span class="spacerbw"></span>                                </div>
+                                    <span class="spacerbw"></span> <a href="{% get_plan_link plan 6 'WEEKLY' %}" class="btn btn-primary btn-sm">Subscribe</a>
+                                </div>
                             </td>
                             <td>
                                 <div class="dxc">
@@ -54,7 +56,8 @@
                                     {% else %}
                                         AED {% get_price plan 5 "regular_price" "WEEKLY" %}
                                     {% endif %}
-                                    <span class="spacerbw"></span>                                </div>
+                                    <span class="spacerbw"></span> <a href="{% get_plan_link plan 7 'WEEKLY' %}" class="btn btn-primary btn-sm">Subscribe</a>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -78,9 +81,9 @@
                         {% for plan in plans %}
                         <tr>
                             <td><strong>{{plan.name}}</strong></td>
-                            <td><div class="dxc"><del>AED {% get_price plan 22 "regular_price" "MONTHLY" %}</del> AED {% get_price plan 22 "offer_price" "MONTHLY" %} <span class="spacerbw"></span> </div></td>
-                            <td><div class="dxc"><del>AED {% get_price plan 26 "regular_price" "MONTHLY" %}</del> AED {% get_price plan 26 "offer_price" "MONTHLY" %} <span class="spacerbw"></span> </div></td>
-                            <td><div class="dxc"><del>AED {% get_price plan 30 "regular_price" "MONTHLY" %}</del> AED {% get_price plan 30 "offer_price" "MONTHLY" %} <span class="spacerbw"></span> </div></td>
+                            <td><div class="dxc"><del>AED {% get_price plan 22 "regular_price" "MONTHLY" %}</del> AED {% get_price plan 22 "offer_price" "MONTHLY" %} <span class="spacerbw"></span> <a href="{% get_plan_link plan 22 'MONTHLY' %}" class="btn btn-primary btn-sm">Subscribe</a></div></td>
+                            <td><div class="dxc"><del>AED {% get_price plan 26 "regular_price" "MONTHLY" %}</del> AED {% get_price plan 26 "offer_price" "MONTHLY" %} <span class="spacerbw"></span> <a href="{% get_plan_link plan 26 'MONTHLY' %}" class="btn btn-primary btn-sm">Subscribe</a></div></td>
+                            <td><div class="dxc"><del>AED {% get_price plan 30 "regular_price" "MONTHLY" %}</del> AED {% get_price plan 30 "offer_price" "MONTHLY" %} <span class="spacerbw"></span> <a href="{% get_plan_link plan 30 'MONTHLY' %}" class="btn btn-primary btn-sm">Subscribe</a></div></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -104,9 +107,9 @@
                         {% for plan in plans %}
                         <tr>
                             <td><strong>{{plan.name}}</strong></td>
-                            <td><div class="dxc"><del>AED {% get_price plan 44 "regular_price" "BIMONTHLY" %}</del> AED {% get_price plan 44 "offer_price" "BIMONTHLY" %} <span class="spacerbw"></span></div></td>
-                            <td><div class="dxc"><del>AED {% get_price plan 52 "regular_price" "BIMONTHLY" %}</del> AED {% get_price plan 52 "offer_price" "BIMONTHLY" %} <span class="spacerbw"></span></div></td>
-                            <td><div class="dxc"><del>AED {% get_price plan 60 "regular_price" "BIMONTHLY" %}</del> AED {% get_price plan 60 "offer_price" "BIMONTHLY" %} <span class="spacerbw"></span></div></td>
+                            <td><div class="dxc"><del>AED {% get_price plan 44 "regular_price" "BIMONTHLY" %}</del> AED {% get_price plan 44 "offer_price" "BIMONTHLY" %} <span class="spacerbw"></span> <a href="{% get_plan_link plan 44 'BIMONTHLY' %}" class="btn btn-primary btn-sm">Subscribe</a></div></td>
+                            <td><div class="dxc"><del>AED {% get_price plan 52 "regular_price" "BIMONTHLY" %}</del> AED {% get_price plan 52 "offer_price" "BIMONTHLY" %} <span class="spacerbw"></span> <a href="{% get_plan_link plan 52 'BIMONTHLY' %}" class="btn btn-primary btn-sm">Subscribe</a></div></td>
+                            <td><div class="dxc"><del>AED {% get_price plan 60 "regular_price" "BIMONTHLY" %}</del> AED {% get_price plan 60 "offer_price" "BIMONTHLY" %} <span class="spacerbw"></span> <a href="{% get_plan_link plan 60 'BIMONTHLY' %}" class="btn btn-primary btn-sm">Subscribe</a></div></td>
                         </tr>
                         {% endfor %}
                     </tbody>

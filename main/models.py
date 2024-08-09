@@ -21,7 +21,7 @@ DAY_CHOICES = (
 VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"), (44, "44 Days"), (52, "52 Days"), (60, "60 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
 PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
-TIER_CHOICES = (("Standard", "Standard"), ("D", "Premium"), ("Deluxe", "Deluxe"))
+TIER_CHOICES = (("Essential", "Essential"), ("Classic", "Classic"), ("Standard", "Standard"))
 
 
 class Area(BaseModel):
