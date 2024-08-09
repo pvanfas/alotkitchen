@@ -37,6 +37,11 @@ urlpatterns = [
     path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
     path("pricing/", views.PricingView.as_view(), name="pricing_view"),
     path("help/", views.HelpView.as_view(), name="help_view"),
+    # Administrator
     path("customers/", views.CustomerListView.as_view(), name="customer_list"),
     path("customers/detail/<str:pk>/", views.CustomerDetailView.as_view(), name="customer_detail"),
+    path("combos/", views.ComboListView.as_view(), name="combo_list"),
+    path("combos/detail/<str:pk>/", views.ComboDetailView.as_view(), name="combo_detail"),
+    path("orders/", views.MealOrderListView.as_view(), name="mealorder_list"),
+    path("orders/detail/<str:pk>/", views.MealOrderDetailView.as_view(), name="mealorder_detail"),
 ]

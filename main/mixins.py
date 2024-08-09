@@ -22,10 +22,14 @@ def convert_to_spaces(text):
 class PermissionMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if hasattr(self, "permissions"):
-            if self.request.user.usertype in self.permissions:
-                return super().dispatch(request, *args, **kwargs)
-            return self.handle_no_permission()
-        return self.handle_no_permission()
+            if request.user.is_authenticated:
+                if self.request.user.usertype in self.permissions:
+                    return super().dispatch(request, *args, **kwargs)
+                else:
+                    return self.handle_no_permission()
+            else:
+                return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CustomModelFormMixin:

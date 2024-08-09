@@ -55,9 +55,23 @@
                     </li>
 
                     <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:combo_list' %}">
+                            <i class="feather feather-database sidemenu_icon"></i>
+                            <span class="side-menu__label">Item Master</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
                         <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:customer_list' %}">
                             <i class="feather feather-pie-chart sidemenu_icon"></i>
-                            <span class="side-menu__label">Download Data</span>
+                            <span class="side-menu__label">Customer Master</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:mealorder_list' %}">
+                            <i class="feather feather-list sidemenu_icon"></i>
+                            <span class="side-menu__label">Order Master</span>
                         </a>
                     </li>
 
@@ -74,7 +88,7 @@
                             <span class="side-menu__label">Help</span>
                         </a>
                     </li>
-
+                    
                 </ul>
 
                 <div class="slide-right" id="slide-right">

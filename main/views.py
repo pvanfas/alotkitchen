@@ -237,3 +237,22 @@ class ComboListView(HybridListView):
     model = Combo
     title = "Item Master"
     table_class = ComboTable
+
+
+class ComboDetailView(HybridDetailView):
+    model = Combo
+
+
+class MealOrderListView(HybridListView):
+    permissions = ("Administrator",)
+    model = MealOrder
+    title = "Order Master"
+    table_class = MealOrderTable
+
+    def get_queryset(self):
+        return MealOrder.objects.filter(is_active=True)
+
+
+class MealOrderDetailView(HybridDetailView):
+    model = MealOrder
+    permissions = ("Administrator",)

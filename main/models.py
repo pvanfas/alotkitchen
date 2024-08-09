@@ -89,8 +89,11 @@ class Combo(BaseModel):
 
     class Meta:
         ordering = ("week", "available_on", "mealtype")
-        verbose_name = _("Combo")
-        verbose_name_plural = _("Combos")
+        verbose_name = _("Item Master")
+        verbose_name_plural = _("Item Masters")
+
+    def get_absolute_url(self):
+        return reverse_lazy("main:combo_detail", kwargs={"pk": self.pk})
 
     def get_combo_name(self):
         return ", ".join(item.name for item in self.items.all())

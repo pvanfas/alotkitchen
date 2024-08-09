@@ -47,7 +47,18 @@ class UserAddressTable(BaseTable):
 
 
 class ComboTable(BaseTable):
+    # action = None
+
     class Meta:
         model = Combo
         fields = ("item_code", "name", "tier", "price", "mealtype", "is_veg", "is_default")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+
+
+class MealOrderTable(BaseTable):
+    action = None
+
+    class Meta:
+        model = MealOrder
+        fields = ("combo", "combo__mealtype", "date", "quantity", "subscription_plan", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
