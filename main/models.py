@@ -7,21 +7,7 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("DINNER", "Dinner"), ("ADDON", "Addon"))
-WEEK_CHOICES = ((1, "1st & 3rd Week"), (2, "2nd & 4th Week"))
-DAY_CHOICES = (
-    ("Monday", "Monday"),
-    ("Tuesday", "Tuesday"),
-    ("Wednesday", "Wednesday"),
-    ("Thursday", "Thursday"),
-    ("Friday", "Friday"),
-    ("Saturday", "Saturday"),
-    ("Sunday", "Sunday"),
-)
-VALIDITY_CHOICES = ((5, "5 Days"), (6, "6 Days"), (7, "7 Days"), (22, "22 Days"), (26, "26 Days"), (30, "30 Days"), (44, "44 Days"), (52, "52 Days"), (60, "60 Days"))
-ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
-PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
-TIER_CHOICES = (("Essential", "Essential"), ("Classic", "Classic"), ("Standard", "Standard"))
+from .choices import DAY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES, PLANTYPE_CHOICES, TIER_CHOICES, VALIDITY_CHOICES, WEEK_CHOICES
 
 
 class Area(BaseModel):
@@ -60,35 +46,35 @@ class Item(BaseModel):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    available_on = MultiSelectField(max_length=200, choices=DAY_CHOICES, null=True, blank=True)
-    week = models.PositiveIntegerField(choices=WEEK_CHOICES)
+    available_days = MultiSelectField(max_length=200, choices=DAY_CHOICES)
+    available_weeks = MultiSelectField(max_length=200, choices=WEEK_CHOICES)
     is_veg = models.BooleanField(default=True)
 
     class Meta:
         ordering = ("name",)
-        verbose_name = _("Item")
-        verbose_name_plural = _("Items")
+        verbose_name = _("Base Item")
+        verbose_name_plural = _("Base Items")
 
     def __str__(self):
         return self.name
 
 
 class Combo(BaseModel):
+    tier = models.CharField(max_length=200, choices=TIER_CHOICES)
+    mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, related_name="combos")
     items = models.ManyToManyField(Item, related_name="combos")
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     name = models.CharField(max_length=200, blank=True, null=True)
     item_code = models.CharField(max_length=200, blank=True, null=True)
-    tier = models.CharField(max_length=200, choices=TIER_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
-    mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
-    week = models.PositiveIntegerField(choices=WEEK_CHOICES)
-    available_on = models.CharField(max_length=200, choices=DAY_CHOICES)
+    available_weeks = MultiSelectField(max_length=200, choices=WEEK_CHOICES)
+    available_days = models.CharField(max_length=200, choices=DAY_CHOICES)
     is_veg = models.BooleanField(default=True)
     is_default = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ("week", "available_on", "mealtype")
+        ordering = ("available_weeks", "available_days", "mealtype")
         verbose_name = _("Item Master")
         verbose_name_plural = _("Item Masters")
 

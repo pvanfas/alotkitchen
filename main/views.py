@@ -145,7 +145,11 @@ class FeaturedEatsView(HybridTemplateView):
         context = super().get_context_data(**kwargs)
         context["week_number"] = get_week_of_month()
         context["day_name"] = get_day_name()
-        available_combos = Combo.objects.filter(is_active=True, week=get_week_value(get_week_of_month()), available_on=get_day_name())
+        available_combos = Combo.objects.filter(
+            is_active=True,
+            available_weeks=get_week_value(get_week_of_month()),
+            available_days=get_day_name(),
+        )
         context["breakfasts"] = available_combos.filter(is_active=True, mealtype="BREAKFAST")
         context["lunches"] = available_combos.filter(is_active=True, mealtype="LUNCH")
         context["dinners"] = available_combos.filter(is_active=True, mealtype="DINNER")
