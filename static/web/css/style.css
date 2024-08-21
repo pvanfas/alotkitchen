@@ -2,3 +2,118 @@
     padding-top: 80px;
     padding-bottom: 80px;
 }
+
+.section_padding_md {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.section_padding_sm {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 34px;
+    font-weight: 800;
+    margin-top: 10px;
+}
+
+.hero p {
+    margin-bottom: 30px;
+}
+
+.thumb {
+    text-align: center;
+}
+
+.main_inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+
+}
+
+.package_block {}
+
+.package_block .package_image {
+    width: 270px;
+    height: 270px;
+    object-fit: contain;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: -100px;
+    max-width: 90%;
+}
+
+.package_block .package-caption {
+    padding: 100px 30px 30px 30px;
+    background: #fff;
+    border-radius: 20px;
+}
+
+.package_block .package-caption-top h3 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.package_block .package-caption .short-description {
+    margin-bottom: 1.5rem;
+}
+
+.package_block .package-caption-bottom {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.package_block .price {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ff4747;
+}
+
+.package_block .package-continue {}
+
+.package_block .package-continue .package_type_simple {
+    background: #00833E;
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.marquee {
+    display: flex;
+    overflow: hidden;
+}
+
+.marquee span {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #b7b7b7;
+    font-size: 60px;
+    font-weight: 900;
+    white-space: nowrap;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin-right: 60px;
+    animation-name: marquee;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 10s;
+    text-transform: uppercase;
+}
+
+@keyframes marquee {
+    100% {
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        -o-transform: translateX(-100%);
+        transform: translate(-100%);
+    }
+}

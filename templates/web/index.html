@@ -1,23 +1,151 @@
 {% extends 'web/base.html' %}
 {% load static %}
 
+
 {% block content %}
-<section class="">
-	<div class="section_padding" style="background: #F4F1EA;">
+<section class="" style="background: #F4F1EA;">
+	<div class="section_padding hero" >
 		<div class="container">
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="thumb">
-						<img src="/static/web/images/img1.png" alt="" style="max-height:400px">
+						<img src="/static/web/images/main.png" alt="" style="max-height:320px">
 					</div>
 				</div>
 				<div class="col-md-6">
 					<span class="subline">ALOT KITCHEN</span>
 					<h1>Deliciously yours, Everyday!</h1>
+					<p>
+						Unlock the joy of effortless cooking with ALOT KITCHEN. Our tailored meal plans bring delicious, chef-crafted dishes right to your table—saving you time and stress every day. Sign up now and savor the flavors that make life deliciously simple!
+					</p>
+					<div class="main_inline">
+						<a href="" class="btn btn-primary">Browse Plans</a>
+						<a href="tel:+971569009143"><img src="/static/web/images/mobile.png" alt="" style="width:40px"></a>
+					</div>
+					<p>Or <a href="{% url 'auth_login' %}" class="text-decoration-underline">Sign In to your account</a></p>
 				</div>
 			</div>
 			
 		</div>
 	</div>
 </section>
+
+
+<section style="background: #F4F1EA;" class="section_padding_sm pt-0">
+	<div class="marquee ">
+		<span>Savor Every Bite with Our Signature Flavors</span>
+		<span>Your Favorite Meals, Freshly Delivered</span>
+		<span>Classic Dishes, Modern Convenience</span>
+	</div>
+</section>
+
+
+<section style="background: #F4F1EA;">
+	<div class="container section_padding_sm packages">
+		<div class="row">
+			
+			<div class="col-md-3">
+				<div class="package_block">
+					<div class="package_image">
+						<img src="/static/web/images/img1.png" alt="">
+					</div>
+					<div class="package-caption">
+						<div class="package-caption-top">
+							<h3 class=""><a href="">Chicken McNuggets</a></h3>
+							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
+						</div>
+						<div class="package-caption-bottom">
+							<a href="#" class="price">Brochure</a>
+							<div class="package-continue">
+								<a href="#" class="button package_type_simple">Continue</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="package_block">
+					<div class="package_image">
+						<img src="/static/web/images/img2.png" alt="">
+					</div>
+					<div class="package-caption">
+						<div class="package-caption-top">
+							<h3 class=""><a href="">Chicken McNuggets</a></h3>
+							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
+						</div>
+						<div class="package-caption-bottom">
+							<a href="#" class="price">Brochure</a>
+							<div class="package-continue">
+								<a href="#" class="button package_type_simple">Continue</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="package_block">
+					<div class="package_image">
+						<img src="/static/web/images/img3.png" alt="">
+					</div>
+					<div class="package-caption">
+						<div class="package-caption-top">
+							<h3 class=""><a href="">Chicken McNuggets</a></h3>
+							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
+						</div>
+						<div class="package-caption-bottom">
+							<a href="#" class="price">Brochure</a>
+							<div class="package-continue">
+								<a href="#" class="button package_type_simple">Continue</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="package_block">
+					<div class="package_image">
+						<img src="/static/web/images/img4.png" alt="">
+					</div>
+					<div class="package-caption">
+						<div class="package-caption-top">
+							<h3 class=""><a href="">Chicken McNuggets</a></h3>
+							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
+						</div>
+						<div class="package-caption-bottom">
+							<a href="#" class="price">Brochure</a>
+							<div class="package-continue">
+								<a href="#" class="button package_type_simple">Continue</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="package_block">
+					<div class="package_image">
+						<img src="/static/web/images/img5.png" alt="">
+					</div>
+					<div class="package-caption">
+						<div class="package-caption-top">
+							<h3 class=""><a href="">Chicken McNuggets</a></h3>
+							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
+						</div>
+						<div class="package-caption-bottom">
+							<a href="#" class="price">Brochure</a>
+							<div class="package-continue">
+								<a href="#" class="button package_type_simple">Continue</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
 {% endblock content %}
