@@ -12,7 +12,7 @@ admin.site.unregister(RegistrationProfile)
 
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
-    list_display = ("group", "regular_price", "first_order_price", "validity", "is_active")
+    list_display = ("group", "plan_price", "validity", "is_active")
     list_filter = ("validity", "group")
 
 

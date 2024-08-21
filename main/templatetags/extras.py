@@ -6,17 +6,10 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_price(group, validity, price_type):
+def get_price(group, validity):
     if SubscriptionPlan.objects.filter(group=group, validity=validity).exists():
         plans = SubscriptionPlan.objects.filter(group=group, validity=validity)
-        if price_type == "regular_price":
-            return plans.first().regular_price
-        elif price_type == "first_order_price":
-            return plans.first().first_order_price
-        elif price_type == "offer_price":
-            return plans.first().offer_price
-        else:
-            return 0
+        return plans.first().plan_price
     else:
         return 0
 

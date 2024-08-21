@@ -87,9 +87,7 @@ class PlanGroup(BaseModel):
 class SubscriptionPlan(BaseModel):
     group = models.ForeignKey(PlanGroup, on_delete=models.CASCADE, related_name="plans", blank=True, null=True)
     validity = models.IntegerField(choices=VALIDITY_CHOICES)
-    regular_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    first_order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    offer_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
         ordering = ("group",)
