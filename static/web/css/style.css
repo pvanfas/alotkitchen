@@ -40,11 +40,15 @@
 .package_block .package_image {
     width: 270px;
     height: 270px;
-    object-fit: contain;
     text-align: center;
     margin: 0 auto;
     margin-bottom: -100px;
     max-width: 90%;
+}
+
+.package_block .package_image img {
+    object-fit: contain;
+    object-position: bottom;
 }
 
 .package_block .package-caption {
@@ -116,4 +120,32 @@
         -o-transform: translateX(-100%);
         transform: translate(-100%);
     }
+}
+
+.cta .card {
+    max-height: 300px;
+    border-radius: 20px;
+}
+
+.cta .card img {
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+footer {
+    border-top: 1px solid #fff;
+
+}
+
+footer p {
+    display: flex;
+    align-items: center;
+}
+
+footer .icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 10px;
 }
