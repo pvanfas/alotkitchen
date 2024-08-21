@@ -6,9 +6,9 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_price(group, validity, price_type, plantype):
-    if SubscriptionPlan.objects.filter(group=group, validity=validity, plantype=plantype).exists():
-        plans = SubscriptionPlan.objects.filter(group=group, validity=validity, plantype=plantype)
+def get_price(group, validity, price_type):
+    if SubscriptionPlan.objects.filter(group=group, validity=validity).exists():
+        plans = SubscriptionPlan.objects.filter(group=group, validity=validity)
         if price_type == "regular_price":
             return plans.first().regular_price
         elif price_type == "first_order_price":
@@ -22,9 +22,9 @@ def get_price(group, validity, price_type, plantype):
 
 
 @register.simple_tag
-def get_plan_link(group, validity, plantype):
-    if SubscriptionPlan.objects.filter(group=group, validity=validity, plantype=plantype).exists():
-        plans = SubscriptionPlan.objects.filter(group=group, validity=validity, plantype=plantype)
+def get_plan_link(group, validity):
+    if SubscriptionPlan.objects.filter(group=group, validity=validity).exists():
+        plans = SubscriptionPlan.objects.filter(group=group, validity=validity)
         return plans.first().get_absolute_url()
     else:
         return "javascript:void(0);"

@@ -7,4 +7,5 @@ app_name = "web"
 urlpatterns = [
     path("", views.index, name="index"),
     path("page/<slug:slug>/", views.page_view, name="page_view"),
+    path("package/", views.package, name="package"),
 ]

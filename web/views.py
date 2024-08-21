@@ -14,3 +14,9 @@ def page_view(request, slug):
     area = Area.objects.get(slug=slug)
     context = {"area": area}
     return render(request, template_name, context)
+
+
+def package(request):
+    template_name = "web/package.html"
+    context = {}
+    return render(request, template_name, context)

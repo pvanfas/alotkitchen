@@ -199,8 +199,8 @@ class PricingView(HybridTemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        weekly_plans = SubscriptionPlan.objects.filter(is_active=True, plantype="WEEKLY")
-        monthly_plans = SubscriptionPlan.objects.filter(is_active=True, plantype="MONTHLY")
+        weekly_plans = SubscriptionPlan.objects.filter(is_active=True)
+        monthly_plans = SubscriptionPlan.objects.filter(is_active=True)
         plans = PlanGroup.objects.filter(is_active=True)
         context["weekly_plans"] = weekly_plans
         context["monthly_plans"] = monthly_plans

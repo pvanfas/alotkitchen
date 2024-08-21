@@ -5,7 +5,7 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-from .choices import DAY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES, PLANTYPE_CHOICES, TIER_CHOICES, VALIDITY_CHOICES, WEEK_CHOICES
+from .choices import DAY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES, TIER_CHOICES, VALIDITY_CHOICES, WEEK_CHOICES
 
 
 class Area(BaseModel):
@@ -87,7 +87,6 @@ class PlanGroup(BaseModel):
 class SubscriptionPlan(BaseModel):
     group = models.ForeignKey(PlanGroup, on_delete=models.CASCADE, related_name="plans", blank=True, null=True)
     validity = models.IntegerField(choices=VALIDITY_CHOICES)
-    plantype = models.CharField(max_length=200, choices=PLANTYPE_CHOICES)
     regular_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     first_order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     offer_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -115,7 +114,7 @@ class SubscriptionPlan(BaseModel):
     #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return f"{self.group} - {self.plantype} - {self.validity} Days"
+        return f"{self.group} - {self.validity} Days"
 
 
 class Subscription(BaseModel):
