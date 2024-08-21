@@ -1,5 +1,7 @@
 from django.conf import settings
 
+from main.models import Area
+
 
 def main_context(request):
     current_user = None
@@ -20,4 +22,5 @@ def main_context(request):
         "company_mail": org_data.get("company_mail"),
         "site_title": settings.APP_SETTINGS.get("site_title"),
         "site_description": settings.APP_SETTINGS.get("site_description"),
+        "areas": Area.objects.filter(is_active=True),
     }

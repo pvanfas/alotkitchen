@@ -11,14 +11,14 @@
 	<meta content="{{author}}" name="author">
 	<meta name="keywords" content="" />
   
-	<link rel="apple-touch-icon" sizes="180x180" href="static/app/images/favicon/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="static/app/images/favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="static/app/images/favicon/favicon-16x16.png">
-	<link rel="manifest" href="static/app/images/favicon/site.webmanifest">
-	<link rel="mask-icon" href="static/app/images/favicon/safari-pinned-tab.svg" color="#000000">
-	<link rel="shortcut icon" href="static/app/images/favicon/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="/static/app/images/favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/static/app/images/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/static/app/images/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/static/app/images/favicon/site.webmanifest">
+	<link rel="mask-icon" href="/static/app/images/favicon/safari-pinned-tab.svg" color="#000000">
+	<link rel="shortcut icon" href="/static/app/images/favicon/favicon.ico">
 	<meta name="msapplication-TileColor" content="#000000">
-	<meta name="msapplication-config" content="static/app/images/favicon/browserconfig.xml">
+	<meta name="msapplication-config" content="/static/app/images/favicon/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +67,46 @@
 	{% block content %}
 
 	{% endblock content %}
+
+
+	<footer class="section_padding" style="background: #F4F1EA;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="logo_container mb-4">
+						<img src="/static/app/config/logo.png" alt="" style="max-width:160px">
+					</div>
+					
+					<address class="mb-2">
+						<span class="icon">
+							<img src="/static/web/images/location.png" alt=""></span>
+							<span>Halawh Alkhyrat Cafe LLC Kitchen, Dubai, UAE.</span>
+					</address>
+					<p class="mb-2"><span class="icon"><img src="/static/web/images/phone.png" alt=""></span>+971 56 9009143</p>
+					<p class="mb-2"><span class="icon"><img src="/static/web/images/mail.png" alt=""></span>info@alotkitchen.com</p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-6">
+					<p  class="mb-3"><strong>Subscription Packages</strong></p>
+					<ul>
+						<li class="mb-2"><a href="">Essential Package</a></li>
+						<li class="mb-2"><a href="">Classic Veg Package</a></li>
+						<li class="mb-2"><a href="">Classic Nonveg Package</a></li>
+						<li class="mb-2"><a href="">Standard Veg Package</a></li>
+						<li class="mb-2"><a href="">Standard Nonveg Package</a></li>
+					</ul>
+				</div>
+				<div class="col-md-5">
+					<p  class="mb-3"><strong>Delivery Locations</strong></p>
+					<ul class="d-flex flex-wrap">
+						{% for area in areas %}
+						<li class="mb-2 w-50"><a href="{% url 'web:page_view' area.slug %}">{{area.name}}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
 
 	{% compress js %}
 	<script src="{% static 'app/plugins/jquery/jquery.min.js' %}"></script>

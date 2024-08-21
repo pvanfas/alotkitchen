@@ -40,6 +40,7 @@
 .package_block .package_image {
     width: 270px;
     height: 270px;
+    max-height: 270px;
     text-align: center;
     margin: 0 auto;
     margin-bottom: -100px;
@@ -72,6 +73,8 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .package_block .price {
@@ -90,10 +93,6 @@
     font-weight: 600;
 }
 
-.marquee {
-    display: flex;
-    overflow: hidden;
-}
 
 .marquee span {
     -webkit-text-fill-color: transparent;
@@ -112,13 +111,25 @@
     text-transform: uppercase;
 }
 
+.marquee {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.marquee span {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+}
+
 @keyframes marquee {
-    100% {
-        -webkit-transform: translateX(-100%);
-        -moz-transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-        -o-transform: translateX(-100%);
-        transform: translate(-100%);
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(-300%);
     }
 }
 

@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.signals import m2m_changed
-from django.dispatch import receiver
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
@@ -12,6 +10,7 @@ from .choices import DAY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES, PLANTY
 
 class Area(BaseModel):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
 
     class Meta:
         ordering = ("name",)
@@ -35,25 +34,7 @@ class ItemCategory(BaseModel):
         return reverse("main:category_detail_view", kwargs={"pk": self.pk})
 
     def items_count(self):
-        return self.items.count()
-
-    def __str__(self):
-        return self.name
-
-
-class Item(BaseModel):
-    category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, related_name="items")
-    name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="items/images/", blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    available_days = MultiSelectField(max_length=200, choices=DAY_CHOICES)
-    available_weeks = MultiSelectField(max_length=200, choices=WEEK_CHOICES)
-    is_veg = models.BooleanField(default=True)
-
-    class Meta:
-        ordering = ("name",)
-        verbose_name = _("Base Item")
-        verbose_name_plural = _("Base Items")
+        return self.combos.count()
 
     def __str__(self):
         return self.name
@@ -63,15 +44,13 @@ class Combo(BaseModel):
     tier = models.CharField(max_length=200, choices=TIER_CHOICES)
     mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, related_name="combos")
-    items = models.ManyToManyField(Item, related_name="combos")
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=200)
     item_code = models.CharField(max_length=200, blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
+    available_days = MultiSelectField(max_length=200, choices=DAY_CHOICES)
     available_weeks = MultiSelectField(max_length=200, choices=WEEK_CHOICES)
-    available_days = models.CharField(max_length=200, choices=DAY_CHOICES)
     is_veg = models.BooleanField(default=True)
-    is_default = models.BooleanField(default=True)
 
     class Meta:
         ordering = ("available_weeks", "available_days", "mealtype")
@@ -91,13 +70,6 @@ class Combo(BaseModel):
 
     def __str__(self):
         return self.name
-
-
-@receiver(m2m_changed, sender=Combo.items.through)
-def update_combo_name(sender, instance, action, reverse, pk_set, **kwargs):
-    if action == "post_add" or action == "post_remove" or action == "post_clear":
-        instance.name = instance.get_combo_name()
-        instance.save()
 
 
 class PlanGroup(BaseModel):
