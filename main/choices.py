@@ -26,7 +26,6 @@ DAY_CHOICES = (
 )
 VALIDITY_CHOICES = ((22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
-PLANTYPE_CHOICES = (("WEEKLY", "Weekly"), ("MONTHLY", "Monthly"), ("BIMONTHLY", "Bi-Monthly"))
 TIER_CHOICES = (
     ("Essential", "Essential"),
     ("ClassicVeg", "Classic Veg"),

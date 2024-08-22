@@ -10,7 +10,7 @@ from users.models import CustomUser as User
 from users.tables import UserTable
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, ItemCategory, MealOrder, PlanGroup, Subscription, SubscriptionPlan, UserAddress
+from .models import Branch, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan, UserAddress
 from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable, UserAddressTable
 
 # permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
@@ -201,10 +201,8 @@ class PricingView(HybridTemplateView):
         context = super().get_context_data(**kwargs)
         weekly_plans = SubscriptionPlan.objects.filter(is_active=True)
         monthly_plans = SubscriptionPlan.objects.filter(is_active=True)
-        plans = PlanGroup.objects.filter(is_active=True)
         context["weekly_plans"] = weekly_plans
         context["monthly_plans"] = monthly_plans
-        context["plans"] = plans
         return context
 
 

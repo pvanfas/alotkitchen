@@ -72,25 +72,15 @@ class Combo(BaseModel):
         return self.name
 
 
-class PlanGroup(BaseModel):
-    name = models.CharField(max_length=200)
-
-    class Meta:
-        ordering = ("name",)
-        verbose_name = _("Plan Group")
-        verbose_name_plural = _("Plan Groups")
-
-    def __str__(self):
-        return self.name
-
-
 class SubscriptionPlan(BaseModel):
-    group = models.ForeignKey(PlanGroup, on_delete=models.CASCADE, related_name="plans", blank=True, null=True)
+    name = models.CharField(max_length=200)
+    tier = models.CharField(max_length=200, choices=TIER_CHOICES)
+    available_mealtypes = MultiSelectField(max_length=200, choices=MEALTYPE_CHOICES)
     validity = models.IntegerField(choices=VALIDITY_CHOICES)
     plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
-        ordering = ("group",)
+        ordering = ("tier", "validity")
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 
@@ -112,7 +102,7 @@ class SubscriptionPlan(BaseModel):
     #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return f"{self.group} - {self.validity} Days"
+        return self.name
 
 
 class Subscription(BaseModel):
