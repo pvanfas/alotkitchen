@@ -166,3 +166,17 @@ footer .icon img {
 .nowrap td {
     white-space: nowrap;
 }
+
+table tr td ul li {
+    font-size: 13px;
+}
+
+table tr td ul li span {
+    background: #e0e0e0;
+    color: #000;
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    display: inline-block;
+    border-radius: 6px;
+    font-size: 12px;
+}

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.safestring import mark_safe
 
 from main.choices import MEALTYPE_CHOICES
 from main.models import Area, Combo
@@ -15,7 +16,8 @@ def gen_structured_table_data(combos):
     for combo in combos:
         for day in combo["available_days"]:
             if day in table_data:
-                table_data[day][combo["mealtype"]].append(f"{combo['item_code']}: {combo['name']}")
+                data = mark_safe(f'<span>{combo["item_code"]}</span> {combo["name"]}')
+                table_data[day][combo["mealtype"]].append(data)
 
     # Convert nested dictionary into a list of tuples for easier template access
     structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
