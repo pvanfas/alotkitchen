@@ -13,7 +13,7 @@ TIMEZONES = [(tz, tz) for tz in pytz.common_timezones]
 SELECTION_CHOICES = (("", "Select"), ("yes", "Yes"), ("no", "No"))
 PAYMENT_METHOD_CHOICES = (("CASH", "Cash"), ("CHEQUE", "Cheque"), ("BANK", "Bank Transfer"), ("CARD", "Card Payment"))
 
-MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("TIFFIN_LUNCH", "Tiffin Lunch"), ("DINNER", "Dinner"), ("ADDON", "Addon"))
+MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("TIFFIN_LUNCH", "Tiffin Lunch"), ("DINNER", "Dinner"))
 WEEK_CHOICES = ((1, "1st & 3rd Week"), (2, "2nd & 4th Week"))
 DAY_CHOICES = (
     ("Monday", "Monday"),

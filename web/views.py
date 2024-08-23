@@ -1,6 +1,11 @@
 from django.shortcuts import render
 
-from main.models import Area
+from main.choices import MEALTYPE_CHOICES
+from main.models import Area, Combo
+
+
+def listit(qs):
+    return qs.values_list("name", flat=True)
 
 
 def index(request):
@@ -16,7 +21,155 @@ def page_view(request, slug):
     return render(request, template_name, context)
 
 
-def package(request):
+def essential(request):
+    tier = "Essential"
     template_name = "web/package.html"
-    context = {}
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def classicveg(request):
+    tier = "ClassicVeg"
+    template_name = "web/package.html"
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def classicnonveg(request):
+    tier = "ClassicNonVeg"
+    template_name = "web/package.html"
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def standardnonveg(request):
+    tier = "StandardNonVeg"
+    template_name = "web/package.html"
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def standardveg(request):
+    tier = "StandardVeg"
+    template_name = "web/package.html"
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def premium(request):
+    tier = "Premium"
+    template_name = "web/package.html"
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def signature(request):
+    tier = "Signature"
+    template_name = "web/package.html"
+    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name")
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
+
+    # Initialize table data structure
+    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
+
+    # Populate table data
+    for combo in combos:
+        for day in combo["available_days"]:
+            if day in table_data:
+                table_data[day][combo["mealtype"]].append(combo["name"])
+
+    # Convert nested dictionary into a list of tuples for easier template access
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
     return render(request, template_name, context)

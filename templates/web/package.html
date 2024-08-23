@@ -8,70 +8,45 @@
 	<div class="container section_padding packages">
 		<div class="row">
 			<div class="col-12 text-center mb-4">
-				<a href="{% url 'web:package' %}" class="btn btn-white border-dark me-3 mb-2">Essential</a>
-				<a href="{% url 'web:package' %}" class="btn btn-white me-3 mb-2">Classic Veg</a>
-				<a href="{% url 'web:package' %}" class="btn btn-white me-3 mb-2">Classic Nonveg</a>
-				<a href="{% url 'web:package' %}" class="btn btn-white me-3 mb-2">Standard Veg</a>
-				<a href="{% url 'web:package' %}" class="btn btn-white me-3 mb-2">Standard Nonveg</a>
-				<a href="{% url 'web:package' %}" class="btn btn-white me-3 mb-2">Premium</a>
+				
+				<a href="{% url 'web:essential' %}" class="btn btn-white me-3 mb-2 {% if tier == 'Essential' %}border-dark{% endif %}">Essential</a>
+				<a href="{% url 'web:classicveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'ClassicVeg' %}border-dark{% endif %}">Classic Veg</a>
+				<a href="{% url 'web:classicnonveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'ClassicNonVeg' %}border-dark{% endif %}">Classic Nonveg</a>
+				<a href="{% url 'web:standardveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'StandardVeg' %}border-dark{% endif %}">Standard Veg</a>
+				<a href="{% url 'web:standardnonveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'StandardNonVeg' %}border-dark{% endif %}">Standard Nonveg</a>
+				<a href="{% url 'web:premium' %}" class="btn btn-white me-3 mb-2 {% if tier == 'Premium' %}border-dark{% endif %}">Premium</a>
 			</div>
 			
 			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-responsive border border-dark">
-					<table class="table">
+
+					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<td></td>
-								<td>Breakfast</td>
-								<td>Lunch</td>
-								<td>Dinner</td>
+								{% for mealtype in mealtypes %}
+								<td>{{ mealtype }}</td>
+								{% endfor %}
 							</tr>
 						</thead>
 						<tbody>
+							{% for entry in structured_table_data %}
 							<tr>
-								<td>Monday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
+								<td>{{ entry.day }}</td>
+								{% for meal in entry.meals %}
+								<td>
+									<ul class="ps-3 list-style-cricle">
+										{% for combo_name in meal.combos %}
+										<li>{{ combo_name }}</li>
+										{% endfor %}
+									</ul>
+								</td>
+								{% endfor %}
 							</tr>
-							<tr>
-								<td>Tuesday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
-							</tr>
-							<tr>
-								<td>Wednesday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
-							</tr>
-							<tr>
-								<td>Thursday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
-							</tr>
-							<tr>
-								<td>Friday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
-							</tr>
-							<tr>
-								<td>Saturday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
-							</tr>
-							<tr>
-								<td>Sunday</td>
-								<td>Chapati + Green Peas Masala</td>
-								<td>Veg Biryani + Vinegar Salad + Pickle</td>
-								<td>Chapati + Aaloo Bhindi Masala</td>
-							</tr>
+							{% endfor %}
 						</tbody>
-					</table>
+					</table>					
+					
 				</div>
 			</div>
 			
@@ -96,3 +71,39 @@
 
 
 {% endblock content %}
+
+
+{% block javascript %}
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		// Get the table
+		const table = document.querySelector("table");
+	
+		// Get all rows
+		const rows = table.querySelectorAll("tr");
+	
+		if (rows.length === 0) return; // No rows to process
+	
+		// Iterate over each column index
+		for (let colIndex = 0; colIndex < rows[0].cells.length; colIndex++) {
+			let hideColumn = true;
+	
+			// Start from 1 to skip the header row
+			for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
+				const cell = rows[rowIndex].cells[colIndex];
+				if (cell && cell.textContent.trim() !== "") {
+					hideColumn = false;
+					break;
+				}
+			}
+	
+			// If all cells in the column are empty, hide the column
+			if (hideColumn) {
+				for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+					rows[rowIndex].cells[colIndex].style.display = "none";
+				}
+			}
+		}
+	});	
+</script>
+{% endblock %}

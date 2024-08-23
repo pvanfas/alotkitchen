@@ -80,7 +80,7 @@ class SubscriptionPlan(BaseModel):
     plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
-        ordering = ("tier", "validity")
+        ordering = ("tier", "validity", "name")
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 
@@ -102,7 +102,7 @@ class SubscriptionPlan(BaseModel):
     #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return self.name
+        return f"{self.tier} - ({self.name})"
 
 
 class Subscription(BaseModel):

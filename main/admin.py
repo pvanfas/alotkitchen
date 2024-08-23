@@ -12,7 +12,7 @@ admin.site.unregister(RegistrationProfile)
 
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
-    list_display = ("name", "tier", "validity", "available_mealtypes", "plan_price", "is_active")
+    list_display = ("__str__", "validity", "available_mealtypes", "plan_price", "is_active")
     list_filter = ("validity", "tier", "validity", "plan_price")
 
 
@@ -39,7 +39,7 @@ class ItemCategoryAdmin(BaseAdmin):
 class ComboAdmin(BaseAdmin):
     list_display = ("item_code", "name", "is_veg", "mealtype", "available_days", "available_weeks", "price")
     search_fields = ("name",)
-    list_filter = ("is_veg", "mealtype", "is_active", "available_weeks")
+    list_filter = ("tier", "mealtype", "category", "price", "available_days", "available_weeks", "is_veg")
 
 
 @admin.register(MealOrder)
