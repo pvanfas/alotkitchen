@@ -160,3 +160,9 @@ footer .icon img {
     object-fit: contain;
     margin-right: 10px;
 }
+
+.nowrap,
+.nowrap th,
+.nowrap td {
+    white-space: nowrap;
+}

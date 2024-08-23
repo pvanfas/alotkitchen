@@ -12,6 +12,4 @@ urlpatterns = [
     path("ClassicNonVeg/", views.classicnonveg, name="classicnonveg"),
     path("StandardNonVeg/", views.standardnonveg, name="standardnonveg"),
     path("StandardVeg/", views.standardveg, name="standardveg"),
-    path("Premium/", views.premium, name="premium"),
-    path("Signature/", views.signature, name="signature"),
 ]

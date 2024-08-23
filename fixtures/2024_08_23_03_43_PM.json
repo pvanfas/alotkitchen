@@ -132,294 +132,6 @@
         }
     },
     {
-        "model": "main.itemcategory",
-        "pk": "1ba0cf6b-e8e4-4fed-ae8a-0f72e7c622d5",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.584Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Drinks",
-            "icon": "categories/BubbleTea.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "1d344223-ce00-40a6-af1f-f383910eac21",
-        "fields": {
-            "created": "2024-07-14T21:17:27.607Z",
-            "updated": "2024-07-14T21:17:27.607Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Korean",
-            "icon": "categories/Korean.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "24758ab1-5500-48c4-b26a-9eb74b34404d",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.586Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Main Dish",
-            "icon": "categories/Indian.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "3e516d55-3ca2-4d9f-be5c-fd2ca5b49981",
-        "fields": {
-            "created": "2024-07-14T21:17:27.604Z",
-            "updated": "2024-07-14T21:17:27.605Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Smoothies",
-            "icon": "categories/Smoothie.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "4fbc7757-d0cd-42cc-9941-fae7cee9a702",
-        "fields": {
-            "created": "2024-07-14T21:17:27.599Z",
-            "updated": "2024-07-14T21:17:27.599Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Fast Food",
-            "icon": "categories/FastFood.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "58f1cc85-2d83-4f20-a880-99acd81980f0",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.588Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Miscellaneous",
-            "icon": "categories/Soup.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "5a161a56-6b56-4172-b022-c269ddbad753",
-        "fields": {
-            "created": "2024-07-14T21:17:27.613Z",
-            "updated": "2024-07-14T21:17:27.613Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Mexican",
-            "icon": "categories/Mexican.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "6190b195-0ecb-4b5f-a608-04eaf3e78c17",
-        "fields": {
-            "created": "2024-07-14T21:17:27.608Z",
-            "updated": "2024-07-15T14:32:31.352Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Snacks",
-            "icon": "categories/Bakery.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "64ffe2ea-8c84-4f71-9fad-8a4eb1a0062a",
-        "fields": {
-            "created": "2024-07-14T21:17:27.606Z",
-            "updated": "2024-07-14T21:17:27.606Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Thai",
-            "icon": "categories/Thai.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "9359bbc9-0036-4533-bca2-d6116fa11e99",
-        "fields": {
-            "created": "2024-07-14T21:17:27.611Z",
-            "updated": "2024-07-14T21:17:27.611Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Seafood",
-            "icon": "categories/Seafood.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "98284f92-8000-46fa-a747-74d2466f1dd8",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.578Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Breads and Sides",
-            "icon": "categories/Sandwich.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "9aa5e2ca-8909-43e9-8e83-b78195acd9d6",
-        "fields": {
-            "created": "2024-07-14T21:17:27.600Z",
-            "updated": "2024-07-14T21:17:27.600Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Chinese",
-            "icon": "categories/Chinese.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "9f27ad65-c843-45f9-a617-fe881afc9ca2",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-15T14:33:56.312Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Burgers",
-            "icon": "categories/Burgers.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "bb66f0d6-47f8-45e0-919f-5715ca0908ba",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.592Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Rice or Biriyani",
-            "icon": "categories/Asian.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "bd65c588-0269-4531-93e7-dd1df95baf69",
-        "fields": {
-            "created": "2024-07-14T21:17:27.603Z",
-            "updated": "2024-07-14T21:17:27.603Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Sushi",
-            "icon": "categories/Sushi.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "d89383c0-b4d0-4302-9cb4-ec81032d6189",
-        "fields": {
-            "created": "2024-07-14T21:17:27.610Z",
-            "updated": "2024-07-14T21:17:27.610Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Breakfast",
-            "icon": "categories/Breakfast.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "db50c6b0-9b09-453f-ab36-df81fe09df23",
-        "fields": {
-            "created": "2024-07-14T21:17:27.602Z",
-            "updated": "2024-07-14T21:17:27.602Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Greek",
-            "icon": "categories/Greek.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "df52a1a9-0cb7-4c29-b8bd-970f9814a6b9",
-        "fields": {
-            "created": "2024-07-14T21:17:27.609Z",
-            "updated": "2024-07-14T21:17:27.609Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Coffee",
-            "icon": "categories/Coffee.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "e72d6902-5512-40b7-9bad-4f8f047b6673",
-        "fields": {
-            "created": "2024-07-14T21:17:27.601Z",
-            "updated": "2024-07-14T21:17:27.601Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Vietnamese",
-            "icon": "categories/Vietnamese.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "e740d494-a67c-4c4a-816b-601ad874beba",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.597Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Starters",
-            "icon": "categories/Italian.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "e9ac04a9-3243-4941-b014-40ec4f2de6dd",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.581Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Desserts",
-            "icon": "categories/IceCream.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "f0a13456-9c92-45f5-841d-d0b08f72cc63",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.594Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Salads",
-            "icon": "categories/Vegan.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "f391aa13-9698-48ad-9551-84694a2f2137",
-        "fields": {
-            "created": "2024-07-14T21:17:27.609Z",
-            "updated": "2024-07-14T21:17:27.609Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Japanese",
-            "icon": "categories/Japanese.png"
-        }
-    },
-    {
-        "model": "main.itemcategory",
-        "pk": "fa9459cf-1b16-4935-b556-f9a5bcf5999b",
-        "fields": {
-            "created": "2024-06-19T07:43:35Z",
-            "updated": "2024-07-14T21:17:27.590Z",
-            "creator": 1,
-            "is_active": false,
-            "name": "Pizza",
-            "icon": "categories/Pizza.png"
-        }
-    },
-    {
         "model": "main.combo",
         "pk": "0174f24f-03af-4d76-8407-ec618f612464",
         "fields": {
@@ -461,26 +173,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "01e96ea0-fea4-40ff-9b76-b2ec240ce129",
-        "fields": {
-            "created": "2024-08-21T06:37:07.818Z",
-            "updated": "2024-08-21T06:37:07.818Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "DINNER",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Jeeraka Kanji / Porotta, Kappa (Tapioca), Chammanthi / Veg Kuruma",
-            "item_code": "SD002",
-            "price": "10.00",
-            "available_days": "Tuesday",
-            "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "02ec05db-3353-4d46-9147-0ef156f05458",
         "fields": {
             "created": "2024-08-21T06:37:07.535Z",
@@ -497,26 +189,6 @@
             "available_days": "Sunday",
             "available_weeks": "1,2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "070832ec-4e6c-4cc4-9888-74a70a16a103",
-        "fields": {
-            "created": "2024-08-21T06:37:07.763Z",
-            "updated": "2024-08-21T06:37:07.763Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Puttu, Black Chana Curry",
-            "item_code": "SB004",
-            "price": "10.00",
-            "available_days": "Thursday",
-            "available_weeks": "1",
-            "is_veg": false
         }
     },
     {
@@ -555,26 +227,6 @@
             "item_code": "SL009",
             "price": "10.00",
             "available_days": "Tuesday",
-            "available_weeks": "2",
-            "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "0c7ca5d3-0ba8-4b6e-aad2-2e49955c6c15",
-        "fields": {
-            "created": "2024-08-21T06:37:07.727Z",
-            "updated": "2024-08-21T06:37:07.727Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardVeg",
-            "mealtype": "LUNCH",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Barik or Matta Rice, Yogurt curry, Kondattam (Sun-dried Chilies), Upperi, Side curry, Pickle, Papadam",
-            "item_code": "SL004",
-            "price": "10.00",
-            "available_days": "Thursday",
             "available_weeks": "2",
             "is_veg": true
         }
@@ -681,26 +333,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "13931496-f49c-4178-aff8-e331628b9500",
-        "fields": {
-            "created": "2024-08-21T06:37:07.733Z",
-            "updated": "2024-08-21T06:37:07.733Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardVeg",
-            "mealtype": "LUNCH",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Soya Pulao, Gravy, Pickle, Chammanthi (Coconut Chutney), Raita",
-            "item_code": "SL007",
-            "price": "10.00",
-            "available_days": "Sunday",
-            "available_weeks": "2",
-            "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "139d2a51-3597-46fe-96d2-c09fd15805a0",
         "fields": {
             "created": "2024-08-21T06:37:07.614Z",
@@ -724,7 +356,7 @@
         "pk": "15106109-2173-4578-82e0-c29c30c2cc96",
         "fields": {
             "created": "2024-08-21T06:37:07.736Z",
-            "updated": "2024-08-21T06:37:07.736Z",
+            "updated": "2024-08-23T10:04:12.795Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardVeg",
@@ -735,7 +367,7 @@
             "item_code": "SD002",
             "price": "10.00",
             "available_days": "Tuesday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
             "is_veg": true
         }
     },
@@ -744,7 +376,7 @@
         "pk": "15ce9eb7-6726-4cfb-9f0e-cf75432de589",
         "fields": {
             "created": "2024-08-21T06:37:07.789Z",
-            "updated": "2024-08-21T06:37:07.789Z",
+            "updated": "2024-08-23T10:06:54.709Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardNonVeg",
@@ -754,8 +386,8 @@
             "name": "Barik Rice, Fish Curry, Fish Fry, Upperi, Side curry, Pickle, Papadam",
             "item_code": "SL017",
             "price": "10.00",
-            "available_days": "Saturday",
-            "available_weeks": "1",
+            "available_days": "Tuesday,Thursday,Saturday",
+            "available_weeks": "1,2",
             "is_veg": false
         }
     },
@@ -1061,26 +693,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "26a66d6c-fe4f-4f17-92e6-5cd47b614a1c",
-        "fields": {
-            "created": "2024-08-21T06:37:07.704Z",
-            "updated": "2024-08-21T06:37:07.704Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Plain Dosa, Sambar, Chutney (2 Types)",
-            "item_code": "SB005",
-            "price": "10.00",
-            "available_days": "Friday",
-            "available_weeks": "2",
-            "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "294d4fa0-77a1-40e1-a8f7-f0ebd3c8446a",
         "fields": {
             "created": "2024-08-21T06:37:07.656Z",
@@ -1104,7 +716,7 @@
         "pk": "2eb67f70-ad07-49d5-b161-b01b409fc76c",
         "fields": {
             "created": "2024-08-21T06:37:07.720Z",
-            "updated": "2024-08-21T06:37:07.720Z",
+            "updated": "2024-08-23T10:03:52.260Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardVeg",
@@ -1115,7 +727,7 @@
             "item_code": "SL007",
             "price": "10.00",
             "available_days": "Sunday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
             "is_veg": true
         }
     },
@@ -1241,6 +853,26 @@
     },
     {
         "model": "main.combo",
+        "pk": "3862fdfc-cb96-4660-a816-16d6dc7a01bd",
+        "fields": {
+            "created": "2024-08-23T09:40:48.894Z",
+            "updated": "2024-08-23T09:40:48.894Z",
+            "creator": null,
+            "is_active": true,
+            "tier": "StandardNonVeg",
+            "mealtype": "BREAKFAST",
+            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
+            "image": "",
+            "name": "Puttu, Black Chana Curry",
+            "item_code": "SB004",
+            "price": "10.00",
+            "available_days": "Thursday",
+            "available_weeks": "1",
+            "is_veg": true
+        }
+    },
+    {
+        "model": "main.combo",
         "pk": "3a06f5a6-a233-4ca8-b908-f94855d5355e",
         "fields": {
             "created": "2024-08-21T06:37:07.564Z",
@@ -1261,10 +893,30 @@
     },
     {
         "model": "main.combo",
+        "pk": "3a8b7f12-c907-42f5-880f-b7bddc95c97c",
+        "fields": {
+            "created": "2024-08-23T09:29:51.252Z",
+            "updated": "2024-08-23T09:29:51.252Z",
+            "creator": null,
+            "is_active": true,
+            "tier": "StandardNonVeg",
+            "mealtype": "DINNER",
+            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
+            "image": "",
+            "name": "Chapathi, Soya Varutharachathu",
+            "item_code": "SD008",
+            "price": "10.00",
+            "available_days": "Monday,Thursday",
+            "available_weeks": "2",
+            "is_veg": true
+        }
+    },
+    {
+        "model": "main.combo",
         "pk": "3cfd0cde-8b4b-411f-8fed-911820eaf853",
         "fields": {
             "created": "2024-08-21T06:37:07.691Z",
-            "updated": "2024-08-21T06:37:07.691Z",
+            "updated": "2024-08-23T10:02:45.119Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardVeg",
@@ -1275,28 +927,8 @@
             "item_code": "SB007",
             "price": "10.00",
             "available_days": "Sunday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "3f87a3c8-d389-48c8-b843-560bb88f815d",
-        "fields": {
-            "created": "2024-08-21T06:37:07.776Z",
-            "updated": "2024-08-21T06:37:07.776Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Plain Dosa, Sambar, Chutney (2 Types)",
-            "item_code": "SB005",
-            "price": "10.00",
-            "available_days": "Friday",
-            "available_weeks": "2",
-            "is_veg": false
         }
     },
     {
@@ -1317,26 +949,6 @@
             "available_days": "Sunday",
             "available_weeks": "1,2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "449e1573-8824-40f3-8392-bc295224d854",
-        "fields": {
-            "created": "2024-08-21T06:37:07.761Z",
-            "updated": "2024-08-21T06:37:07.761Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Uthappam, Sambar, Chutney (2 Types)",
-            "item_code": "SB003",
-            "price": "10.00",
-            "available_days": "Wednesday",
-            "available_weeks": "1",
-            "is_veg": false
         }
     },
     {
@@ -1541,26 +1153,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "5329f4dd-a43f-42e2-bec6-abede3581c64",
-        "fields": {
-            "created": "2024-08-21T06:37:07.696Z",
-            "updated": "2024-08-21T06:37:07.696Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Uthappam, Sambar, Chutney (2 Types)",
-            "item_code": "SB003",
-            "price": "10.00",
-            "available_days": "Wednesday",
-            "available_weeks": "2",
-            "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "53eb471f-6da5-470f-a572-1ec45a26f757",
         "fields": {
             "created": "2024-08-21T06:37:07.540Z",
@@ -1581,21 +1173,21 @@
     },
     {
         "model": "main.combo",
-        "pk": "556ac654-9ad5-4785-aa38-d614a22c9d48",
+        "pk": "553ccfbb-3342-4167-a695-884e87f581f5",
         "fields": {
-            "created": "2024-08-21T06:37:07.707Z",
-            "updated": "2024-08-21T06:37:07.707Z",
+            "created": "2024-08-23T09:39:40.730Z",
+            "updated": "2024-08-23T09:39:40.730Z",
             "creator": null,
             "is_active": true,
-            "tier": "StandardVeg",
+            "tier": "StandardNonVeg",
             "mealtype": "BREAKFAST",
             "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
             "image": "",
-            "name": "Idli, Sambar, Chutney (2 Types)",
-            "item_code": "SB007",
+            "name": "Uthappam, Sambar, Chutney (2 Types)",
+            "item_code": "SB003",
             "price": "10.00",
-            "available_days": "Sunday",
-            "available_weeks": "2",
+            "available_days": "Wednesday",
+            "available_weeks": "1,2",
             "is_veg": true
         }
     },
@@ -1636,26 +1228,6 @@
             "price": "10.00",
             "available_days": "Tuesday",
             "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "57918ccf-a334-4062-9c21-66a2329db702",
-        "fields": {
-            "created": "2024-08-21T06:37:07.766Z",
-            "updated": "2024-08-21T06:37:07.766Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Upma, Sugar, Banana",
-            "item_code": "SB006",
-            "price": "10.00",
-            "available_days": "Saturday",
-            "available_weeks": "1",
             "is_veg": false
         }
     },
@@ -1837,26 +1409,6 @@
             "available_days": "Thursday",
             "available_weeks": "1",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "654aad4c-efa8-47c0-8a05-1546db223b1f",
-        "fields": {
-            "created": "2024-08-21T06:37:07.798Z",
-            "updated": "2024-08-21T06:37:07.798Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "LUNCH",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Barik Rice, Fish Curry, Fish Fry, Upperi, Side curry, Pickle, Papadam",
-            "item_code": "SL017",
-            "price": "10.00",
-            "available_days": "Thursday",
-            "available_weeks": "2",
-            "is_veg": false
         }
     },
     {
@@ -2101,26 +1653,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "75688e80-cca0-463c-b483-938c8c69f15d",
-        "fields": {
-            "created": "2024-08-21T06:37:07.773Z",
-            "updated": "2024-08-21T06:37:07.773Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Uthappam, Sambar, Chutney (2 Types)",
-            "item_code": "SB003",
-            "price": "10.00",
-            "available_days": "Wednesday",
-            "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "75ee10a0-eb84-45a0-a00c-8e7d8f11629e",
         "fields": {
             "created": "2024-08-21T06:37:07.621Z",
@@ -2217,26 +1749,6 @@
             "available_days": "Wednesday",
             "available_weeks": "1,2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "7ecd36d3-5403-459d-b8ba-ceb0bab2ff9e",
-        "fields": {
-            "created": "2024-08-21T06:37:07.777Z",
-            "updated": "2024-08-21T06:37:07.777Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Upma, Soya Roast",
-            "item_code": "SB011",
-            "price": "10.00",
-            "available_days": "Saturday",
-            "available_weeks": "2",
-            "is_veg": false
         }
     },
     {
@@ -2341,30 +1853,10 @@
     },
     {
         "model": "main.combo",
-        "pk": "86de6e1f-89f9-47d5-b01e-ad34fccaa58a",
-        "fields": {
-            "created": "2024-08-21T06:37:07.795Z",
-            "updated": "2024-08-21T06:37:07.795Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "LUNCH",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Barik Rice, Fish Curry, Fish Fry, Upperi, Side curry, Pickle, Papadam",
-            "item_code": "SL017",
-            "price": "10.00",
-            "available_days": "Tuesday",
-            "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "872fb239-340f-4f70-8b1d-385c129f9189",
         "fields": {
             "created": "2024-08-21T06:37:07.687Z",
-            "updated": "2024-08-21T06:37:07.687Z",
+            "updated": "2024-08-23T10:02:23.185Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardVeg",
@@ -2375,7 +1867,27 @@
             "item_code": "SB005",
             "price": "10.00",
             "available_days": "Friday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
+            "is_veg": true
+        }
+    },
+    {
+        "model": "main.combo",
+        "pk": "88a1a669-c852-4841-a581-f7fd7320b5c5",
+        "fields": {
+            "created": "2024-08-23T09:41:32.032Z",
+            "updated": "2024-08-23T09:41:32.032Z",
+            "creator": null,
+            "is_active": true,
+            "tier": "StandardNonVeg",
+            "mealtype": "BREAKFAST",
+            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
+            "image": "",
+            "name": "Plain Dosa, Sambar, Chutney (2 Types)",
+            "item_code": "SB005",
+            "price": "10.00",
+            "available_days": "Friday",
+            "available_weeks": "1,2",
             "is_veg": true
         }
     },
@@ -2444,7 +1956,7 @@
         "pk": "8cf711d6-1583-449f-9dde-8fabc5483d58",
         "fields": {
             "created": "2024-08-21T06:37:07.813Z",
-            "updated": "2024-08-21T06:37:07.813Z",
+            "updated": "2024-08-23T10:08:35.654Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardNonVeg",
@@ -2455,7 +1967,7 @@
             "item_code": "SD016",
             "price": "10.00",
             "available_days": "Saturday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
             "is_veg": false
         }
     },
@@ -2497,26 +2009,6 @@
             "available_days": "Monday",
             "available_weeks": "1",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "9572471a-2110-462f-8ad2-7096d920f200",
-        "fields": {
-            "created": "2024-08-21T06:37:07.825Z",
-            "updated": "2024-08-21T06:37:07.826Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "DINNER",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Ghee Rice, Chicken Dry Fry, Dal Tadka",
-            "item_code": "SD016",
-            "price": "10.00",
-            "available_days": "Saturday",
-            "available_weeks": "2",
-            "is_veg": false
         }
     },
     {
@@ -2801,26 +2293,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "ad96cb3c-9008-4362-981c-9d2e688ac13a",
-        "fields": {
-            "created": "2024-08-21T06:37:07.779Z",
-            "updated": "2024-08-21T06:37:07.779Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Idli, Sambar, Chutney (2 Types)",
-            "item_code": "SB007",
-            "price": "10.00",
-            "available_days": "Sunday",
-            "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "ae85511d-ee0f-4bc2-86da-4cc6d4de66e6",
         "fields": {
             "created": "2024-08-21T06:37:07.791Z",
@@ -2944,7 +2416,7 @@
         "pk": "bbe661a8-e8fc-4c69-935b-4d6eb7401315",
         "fields": {
             "created": "2024-08-21T06:37:07.716Z",
-            "updated": "2024-08-21T06:37:07.716Z",
+            "updated": "2024-08-23T10:03:36.022Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardVeg",
@@ -2955,28 +2427,8 @@
             "item_code": "SL004",
             "price": "10.00",
             "available_days": "Thursday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "bccc8c59-3218-4395-9f6b-cd041c078c67",
-        "fields": {
-            "created": "2024-08-21T06:37:07.822Z",
-            "updated": "2024-08-21T06:37:07.822Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "DINNER",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Chapathi, Soya Varutharachathu",
-            "item_code": "SD008",
-            "price": "10.00",
-            "available_days": "Thursday",
-            "available_weeks": "2",
-            "is_veg": false
         }
     },
     {
@@ -3041,21 +2493,21 @@
     },
     {
         "model": "main.combo",
-        "pk": "c70a947e-2a3a-4589-888a-c7e533e6a5f5",
+        "pk": "c5012982-cd6e-4b68-bb91-de6b10391b3b",
         "fields": {
-            "created": "2024-08-21T06:37:07.748Z",
-            "updated": "2024-08-21T06:37:07.748Z",
+            "created": "2024-08-23T09:42:23.170Z",
+            "updated": "2024-08-23T09:42:40.475Z",
             "creator": null,
             "is_active": true,
-            "tier": "StandardVeg",
-            "mealtype": "DINNER",
+            "tier": "StandardNonVeg",
+            "mealtype": "BREAKFAST",
             "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
             "image": "",
-            "name": "Jeeraka Kanji / Porotta, Kappa (Tapioca), Chammanthi / Veg Kuruma",
-            "item_code": "SD002",
+            "name": "Upma, Sugar, Banana",
+            "item_code": "SB006",
             "price": "10.00",
-            "available_days": "Tuesday",
-            "available_weeks": "2",
+            "available_days": "Saturday",
+            "available_weeks": "1",
             "is_veg": true
         }
     },
@@ -3081,42 +2533,22 @@
     },
     {
         "model": "main.combo",
-        "pk": "cac87a8a-71c8-4fbf-9451-6f2f845004e4",
+        "pk": "cabf6970-57f6-4fec-b04c-a90fb0817d27",
         "fields": {
-            "created": "2024-08-21T06:37:07.801Z",
-            "updated": "2024-08-21T06:37:07.801Z",
+            "created": "2024-08-23T09:43:36.984Z",
+            "updated": "2024-08-23T09:43:36.984Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardNonVeg",
-            "mealtype": "LUNCH",
+            "mealtype": "BREAKFAST",
             "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
             "image": "",
-            "name": "Barik Rice, Fish Curry, Fish Fry, Upperi, Side curry, Pickle, Papadam",
-            "item_code": "SL017",
+            "name": "Upma, Soya Roast",
+            "item_code": "SB011",
             "price": "10.00",
             "available_days": "Saturday",
             "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "cd72b8a6-5fc1-40ec-a6fb-246c5a1be5dc",
-        "fields": {
-            "created": "2024-08-21T06:37:07.807Z",
-            "updated": "2024-08-21T06:37:07.807Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "DINNER",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Jeeraka Kanji / Porotta, Kappa (Tapioca), Chammanthi / Veg Kuruma",
-            "item_code": "SD002",
-            "price": "10.00",
-            "available_days": "Tuesday",
-            "available_weeks": "1",
-            "is_veg": false
+            "is_veg": true
         }
     },
     {
@@ -3124,7 +2556,7 @@
         "pk": "d05a1339-990d-4dba-8b03-ca3a91a5488e",
         "fields": {
             "created": "2024-08-21T06:37:07.684Z",
-            "updated": "2024-08-21T06:37:07.684Z",
+            "updated": "2024-08-23T10:03:02.422Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardVeg",
@@ -3135,7 +2567,7 @@
             "item_code": "SB003",
             "price": "10.00",
             "available_days": "Wednesday",
-            "available_weeks": "1",
+            "available_weeks": "1,2",
             "is_veg": true
         }
     },
@@ -3177,26 +2609,6 @@
             "available_days": "Saturday",
             "available_weeks": "2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "d77db825-e910-424f-8bc8-f5c2b0e3e89a",
-        "fields": {
-            "created": "2024-08-21T06:37:07.785Z",
-            "updated": "2024-08-21T06:37:07.785Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "LUNCH",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Barik Rice, Fish Curry, Fish Fry, Upperi, Side curry, Pickle, Papadam",
-            "item_code": "SL017",
-            "price": "10.00",
-            "available_days": "Thursday",
-            "available_weeks": "1",
-            "is_veg": false
         }
     },
     {
@@ -3321,26 +2733,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "dfd15208-2697-4b87-b5ed-f57ed274a929",
-        "fields": {
-            "created": "2024-08-21T06:37:07.765Z",
-            "updated": "2024-08-21T06:37:07.765Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Plain Dosa, Sambar, Chutney (2 Types)",
-            "item_code": "SB005",
-            "price": "10.00",
-            "available_days": "Friday",
-            "available_weeks": "1",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "e006c441-e35f-4910-ac60-a62ac735ce13",
         "fields": {
             "created": "2024-08-21T06:37:07.649Z",
@@ -3401,26 +2793,6 @@
     },
     {
         "model": "main.combo",
-        "pk": "e4641a1b-d430-4796-b552-d522c57a398d",
-        "fields": {
-            "created": "2024-08-21T06:37:07.816Z",
-            "updated": "2024-08-21T06:37:07.816Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "DINNER",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Chapathi, Soya Varutharachathu",
-            "item_code": "SD008",
-            "price": "10.00",
-            "available_days": "Monday",
-            "available_weeks": "2",
-            "is_veg": false
-        }
-    },
-    {
-        "model": "main.combo",
         "pk": "e4ac1fa2-c752-4e0d-b68d-41dc07468be8",
         "fields": {
             "created": "2024-08-21T06:37:07.630Z",
@@ -3476,6 +2848,26 @@
             "price": "10.00",
             "available_days": "Friday",
             "available_weeks": "1",
+            "is_veg": true
+        }
+    },
+    {
+        "model": "main.combo",
+        "pk": "e77ab054-f18c-4958-ac09-0d36ae7d75e7",
+        "fields": {
+            "created": "2024-08-23T09:25:08.726Z",
+            "updated": "2024-08-23T09:25:08.726Z",
+            "creator": null,
+            "is_active": true,
+            "tier": "StandardNonVeg",
+            "mealtype": "DINNER",
+            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
+            "image": "",
+            "name": "Jeeraka Kanji / Porotta, Kappa (Tapioca), Chammanthi / Veg Kuruma",
+            "item_code": "SD002",
+            "price": "10.00",
+            "available_days": "Tuesday",
+            "available_weeks": "1,2",
             "is_veg": true
         }
     },
@@ -3581,22 +2973,22 @@
     },
     {
         "model": "main.combo",
-        "pk": "ed62a15b-cdba-402e-9a88-c94ceb6e5fc7",
+        "pk": "eda4658b-42a3-47d1-9fed-01e5e88a6163",
         "fields": {
-            "created": "2024-08-21T06:37:07.782Z",
-            "updated": "2024-08-21T06:37:07.782Z",
+            "created": "2024-08-23T09:44:32.105Z",
+            "updated": "2024-08-23T09:44:32.105Z",
             "creator": null,
             "is_active": true,
             "tier": "StandardNonVeg",
-            "mealtype": "LUNCH",
+            "mealtype": "BREAKFAST",
             "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
             "image": "",
-            "name": "Barik Rice, Fish Curry, Fish Fry, Upperi, Side curry, Pickle, Papadam",
-            "item_code": "SL017",
+            "name": "Idli, Sambar, Chutney (2 Types)",
+            "item_code": "SB007",
             "price": "10.00",
-            "available_days": "Tuesday",
-            "available_weeks": "1",
-            "is_veg": false
+            "available_days": "Sunday",
+            "available_weeks": "1,2",
+            "is_veg": true
         }
     },
     {
@@ -3697,26 +3089,6 @@
             "available_days": "Saturday",
             "available_weeks": "1,2",
             "is_veg": true
-        }
-    },
-    {
-        "model": "main.combo",
-        "pk": "f71b66c8-0e1b-4302-8514-b12ee06598e8",
-        "fields": {
-            "created": "2024-08-21T06:37:07.768Z",
-            "updated": "2024-08-21T06:37:07.768Z",
-            "creator": null,
-            "is_active": true,
-            "tier": "StandardNonVeg",
-            "mealtype": "BREAKFAST",
-            "category": "068ac42f-527e-456d-9d12-fe91d6cdf8b8",
-            "image": "",
-            "name": "Idli, Sambar, Chutney (2 Types)",
-            "item_code": "SB007",
-            "price": "10.00",
-            "available_days": "Sunday",
-            "available_weeks": "1",
-            "is_veg": false
         }
     },
     {

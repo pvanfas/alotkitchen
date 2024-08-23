@@ -37,8 +37,8 @@ class ItemCategoryAdmin(BaseAdmin):
 
 @admin.register(Combo)
 class ComboAdmin(BaseAdmin):
-    list_display = ("item_code", "name", "is_veg", "mealtype", "available_days", "available_weeks", "price")
-    search_fields = ("name",)
+    list_display = ("item_code", "name", "tier", "is_veg", "mealtype", "available_days", "available_weeks", "price")
+    search_fields = ("name", "item_code")
     list_filter = ("tier", "mealtype", "category", "price", "available_days", "available_weeks", "is_veg")
 
 

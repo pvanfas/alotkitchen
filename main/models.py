@@ -56,6 +56,7 @@ class Combo(BaseModel):
         ordering = ("available_weeks", "available_days", "mealtype")
         verbose_name = _("Item Master")
         verbose_name_plural = _("Item Masters")
+        unique_together = ("item_code", "tier")
 
     def get_absolute_url(self):
         return reverse_lazy("main:combo_detail", kwargs={"pk": self.pk})

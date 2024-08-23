@@ -14,27 +14,26 @@
 				<a href="{% url 'web:classicnonveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'ClassicNonVeg' %}border-dark{% endif %}">Classic Nonveg</a>
 				<a href="{% url 'web:standardveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'StandardVeg' %}border-dark{% endif %}">Standard Veg</a>
 				<a href="{% url 'web:standardnonveg' %}" class="btn btn-white me-3 mb-2 {% if tier == 'StandardNonVeg' %}border-dark{% endif %}">Standard Nonveg</a>
-				<a href="{% url 'web:premium' %}" class="btn btn-white me-3 mb-2 {% if tier == 'Premium' %}border-dark{% endif %}">Premium</a>
 			</div>
 			
 			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-responsive border border-dark">
 
-					<table class="table table-bordered">
+					<table class="table table-bordered nowrap">
 						<thead>
 							<tr>
-								<td></td>
+								<td style="width:10%;"></td>
 								{% for mealtype in mealtypes %}
-								<td>{{ mealtype }}</td>
+								<td style="max-width:22%;">{{ mealtype }}</td>
 								{% endfor %}
 							</tr>
 						</thead>
 						<tbody>
 							{% for entry in structured_table_data %}
 							<tr>
-								<td>{{ entry.day }}</td>
+								<td style="width:10%;">{{ entry.day }}</td>
 								{% for meal in entry.meals %}
-								<td>
+								<td style="max-width:22%;">
 									<ul class="ps-3 list-style-cricle">
 										{% for combo_name in meal.combos %}
 										<li>{{ combo_name }}</li>
