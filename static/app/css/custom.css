@@ -2023,3 +2023,10 @@ del {
 .table-responsive {
     border-radius: 10px;
 }
+
+.label {
+    border-radius: 10px;
+    font-size: 12px;
+    color: #fff;
+    background-color: #000;
+}

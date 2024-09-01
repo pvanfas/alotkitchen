@@ -117,6 +117,7 @@ class HybridListView(PermissionMixin, ExportMixin, SingleTableMixin, FilterView,
         context["can_add"] = True
         context["create_url"] = self.model.get_create_url() if hasattr(self.model, "get_create_url") else None
         context["metadata"] = self.metadata if hasattr(self, "metadata") else {}
+        print(context)
         return context
 
 

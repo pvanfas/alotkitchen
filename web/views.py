@@ -105,6 +105,7 @@ def subscribe(request):
             data.alternate_mobile = f"+{alternate_mobile_country_code}{alternate_mobile}"
             data.whatsapp_number = f"+{whatsapp_number_country_code}{whatsapp_number}"
             data.username = f"{mobile_country_code}{mobile}"
+            data.is_active = False
             data.save()
             request_obj, _ = SubscriptionRequest.objects.get_or_create(user=data)
             return redirect("web:select_plan", pk=request_obj.pk)

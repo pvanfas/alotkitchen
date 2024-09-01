@@ -283,5 +283,8 @@ class SubscriptionRequest(BaseModel):
         verbose_name = _("Subscription Request")
         verbose_name_plural = _("Subscription Requests")
 
+    def get_absolute_url(self):
+        return reverse("main:subscriptionrequest_detail", kwargs={"pk": self.pk})
+
     def __str__(self):
         return f"{self.user} - {self.plan} - {self.start_date}"

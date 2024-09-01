@@ -8,8 +8,8 @@ from users.models import CustomUser as User
 from users.tables import UserTable
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan
-from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable
+from .models import Branch, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
+from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable, SubscriptionRequestTable
 
 # permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
@@ -181,7 +181,7 @@ class CustomerDetailView(HybridDetailView):
 
 
 class ComboListView(HybridListView):
-    filterset_fields = ("mealtype", "is_veg", "is_default")
+    filterset_fields = ("mealtype", "is_veg")
     search_fields = ("name",)
     permissions = ("Administrator",)
     model = Combo
@@ -217,3 +217,17 @@ class MealOrderListData(HybridListView):
 
     def get_queryset(self):
         return MealOrder.objects.filter(is_active=True)
+
+
+class SubscriptionRequestListView(HybridListView):
+    metadata = {"expand": "newpage"}
+    model = SubscriptionRequest
+    permissions = ("Administrator",)
+    title = "Subscription Requests"
+    table_class = SubscriptionRequestTable
+
+
+class SubscriptionRequestDetailView(HybridDetailView):
+    model = SubscriptionRequest
+    permissions = ("Administrator",)
+    template_name = "app/main/request_detail.html"
