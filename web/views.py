@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 
 from main.choices import MEALTYPE_CHOICES
-from main.forms import SubscriptionAddressForm, SubscriptionRequestForm
+from main.forms import SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
 from main.models import Area, Combo, SubscriptionPlan, SubscriptionRequest
 from users.forms import UserForm
 
@@ -121,7 +121,7 @@ def select_plan(request, pk):
             form.save()
             return redirect("web:select_address", pk=pk)
     template_name = "web/select_plan.html"
-    context = {"form": form}
+    context = {"instance": instance, "form": form}
     return render(request, template_name, context)
 
 
@@ -132,16 +132,27 @@ def select_address(request, pk):
         if form.is_valid():
             data = form.save()
             data.save()
-            return redirect("web:select_address", pk=pk)
+            return redirect("web:confirm_subscription", pk=pk)
     template_name = "web/select_address.html"
-    context = {"form": form}
+    context = {"instance": instance, "form": form}
     return render(request, template_name, context)
 
 
 def confirm_subscription(request, pk):
     instance = SubscriptionRequest.objects.get(pk=pk)
+    form = SubscriptionNoteForm(request.POST or None, instance=instance)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("web:complete_subscription", pk=pk)
     template_name = "web/confirm_subscription.html"
-    context = {"instance": instance}
+    context = {"instance": instance, "form": form}
+    return render(request, template_name, context)
+
+
+def complete_subscription(request, pk):
+    template_name = "web/complete_subscription.html"
+    context = {}
     return render(request, template_name, context)
 
 

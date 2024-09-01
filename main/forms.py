@@ -25,16 +25,20 @@ class SubscriptionAddressForm(forms.ModelForm):
             "breakfast_address_building_name",
             "breakfast_address_street_name",
             "breakfast_address_area",
+            "breakfast_time",
             "lunch_address_room_no",
             "lunch_address_floor",
             "lunch_address_building_name",
             "lunch_address_street_name",
             "lunch_address_area",
+            "lunch_time",
             "dinner_address_room_no",
             "dinner_address_floor",
             "dinner_address_building_name",
             "dinner_address_street_name",
             "dinner_address_area",
+            "dinner_time",
+            "notes",
         )
         labels = {
             "breakfast_address_room_no": "Room No",
@@ -52,4 +56,13 @@ class SubscriptionAddressForm(forms.ModelForm):
             "dinner_address_building_name": "Building Name",
             "dinner_address_street_name": "Street Name",
             "dinner_address_area": "Area",
+            "notes": "Special Instructions (Allergies, etc.)",
         }
+
+
+class SubscriptionNoteForm(forms.ModelForm):
+    class Meta:
+        model = SubscriptionRequest
+        fields = ("notes",)
+        labels = {"notes": "Special Instructions (Allergies, etc.)"}
+        widgets = {"notes": forms.Textarea(attrs={"rows": 4})}

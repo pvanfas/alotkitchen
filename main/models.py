@@ -5,7 +5,17 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-from .choices import DAY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES, TIER_CHOICES, VALIDITY_CHOICES, WEEK_CHOICES
+from .choices import (
+    BREAKFAST_DELIVERY_CHOICES,
+    DAY_CHOICES,
+    DINNER_DELIVERY_CHOICES,
+    LUNCH_DELIVERY_CHOICES,
+    MEALTYPE_CHOICES,
+    ORDER_STATUS_CHOICES,
+    TIER_CHOICES,
+    VALIDITY_CHOICES,
+    WEEK_CHOICES,
+)
 
 
 class Area(BaseModel):
@@ -249,19 +259,23 @@ class SubscriptionRequest(BaseModel):
     breakfast_address_building_name = models.CharField(max_length=200, blank=True, null=True)
     breakfast_address_street_name = models.CharField(max_length=200, blank=True, null=True)
     breakfast_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="breakfast_address_area", blank=True, null=True)
+    breakfast_time = models.CharField("Delivery Time (Breakfast)", max_length=200, choices=BREAKFAST_DELIVERY_CHOICES, default="0900:0930")
 
     lunch_address_room_no = models.CharField(max_length=200, blank=True, null=True)
     lunch_address_floor = models.CharField(max_length=200, blank=True, null=True)
     lunch_address_building_name = models.CharField(max_length=200, blank=True, null=True)
     lunch_address_street_name = models.CharField(max_length=200, blank=True, null=True)
     lunch_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="lunch_address_area", blank=True, null=True)
+    lunch_time = models.CharField("Delivery Time (Lunch", max_length=200, choices=LUNCH_DELIVERY_CHOICES, default="1230:1300")
 
     dinner_address_room_no = models.CharField(max_length=200, blank=True, null=True)
     dinner_address_floor = models.CharField(max_length=200, blank=True, null=True)
     dinner_address_building_name = models.CharField(max_length=200, blank=True, null=True)
     dinner_address_street_name = models.CharField(max_length=200, blank=True, null=True)
     dinner_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="dinner_address_area", blank=True, null=True)
+    dinner_time = models.CharField("Delivery Time (Dinner)", max_length=200, choices=DINNER_DELIVERY_CHOICES, default="2100:2130")
 
+    notes = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     remarks = models.TextField(blank=True, null=True)
 

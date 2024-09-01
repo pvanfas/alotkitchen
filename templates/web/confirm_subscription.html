@@ -3,10 +3,10 @@
 {% block content %}
 
 <section style="background: #F4F1EA;" id="packages">
-	<div class="container section_padding_sm packages">
-		<div class="row">
-			
-			<div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+    <div class="container section_padding_sm packages">
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
                 <div class="border_box">
                     <div class="thumb">
                         <img src="/static/web/images/select_address.png" alt="">
@@ -15,164 +15,99 @@
                     <div id="progress">
                         <div id="progress-bar"></div>
                         <ul id="progress-num">
-                          <li class="step active">1</li>
-                          <li class="step active">2</li>
-                          <li class="step active">3</li>
-                          <li class="step">4</li>
+                            <li class="step active">1</li>
+                            <li class="step active">2</li>
+                            <li class="step active">3</li>
+                            <li class="step active">4</li>
                         </ul>
-                      </div>
-                      
+                    </div>
+
                     <form action="" method="post">
                         {% csrf_token %}
-                        
-                        <div class="block mb-5">
-                            <div class="title_group">
-                                <strong>Breakfast</strong>
-                            </div>
-                            <div class="group">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.breakfast_address_room_no|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.breakfast_address_floor|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.breakfast_address_building_name|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.breakfast_address_street_name|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            {{form.breakfast_address_area|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{form|crispy}}
 
-                        <div class="block mb-5">
-                            <div class="title_group">
-                                <strong>Lunch</strong>
-                                <div class="form_check">
-                                    <input type="checkbox" id="lunch_address" name="lunch_address">
-                                    <label for="lunch_address">Same as Breakfast</label>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.lunch_address_room_no|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.lunch_address_floor|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.lunch_address_building_name|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.lunch_address_street_name|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            {{form.lunch_address_area|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="block mb-5">
-                            <div class="title_group">
-                                <strong>Dinner</strong>
-                                <div class="form_check">
-                                    <input type="checkbox" id="dinner_address" name="dinner_address">
-                                    <label for="dinner_address">Same as Breakfast</label>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.dinner_address_room_no|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.dinner_address_floor|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.dinner_address_building_name|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            {{form.dinner_address_street_name|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            {{form.dinner_address_area|as_crispy_field}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <input type="checkbox" class="form-check-input" id="terms" checked>
+                            <label for="terms">I agree to the <a href="javascript:void(0)"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-primary"> Terms & conditions.</a>
+                            </label>
                         </div>
 
                         <div class="pt-3">
-                            <button type="submit" class="btn btn-primary">Next</button>
+                            <button type="submit" class="btn btn-primary">Complete</button>
                         </div>
                     </form>
                 </div>
-			</div>
+            </div>
         </div>
-	</div>
+    </div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Terms & conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="term mb-2">
+                    <strong>Customer Agreement</strong>
+                    <ul class="list-style-cricle">
+                        <li>I, the undersigned, would like to agree to the terms and conditions outlined below and confirm that the information provided is accurate.</li>
+                    </ul>
+                </div>
+
+                <div class="term mb-2">
+                    <strong>Subscription and Cancellation</strong>
+                    <ul class="list-style-cricle">
+                        <li>Customers can subscribe to weekly or monthly packages. Modifications must be made 48 hours in advance.</li>
+                    </ul>
+                </div>
+
+                <div class="term mb-2">
+                    <strong>Payment</strong>
+                    <ul class="list-style-cricle">
+                        <li>Payment for the selected package must be made according to the chosen payment option.</li>
+                        <li>Delivery times are as specified by the customer. Any changes to the delivery schedule should be communicated at least 24 hours in advance.</li>
+                        <li>Delivery times may vary due to unforeseen events or traffic conditions.</li>
+                    </ul>
+                </div>
+
+                <div class="term mb-2">
+                    <strong>5. Food Allergies Consent.</strong>
+                    <ul class="list-style-cricle">
+                        <li>I acknowledge that I have informed Alot Kitchen of all known food allergies. I understand that
+                            Alot Kitchen will try to accommodate my dietary requirements, but I am responsible for notifying,
+                            Alot Kitchen of any changes or new allergies.
+                        </li>
+                        <li>6. I understand that the meals provided by Alot Kitchen are to be consumed within the recommended
+                            time frame for optimal freshness and safety. I acknowledge that consuming food past the recommended
+                            time may pose health risks.</li>
+                        <li>7. Alot Kitchen reserves the right to modify the menu based on ingredient availability.</li>
+                    </ul>
+                </div>
+                
+                <div class="term mb-2">
+                    <strong>Privacy Policy</strong>
+                    <ul class="list-style-cricle">
+                        <li>All personal information collected in this form is confidential and will only be used for meal delivery and communication.</li>
+                    </ul>
+                </div>
+
+                <div class="term mb-2">
+                    <strong>T&C</strong>
+                    <ul class="list-style-cricle">
+                        <li>Meal Schedule Adherence: At Alot Kitchen, all meals are prepared and scheduled in advance according to your subscription plan.</li>
+                        <li>As such, we do not accommodate requests for skipping meals or rescheduling them to a different date or time.</li>
+                    </ul>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 
-
-{% block javascript %}
-<script>
- // on check #dinner_address, paste breakfast address to dinner address
-    $('#dinner_address').change(function() {
-        if ($(this).is(':checked')) {
-            $('#id_dinner_address_room_no').val($('#id_breakfast_address_room_no').val());
-            $('#id_dinner_address_floor').val($('#id_breakfast_address_floor').val());
-            $('#id_dinner_address_building_name').val($('#id_breakfast_address_building_name').val());
-            $('#id_dinner_address_street_name').val($('#id_breakfast_address_street_name').val());
-            $('#id_dinner_address_area').val($('#id_breakfast_address_area').val());
-        }
-    });
-
-    // on check #lunch_address, paste breakfast address to lunch address
-    $('#lunch_address').change(function() {
-        if ($(this).is(':checked')) {
-            $('#id_lunch_address_room_no').val($('#id_breakfast_address_room_no').val());
-            $('#id_lunch_address_floor').val($('#id_breakfast_address_floor').val());
-            $('#id_lunch_address_building_name').val($('#id_breakfast_address_building_name').val());
-            $('#id_lunch_address_street_name').val($('#id_breakfast_address_street_name').val());
-            $('#id_lunch_address_area').val($('#id_breakfast_address_area').val());
-        }
-    });
-</script>
-{% endblock javascript %}

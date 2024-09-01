@@ -16,5 +16,6 @@ urlpatterns = [
     path("select/plan/<str:pk>/", views.select_plan, name="select_plan"),
     path("select/address/<str:pk>/", views.select_address, name="select_address"),
     path("confirm/subscription/<str:pk>/", views.confirm_subscription, name="confirm_subscription"),
+    path("complete/subscription/<str:pk>/", views.complete_subscription, name="complete_subscription"),
     path("get_plans/", views.get_plans, name="get_plans"),
 ]
