@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
@@ -6,6 +7,7 @@ from main.choices import MEALTYPE_CHOICES
 from main.forms import SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
 from main.models import Area, Combo, SubscriptionPlan, SubscriptionRequest
 from users.forms import UserForm
+from users.models import CustomUser as User
 
 
 def gen_structured_table_data(combos):
@@ -93,6 +95,9 @@ def standardveg(request):
 def subscribe(request):
     form = UserForm(request.POST or None)
     if request.method == "POST":
+        mobile = request.POST.get("mobile")
+        if User.objects.filter(mobile=mobile).exists():
+            raise ValidationError("User already exists with this mobile number.")
         if form.is_valid():
             data = form.save(commit=False)
             mobile = form.cleaned_data.get("mobile")
