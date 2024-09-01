@@ -1,8 +1,10 @@
-from main.models import Combo
+from uuid import uuid4
+
+from users.models import CustomUser
 
 
 def run():
-    qs = Combo.objects.all()
-    for q in qs:
-        if q.available_weeks == None:
-            print(q.available_weeks)
+    for user in CustomUser.objects.all():
+        user.enc_key = uuid4()
+        user.save()
+        print(f"User {user.username} updated")

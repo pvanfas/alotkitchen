@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 
 from main.choices import MEALTYPE_CHOICES
-from main.models import Area, Combo
+from main.forms import SubscriptionAddressForm, SubscriptionRequestForm
+from main.models import Area, Combo, SubscriptionPlan, SubscriptionRequest
+from users.forms import UserForm
 
 
 def gen_structured_table_data(combos):
@@ -85,3 +88,66 @@ def standardveg(request):
     structured_table_data = gen_structured_table_data(combos)
     context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
     return render(request, template_name, context)
+
+
+def subscribe(request):
+    form = UserForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            data = form.save(commit=False)
+            mobile = form.cleaned_data.get("mobile")
+            alternate_mobile = form.cleaned_data.get("alternate_mobile")
+            whatsapp_number = form.cleaned_data.get("whatsapp_number")
+            mobile_country_code = form.cleaned_data.get("mobile_country_code")
+            alternate_mobile_country_code = form.cleaned_data.get("alternate_mobile_country_code")
+            whatsapp_number_country_code = form.cleaned_data.get("whatsapp_number_country_code")
+            data.mobile = f"+{mobile_country_code}{mobile}"
+            data.alternate_mobile = f"+{alternate_mobile_country_code}{alternate_mobile}"
+            data.whatsapp_number = f"+{whatsapp_number_country_code}{whatsapp_number}"
+            data.username = f"{mobile_country_code}{mobile}"
+            data.save()
+            request_obj, _ = SubscriptionRequest.objects.get_or_create(user=data)
+            return redirect("web:select_plan", pk=request_obj.pk)
+    template_name = "web/subscribe.html"
+    context = {"form": form}
+    return render(request, template_name, context)
+
+
+def select_plan(request, pk):
+    instance = SubscriptionRequest.objects.get(pk=pk)
+    form = SubscriptionRequestForm(request.POST or None, instance=instance)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("web:select_address", pk=pk)
+    template_name = "web/select_plan.html"
+    context = {"form": form}
+    return render(request, template_name, context)
+
+
+def select_address(request, pk):
+    instance = SubscriptionRequest.objects.get(pk=pk)
+    form = SubscriptionAddressForm(request.POST or None, instance=instance)
+    if request.method == "POST":
+        if form.is_valid():
+            data = form.save()
+            data.save()
+            return redirect("web:select_address", pk=pk)
+    template_name = "web/select_address.html"
+    context = {"form": form}
+    return render(request, template_name, context)
+
+
+def confirm_subscription(request, pk):
+    instance = SubscriptionRequest.objects.get(pk=pk)
+    template_name = "web/confirm_subscription.html"
+    context = {"instance": instance}
+    return render(request, template_name, context)
+
+
+def get_plans(request):
+    tier = request.GET.get("tier")
+    validity = request.GET.get("validity")
+    print(tier, validity)
+    plans = SubscriptionPlan.objects.filter(tier=tier, validity=validity).values("id", "name")
+    return JsonResponse(list(plans), safe=False)

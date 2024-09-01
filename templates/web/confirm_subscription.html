@@ -1,0 +1,178 @@
+{% extends 'web/base.html' %}
+{% load static crispy_forms_tags %}
+{% block content %}
+
+<section style="background: #F4F1EA;" id="packages">
+	<div class="container section_padding_sm packages">
+		<div class="row">
+			
+			<div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+                <div class="border_box">
+                    <div class="thumb">
+                        <img src="/static/web/images/select_address.png" alt="">
+                    </div>
+
+                    <div id="progress">
+                        <div id="progress-bar"></div>
+                        <ul id="progress-num">
+                          <li class="step active">1</li>
+                          <li class="step active">2</li>
+                          <li class="step active">3</li>
+                          <li class="step">4</li>
+                        </ul>
+                      </div>
+                      
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="block mb-5">
+                            <div class="title_group">
+                                <strong>Breakfast</strong>
+                            </div>
+                            <div class="group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.breakfast_address_room_no|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.breakfast_address_floor|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.breakfast_address_building_name|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.breakfast_address_street_name|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            {{form.breakfast_address_area|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block mb-5">
+                            <div class="title_group">
+                                <strong>Lunch</strong>
+                                <div class="form_check">
+                                    <input type="checkbox" id="lunch_address" name="lunch_address">
+                                    <label for="lunch_address">Same as Breakfast</label>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.lunch_address_room_no|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.lunch_address_floor|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.lunch_address_building_name|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.lunch_address_street_name|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            {{form.lunch_address_area|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block mb-5">
+                            <div class="title_group">
+                                <strong>Dinner</strong>
+                                <div class="form_check">
+                                    <input type="checkbox" id="dinner_address" name="dinner_address">
+                                    <label for="dinner_address">Same as Breakfast</label>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.dinner_address_room_no|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.dinner_address_floor|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.dinner_address_building_name|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{form.dinner_address_street_name|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            {{form.dinner_address_area|as_crispy_field}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-3">
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </div>
+                    </form>
+                </div>
+			</div>
+        </div>
+	</div>
+</section>
+
+{% endblock content %}
+
+
+{% block javascript %}
+<script>
+ // on check #dinner_address, paste breakfast address to dinner address
+    $('#dinner_address').change(function() {
+        if ($(this).is(':checked')) {
+            $('#id_dinner_address_room_no').val($('#id_breakfast_address_room_no').val());
+            $('#id_dinner_address_floor').val($('#id_breakfast_address_floor').val());
+            $('#id_dinner_address_building_name').val($('#id_breakfast_address_building_name').val());
+            $('#id_dinner_address_street_name').val($('#id_breakfast_address_street_name').val());
+            $('#id_dinner_address_area').val($('#id_breakfast_address_area').val());
+        }
+    });
+
+    // on check #lunch_address, paste breakfast address to lunch address
+    $('#lunch_address').change(function() {
+        if ($(this).is(':checked')) {
+            $('#id_lunch_address_room_no').val($('#id_breakfast_address_room_no').val());
+            $('#id_lunch_address_floor').val($('#id_breakfast_address_floor').val());
+            $('#id_lunch_address_building_name').val($('#id_breakfast_address_building_name').val());
+            $('#id_lunch_address_street_name').val($('#id_breakfast_address_street_name').val());
+            $('#id_lunch_address_area').val($('#id_breakfast_address_area').val());
+        }
+    });
+</script>
+{% endblock javascript %}

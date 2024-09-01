@@ -15,11 +15,6 @@ urlpatterns = [
     path("dash/subscriptions/detail/<str:pk>/", views.SubscriptionDetailView.as_view(), name="subscription_detail"),
     # Branch
     path("dash/branches/", views.BranchListView.as_view(), name="branch_list"),
-    # Address
-    path("manage_address/", views.UserAddressListView.as_view(), name="useraddress_list"),
-    path("manage_address/create/", views.UserAddressCreateView.as_view(), name="useraddress_create"),
-    path("manage_address/update/<str:pk>/", views.UserAddressUpdateView.as_view(), name="useraddress_update"),
-    path("manage_address/delete/<str:pk>/", views.UserAddressDeleteView.as_view(), name="useraddress_delete"),
     # Pages
     path("featured_eats/", views.FeaturedEatsView.as_view(), name="featured_eats_view"),
     path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),

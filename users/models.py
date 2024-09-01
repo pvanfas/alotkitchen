@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
@@ -9,11 +11,16 @@ USERTYPE_CHOICES = (
     ("Delivery", "Delivery Staff"),
     ("Customer", "Customer"),
 )
+LANGUAGE_CHOICES = (("en", "English"), ("ml", "Malayalam"), ("ar", "Arabic"), ("hi", "Hindi"), ("ta", "Tamil"), ("te", "Telugu"))
 
 
 class CustomUser(AbstractUser):
-    mobile = models.CharField(max_length=15, blank=True, null=True)
+    enc_key = models.UUIDField(default=uuid4, editable=False, unique=True)
     usertype = models.CharField(max_length=20, choices=USERTYPE_CHOICES, default="User")
+    preferred_language = models.CharField("Language for verbal communication", max_length=10, choices=LANGUAGE_CHOICES, default="en")
+    mobile = models.CharField(max_length=15, blank=True, null=True)
+    alternate_mobile = models.CharField(max_length=15)
+    whatsapp_number = models.CharField(max_length=15)
 
     class Meta:
         verbose_name = "User"

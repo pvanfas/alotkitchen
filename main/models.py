@@ -103,7 +103,7 @@ class SubscriptionPlan(BaseModel):
     #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return f"{self.tier} - ({self.name})"
+        return f"{self.tier} - ({self.name}) - {self.validity} Days"
 
 
 class Subscription(BaseModel):
@@ -111,9 +111,6 @@ class Subscription(BaseModel):
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscriptions")
     start_date = models.DateField()
     end_date = models.DateField()
-    breakfast_address = models.ForeignKey("main.UserAddress", on_delete=models.CASCADE, related_name="breakfast_subscriptions", blank=True, null=True)
-    lunch_address = models.ForeignKey("main.UserAddress", on_delete=models.CASCADE, related_name="lunch_subscriptions", blank=True, null=True)
-    dinner_address = models.ForeignKey("main.UserAddress", on_delete=models.CASCADE, related_name="dinner_subscriptions", blank=True, null=True)
 
     class Meta:
         ordering = ("start_date",)
@@ -242,44 +239,36 @@ class MealOrder(BaseModel):
         return f"{self.combo} - {self.date}"
 
 
-class UserAddress(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="addresses")
-    name = models.CharField(max_length=200, help_text="Home, Office, etc.")
-    room_no = models.CharField(max_length=200)
-    floor = models.CharField(max_length=200)
-    building_name = models.CharField(max_length=200)
-    street_name = models.CharField(max_length=200)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="addresses")
-    mobile = models.CharField(max_length=200)
-    is_default = models.BooleanField("Set as my Default Address", default=False)
-    status = models.CharField(max_length=50, default="UNDER_REVIEW", choices=(("UNDER_REVIEW", "Under Review"), ("ACTIVE", "Active"), ("NOT_DELIVERABLE", "Not Deliverable")))
+class SubscriptionRequest(BaseModel):
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscription_requests")
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_requests", blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+
+    breakfast_address_room_no = models.CharField(max_length=200, blank=True, null=True)
+    breakfast_address_floor = models.CharField(max_length=200, blank=True, null=True)
+    breakfast_address_building_name = models.CharField(max_length=200, blank=True, null=True)
+    breakfast_address_street_name = models.CharField(max_length=200, blank=True, null=True)
+    breakfast_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="breakfast_address_area", blank=True, null=True)
+
+    lunch_address_room_no = models.CharField(max_length=200, blank=True, null=True)
+    lunch_address_floor = models.CharField(max_length=200, blank=True, null=True)
+    lunch_address_building_name = models.CharField(max_length=200, blank=True, null=True)
+    lunch_address_street_name = models.CharField(max_length=200, blank=True, null=True)
+    lunch_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="lunch_address_area", blank=True, null=True)
+
+    dinner_address_room_no = models.CharField(max_length=200, blank=True, null=True)
+    dinner_address_floor = models.CharField(max_length=200, blank=True, null=True)
+    dinner_address_building_name = models.CharField(max_length=200, blank=True, null=True)
+    dinner_address_street_name = models.CharField(max_length=200, blank=True, null=True)
+    dinner_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="dinner_address_area", blank=True, null=True)
+
+    status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
+    remarks = models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ("name",)
-        verbose_name = _("User Address")
-        verbose_name_plural = _("User Addresses")
-
-    def save(self, *args, **kwargs):
-        print(UserAddress.objects.filter(user=self.user, is_active=True).count())
-        if UserAddress.objects.filter(user=self.user, is_active=True).exclude(pk=self.pk).count() == 0:
-            self.is_default = True
-        if self.is_default:
-            UserAddress.objects.filter(user=self.user, is_active=True).update(is_default=False)
-        super().save(*args, **kwargs)
-
-    @staticmethod
-    def get_create_url():
-        return reverse_lazy("main:useraddress_create")
-
-    def get_update_url(self):
-        return reverse_lazy("main:useraddress_update", kwargs={"pk": self.pk})
-
-    def get_delete_url(self):
-        return reverse_lazy("main:useraddress_delete", kwargs={"pk": self.pk})
-
-    @staticmethod
-    def get_list_url():
-        return reverse_lazy("main:useraddress_list")
+        ordering = ("start_date",)
+        verbose_name = _("Subscription Request")
+        verbose_name_plural = _("Subscription Requests")
 
     def __str__(self):
-        return self.name
+        return f"{self.user} - {self.plan} - {self.start_date}"

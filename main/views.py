@@ -1,17 +1,15 @@
 from datetime import datetime
 
-from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.views.generic import ListView
 
-from main.mixins import HybridCreateView, HybridDeleteView, HybridDetailView, HybridListView, HybridUpdateView
+from main.mixins import HybridDetailView, HybridListView
 from users.models import CustomUser as User
 from users.tables import UserTable
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan, UserAddress
-from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable, UserAddressTable
+from .models import Branch, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan
+from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable
 
 # permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
 
@@ -85,56 +83,6 @@ class BranchListView(HybridListView):
     table_class = BranchTable
     search_fields = ("name", "code", "address", "phone")
     permissions = ("Customer",)
-
-
-class UserAddressListView(HybridListView):
-    model = UserAddress
-    filterset_fields = ("name", "mobile")
-    search_fields = ("name", "mobile")
-    table_class = UserAddressTable
-    permissions = ("Customer",)
-
-    def get_queryset(self):
-        return UserAddress.objects.filter(user=self.request.user, is_active=True)
-
-
-class UserAddressCreateView(HybridCreateView):
-    model = UserAddress
-    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
-    permissions = ("Customer",)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
-class UserAddressUpdateView(HybridUpdateView):
-    model = UserAddress
-    fields = ("name", "room_no", "floor", "building_name", "street_name", "area", "mobile", "is_default")
-    permissions = ("Customer",)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-    def get_queryset(self):
-        return UserAddress.objects.filter(user=self.request.user, is_active=True)
-
-
-class UserAddressDeleteView(HybridDeleteView):
-    model = UserAddress
-    permissions = ("Customer",)
-
-    def get_queryset(self):
-        return UserAddress.objects.filter(user=self.request.user, is_active=True)
-
-    def form_valid(self, form):
-        self.object = self.get_object()
-        if self.object.is_default:
-            messages.error(self.request, "You cannot delete the default address.")
-        if not UserAddress.objects.filter(user=self.request.user).exclude(pk=self.object.pk).exists():
-            messages.error(self.request, "You cannot delete the last address.")
-        return HttpResponseRedirect(self.get_success_url())
 
 
 class FeaturedEatsView(HybridTemplateView):

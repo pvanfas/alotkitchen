@@ -1,0 +1,97 @@
+{% extends 'web/base.html' %}
+{% load static crispy_forms_tags %}
+
+
+{% block content %}
+<section style="background: #F4F1EA;" id="packages">
+	<div class="container section_padding_sm packages">
+		<div class="row">
+			
+			<div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+                <div class="border_box">
+                    <div class="thumb">
+                        <img src="/static/web/images/subscribe.png" alt="">
+                    </div>
+
+                    <div id="progress">
+                        <div id="progress-bar"></div>
+                        <ul id="progress-num">
+                          <li class="step active">1</li>
+                          <li class="step">2</li>
+                          <li class="step">3</li>
+                          <li class="step">4</li>
+                        </ul>
+                      </div>
+                      
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <div class="pt-3">
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </div>
+                    </form>
+                </div>
+			</div>
+        </div>
+	</div>
+</section>
+{% endblock content %}
+
+
+
+{% block javascript %}
+<script>
+    const mobileInput = document.querySelector("#id_mobile");
+    const alternateMobileInput = document.querySelector("#id_alternate_mobile");
+    const whatsappNumberInput = document.querySelector("#id_whatsapp_number");
+
+    const mobileCountryCodeInput = document.querySelector("#id_mobile_country_code");
+    const alternateMobileCountryCodeInput = document.querySelector("#id_alternate_mobile_country_code");
+    const whatsappCountryCodeInput = document.querySelector("#id_whatsapp_number_country_code");
+
+    // Function to initialize the international phone input
+    const initIntlTelInput = (input, countryCodeInput) => {
+        const iti = window.intlTelInput(input, {
+            separateDialCode: true,
+            preferredCountries: ["ae", "in", "qa", "sa", "bh", "kw"],
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+        });
+
+        // Function to handle changes in the selected country
+        const handleChange = () => {
+            const countryCode = iti.getSelectedCountryData().dialCode;
+            countryCodeInput.value = countryCode;
+        };
+
+        // Add an event listener for country change
+        input.addEventListener("countrychange", handleChange);
+
+        // Initial update of the country code
+        handleChange();
+    };
+
+    // Initialize the international phone inputs
+    initIntlTelInput(mobileInput, mobileCountryCodeInput);
+    initIntlTelInput(alternateMobileInput, alternateMobileCountryCodeInput);
+    initIntlTelInput(whatsappNumberInput, whatsappCountryCodeInput);
+
+    mobileInput.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/\D/g, "");
+    });
+    alternateMobileInput.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/\D/g, "");
+    });
+    whatsappNumberInput.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/\D/g, "");
+    });
+</script>
+{% endblock %}
+
+
+{% block extra_css %}
+<style>
+    #div_id_mobile_country_code, #div_id_alternate_mobile_country_code, #div_id_whatsapp_number_country_code {
+        display: none;
+    }
+</style>
+{% endblock %}

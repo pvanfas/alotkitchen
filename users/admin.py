@@ -28,30 +28,16 @@ class MyUserAdmin(UserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
     ordering = ("username",)
-    list_display = (
-        "username",
-        "mobile",
-        "usertype",
-        "is_active",
-        "last_login",
-        "date_joined",
-        "is_staff",
-        "is_superuser",
-    )
+    list_display = ("username", "mobile", "usertype", "is_active", "last_login", "date_joined", "is_staff", "is_superuser")
     list_display_links = ("username",)
     readonly_fields = ("last_login", "date_joined", "pk")
-    list_filter = (
-        "is_active",
-        "is_staff",
-        "is_superuser",
-        "date_joined",
-        "last_login",
-        "usertype",
-    )
+    list_filter = ("is_active", "is_staff", "is_superuser", "date_joined", "last_login", "usertype")
     fieldsets = (
-        ("Basic Info", {"fields": ("username", "password", "email", "usertype", "mobile", "first_name", "last_name")}),
+        (
+            "Basic Info",
+            {"fields": ("usertype", "username", "password", "email", "mobile", "first_name", "last_name", "preferred_language", "alternate_mobile", "whatsapp_number")},
+        ),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
-        ("Groups", {"fields": ("groups",)}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
 

@@ -180,3 +180,145 @@ table tr td ul li span {
     border-radius: 6px;
     font-size: 12px;
 }
+
+.cta_card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 80px 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url("/static/web/images/cta.jpg");
+    background-blend-mode: multiply;
+    color: #fff;
+}
+
+.cta_card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.cta_card p {
+    color: #dbdbdb;
+}
+
+.cta_card a {
+    color: #fff;
+    background: #00833E;
+    border: 1px solid #00833E;
+    padding: 6px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.cta_card a:hover {
+    background: #00833E;
+    border: 1px solid #00833E;
+}
+
+.border_box {
+    border: 1px solid #e0e0e0;
+    padding: 40px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.border_box .thumb {
+    margin-bottom: 30px;
+}
+
+.border_box .thumb img {
+    border-radius: 10px;
+}
+
+#progress {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+#progress-bar {
+    position: absolute;
+    background: lightseagreen;
+    height: 5px;
+    width: 0%;
+    top: 50%;
+    left: 0;
+}
+
+#progress-num {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+#progress-num::before {
+    content: "";
+    background-color: #e0e0e0;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    z-index: 0;
+}
+
+#progress-num .step {
+    border: 3px solid lightgray;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    line-height: 23px;
+    text-align: center;
+    background-color: #fff;
+    font-family: sans-serif;
+    font-size: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+#progress-num .step.active {
+    border-color: lightseagreen;
+    background-color: lightseagreen;
+    color: #fff;
+}
+
+.form-select {
+    line-height: 1.2 !important;
+    font-size: 0.875rem;
+    color: #263871;
+}
+
+.iti {
+    width: 100%;
+}
+
+.iti__selected-flag {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.title_group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    background: #eaeaea;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.title_group label {
+    margin: 0;
+    font-size: 12px;
+    margin-left: 3px;
+}
+
+.title_group .form_check {
+    display: flex;
+    align-items: center;
+}
