@@ -120,8 +120,8 @@ class SubscriptionPlan(BaseModel):
 
 
 class Subscription(BaseModel):
-    request = models.ForeignKey("main.SubscriptionRequest", on_delete=models.CASCADE, related_name="subscription_requests", blank=True, null=True)
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscription_user")
+    request = models.ForeignKey("main.SubscriptionRequest", on_delete=models.CASCADE, related_name="subscription_requests")
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscriptions")
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_plan")
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
@@ -194,7 +194,7 @@ class MealOrder(BaseModel):
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals")
     combo = models.ForeignKey(Combo, on_delete=models.CASCADE, related_name="combomeals")
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name="meals", blank=True, null=True)
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name="meals")
     date = models.DateField()
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=200, default="PENDING", choices=ORDER_STATUS_CHOICES)
@@ -211,6 +211,20 @@ class MealOrder(BaseModel):
 
     def get_absolute_url(self):
         return reverse("main:history_detail_view", kwargs={"pk": self.pk})
+
+    def get_address(self):
+        req = self.subscription.request
+        print(self.subscription)
+        if self.combo.mealtype == "BREAKFAST":
+            return f"Room: {req.breakfast_address_room_no}, {req.breakfast_address_floor}, {req.breakfast_address_building_name}, {req.breakfast_address_street_name}, {req.breakfast_address_area}"
+        if self.combo.mealtype == "LUNCH":
+            return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
+        if self.combo.mealtype == "DINNER":
+            return (
+                f"Room: {req.dinner_address_room_no}, {req.dinner_address_floor}, {req.dinner_address_building_name}, {req.dinner_address_street_name}, {req.dinner_address_area}"
+            )
+        if self.combo.mealtype == "TIFFIN":
+            return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
 
     class Meta:
         ordering = ("date",)

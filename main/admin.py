@@ -18,7 +18,7 @@ class SubscriptionPlanAdmin(BaseAdmin):
 
 @admin.register(Subscription)
 class SubscriptionAdmin(BaseAdmin):
-    list_display = ("user", "plan", "start_date", "end_date", "is_active")
+    list_display = ("user", "plan", "start_date", "end_date", "is_active", "request")
     list_filter = ("is_active",)
     search_fields = ("user__email",)
     autocomplete_fields = ("user", "plan", "request")

@@ -27,8 +27,6 @@ class BranchTable(BaseTable):
 
 
 class MealOrderTable(BaseTable):
-    action = None
-
     class Meta:
         model = MealOrder
         fields = ("date", "user", "combo", "combo__mealtype", "subscription_plan", "status")
@@ -36,11 +34,12 @@ class MealOrderTable(BaseTable):
 
 
 class StandardMealOrderTable(BaseTable):
+    address = columns.TemplateColumn("{{record.get_address}}", orderable=False)
     action = None
 
     class Meta:
         model = MealOrder
-        fields = ("date", "user", "combo__item_code", "combo", "combo__mealtype", "status")
+        fields = ("date", "user", "combo__mealtype", "combo__item_code", "combo", "address", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
@@ -78,4 +77,14 @@ class SubscriptionRequestTable(BaseTable):
     class Meta:
         model = SubscriptionRequest
         fields = ("user", "plan", "start_date", "status")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+
+
+class StandardSubscriptionTable(BaseTable):
+    action = None
+    address = columns.TemplateColumn(template_name="app/partials/address_preview.html", orderable=False)
+
+    class Meta:
+        model = Subscription
+        fields = ("user", "plan", "start_date", "end_date")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012

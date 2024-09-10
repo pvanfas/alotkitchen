@@ -3,15 +3,18 @@ from datetime import datetime
 
 from django.db.models import Sum
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import ListView
 
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
 from users.models import CustomUser as User
 from users.tables import UserTable
 
+from .forms import SubscriptionAddressForm
 from .mixins import HybridTemplateView
-from .models import Combo, MealOrder, Subscription, SubscriptionRequest
-from .tables import ComboTable, MealOrderDataTable, MealOrderTable, StandardMealOrderTable, SubscriptionRequestTable, SubscriptionTable
+from .models import Combo, ItemCategory, MealOrder, Subscription, SubscriptionRequest
+from .tables import ComboTable, MealOrderDataTable, MealOrderTable, StandardMealOrderTable, StandardSubscriptionTable, SubscriptionRequestTable, SubscriptionTable
 
 # permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
 
@@ -42,11 +45,15 @@ class DashboardView(HybridListView):
     def get_table_class(self):
         if self.request.user.usertype == "KitchenManager":
             return StandardMealOrderTable
+        elif self.request.user.usertype == "Delivery":
+            return StandardMealOrderTable
         return MealOrderTable
 
     def get_queryset(self):
         if self.request.user.usertype == "Customer":
             return MealOrder.objects.filter(date=datetime.today(), user=self.request.user, is_active=True)
+        elif self.request.user.usertype == "Delivery":
+            return MealOrder.objects.filter(date=datetime.today(), is_active=True)
         else:
             return MealOrder.objects.filter(date=datetime.today(), is_active=True)
 
@@ -165,8 +172,23 @@ class SubscriptionRequestDetailView(HybridDetailView):
 
 class SubscriptionRequestUpdateView(HybridUpdateView):
     model = SubscriptionRequest
-    permissions = ("Administrator",)
+    permissions = ("Administrator", "Customer")
     exclude = ("status", "is_active", "user")
+
+    def get_form_class(self):
+        if self.request.user.usertype == "Customer":
+            return SubscriptionAddressForm
+        return super().get_form_class()
+
+    def get_template_names(self):
+        if self.request.user.usertype == "Customer":
+            return "web/select_address.html"
+        return super().get_template_names()
+
+    def get_success_url(self):
+        if self.request.user.usertype == "Customer":
+            return reverse("main:subscription_list")
+        return reverse("main:subscriptionrequest_list")
 
 
 class SubscriptionRequestApproveView(HybridDetailView):
@@ -211,6 +233,16 @@ class SubscriptionListView(HybridListView):
     permissions = ("Administrator", "Customer")
     table_class = SubscriptionTable
 
+    def get_queryset(self):
+        if self.request.user.usertype == "Customer":
+            return Subscription.objects.filter(user=self.request.user)
+        return Subscription.objects.filter(is_active=True)
+
+    def get_table_class(self):
+        if self.request.user.usertype == "Customer":
+            return StandardSubscriptionTable
+        return SubscriptionTable
+
 
 class SubscriptionDetailView(HybridDetailView):
     model = Subscription
@@ -226,57 +258,25 @@ class HelpView(HybridTemplateView):
         return context
 
 
-# class FeaturedEatsView(HybridTemplateView):
-#     template_name = "app/main/featured_eats.html"
-#     permissions = ("Customer", "KitchenManager")
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["week_number"] = get_week_of_month()
-#         context["day_name"] = get_day_name()
-#         available_combos = Combo.objects.filter(
-#             is_active=True,
-#             available_weeks=get_week_value(get_week_of_month()),
-#             available_days=get_day_name(),
-#         )
-#         context["breakfasts"] = available_combos.filter(is_active=True, mealtype="BREAKFAST")
-#         context["lunches"] = available_combos.filter(is_active=True, mealtype="LUNCH")
-#         context["dinners"] = available_combos.filter(is_active=True, mealtype="DINNER")
-#         return context
+class HistoryDetailView(HybridDetailView):
+    model = MealOrder
+    permissions = ("Customer",)
 
 
-# class AllEatsView(ListView):
-#     template_name = "app/main/all_eats.html"
-#     model = ItemCategory
-#     context_object_name = "categories"
-#     permissions = ("Administrator", "Customer", "KitchenManager")
+class AllEatsView(ListView):
+    template_name = "app/main/all_eats.html"
+    model = ItemCategory
+    context_object_name = "categories"
+    permissions = ("Administrator", "Customer", "KitchenManager")
 
 
-# class HistoryView(HybridListView):
-#     template_name = "app/main/history.html"
-#     model = MealOrder
-#     filterset_fields = ()
-#     table_class = MealOrderTable
-#     search_fields = ("combo__name",)
-#     permissions = ("Customer",)
+class HistoryView(HybridListView):
+    template_name = "app/main/history.html"
+    model = MealOrder
+    filterset_fields = ()
+    table_class = MealOrderTable
+    search_fields = ("combo__name",)
+    permissions = ("Customer",)
 
-#     def get_queryset(self):
-#         return MealOrder.objects.filter(user=self.request.user, is_active=True)
-
-
-# class HistoryDetailView(HybridDetailView):
-#     model = MealOrder
-#     permissions = ("Customer",)
-
-
-# class PricingView(HybridTemplateView):
-#     template_name = "app/main/pricing.html"
-#     permissions = ("Administrator", "Customer")
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         weekly_plans = SubscriptionPlan.objects.filter(is_active=True)
-#         monthly_plans = SubscriptionPlan.objects.filter(is_active=True)
-#         context["weekly_plans"] = weekly_plans
-#         context["monthly_plans"] = monthly_plans
-#         return context
+    def get_queryset(self):
+        return MealOrder.objects.filter(user=self.request.user, is_active=True, date__lt=datetime.today())

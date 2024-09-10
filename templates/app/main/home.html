@@ -26,11 +26,30 @@
     <div class="row">
         {% if request.user.has_active_subscription %}
 
-        {% for order in orders %}
-        {% include 'app/partials/_order_list.html' %}
-        {% empty %}
-        <p>No Orders Recieved</p>
-        {% endfor %}
+        <div class="col-xl-12">
+            <div class="row">
+                {% for key, value in datas.items %}
+                <div class="col-xl-4 col-sm-6 sp15">
+                    <div class="card h-auto b-hover">
+                        <div class="card-body">
+                            <div class="text-center mb-5">
+                                <h4 class="fw-bold">{{key}}</h4>
+                            </div>
+                            {% for item in value %}
+                            <div class="d-flex align-items-center justify-content-between mb-2 gap-1">
+                                <span>{{item.0}}</span>
+                                <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
+                                </h6>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No Orders Recieved</p>
+                {% endfor %}
+            </div>
+        </div>
 
         {% elif request.user.has_expired_subscription %}
         <div class="col-xl-12">
@@ -41,7 +60,6 @@
                             style="height:80px;object-fit:contain">
                         <h4 class="mt-3">Your Subscription has Expired!</h4>
                         <p class="mb-5">Please renew your subscription to continue using our services.</p>
-                        <a href="{% url 'main:pricing_view' %}" class="btn btn-primary mt-3">Renew Subscription</a>
                     </div>
                 </div>
             </div>
@@ -56,7 +74,7 @@
                             style="height:80px;object-fit:contain">
                         <h4 class="mt-3">You dont have any Subscription!</h4>
                         <p class="mb-5">Please buy a plan to continue using our services.</p>
-                        <a href="{% url 'main:pricing_view' %}" class="btn btn-primary mt-3">Buy Subscription</a>
+                        <a href="{% url 'web:subscribe' %}" class="btn btn-primary mt-3">Buy Subscription</a>
                     </div>
                 </div>
             </div>
@@ -75,7 +93,7 @@
                         <h4 class="fw-bold">{{key}}</h4>
                     </div>
                     {% for item in value %}
-                    <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center justify-content-between mb-2 gap-1">
                         <span>{{item.0}}</span>
                         <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
                         </h6>
@@ -99,7 +117,7 @@
                         <h4 class="fw-bold">{{key}}</h4>
                     </div>
                     {% for item in value %}
-                    <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center justify-content-between mb-2 gap-1">
                         <span>{{item.0}}</span>
                         <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
                         </h6>
@@ -123,7 +141,7 @@
                         <h4 class="fw-bold">{{key}}</h4>
                     </div>
                     {% for item in value %}
-                    <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center justify-content-between mb-2 gap-1">
                         <span>{{item.0}}</span>
                         <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
                         </h6>
@@ -147,7 +165,7 @@
                         <h4 class="fw-bold">{{key}}</h4>
                     </div>
                     {% for item in value %}
-                    <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center justify-content-between mb-2 gap-1">
                         <span>{{item.0}}</span>
                         <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
                         </h6>

@@ -1,0 +1,66 @@
+
+<button class="btn btn-sm btn-light btn-outline-info" type="button" data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvas_{{record.pk}}" aria-controls="offcanvas_{{record.pk}}">View Address</button>
+
+
+<a href="#" class="btn btn-sm btn-light btn-outline-info">Customize Menu</a>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas_{{record.pk}}"
+    aria-labelledby="offcanvas_{{record.pk}}Label">
+
+    <div class="offcanvas-header">
+        <h5 id="offcanvas_{{record.pk}}Label" class="mb-0">Delivery Address</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="p-3 fw500">Breakfast</td>
+                            <td class="p-3">
+                                {{record.request.breakfast_address_room_no}}, {{record.request.breakfast_address_floor}},
+                                {{record.request.breakfast_address_building_name}}, {{record.request.breakfast_address_street_name}},
+                                {{record.request.breakfast_address_area}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Breakfast Delivery Time</td>
+                            <td class="p-3">{{record.request.get_breakfast_time_display}}</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 fw500">Lunch/Tiffin</td>
+                            <td class="p-3">
+                                {{record.request.lunch_address_room_no}}, {{record.request.lunch_address_floor}},
+                                {{record.request.lunch_address_building_name}}, {{record.request.lunch_address_street_name}},
+                                {{record.request.lunch_address_area}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Lunch Delivery Time</td>
+                            <td class="p-3">{{record.request.get_lunch_time_display}}</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 fw500">Dinner</td>
+                            <td class="p-3">
+                                {{record.request.dinner_address_room_no}}, {{record.request.dinner_address_floor}},
+                                {{record.request.dinner_address_building_name}}, {{record.request.dinner_address_street_name}},
+                                {{record.request.dinner_address_area}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Dinner Delivery Time</td>
+                            <td class="p-3">{{record.request.get_dinner_time_display}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer px-0">
+            <a href="{{record.request.get_update_url}}" class="btn btn-sm btn-light btn-outline-info" >Edit Address</a>
+        </div>
+    </div>
+</div>

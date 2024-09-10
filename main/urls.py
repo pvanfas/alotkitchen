@@ -24,10 +24,8 @@ urlpatterns = [
     path("requests/reject/<str:pk>/", views.SubscriptionRequestRejectView.as_view(), name="subscriptionrequest_reject"),
     path("requests/print/<str:pk>/", views.SubscriptionRequestPrintView.as_view(), name="subscriptionrequest_print"),
     path("help/", views.HelpView.as_view(), name="help_view"),
+    path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
     # Pages
-    # path("featured_eats/", views.FeaturedEatsView.as_view(), name="featured_eats_view"),
-    # path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),
-    # path("history/", views.HistoryView.as_view(), name="history_view"),
-    # path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
-    # path("pricing/", views.PricingView.as_view(), name="pricing_view"),
+    path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),
+    path("history/", views.HistoryView.as_view(), name="history_view"),
 ]
