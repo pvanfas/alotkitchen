@@ -98,6 +98,16 @@ class SubscriptionPlan(BaseModel):
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 
+    def get_menu_url(self):
+        mapping = {
+            "Essential": "web:essential",
+            "ClassicVeg": "web:classicveg",
+            "ClassicNonVeg": "web:classicnonveg",
+            "StandardNonVeg": "web:standardnonveg",
+            "StandardVeg": "web:standardveg",
+        }
+        return reverse(mapping[self.tier])
+
     # def get_absolute_url(self):
     #     return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
 
