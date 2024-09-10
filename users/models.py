@@ -9,6 +9,7 @@ USERTYPE_CHOICES = (
     ("Administrator", "Administrator"),
     ("KitchenManager", "Kitchen Manager"),
     ("Delivery", "Delivery Staff"),
+    ("Accountant", "Accountant Staff"),
     ("Customer", "Customer"),
 )
 LANGUAGE_CHOICES = (("en", "English"), ("ml", "Malayalam"), ("ar", "Arabic"), ("hi", "Hindi"), ("ta", "Tamil"), ("te", "Telugu"))

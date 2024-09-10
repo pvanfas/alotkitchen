@@ -21,6 +21,7 @@ class SubscriptionAdmin(BaseAdmin):
     list_display = ("user", "plan", "start_date", "end_date", "is_active")
     list_filter = ("is_active",)
     search_fields = ("user__email",)
+    autocomplete_fields = ("user", "plan", "request")
 
 
 # @admin.register(Branch)
@@ -44,9 +45,9 @@ class ComboAdmin(BaseAdmin):
 
 @admin.register(MealOrder)
 class MealOrderAdmin(BaseAdmin):
-    list_display = ("user", "combo", "quantity", "status")
+    list_display = ("user", "combo", "quantity", "status", "date", "mealtype", "subscription_plan")
     search_fields = ("user__email", "combo__name")
-    list_filter = ("status",)
+    list_filter = ("status", "subscription_plan")
     autocomplete_fields = ("user", "combo")
 
 

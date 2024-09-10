@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
 
@@ -116,10 +117,11 @@ class SubscriptionPlan(BaseModel):
 
 
 class Subscription(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscriptions")
-    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscriptions")
+    request = models.ForeignKey("main.SubscriptionRequest", on_delete=models.CASCADE, related_name="subscription_requests", blank=True, null=True)
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscription_user")
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_plan")
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
 
     class Meta:
         ordering = ("start_date",)
@@ -132,6 +134,11 @@ class Subscription(BaseModel):
     @staticmethod
     def get_list_url():
         return reverse_lazy("main:subscription_list")
+
+    def save(self, *args, **kwargs):
+        self.end_date = self.start_date + timezone.timedelta(days=self.plan.validity)
+        create_orders(self)
+        super().save(*args, **kwargs)
 
     # @staticmethod
     # def get_create_url():
@@ -184,6 +191,7 @@ class MealOrder(BaseModel):
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals")
     combo = models.ForeignKey(Combo, on_delete=models.CASCADE, related_name="combomeals")
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name="meals", blank=True, null=True)
     date = models.DateField()
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=200, default="PENDING", choices=ORDER_STATUS_CHOICES)
@@ -206,6 +214,9 @@ class MealOrder(BaseModel):
         verbose_name = _("Meal Order")
         verbose_name_plural = _("Meal Orders")
 
+    def mealtype(self):
+        return self.combo.mealtype
+
     def DocNum(self):
         return " "
 
@@ -219,7 +230,7 @@ class MealOrder(BaseModel):
         return self.date.strftime("%Y%m%d")
 
     def CardCode(self):
-        return self.user.mobile
+        return self.user.username
 
     def U_OrderType(self):
         if self.combo.is_veg:
@@ -230,13 +241,13 @@ class MealOrder(BaseModel):
         return self.combo.tier
 
     def U_MealType(self):
-        return self.combo.mealtype
+        return self.combo.mealtype.capitalize()
 
     def ParentKey(self):
         return " "
 
     def LineNum(self):
-        return 1
+        return 0
 
     def Quantity(self):
         return self.quantity
@@ -286,5 +297,45 @@ class SubscriptionRequest(BaseModel):
     def get_absolute_url(self):
         return reverse("main:subscriptionrequest_detail", kwargs={"pk": self.pk})
 
+    @staticmethod
+    def get_list_url():
+        return reverse("main:subscriptionrequest_list")
+
+    def get_update_url(self):
+        return reverse("main:subscriptionrequest_update", kwargs={"pk": self.pk})
+
+    def get_approve_url(self):
+        return reverse("main:subscriptionrequest_approve", kwargs={"pk": self.pk})
+
+    def get_reject_url(self):
+        return reverse("main:subscriptionrequest_reject", kwargs={"pk": self.pk})
+
+    def get_print_url(self):
+        return reverse("main:subscriptionrequest_print", kwargs={"pk": self.pk})
+
     def __str__(self):
         return f"{self.user} - {self.plan} - {self.start_date}"
+
+
+def create_orders(subscription):
+    for i in range(subscription.plan.validity):
+        date = subscription.start_date + timezone.timedelta(days=i)
+        day_of_week = date.strftime("%A")
+        mealtypes = list(subscription.plan.available_mealtypes)
+        week_number = 1  # todo
+        combos = Combo.objects.filter(
+            is_active=True,
+            tier=subscription.plan.tier,
+            mealtype__in=mealtypes,
+            available_days__contains=day_of_week,
+            available_weeks__contains=str(week_number),
+        )
+        print(date, subscription.plan.available_mealtypes, day_of_week, combos.count(), [combo.name for combo in combos])
+        for combo in combos:
+            for meal in mealtypes:
+                MealOrder.objects.get_or_create(
+                    user=subscription.user,
+                    combo=combo,
+                    subscription_plan=subscription.plan,
+                    date=date,
+                )

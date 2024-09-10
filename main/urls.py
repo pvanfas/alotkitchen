@@ -33,4 +33,8 @@ urlpatterns = [
     path("orders/data/", views.MealOrderListData.as_view(), name="mealorder_list_data"),
     path("requests/", views.SubscriptionRequestListView.as_view(), name="subscriptionrequest_list"),
     path("requests/detail/<str:pk>/", views.SubscriptionRequestDetailView.as_view(), name="subscriptionrequest_detail"),
+    path("requests/update/<str:pk>/", views.SubscriptionRequestUpdateView.as_view(), name="subscriptionrequest_update"),
+    path("requests/approve/<str:pk>/", views.SubscriptionRequestApproveView.as_view(), name="subscriptionrequest_approve"),
+    path("requests/reject/<str:pk>/", views.SubscriptionRequestRejectView.as_view(), name="subscriptionrequest_reject"),
+    path("requests/print/<str:pk>/", views.SubscriptionRequestPrintView.as_view(), name="subscriptionrequest_print"),
 ]

@@ -34,11 +34,14 @@
                 </tr>
                 <tr>
                   <td>Breakfast Address</td>
-                  <td>Room No: {{ object.breakfast_address_room_no|default:""}},
+                  <td>
+                    {% if object.breakfast_address_room_no %}
+                    Room No: {{ object.breakfast_address_room_no|default:""}},
                     Floor: {{ object.breakfast_address_floor|default:""}},
                     {{ object.breakfast_address_building_name|default:""}},
                     {{ object.breakfast_address_street_name|default:""}},
                     {{ object.breakfast_address_area|default:""}}
+                    {% endif %}
                   </td>
                 </tr>
                 <tr>
@@ -47,11 +50,14 @@
                 </tr>
                 <tr>
                   <td>Lunch Address</td>
-                  <td>Room No: {{ object.lunch_address_room_no|default:""}},
+                  <td>
+                    {% if object.lunch_address_room_no %}
+                    Room No: {{ object.lunch_address_room_no|default:""}},
                     Floor: {{ object.lunch_address_floor|default:""}},
                     {{ object.lunch_address_building_name|default:""}},
                     {{ object.lunch_address_street_name|default:""}},
                     {{ object.lunch_address_area|default:""}}
+                    {% endif %}
                   </td>
                 </tr>
                 <tr>
@@ -60,11 +66,14 @@
                 </tr>
                 <tr>
                   <td>Dinner Address</td>
-                  <td>Room No: {{ object.dinner_address_room_no|default:""}},
+                  <td>
+                    {% if object.dinner_address_room_no %}
+                    Room No: {{ object.dinner_address_room_no|default:""}},
                     Floor: {{ object.dinner_address_floor|default:""}},
                     {{ object.dinner_address_building_name|default:""}},
                     {{ object.dinner_address_street_name|default:""}},
                     {{ object.dinner_address_area|default:""}}
+                    {% endif %}
                   </td>
                 </tr>
                 <tr>
@@ -73,7 +82,7 @@
                 </tr>
                 <tr>
                   <td>Status</td>
-                  <td><span class="label label-default py-1 px-2"> {{ object.status|default:"" }} </span></td>
+                  <td><span class="bg-black label label-default text-white" style="padding: 1px 6px;border-radius: 5px;font-size: 12px;margin: 0;"> {{ object.status|default:"" }} </span></td>
                 </tr>
                 <tr>
                   <td>Notes</td>
@@ -100,17 +109,20 @@
         <div class="card-body">
           <div class="row">
             <div class="col-6 mb-2">
-              <a href="{{object.get_update_url}}" class="btn btn-primary btn-block">Print</a>
+              <a href="{{object.get_print_url}}" class="btn btn-primary btn-block">Print</a>
             </div>
             <div class="col-6 mb-2">
               <a href="{{object.get_update_url}}" class="btn btn-warning btn-block">Edit</a>
             </div>
+            {% if object.status == "PENDING" %}
             <div class="col-6 mb-2">
-              <a href="{{object.get_update_url}}" class="btn btn-success btn-block">Approve</a>
+              <a href="{{object.get_approve_url}}" class="btn btn-success btn-block">Approve</a>
             </div>
             <div class="col-6 mb-2">
-              <a href="{{object.get_delete_url}}" class="btn btn-danger btn-block">Reject</a>
+              <a href="{{object.get_reject_url}}" class="btn btn-danger btn-block">Reject</a>
             </div>
+            {% endif %}
+
           </div>
         </div>
       </div>

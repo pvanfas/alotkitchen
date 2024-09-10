@@ -1,0 +1,105 @@
+{% extends 'app/absolute.html' %}
+{% load static i18n crispy_forms_tags %}
+{% block title %}{{title}}: {{app_settings.site_title}}{% endblock %}
+
+{% block content %}
+
+  <div class="card content_card">
+    <div class="card-header">
+      <div class="card-title d-flex align-items-center w-100">
+        <h5 class="mb-0">{{object}}</h5>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover info_table mb-0" style="width:100%;">
+          <tbody>
+            <tr>
+              <td>User</td>
+              <td> {{ object.user }} </td>
+            </tr>
+            <tr>
+              <td>Plan</td>
+              <td> {{ object.plan }} </td>
+            </tr>
+            <tr>
+              <td>Start Date</td>
+              <td> {{ object.start_date }} </td>
+            </tr>
+            <tr>
+              <td>Breakfast Address</td>
+              <td>
+                {% if object.breakfast_address_room_no %}
+                Room No: {{ object.breakfast_address_room_no|default:""}},
+                Floor: {{ object.breakfast_address_floor|default:""}},
+                {{ object.breakfast_address_building_name|default:""}},
+                {{ object.breakfast_address_street_name|default:""}},
+                {{ object.breakfast_address_area|default:""}}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Breakfast Delivery Time</td>
+              <td>{{ object.get_breakfast_time_display|default:""}}</td>
+            </tr>
+            <tr>
+              <td>Lunch Address</td>
+              <td>
+                {% if object.lunch_address_room_no %}
+                Room No: {{ object.lunch_address_room_no|default:""}},
+                Floor: {{ object.lunch_address_floor|default:""}},
+                {{ object.lunch_address_building_name|default:""}},
+                {{ object.lunch_address_street_name|default:""}},
+                {{ object.lunch_address_area|default:""}}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Lunch Delivery Time</td>
+              <td>{{ object.get_lunch_time_display|default:""}}</td>
+            </tr>
+            <tr>
+              <td>Dinner Address</td>
+              <td>
+                {% if object.dinner_address_room_no %}
+                Room No: {{ object.dinner_address_room_no|default:""}},
+                Floor: {{ object.dinner_address_floor|default:""}},
+                {{ object.dinner_address_building_name|default:""}},
+                {{ object.dinner_address_street_name|default:""}},
+                {{ object.dinner_address_area|default:""}}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Dinner Delivery Time</td>
+              <td>{{ object.get_dinner_time_display|default:""}}</td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td><span class="bg-black label label-default text-white" style="padding: 1px 6px;border-radius: 5px;font-size: 12px;margin: 0;"> {{ object.status|default:"" }} </span></td>
+            </tr>
+            <tr>
+              <td>Notes</td>
+              <td> {{ object.notes|default:"" }} </td>
+            </tr>
+            <tr>
+              <td>Remarks</td>
+              <td> {{ object.remarks|default:"" }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+
+{% block header %} {% endblock %}
+{% block sidebar %} {% endblock %}
+
+{% block javascript %}
+<script>
+  window.print();
+</script>
+{% endblock %}

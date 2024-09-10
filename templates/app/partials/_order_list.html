@@ -8,47 +8,9 @@
                 <span>Preparation Time </span>
                 <h6 class="mb-0">30 Min</h6>
             </div>
-            
-            <hr>
-            <div class="order-menu">
-                <h6 class="fw-bold">Order Menu</h6>
-                {% for item in order.combo.items.all|slice:2 %}
-                <div class="d-flex align-items-center mb-2">
-                    {% if item.image %}
-                    <img class="me-2" src="{{item.image.url}}" alt="">
-                    {% else %}
-                    <img class="me-2" src="/static/web/images/popular-img/pic-1.jpg" alt="">
-                    {% endif %}
-                    <div class="order-items">
-                        <h6 class="fw-bold text-nowrap mb-0"><a href="javascript:void(0);">{{item.name}}</a>
-                        </h6>
-                        <p class="mb-0">x1</p>
-                    </div>
-                </div>
-                {% endfor %}
-                {% if order.combo.items.count > 2 %}
-                <a href="javascript:void(0);" data-target="{{order.pk}}" class="text-info d-block mb-2 text-end"
-                    style="margin-top: -30px;">+ {{order.combo.items.count|add:"-2"}} Items</a>
-                {% endif %}
-                {% for item in order.combo.items.all|slice:"2:10" %}
-                <div class="align-items-center mb-2 d-none" data-id="{{order.pk}}">
-                    {% if item.image %}
-                    <img class="me-2" src="{{item.image.url}}" alt="">
-                    {% else %}
-                    <img class="me-2" src="/static/web/images/popular-img/pic-1.jpg" alt="">
-                    {% endif %}
-                    <div class="order-items">
-                        <h6 class="fw-bold text-nowrap mb-0"><a href="javascript:void(0);">{{item.name}}</a>
-                        </h6>
-                        <p class="mb-0">x1</p>
-                    </div>
-                </div>
-                {% endfor %}
-
-                <div class="mt-5">
-                    <a href="javascript:void(0);"
-                        class="btn btn-outline-dark bgl-dark btn-block">{{order.get_status_display}}</a>
-                </div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <span>Preparation Time </span>
+                <h6 class="mb-0">30 Min</h6>
             </div>
         </div>
     </div>

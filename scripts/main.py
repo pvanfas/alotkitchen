@@ -1,10 +1,11 @@
-from uuid import uuid4
-
 from users.models import CustomUser
 
 
 def run():
-    for user in CustomUser.objects.all():
-        user.enc_key = uuid4()
-        user.save()
-        print(f"User {user.username} updated")
+    for i in range(1, 21):
+        mobile = f"9198769876{i:02}"
+        username = mobile
+        password = "Test@123"
+        CustomUser.objects.create_user(username=username, mobile=mobile, password=password)
+        print(f"User {username} created successfully")
+    print("All users created successfully")

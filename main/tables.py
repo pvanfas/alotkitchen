@@ -2,7 +2,14 @@ from django_tables2 import Table, columns
 
 from main.base import BaseTable
 
-from .models import Branch, Combo, MealOrder, SubscriptionPlan, SubscriptionRequest
+from .models import Branch, Combo, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
+
+
+class SubscriptionTable(BaseTable):
+    class Meta:
+        model = Subscription
+        fields = ("user", "plan", "start_date", "end_date")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
 class SubscriptionPlanTable(BaseTable):
@@ -24,7 +31,7 @@ class MealOrderTable(BaseTable):
 
     class Meta:
         model = MealOrder
-        fields = ("combo", "combo__mealtype", "date", "quantity", "subscription_plan", "status")
+        fields = ("date", "user", "combo", "combo__mealtype", "subscription_plan", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 

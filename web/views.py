@@ -160,6 +160,5 @@ def complete_subscription(request, pk):
 def get_plans(request):
     tier = request.GET.get("tier")
     validity = request.GET.get("validity")
-    print(tier, validity)
     plans = SubscriptionPlan.objects.filter(tier=tier, validity=validity).values("id", "name")
     return JsonResponse(list(plans), safe=False)
