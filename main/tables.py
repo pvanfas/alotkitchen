@@ -35,6 +35,15 @@ class MealOrderTable(BaseTable):
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
+class StandardMealOrderTable(BaseTable):
+    action = None
+
+    class Meta:
+        model = MealOrder
+        fields = ("date", "user", "combo__item_code", "combo", "combo__mealtype", "status")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+
+
 class ComboTable(BaseTable):
     # action = None
 

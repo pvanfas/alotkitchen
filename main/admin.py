@@ -47,8 +47,8 @@ class ComboAdmin(BaseAdmin):
 class MealOrderAdmin(BaseAdmin):
     list_display = ("user", "combo", "quantity", "status", "date", "mealtype", "subscription_plan")
     search_fields = ("user__email", "combo__name")
-    list_filter = ("status", "subscription_plan")
-    autocomplete_fields = ("user", "combo")
+    list_filter = ("status", "subscription_plan", "date", "combo__mealtype")
+    autocomplete_fields = ("user", "combo", "subscription", "subscription_plan")
 
 
 @admin.register(Area)

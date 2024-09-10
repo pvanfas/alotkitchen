@@ -19,6 +19,12 @@ from .choices import (
 )
 
 
+def get_week_number(date):
+    day_of_month = date.day
+    week_number = (day_of_month - 1) // 7 + 1
+    return 2 if week_number % 2 == 0 else 1
+
+
 class Area(BaseModel):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -40,9 +46,6 @@ class ItemCategory(BaseModel):
         ordering = ("name",)
         verbose_name = _("Item Category")
         verbose_name_plural = _("Item Categories")
-
-    def get_absolute_url(self):
-        return reverse("main:category_detail_view", kwargs={"pk": self.pk})
 
     def items_count(self):
         return self.combos.count()
@@ -95,8 +98,8 @@ class SubscriptionPlan(BaseModel):
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 
-    def get_absolute_url(self):
-        return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
 
     # @staticmethod
     # def get_list_url():
@@ -322,20 +325,11 @@ def create_orders(subscription):
         date = subscription.start_date + timezone.timedelta(days=i)
         day_of_week = date.strftime("%A")
         mealtypes = list(subscription.plan.available_mealtypes)
-        week_number = 1  # todo
+        week_number = get_week_number(date)
         combos = Combo.objects.filter(
-            is_active=True,
-            tier=subscription.plan.tier,
-            mealtype__in=mealtypes,
-            available_days__contains=day_of_week,
-            available_weeks__contains=str(week_number),
+            is_active=True, tier=subscription.plan.tier, mealtype__in=mealtypes, available_days__contains=day_of_week, available_weeks__contains=str(week_number)
         )
-        print(date, subscription.plan.available_mealtypes, day_of_week, combos.count(), [combo.name for combo in combos])
         for combo in combos:
             for meal in mealtypes:
-                MealOrder.objects.get_or_create(
-                    user=subscription.user,
-                    combo=combo,
-                    subscription_plan=subscription.plan,
-                    date=date,
-                )
+                MealOrder.objects.get_or_create(user=subscription.user, combo=combo, subscription=subscription, subscription_plan=subscription.plan, date=date)
+    return True

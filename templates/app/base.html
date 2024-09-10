@@ -70,6 +70,8 @@
         {% include 'app/sidebar/delivery.html' %}
       {% elif request.user.usertype == "KitchenManager" %}
         {% include 'app/sidebar/kitchenmanager.html' %}
+        {% elif request.user.usertype == "Accountant" %}
+        {% include 'app/sidebar/accountant.html' %}
       {% endif %}
 
       {% endblock %}

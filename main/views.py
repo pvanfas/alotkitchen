@@ -1,18 +1,19 @@
+from collections import defaultdict
 from datetime import datetime
 
+from django.db.models import Sum
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.views.generic import ListView
 
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
 from users.models import CustomUser as User
 from users.tables import UserTable
 
 from .mixins import HybridTemplateView
-from .models import Branch, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
-from .tables import BranchTable, ComboTable, MealOrderDataTable, MealOrderTable, SubscriptionRequestTable, SubscriptionTable
+from .models import Combo, MealOrder, Subscription, SubscriptionRequest
+from .tables import ComboTable, MealOrderDataTable, MealOrderTable, StandardMealOrderTable, SubscriptionRequestTable, SubscriptionTable
 
-# permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
+# permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
 
 
 def get_week_of_month():
@@ -24,7 +25,7 @@ def get_week_of_month():
 
 def get_day_name():
     today = timezone.localdate()
-    day_name = today.strftime("%A")  # '%A' formats the day name (e.g., 'Monday')
+    day_name = today.strftime("%A")
     return day_name
 
 
@@ -34,8 +35,14 @@ def get_week_value(n):
 
 class DashboardView(HybridListView):
     template_name = "app/main/home.html"
-    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
+    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
     model = MealOrder
+    context_object_name = "orders"
+
+    def get_table_class(self):
+        if self.request.user.usertype == "KitchenManager":
+            return StandardMealOrderTable
+        return MealOrderTable
 
     def get_queryset(self):
         if self.request.user.usertype == "Customer":
@@ -45,14 +52,24 @@ class DashboardView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["orders"] = self.get_queryset()
+        qs = self.get_queryset().values("combo__mealtype", "combo__name").annotate(total_quantity=Sum("quantity"))
+        data = defaultdict(list)
+        for entry in qs:
+            mealtype = entry["combo__mealtype"]
+            combo_name = entry["combo__name"]
+            total_quantity = entry["total_quantity"]
+            data[mealtype].append((combo_name, total_quantity))
+        context["datas"] = dict(data)
         return context
 
 
 class TomorrowOrdersView(HybridListView):
     template_name = "app/main/home.html"
-    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
+    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
     model = MealOrder
+    table_class = MealOrderTable
+    context_object_name = "orders"
+    title = "Tomorrow's Orders"
 
     def get_queryset(self):
         if self.request.user.usertype == "Customer":
@@ -62,113 +79,56 @@ class TomorrowOrdersView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["orders"] = self.get_queryset()
+        qs = self.get_queryset().values("combo__mealtype", "combo__name").annotate(total_quantity=Sum("quantity"))
+        data = defaultdict(list)
+        for entry in qs:
+            mealtype = entry["combo__mealtype"]
+            combo_name = entry["combo__name"]
+            total_quantity = entry["total_quantity"]
+            data[mealtype].append((combo_name, total_quantity))
+        context["datas"] = dict(data)
         return context
 
 
-class SubscriptionPlanDetailView(HybridDetailView):
-    model = SubscriptionPlan
-    permissions = ("Administrator", "Customer")
-    template_name = "app/main/subscription_detail.html"
-
-
-class SubscriptionListView(HybridListView):
-    model = Subscription
-    filterset_fields = ("user", "plan", "start_date", "end_date")
-    search_fields = ("user",)
-    permissions = ("Administrator", "Customer")
-    table_class = SubscriptionTable
-
-
-class SubscriptionDetailView(HybridDetailView):
-    model = Subscription
-    permissions = ("Administrator", "Customer")
-
-
-class BranchListView(HybridListView):
-    model = Branch
-    filterset_fields = ("name", "code", "address", "phone")
-    table_class = BranchTable
-    search_fields = ("name", "code", "address", "phone")
-    permissions = ("Administrator", "Customer")
-
-
-class FeaturedEatsView(HybridTemplateView):
-    template_name = "app/main/featured_eats.html"
-    permissions = ("Customer",)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["week_number"] = get_week_of_month()
-        context["day_name"] = get_day_name()
-        available_combos = Combo.objects.filter(
-            is_active=True,
-            available_weeks=get_week_value(get_week_of_month()),
-            available_days=get_day_name(),
-        )
-        context["breakfasts"] = available_combos.filter(is_active=True, mealtype="BREAKFAST")
-        context["lunches"] = available_combos.filter(is_active=True, mealtype="LUNCH")
-        context["dinners"] = available_combos.filter(is_active=True, mealtype="DINNER")
-        return context
-
-
-class AllEatsView(ListView):
-    template_name = "app/main/all_eats.html"
-    model = ItemCategory
-    context_object_name = "categories"
-    permissions = ("Administrator", "Customer")
-
-
-class CategoryDetailView(ListView):
-    template_name = "app/main/category_detail.html"
-    context_object_name = "items"
-    model = Combo
-    permissions = ("Administrator", "Customer")
-
-    def get_object(self):
-        return ItemCategory.objects.get(pk=self.kwargs["pk"], is_active=True)
-
-    def get_queryset(self):
-        return Combo.objects.filter(is_active=True, category=self.get_object())
-
-
-class HistoryView(HybridListView):
-    template_name = "app/main/history.html"
+class MealOrderListView(HybridListView):
+    permissions = ("Administrator", "Accountant")
     model = MealOrder
-    filterset_fields = ()
+    title = "Order Master"
     table_class = MealOrderTable
-    search_fields = ("combo__name",)
-    permissions = ("Customer",)
+    filterset_fields = ("user", "combo", "subscription_plan", "date", "status")
 
     def get_queryset(self):
-        return MealOrder.objects.filter(user=self.request.user, is_active=True)
+        return MealOrder.objects.filter(is_active=True)
 
 
-class HistoryDetailView(HybridDetailView):
+class MealOrderDetailView(HybridDetailView):
     model = MealOrder
-    permissions = ("Customer",)
+    permissions = ("Administrator", "Accountant")
 
 
-class PricingView(HybridTemplateView):
-    template_name = "app/main/pricing.html"
-    permissions = ("Administrator", "Customer")
+class MealOrderListData(HybridListView):
+    model = MealOrder
+    permissions = ("Administrator", "Accountant")
+    title = "Order Master Excel"
+    table_class = MealOrderDataTable
+    template_name = "app/main/mealorder_list_data.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        weekly_plans = SubscriptionPlan.objects.filter(is_active=True)
-        monthly_plans = SubscriptionPlan.objects.filter(is_active=True)
-        context["weekly_plans"] = weekly_plans
-        context["monthly_plans"] = monthly_plans
-        return context
+    def get_queryset(self):
+        return MealOrder.objects.filter(is_active=True)
 
 
-class HelpView(HybridTemplateView):
-    template_name = "app/main/help.html"
-    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
+class ComboListView(HybridListView):
+    filterset_fields = ("mealtype", "is_veg")
+    search_fields = ("name",)
+    permissions = ("Administrator", "Accountant", "KitchenManager")
+    model = Combo
+    title = "Item Master"
+    table_class = ComboTable
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+
+class ComboDetailView(HybridDetailView):
+    model = Combo
+    permissions = ("Administrator", "Accountant", "KitchenManager")
 
 
 class CustomerListView(HybridListView):
@@ -186,46 +146,6 @@ class CustomerListView(HybridListView):
 class CustomerDetailView(HybridDetailView):
     model = User
     permissions = ("Administrator",)
-
-
-class ComboListView(HybridListView):
-    filterset_fields = ("mealtype", "is_veg")
-    search_fields = ("name",)
-    permissions = ("Administrator",)
-    model = Combo
-    title = "Item Master"
-    table_class = ComboTable
-
-
-class ComboDetailView(HybridDetailView):
-    model = Combo
-
-
-class MealOrderListView(HybridListView):
-    permissions = ("Administrator",)
-    model = MealOrder
-    title = "Order Master"
-    table_class = MealOrderTable
-    filterset_fields = ("user", "combo", "subscription_plan", "date", "status")
-
-    def get_queryset(self):
-        return MealOrder.objects.filter(is_active=True)
-
-
-class MealOrderDetailView(HybridDetailView):
-    model = MealOrder
-    permissions = ("Administrator",)
-
-
-class MealOrderListData(HybridListView):
-    model = MealOrder
-    permissions = ("Administrator",)
-    title = "Order Master Excel"
-    table_class = MealOrderDataTable
-    template_name = "app/main/mealorder_list_data.html"
-
-    def get_queryset(self):
-        return MealOrder.objects.filter(is_active=True)
 
 
 class SubscriptionRequestListView(HybridListView):
@@ -264,7 +184,7 @@ class SubscriptionRequestApproveView(HybridDetailView):
         )
         data.status = "APPROVED"
         data.save()
-        return redirect("main:subscriptionrequest_detail", pk=data.pk)
+        return redirect("main:subscription_detail", pk=subscription.pk)
 
 
 class SubscriptionRequestRejectView(HybridDetailView):
@@ -282,3 +202,81 @@ class SubscriptionRequestPrintView(HybridDetailView):
     model = SubscriptionRequest
     permissions = ("Administrator",)
     template_name = "app/main/request_print.html"
+
+
+class SubscriptionListView(HybridListView):
+    model = Subscription
+    filterset_fields = ("user", "plan", "start_date", "end_date")
+    search_fields = ("user",)
+    permissions = ("Administrator", "Customer")
+    table_class = SubscriptionTable
+
+
+class SubscriptionDetailView(HybridDetailView):
+    model = Subscription
+    permissions = ("Administrator", "Customer")
+
+
+class HelpView(HybridTemplateView):
+    template_name = "app/main/help.html"
+    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+# class FeaturedEatsView(HybridTemplateView):
+#     template_name = "app/main/featured_eats.html"
+#     permissions = ("Customer", "KitchenManager")
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["week_number"] = get_week_of_month()
+#         context["day_name"] = get_day_name()
+#         available_combos = Combo.objects.filter(
+#             is_active=True,
+#             available_weeks=get_week_value(get_week_of_month()),
+#             available_days=get_day_name(),
+#         )
+#         context["breakfasts"] = available_combos.filter(is_active=True, mealtype="BREAKFAST")
+#         context["lunches"] = available_combos.filter(is_active=True, mealtype="LUNCH")
+#         context["dinners"] = available_combos.filter(is_active=True, mealtype="DINNER")
+#         return context
+
+
+# class AllEatsView(ListView):
+#     template_name = "app/main/all_eats.html"
+#     model = ItemCategory
+#     context_object_name = "categories"
+#     permissions = ("Administrator", "Customer", "KitchenManager")
+
+
+# class HistoryView(HybridListView):
+#     template_name = "app/main/history.html"
+#     model = MealOrder
+#     filterset_fields = ()
+#     table_class = MealOrderTable
+#     search_fields = ("combo__name",)
+#     permissions = ("Customer",)
+
+#     def get_queryset(self):
+#         return MealOrder.objects.filter(user=self.request.user, is_active=True)
+
+
+# class HistoryDetailView(HybridDetailView):
+#     model = MealOrder
+#     permissions = ("Customer",)
+
+
+# class PricingView(HybridTemplateView):
+#     template_name = "app/main/pricing.html"
+#     permissions = ("Administrator", "Customer")
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         weekly_plans = SubscriptionPlan.objects.filter(is_active=True)
+#         monthly_plans = SubscriptionPlan.objects.filter(is_active=True)
+#         context["weekly_plans"] = weekly_plans
+#         context["monthly_plans"] = monthly_plans
+#         return context

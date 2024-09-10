@@ -22,7 +22,6 @@
         {% endif %}
     </div>
 
-
     {% if request.user.usertype == "Customer" %}
     <div class="row">
         {% if request.user.has_active_subscription %}
@@ -65,11 +64,26 @@
         {% endif %}
     </div>
 
+
     {% elif request.user.usertype == "Delivery" %}
     <div class="row">
-        <!-- todo: view orders sorted by address -->
-        {% for order in orders %}
-        {% include 'app/partials/_order_list.html' %}
+        {% for key, value in datas.items %}
+        <div class="col-xl-4 col-sm-6 sp15">
+            <div class="card h-auto b-hover">
+                <div class="card-body">
+                    <div class="text-center mb-5">
+                        <h4 class="fw-bold">{{key}}</h4>
+                    </div>
+                    {% for item in value %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>{{item.0}}</span>
+                        <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
+                        </h6>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         {% empty %}
         <p>No Orders Recieved</p>
         {% endfor %}
@@ -77,9 +91,23 @@
 
     {% elif request.user.usertype == "Administrator" %}
     <div class="row">
-        <!-- todo: view orders sorted by address -->
-        {% for order in orders %}
-        {% include 'app/partials/_order_list.html' %}
+        {% for key, value in datas.items %}
+        <div class="col-xl-4 col-sm-6 sp15">
+            <div class="card h-auto b-hover">
+                <div class="card-body">
+                    <div class="text-center mb-5">
+                        <h4 class="fw-bold">{{key}}</h4>
+                    </div>
+                    {% for item in value %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>{{item.0}}</span>
+                        <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
+                        </h6>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         {% empty %}
         <p>No Orders Recieved</p>
         {% endfor %}
@@ -87,15 +115,73 @@
 
     {% elif request.user.usertype == "KitchenManager" %}
     <div class="row">
-        <!-- todo: view orders sorted by address -->
-        {% for order in orders %}
-        {% include 'app/partials/_order_list.html' %}
+        {% for key, value in datas.items %}
+        <div class="col-xl-4 col-sm-6 sp15">
+            <div class="card h-auto b-hover">
+                <div class="card-body">
+                    <div class="text-center mb-5">
+                        <h4 class="fw-bold">{{key}}</h4>
+                    </div>
+                    {% for item in value %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>{{item.0}}</span>
+                        <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
+                        </h6>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         {% empty %}
         <p>No Orders Recieved</p>
         {% endfor %}
     </div>
 
+    {% elif request.user.usertype == "Accountant" %}
+    <div class="row">
+        {% for key, value in datas.items %}
+        <div class="col-xl-4 col-sm-6 sp15">
+            <div class="card h-auto b-hover">
+                <div class="card-body">
+                    <div class="text-center mb-5">
+                        <h4 class="fw-bold">{{key}}</h4>
+                    </div>
+                    {% for item in value %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>{{item.0}}</span>
+                        <h6 class="mb-0" style="border: 1px solid #ccc;padding: 2px 4px;border-radius: 5px;">{{item.1}}
+                        </h6>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No Orders Recieved</p>
+        {% endfor %}
+    </div>
     {% endif %}
+
+
+    <div class="row row-sm">
+        <div class="col-lg-12">
+
+            <div class="card">
+                {% if table.paginated_rows %}
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        {% render_table table %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="card-body">
+                    {{title|title}} {% translate "list is empty." %}
+                    {% if can_add and create_url %}<a href="{{create_url}}">{% translate "Add New One" %}</a>{% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
 </div>
 

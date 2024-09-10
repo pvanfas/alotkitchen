@@ -9,3 +9,7 @@ For further assistance or information, please contact the support team.
 ---
 
 This README provides the basic setup details necessary for accessing and maintaining the alotkitchen application. For more detailed instructions or troubleshooting, please refer to the relevant documentation or contact support.
+
+todo:
+- On Request Approval, send email to customer to set password
+- Send order confirmation mail
