@@ -1,8 +1,8 @@
 {% if metadata.expand == 'newpage' %}
-<a class="btn btn-sm btn-light btn-outline-info" href="{{record.get_absolute_url}}">OPEN</a>
+<a class="btn btn-sm btn-light btn-outline-info" href="{{record.get_absolute_url}}">Open</a>
 {% else %}
 <button class="btn btn-sm btn-light btn-outline-info" type="button" data-bs-toggle="offcanvas"
-    data-bs-target="#offcanvas_{{record.pk}}" aria-controls="offcanvas_{{record.pk}}">OPEN</button>
+    data-bs-target="#offcanvas_{{record.pk}}" aria-controls="offcanvas_{{record.pk}}">Preview</button>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas_{{record.pk}}"
     aria-labelledby="offcanvas_{{record.pk}}Label">
