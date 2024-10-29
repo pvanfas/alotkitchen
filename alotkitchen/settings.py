@@ -183,7 +183,6 @@ APP_SETTINGS = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 ORG_DATA = {
     "company_name": "ALOT KITCHEN",
     "company_address": "Halawh, Alkhyrat Cafe LLC, Kitchen 13 - MC2 Kitchen Park, Evershine Gardens, Arjan, Dubai",
@@ -191,6 +190,13 @@ ORG_DATA = {
     "company_mail": "info@alotkitchen.com",
 }
 
+EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
+EMAIL_SENDER = config("EMAIL_SENDER", default="anfasperingavu@gmail.com")
+EMAIL_HOST = config("EMAIL_HOST", default="smtp-relay.brevo.com")
+EMAIL_PORT = config("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="78d16c002@smtp-brevo.com")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="fGcWkKndjBa2V7wr")
+EMAIL_USE_TLS = True
 
 # DATABASES["default"]["ENGINE"] = "django.db.backends.sqlite3"
 # DATABASES["default"]["NAME"] = BASE_DIR / "db.sqlite3"

@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
@@ -129,6 +131,31 @@ def select_plan(request, pk):
 def select_address(request, pk):
     instance = SubscriptionRequest.objects.get(pk=pk)
     form = SubscriptionAddressForm(request.POST or None, instance=instance)
+    if "BREAKFAST" not in instance.mealtypes():
+        form.fields.pop("breakfast_address_room_no")
+        form.fields.pop("breakfast_address_floor")
+        form.fields.pop("breakfast_address_building_name")
+        form.fields.pop("breakfast_address_street_name")
+        form.fields.pop("breakfast_address_area")
+        form.fields.pop("breakfast_time")
+        form.fields.pop("breakfast_location")
+    if "LUNCH" not in instance.mealtypes():
+        form.fields.pop("lunch_address_room_no")
+        form.fields.pop("lunch_address_floor")
+        form.fields.pop("lunch_address_building_name")
+        form.fields.pop("lunch_address_street_name")
+        form.fields.pop("lunch_address_area")
+        form.fields.pop("lunch_time")
+        form.fields.pop("lunch_location")
+    if "DINNER" not in instance.mealtypes():
+        form.fields.pop("dinner_address_room_no")
+        form.fields.pop("dinner_address_floor")
+        form.fields.pop("dinner_address_building_name")
+        form.fields.pop("dinner_address_street_name")
+        form.fields.pop("dinner_address_area")
+        form.fields.pop("dinner_time")
+        form.fields.pop("dinner_location")
+
     if request.method == "POST":
         if form.is_valid():
             data = form.save()
@@ -162,3 +189,8 @@ def get_plans(request):
     validity = request.GET.get("validity")
     plans = SubscriptionPlan.objects.filter(tier=tier, validity=validity).values("id", "name")
     return JsonResponse(list(plans), safe=False)
+
+
+def test(request):
+    send_mail(subject="Test", message="This is a test email", from_email=settings.EMAIL_SENDER, recipient_list=["anfaspv.info@gmail.com"], fail_silently=False)
+    return JsonResponse({"status": "success"})

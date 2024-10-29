@@ -2030,3 +2030,6 @@ del {
     color: #fff;
     background-color: #000;
 }
+.disabled.day {
+    opacity: 0.6;
+}

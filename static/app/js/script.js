@@ -61,7 +61,7 @@ $(function () {
         viewMode: "date",
         multidate: false,
         multidateSeparator: "-",
-        orientation: "bottom right"
+        orientation: "bottom right",
     });
 
     // $('input.datetimeinput').bootstrapdatepicker({

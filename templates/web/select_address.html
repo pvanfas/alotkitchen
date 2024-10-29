@@ -39,7 +39,8 @@
                       
                     <form action="" method="post">
                         {% csrf_token %}
-                        
+
+                        {% if "BREAKFAST" in instance.mealtypes %}
                         <div class="block mb-5">
                             <div class="title_group">
                                 <strong>Breakfast</strong>
@@ -76,10 +77,17 @@
                                             {{form.breakfast_time|as_crispy_field}}
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            {{form.breakfast_location|as_crispy_field}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
 
+                        {% if "LUNCH" in instance.mealtypes %}
                         <div class="block mb-5">
                             <div class="title_group">
                                 <strong>Lunch</strong>
@@ -120,11 +128,18 @@
                                             {{form.lunch_time|as_crispy_field}}
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            {{form.lunch_location|as_crispy_field}}
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
 
+                        {% if "DINNER" in instance.mealtypes %}
                         <div class="block mb-5">
                             <div class="title_group">
                                 <strong>Dinner</strong>
@@ -165,9 +180,15 @@
                                             {{form.dinner_time|as_crispy_field}}
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            {{form.dinner_location|as_crispy_field}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
 
                         <div class="pt-3">
                             <button type="submit" class="btn btn-primary">Next</button>

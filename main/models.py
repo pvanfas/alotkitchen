@@ -297,6 +297,7 @@ class SubscriptionRequest(BaseModel):
     breakfast_address_street_name = models.CharField(max_length=200, blank=True, null=True)
     breakfast_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="breakfast_address_area", blank=True, null=True)
     breakfast_time = models.CharField("Delivery Time (Breakfast)", max_length=200, choices=BREAKFAST_DELIVERY_CHOICES, default="0900:0930")
+    breakfast_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
 
     lunch_address_room_no = models.CharField(max_length=200, blank=True, null=True)
     lunch_address_floor = models.CharField(max_length=200, blank=True, null=True)
@@ -304,6 +305,7 @@ class SubscriptionRequest(BaseModel):
     lunch_address_street_name = models.CharField(max_length=200, blank=True, null=True)
     lunch_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="lunch_address_area", blank=True, null=True)
     lunch_time = models.CharField("Delivery Time (Lunch", max_length=200, choices=LUNCH_DELIVERY_CHOICES, default="1230:1300")
+    lunch_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
 
     dinner_address_room_no = models.CharField(max_length=200, blank=True, null=True)
     dinner_address_floor = models.CharField(max_length=200, blank=True, null=True)
@@ -311,6 +313,7 @@ class SubscriptionRequest(BaseModel):
     dinner_address_street_name = models.CharField(max_length=200, blank=True, null=True)
     dinner_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="dinner_address_area", blank=True, null=True)
     dinner_time = models.CharField("Delivery Time (Dinner)", max_length=200, choices=DINNER_DELIVERY_CHOICES, default="2100:2130")
+    dinner_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
 
     notes = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
@@ -339,6 +342,10 @@ class SubscriptionRequest(BaseModel):
 
     def get_print_url(self):
         return reverse("main:subscriptionrequest_print", kwargs={"pk": self.pk})
+
+    def mealtypes(self):
+        if self.plan:
+            return set(self.plan.available_mealtypes)
 
     def __str__(self):
         return f"{self.user} - {self.plan} - {self.start_date}"

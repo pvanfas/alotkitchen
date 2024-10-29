@@ -22,7 +22,9 @@
 						<a href="#packages" class="btn btn-primary">Browse Plans</a>
 						<a href="tel:+971569009143"><img src="/static/web/images/mobile.png" alt="" style="width:40px"></a>
 					</div>
+					{% if not request.user.is_authenticated %}
 					<p>Or <a href="{% url 'auth_login' %}" class="text-decoration-underline">Sign In to your account</a></p>
+					{% endif %}
 				</div>
 			</div>
 			

@@ -14,6 +14,7 @@ class SubscriptionRequestForm(forms.ModelForm):
     class Meta:
         model = SubscriptionRequest
         fields = ("select_plan", "select_days", "plan", "start_date")
+        widgets = {"start_date": forms.DateInput(attrs={"class": "dateinput form-control", "data-date-start-date": "0d"})}
 
 
 class SubscriptionAddressForm(forms.ModelForm):
@@ -26,32 +27,35 @@ class SubscriptionAddressForm(forms.ModelForm):
             "breakfast_address_street_name",
             "breakfast_address_area",
             "breakfast_time",
+            "breakfast_location",
             "lunch_address_room_no",
             "lunch_address_floor",
             "lunch_address_building_name",
             "lunch_address_street_name",
             "lunch_address_area",
+            "lunch_location",
             "lunch_time",
             "dinner_address_room_no",
             "dinner_address_floor",
             "dinner_address_building_name",
             "dinner_address_street_name",
+            "dinner_location",
             "dinner_address_area",
             "dinner_time",
             "notes",
         )
         labels = {
-            "breakfast_address_room_no": "Room No",
+            "breakfast_address_room_no": "Room No/Flat",
             "breakfast_address_floor": "Floor",
             "breakfast_address_building_name": "Building Name",
             "breakfast_address_street_name": "Street Name",
             "breakfast_address_area": "Area",
-            "lunch_address_room_no": "Room No",
+            "lunch_address_room_no": "Room No/Flat",
             "lunch_address_floor": "Floor",
             "lunch_address_building_name": "Building Name",
             "lunch_address_street_name": "Street Name",
             "lunch_address_area": "Area",
-            "dinner_address_room_no": "Room No",
+            "dinner_address_room_no": "Room No/Flat",
             "dinner_address_floor": "Floor",
             "dinner_address_building_name": "Building Name",
             "dinner_address_street_name": "Street Name",
