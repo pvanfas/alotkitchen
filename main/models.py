@@ -318,6 +318,12 @@ class SubscriptionRequest(BaseModel):
     notes = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     remarks = models.TextField(blank=True, null=True)
+    stage = models.CharField(
+        max_length=200,
+        default="OBJECT_CREATED",
+        choices=(("OBJECT_CREATED", "OBJECT_CREATED"), ("PLAN_SELECTED", "PLAN_SELECTED"), ("ADDRESS_ADDED", "ADDRESS_ADDED"), ("COMPLETED", "COMPLETED")),
+    )
+    completed_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ("start_date",)

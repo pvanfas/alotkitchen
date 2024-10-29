@@ -162,6 +162,15 @@ class SubscriptionRequestListView(HybridListView):
     title = "Subscription Requests"
     table_class = SubscriptionRequestTable
     filterset_fields = ("user", "plan", "start_date", "status")
+    template_name = "app/main/subscriptionrequest_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["all_requests_count"] = SubscriptionRequest.objects.filter(is_active=True).count()
+        context["pending_requests_count"] = SubscriptionRequest.objects.filter(is_active=True, status="PENDING").count()
+        context["approved_requests_count"] = SubscriptionRequest.objects.filter(is_active=True, status="APPROVED").count()
+        context["rejected_requests_count"] = SubscriptionRequest.objects.filter(is_active=True, status="REJECTED").count()
+        return context
 
 
 class SubscriptionRequestDetailView(HybridDetailView):
@@ -228,7 +237,12 @@ class SubscriptionRequestPrintView(HybridDetailView):
 
 class SubscriptionListView(HybridListView):
     model = Subscription
-    filterset_fields = ("user", "plan", "start_date", "end_date")
+    filterset_fields = (
+        "user",
+        "plan",
+        "start_date",
+        "end_date",
+    )
     search_fields = ("user",)
     permissions = ("Administrator", "Customer")
     table_class = SubscriptionTable
