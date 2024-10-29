@@ -31,39 +31,47 @@
     <div class="row">
 
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="card bg-gradient-primary card-img-holder text-white">
-                <div class="card-body">
-                    <h5 class="">All Requests</h5>
-                    <h3 class="mb-0 mt-auto text-white">{{all_requests_count}}</h3>
+            <a href="{{request.get_absolute_url}}?status=">
+                <div class="card bg-gradient-primary card-img-holder text-white">
+                    <div class="card-body">
+                        <h5 class="">All Requests</h5>
+                        <h3 class="mb-0 mt-auto text-white">{{all_requests_count}}</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="card bg-gradient-info card-img-holder text-white">
-                <div class="card-body">
-                    <h5 class="">Pending Requests</h5>
-                    <h3 class="mb-0 mt-auto text-white">{{pending_requests_count}}</h3>
+            <a href="{{request.get_absolute_url}}?status=PENDING">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                    <div class="card-body">
+                        <h5 class="">Pending Requests</h5>
+                        <h3 class="mb-0 mt-auto text-white">{{pending_requests_count}}</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="card bg-gradient-success card-img-holder text-white">
-                <div class="card-body">
-                    <h5 class="">Approved Requests</h5>
-                    <h3 class="mb-0 mt-auto text-white">{{approved_requests_count}}</h3>
+            <a href="{{request.get_absolute_url}}?status=APPROVED">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                    <div class="card-body">
+                        <h5 class="">Approved Requests</h5>
+                        <h3 class="mb-0 mt-auto text-white">{{approved_requests_count}}</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6">
-            <div class="card bg-gradient-warning card-img-holder text-white">
-                <div class="card-body">
-                    <h5 class="">Rejected Requests</h5>
-                    <h3 class="mb-0 mt-auto text-white">{{rejected_requests_count}}</h3>
+            <a href="{{request.get_absolute_url}}?status=REJECTED">
+                <div class="card bg-gradient-warning card-img-holder text-white">
+                    <div class="card-body">
+                        <h5 class="">Rejected Requests</h5>
+                        <h3 class="mb-0 mt-auto text-white">{{rejected_requests_count}}</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
 
     </div>
