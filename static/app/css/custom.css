@@ -2040,3 +2040,23 @@ table.nowrap td {
     display: flex;
     align-items: center;
 }
+.label-success {
+    border: 1px solid green;
+    background: none;
+    color: green;
+}
+.label-danger {
+    border: 1px solid red;
+    background: none;
+    color: red;
+}
+.label-warning {
+    border: 1px solid orange;
+    background: none;
+    color: orange;
+}
+.label-info {
+    border: 1px solid blue;
+    background: none;
+    color: blue;
+}

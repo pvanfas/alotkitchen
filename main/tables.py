@@ -27,6 +27,8 @@ class BranchTable(BaseTable):
 
 
 class MealOrderTable(BaseTable):
+    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
+
     class Meta:
         model = MealOrder
         fields = ("date", "user", "combo", "combo__mealtype", "subscription_plan", "status")
@@ -43,6 +45,7 @@ class CustomerMealOrderTable(BaseTable):
 
 
 class StandardMealOrderTable(BaseTable):
+    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
     address = columns.TemplateColumn("{{record.get_address}}", orderable=False)
     action = None
 
@@ -104,6 +107,8 @@ class MealOrderDataTable(Table):
 
 
 class SubscriptionRequestTable(BaseTable):
+    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
+
     class Meta:
         model = SubscriptionRequest
         fields = ("user", "plan", "start_date", "status")
@@ -122,7 +127,7 @@ class StandardSubscriptionTable(BaseTable):
 
 class DeliveryMealOrderTable(BaseTable):
     action = columns.TemplateColumn(template_name="app/partials/delivery_order_actions.html", orderable=False)
-    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-7 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
+    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
 
     class Meta:
         model = MealOrder

@@ -153,10 +153,7 @@ class ComboDetailView(HybridDetailView):
 class CustomerListView(HybridListView):
     filterset_fields = ("username", "email")
     search_fields = ("username", "email", "mobile")
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
     model = User
     title = "Customers"
     table_class = UserTable
@@ -167,19 +164,13 @@ class CustomerListView(HybridListView):
 
 class CustomerDetailView(HybridDetailView):
     model = User
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
 
 
 class SubscriptionRequestListView(HybridListView):
     metadata = {"expand": "newpage"}
     model = SubscriptionRequest
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
     title = "Subscription Requests"
     table_class = SubscriptionRequestTable
     filterset_fields = ("user", "plan", "start_date", "status")
@@ -196,10 +187,7 @@ class SubscriptionRequestListView(HybridListView):
 
 class SubscriptionRequestDetailView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
     template_name = "app/main/request_detail.html"
 
     def get_context_data(self, **kwargs):
@@ -248,10 +236,7 @@ class SubscriptionRequestUpdateView(HybridUpdateView):
 
 class SubscriptionRequestApproveView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
 
     # def get(self, request, *args, **kwargs):
     #     data = self.get_object()
@@ -269,10 +254,7 @@ class SubscriptionRequestApproveView(HybridDetailView):
 
 class SubscriptionRequestRejectView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
 
     def get(self, request, *args, **kwargs):
         data = self.get_object()
@@ -283,21 +265,13 @@ class SubscriptionRequestRejectView(HybridDetailView):
 
 class SubscriptionRequestPrintView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = (
-        "Administrator",
-        "Manager",
-    )
+    permissions = ("Administrator", "Manager")
     template_name = "app/main/request_print.html"
 
 
 class SubscriptionListView(HybridListView):
     model = Subscription
-    filterset_fields = (
-        "user",
-        "plan",
-        "start_date",
-        "end_date",
-    )
+    filterset_fields = ("user", "plan", "start_date", "end_date")
     search_fields = ("user",)
     permissions = ("Administrator", "Manager", "Customer")
     table_class = SubscriptionTable
@@ -378,3 +352,12 @@ class UpdateMealOrderStatusView(HybridView):
         order.status = delivery_status
         order.save()
         return redirect("main:dashboard_view")
+
+
+class ChangeMenuView(HybridListView):
+    model = MealOrder
+    permissions = ("Administrator", "Manager", "KitchenManager")
+    table_class = MealOrderTable
+
+    def get_queryset(self):
+        return MealOrder.objects.filter(date=datetime.today(), is_active=True)
