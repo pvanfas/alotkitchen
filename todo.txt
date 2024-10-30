@@ -1,13 +1,2 @@
-1. Include an input field to capture a location link, in addition to the address field. 
-2. Replace the existing images with new ones. 
-3. Modify the field "Room No" to "Room No/Flat." 
-4. Implement email notifications: send to admin upon receiving a new request and to the customer upon request approval. 
-5. Categorize subscription requests into four pages. 
-6. Introduce an additional form before approval to collect data such as "Who Approved," "Driver," "Meal Fee," and "Number of Meals."
-7. Add a new user type, "Manager," and implement a manager approval workflow. 
-8. Customize the menu based on day/item selection, with automatic price allocation.
-9. Update the Excel format in line with the new specifications. 
-10. Enable bulk product updates for selected customers in case of product unavailability. Notify customers about the change and collect feedback using emojis. 
-11. Add functionality for drivers to update delivery status, with orders arranged by time and priority. 
-12. Replace the order cancellation option with "Donate My Food to Charity." 
-13. Implement zone-wise driver allocation for deliveries.
+1. Customize the menu based on day/item selection, with automatic price allocation.
+2. Enable bulk product updates for selected customers in case of product unavailability. Notify customers about the change and collect feedback using emojis. 
