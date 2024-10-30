@@ -64,13 +64,15 @@
 
       {% if request.user.usertype == "Administrator" %}
         {% include 'app/sidebar/administrator.html' %}
+      {% elif request.user.usertype == "Manager" %}
+        {% include 'app/sidebar/manager.html' %}
       {% elif request.user.usertype == "Customer" %}
         {% include 'app/sidebar/customer.html' %}
       {% elif request.user.usertype == "Delivery" %}
         {% include 'app/sidebar/delivery.html' %}
       {% elif request.user.usertype == "KitchenManager" %}
         {% include 'app/sidebar/kitchenmanager.html' %}
-        {% elif request.user.usertype == "Accountant" %}
+      {% elif request.user.usertype == "Accountant" %}
         {% include 'app/sidebar/accountant.html' %}
       {% endif %}
 

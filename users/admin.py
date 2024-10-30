@@ -28,16 +28,7 @@ class MyUserAdmin(UserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
     ordering = ("username",)
-    list_display = (
-        "username",
-        "mobile",
-        "usertype",
-        "is_active",
-        "is_staff",
-        "is_superuser",
-        "last_login",
-        "date_joined",
-    )
+    list_display = ("username", "mobile", "usertype", "is_active", "is_staff", "is_superuser", "last_login")
     list_display_links = ("username",)
     readonly_fields = ("last_login", "date_joined", "pk")
     list_filter = ("is_active", "is_staff", "is_superuser", "date_joined", "last_login", "usertype")

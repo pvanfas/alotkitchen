@@ -56,6 +56,7 @@ class AreaAdmin(BaseAdmin):
     list_display = ("name", "is_active")
     search_fields = ("name",)
     list_filter = ("is_active",)
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(SubscriptionRequest)

@@ -33,6 +33,15 @@ class MealOrderTable(BaseTable):
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
+class CustomerMealOrderTable(BaseTable):
+    action = columns.TemplateColumn(template_name="app/partials/customer_order_actions.html", orderable=False)
+
+    class Meta:
+        model = MealOrder
+        fields = ("combo", "combo__mealtype", "subscription_plan", "is_donated", "action")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+
+
 class StandardMealOrderTable(BaseTable):
     address = columns.TemplateColumn("{{record.get_address}}", orderable=False)
     action = None
@@ -61,16 +70,37 @@ class MealOrderDataTable(Table):
     U_OrderType = columns.Column(verbose_name="U_OrderType")
     U_Order_Catg = columns.Column(verbose_name="U_Order_Catg")
     U_MealType = columns.Column(verbose_name="U_MealType")
+    U_Zone = columns.Column(verbose_name="U_Zone")
+    U_Driver = columns.Column(verbose_name="U_Driver")
+    U_DT = columns.Column(verbose_name="U_DT")
     ParentKey = columns.Column(verbose_name="ParentKey")
     LineNum = columns.Column(verbose_name="LineNum")
     Quantity = columns.Column(verbose_name="Quantity")
     ItemCode = columns.Column(verbose_name="ItemCode")
+    PriceAfterVAT = columns.Column(verbose_name="PriceAfterVAT")
 
     class Meta:
         model = MealOrder
         template_name = "django_tables2/table_raw.html"
-        fields = ("DocNum", "Series", "DocDate", "DocDueDate", "CardCode", "U_OrderType", "U_Order_Catg", "U_MealType", "ParentKey", "LineNum", "Quantity", "ItemCode")
-        attrs = {"class": "table key-buttons border-bottom table-hover normalcase", "id": "exportTable"}  # noqa: RUF012
+        fields = (
+            "DocNum",
+            "Series",
+            "DocDate",
+            "DocDueDate",
+            "CardCode",
+            "U_OrderType",
+            "U_Order_Catg",
+            "U_MealType",
+            "U_Zone",
+            "U_Driver",
+            "U_DT",
+            "ParentKey",
+            "LineNum",
+            "Quantity",
+            "ItemCode",
+            "PriceAfterVAT",
+        )
+        attrs = {"class": "table nowrap key-buttons border-bottom table-hover normalcase", "id": "exportTable"}  # noqa: RUF012
 
 
 class SubscriptionRequestTable(BaseTable):
@@ -87,4 +117,14 @@ class StandardSubscriptionTable(BaseTable):
     class Meta:
         model = Subscription
         fields = ("user", "plan", "start_date", "end_date")
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+
+
+class DeliveryMealOrderTable(BaseTable):
+    action = columns.TemplateColumn(template_name="app/partials/delivery_order_actions.html", orderable=False)
+    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-7 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
+
+    class Meta:
+        model = MealOrder
+        fields = ("user", "combo", "combo__mealtype", "date", "delivery_time", "status", "action")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012

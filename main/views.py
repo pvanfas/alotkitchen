@@ -11,12 +11,22 @@ from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
 from users.models import CustomUser as User
 from users.tables import UserTable
 
-from .forms import SubscriptionAddressForm
-from .mixins import HybridTemplateView
+from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
+from .mixins import HybridTemplateView, HybridView
 from .models import Combo, ItemCategory, MealOrder, Subscription, SubscriptionRequest
-from .tables import ComboTable, MealOrderDataTable, MealOrderTable, StandardMealOrderTable, StandardSubscriptionTable, SubscriptionRequestTable, SubscriptionTable
+from .tables import (
+    ComboTable,
+    CustomerMealOrderTable,
+    DeliveryMealOrderTable,
+    MealOrderDataTable,
+    MealOrderTable,
+    StandardMealOrderTable,
+    StandardSubscriptionTable,
+    SubscriptionRequestTable,
+    SubscriptionTable,
+)
 
-# permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
+# permissions = ("Administrator","Manager", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
 
 
 def get_week_of_month():
@@ -38,7 +48,7 @@ def get_week_value(n):
 
 class DashboardView(HybridListView):
     template_name = "app/main/home.html"
-    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
+    permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
     model = MealOrder
     context_object_name = "orders"
 
@@ -46,7 +56,9 @@ class DashboardView(HybridListView):
         if self.request.user.usertype == "KitchenManager":
             return StandardMealOrderTable
         elif self.request.user.usertype == "Delivery":
-            return StandardMealOrderTable
+            return DeliveryMealOrderTable
+        elif self.request.user.usertype == "Customer":
+            return CustomerMealOrderTable
         return MealOrderTable
 
     def get_queryset(self):
@@ -72,7 +84,7 @@ class DashboardView(HybridListView):
 
 class TomorrowOrdersView(HybridListView):
     template_name = "app/main/home.html"
-    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer", "Accountant")
+    permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
     model = MealOrder
     table_class = MealOrderTable
     context_object_name = "orders"
@@ -98,7 +110,7 @@ class TomorrowOrdersView(HybridListView):
 
 
 class MealOrderListView(HybridListView):
-    permissions = ("Administrator", "Accountant")
+    permissions = ("Administrator", "Manager", "Accountant")
     model = MealOrder
     title = "Order Master"
     table_class = MealOrderTable
@@ -110,12 +122,12 @@ class MealOrderListView(HybridListView):
 
 class MealOrderDetailView(HybridDetailView):
     model = MealOrder
-    permissions = ("Administrator", "Accountant")
+    permissions = ("Administrator", "Manager", "Accountant")
 
 
 class MealOrderListData(HybridListView):
     model = MealOrder
-    permissions = ("Administrator", "Accountant")
+    permissions = ("Administrator", "Manager", "Accountant")
     title = "Order Master Excel"
     table_class = MealOrderDataTable
     template_name = "app/main/mealorder_list_data.html"
@@ -127,7 +139,7 @@ class MealOrderListData(HybridListView):
 class ComboListView(HybridListView):
     filterset_fields = ("mealtype", "is_veg")
     search_fields = ("name",)
-    permissions = ("Administrator", "Accountant", "KitchenManager")
+    permissions = ("Administrator", "Manager", "Accountant", "KitchenManager")
     model = Combo
     title = "Item Master"
     table_class = ComboTable
@@ -135,13 +147,16 @@ class ComboListView(HybridListView):
 
 class ComboDetailView(HybridDetailView):
     model = Combo
-    permissions = ("Administrator", "Accountant", "KitchenManager")
+    permissions = ("Administrator", "Manager", "Accountant", "KitchenManager")
 
 
 class CustomerListView(HybridListView):
     filterset_fields = ("username", "email")
     search_fields = ("username", "email", "mobile")
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
     model = User
     title = "Customers"
     table_class = UserTable
@@ -152,13 +167,19 @@ class CustomerListView(HybridListView):
 
 class CustomerDetailView(HybridDetailView):
     model = User
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
 
 
 class SubscriptionRequestListView(HybridListView):
     metadata = {"expand": "newpage"}
     model = SubscriptionRequest
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
     title = "Subscription Requests"
     table_class = SubscriptionRequestTable
     filterset_fields = ("user", "plan", "start_date", "status")
@@ -175,13 +196,38 @@ class SubscriptionRequestListView(HybridListView):
 
 class SubscriptionRequestDetailView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
     template_name = "app/main/request_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = SubscriptionRequestApprovalForm(self.request.POST or None, instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        instance = self.get_object()
+        form = SubscriptionRequestApprovalForm(request.POST, instance=instance)
+        subscription, _ = Subscription.objects.get_or_create(
+            request=instance,
+            user=instance.user,
+            plan=instance.plan,
+            start_date=instance.start_date,
+            end_date=instance.start_date + timezone.timedelta(days=instance.plan.validity),
+        )
+        instance.status = "APPROVED"
+        instance.save()
+        if form.is_valid():
+            form.save()
+            return redirect("main:subscriptionrequest_list")
+        return self.get(request, *args, **kwargs)
 
 
 class SubscriptionRequestUpdateView(HybridUpdateView):
     model = SubscriptionRequest
-    permissions = ("Administrator", "Customer")
+    permissions = ("Administrator", "Manager", "Customer")
     exclude = ("status", "is_active", "user")
 
     def get_form_class(self):
@@ -202,25 +248,31 @@ class SubscriptionRequestUpdateView(HybridUpdateView):
 
 class SubscriptionRequestApproveView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
 
-    def get(self, request, *args, **kwargs):
-        data = self.get_object()
-        subscription, _ = Subscription.objects.get_or_create(
-            request=data,
-            user=data.user,
-            plan=data.plan,
-            start_date=data.start_date,
-            end_date=data.start_date + timezone.timedelta(days=data.plan.validity),
-        )
-        data.status = "APPROVED"
-        data.save()
-        return redirect("main:subscription_detail", pk=subscription.pk)
+    # def get(self, request, *args, **kwargs):
+    #     data = self.get_object()
+    #     subscription, _ = Subscription.objects.get_or_create(
+    #         request=data,
+    #         user=data.user,
+    #         plan=data.plan,
+    #         start_date=data.start_date,
+    #         end_date=data.start_date + timezone.timedelta(days=data.plan.validity),
+    #     )
+    #     data.status = "APPROVED"
+    #     data.save()
+    #     return redirect("main:subscription_detail", pk=subscription.pk)
 
 
 class SubscriptionRequestRejectView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
 
     def get(self, request, *args, **kwargs):
         data = self.get_object()
@@ -231,7 +283,10 @@ class SubscriptionRequestRejectView(HybridDetailView):
 
 class SubscriptionRequestPrintView(HybridDetailView):
     model = SubscriptionRequest
-    permissions = ("Administrator",)
+    permissions = (
+        "Administrator",
+        "Manager",
+    )
     template_name = "app/main/request_print.html"
 
 
@@ -244,7 +299,7 @@ class SubscriptionListView(HybridListView):
         "end_date",
     )
     search_fields = ("user",)
-    permissions = ("Administrator", "Customer")
+    permissions = ("Administrator", "Manager", "Customer")
     table_class = SubscriptionTable
 
     def get_queryset(self):
@@ -260,12 +315,12 @@ class SubscriptionListView(HybridListView):
 
 class SubscriptionDetailView(HybridDetailView):
     model = Subscription
-    permissions = ("Administrator", "Customer")
+    permissions = ("Administrator", "Manager", "Customer")
 
 
 class HelpView(HybridTemplateView):
     template_name = "app/main/help.html"
-    permissions = ("Administrator", "KitchenManager", "Delivery", "Customer")
+    permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -281,7 +336,7 @@ class AllEatsView(ListView):
     template_name = "app/main/all_eats.html"
     model = ItemCategory
     context_object_name = "categories"
-    permissions = ("Administrator", "Customer", "KitchenManager")
+    permissions = ("Administrator", "Manager", "Customer", "KitchenManager")
 
 
 class HistoryView(HybridListView):
@@ -294,3 +349,32 @@ class HistoryView(HybridListView):
 
     def get_queryset(self):
         return MealOrder.objects.filter(user=self.request.user, is_active=True, date__lt=datetime.today())
+
+
+class DonateMealOrderView(HybridView):
+    model = MealOrder
+    permissions = ("Customer",)
+
+    def get_object(self):
+        return self.model.objects.get(pk=self.kwargs["pk"])
+
+    def get(self, request, *args, **kwargs):
+        order = self.get_object()
+        order.is_donated = True
+        order.save()
+        return redirect("main:dashboard_view")
+
+
+class UpdateMealOrderStatusView(HybridView):
+    model = MealOrder
+    permissions = ("Delivery",)
+
+    def get_object(self):
+        return self.model.objects.get(pk=self.kwargs["pk"])
+
+    def post(self, request, *args, **kwargs):
+        order = self.get_object()
+        delivery_status = request.POST.get("delivery_status")
+        order.status = delivery_status
+        order.save()
+        return redirect("main:dashboard_view")

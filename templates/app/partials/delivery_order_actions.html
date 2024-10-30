@@ -1,0 +1,55 @@
+{% if record.user %}
+<a href="tel:{{record.user}}" target="_blank" class="btn btn-sm btn-light btn-outline-primary">Call</a>
+{% endif %}
+
+{% if record.map %}
+<a href="{{record.map}}" target="_blank" class="btn btn-sm btn-light btn-outline-primary">Location</a>
+{% endif %}
+    
+<button type="button" class="btn btn-sm btn-light btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Update Status</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{% url 'main:updatemealorderstatus_view' record.pk %}" method="post">
+            <div class="modal-content">
+                {%  csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update Delivery Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" name="order" value="{{record.pk}}">
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <div class="d-flex">
+                            <div class="form-check">
+                                <label class="form-check-label" for="id_IN_TRANSIT">
+                                    <input class="form-check-input" type="radio" name="delivery_status" id="id_IN_TRANSIT" value="IN_TRANSIT">
+                                  In Transit
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="id_DELIVERED">
+                                    <input class="form-check-input" type="radio" name="delivery_status" id="id_DELIVERED" value="DELIVERED">
+                                    Delivered
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="id_CANCELLED">
+                                    <input class="form-check-input" type="radio" name="delivery_status" id="id_CANCELLED" value="CANCELLED">
+                                    Cancelled
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

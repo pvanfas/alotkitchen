@@ -1492,7 +1492,7 @@ ul li .report_card:hover {
     align-items: center;
     margin-right: 10px;
     border: 1px solid #ccc;
-    padding: 3px 10px 3px 5px;
+    padding: 5px 10px 5px 10px;
     border-radius: 6px;
 }
 
@@ -2032,4 +2032,11 @@ del {
 }
 .disabled.day {
     opacity: 0.6;
+}
+table.nowrap td {
+    white-space: nowrap;
+}
+.modal-body .form-check-label {
+    display: flex;
+    align-items: center;
 }

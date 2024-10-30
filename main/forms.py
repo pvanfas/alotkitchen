@@ -70,3 +70,23 @@ class SubscriptionNoteForm(forms.ModelForm):
         fields = ("notes",)
         labels = {"notes": "Special Instructions (Allergies, etc.)"}
         widgets = {"notes": forms.Textarea(attrs={"rows": 4})}
+
+
+class SubscriptionRequestApprovalForm(forms.ModelForm):
+    class Meta:
+        model = SubscriptionRequest
+        fields = ("area", "delivery_staff", "meal_fee", "no_of_meals")
+        labels = {
+            "area": "Delivery Zone",
+            "delivery_staff": "Delivery Staff",
+            "meal_fee": "Meal Fee",
+            "no_of_meals": "No of Meals",
+        }
+
+
+class MealOrderUpdateStatusForm(forms.ModelForm):
+    class Meta:
+        model = SubscriptionRequest
+        fields = ("status",)
+        labels = {"status": "Status"}
+        widgets = {"status": forms.Select(attrs={"class": "form-control"})}

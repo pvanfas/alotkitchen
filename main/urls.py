@@ -25,6 +25,8 @@ urlpatterns = [
     path("requests/print/<str:pk>/", views.SubscriptionRequestPrintView.as_view(), name="subscriptionrequest_print"),
     path("help/", views.HelpView.as_view(), name="help_view"),
     path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
+    path("donate/<str:pk>/", views.DonateMealOrderView.as_view(), name="donatemealorder_view"),
+    path("update_status/<str:pk>/", views.UpdateMealOrderStatusView.as_view(), name="updatemealorderstatus_view"),
     # Pages
     path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),
     path("history/", views.HistoryView.as_view(), name="history_view"),

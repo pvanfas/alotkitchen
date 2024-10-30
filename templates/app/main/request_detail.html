@@ -116,7 +116,7 @@
             </div>
             {% if object.status == "PENDING" %}
             <div class="col-6 mb-2">
-              <a href="{{object.get_approve_url}}" class="btn btn-success btn-block">Approve</a>
+              <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Approve</button>
             </div>
             <div class="col-6 mb-2">
               <a href="{{object.get_reject_url}}" class="btn btn-danger btn-block">Reject</a>
@@ -132,4 +132,27 @@
 
 </div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Approve Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{form|crispy}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Approve</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock content %}

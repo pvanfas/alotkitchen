@@ -28,6 +28,7 @@ def get_week_number(date):
 class Area(BaseModel):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
+    delivery_staffs = models.ManyToManyField("users.CustomUser", related_name="delivery_areas", limit_choices_to={"usertype": "Delivery"}, blank=True)
 
     class Meta:
         ordering = ("name",)
@@ -208,6 +209,7 @@ class MealOrder(BaseModel):
     date = models.DateField()
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=200, default="PENDING", choices=ORDER_STATUS_CHOICES)
+    is_donated = models.BooleanField(default=False)
 
     def flag(self):
         data = {
@@ -270,6 +272,40 @@ class MealOrder(BaseModel):
     def U_MealType(self):
         return self.combo.mealtype.capitalize()
 
+    def U_Zone(self):
+        return self.subscription.request.area
+
+    def U_Driver(self):
+        return self.subscription.request.delivery_staff
+
+    def U_DT(self):
+        if self.combo.mealtype == "BREAKFAST":
+            value = self.subscription.request.get_breakfast_time_display()
+        if self.combo.mealtype == "LUNCH":
+            value = self.subscription.request.get_lunch_time_display()
+        if self.combo.mealtype == "DINNER":
+            value = self.subscription.request.get_dinner_time_display()
+        if self.combo.mealtype == "TIFFIN_LUNCH":
+            value = self.subscription.request.get_lunch_time_display()
+        if value:
+            return value.split("to")[0]
+        else:
+            return ""
+
+    def map(self):
+        if self.combo.mealtype == "BREAKFAST":
+            return self.subscription.request.breakfast_location
+        if self.combo.mealtype == "LUNCH":
+            return self.subscription.request.lunch_location
+        if self.combo.mealtype == "DINNER":
+            return self.subscription.request.dinner_location
+        if self.combo.mealtype == "TIFFIN_LUNCH":
+            return self.subscription.request.lunch_location
+        return None
+
+    def delivery_time(self):
+        return self.U_DT()
+
     def ParentKey(self):
         return " "
 
@@ -281,6 +317,9 @@ class MealOrder(BaseModel):
 
     def ItemCode(self):
         return self.combo.item_code
+
+    def PriceAfterVAT(self):
+        return self.combo.price
 
     def __str__(self):
         return f"{self.combo} - {self.date}"
@@ -324,6 +363,15 @@ class SubscriptionRequest(BaseModel):
         choices=(("OBJECT_CREATED", "OBJECT_CREATED"), ("PLAN_SELECTED", "PLAN_SELECTED"), ("ADDRESS_ADDED", "ADDRESS_ADDED"), ("COMPLETED", "COMPLETED")),
     )
     completed_at = models.DateTimeField(blank=True, null=True)
+
+    approved_by = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="approved_requests", blank=True, null=True)
+    approved_at = models.DateTimeField(blank=True, null=True)
+    area = models.ForeignKey("main.Area", verbose_name=_("Zone"), on_delete=models.CASCADE, blank=True, null=True)
+    delivery_staff = models.ForeignKey(
+        "users.CustomUser", on_delete=models.CASCADE, related_name="driver_requests", blank=True, null=True, limit_choices_to={"usertype": "Delivery"}
+    )
+    meal_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    no_of_meals = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ("start_date",)
