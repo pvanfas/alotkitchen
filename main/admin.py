@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, Combo, ItemCategory, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Area, Combo, ItemCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -65,3 +65,33 @@ class SubscriptionRequestAdmin(BaseAdmin):
     search_fields = ("user__email",)
     list_filter = ("status",)
     autocomplete_fields = ("user", "plan")
+
+
+@admin.register(Preferance)
+class PreferanceAdmin(BaseAdmin):
+    list_display = ("user", "is_active")
+    list_filter = ("is_active",)
+    autocomplete_fields = (
+        "user",
+        "monday_breakfast",
+        "monday_lunch",
+        "monday_dinner",
+        "tuesday_breakfast",
+        "tuesday_lunch",
+        "tuesday_dinner",
+        "wednesday_breakfast",
+        "wednesday_lunch",
+        "wednesday_dinner",
+        "thursday_breakfast",
+        "thursday_lunch",
+        "thursday_dinner",
+        "friday_breakfast",
+        "friday_lunch",
+        "friday_dinner",
+        "saturday_breakfast",
+        "saturday_lunch",
+        "saturday_dinner",
+        "sunday_breakfast",
+        "sunday_lunch",
+        "sunday_dinner",
+    )

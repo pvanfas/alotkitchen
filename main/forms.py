@@ -1,7 +1,7 @@
 from django import forms
 
 from .choices import TIER_CHOICES, VALIDITY_CHOICES
-from .models import SubscriptionRequest
+from .models import Preferance, SubscriptionRequest
 
 TIER_CHOICES = (("", "-- Select Plan --"),) + TIER_CHOICES
 VALIDITY_CHOICES = (("", "-- Select Days --"),) + VALIDITY_CHOICES
@@ -90,3 +90,31 @@ class MealOrderUpdateStatusForm(forms.ModelForm):
         fields = ("status",)
         labels = {"status": "Status"}
         widgets = {"status": forms.Select(attrs={"class": "form-control"})}
+
+
+class PreferanceForm(forms.ModelForm):
+    class Meta:
+        model = Preferance
+        fields = (
+            "monday_breakfast",
+            "monday_lunch",
+            "monday_dinner",
+            "tuesday_breakfast",
+            "tuesday_lunch",
+            "tuesday_dinner",
+            "wednesday_breakfast",
+            "wednesday_lunch",
+            "wednesday_dinner",
+            "thursday_breakfast",
+            "thursday_lunch",
+            "thursday_dinner",
+            "friday_breakfast",
+            "friday_lunch",
+            "friday_dinner",
+            "saturday_breakfast",
+            "saturday_lunch",
+            "saturday_dinner",
+            "sunday_breakfast",
+            "sunday_lunch",
+            "sunday_dinner",
+        )

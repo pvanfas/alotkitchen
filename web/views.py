@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 
 from main.choices import MEALTYPE_CHOICES
-from main.forms import SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
+from main.forms import PreferanceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
 from main.models import Area, Combo, SubscriptionPlan, SubscriptionRequest
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
@@ -91,6 +91,39 @@ def standardveg(request):
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
     structured_table_data = gen_structured_table_data(combos)
     context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    return render(request, template_name, context)
+
+
+def customize_menu(request):
+    form = PreferanceForm(request.POST or None)
+    tier = request.GET.get("tier")
+    fields = (
+        "monday_breakfast",
+        "monday_lunch",
+        "monday_dinner",
+        "tuesday_breakfast",
+        "tuesday_lunch",
+        "tuesday_dinner",
+        "wednesday_breakfast",
+        "wednesday_lunch",
+        "wednesday_dinner",
+        "thursday_breakfast",
+        "thursday_lunch",
+        "thursday_dinner",
+        "friday_breakfast",
+        "friday_lunch",
+        "friday_dinner",
+        "saturday_breakfast",
+        "saturday_lunch",
+        "saturday_dinner",
+        "sunday_breakfast",
+        "sunday_lunch",
+        "sunday_dinner",
+    )
+    for field in fields:
+        form.fields[field].queryset = form.fields[field].queryset.filter(tier=tier)
+    template_name = "web/customize_menu.html"
+    context = {"form": form}
     return render(request, template_name, context)
 
 

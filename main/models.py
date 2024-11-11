@@ -87,6 +87,102 @@ class Combo(BaseModel):
         return self.name
 
 
+class Preferance(BaseModel):
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferances")
+    monday_breakfast = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="monday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Monday"}
+    )
+    monday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="monday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Monday"}
+    )
+    monday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="monday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Monday"}
+    )
+
+    tuesday_breakfast = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="tuesday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Tuesday"}
+    )
+    tuesday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="tuesday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Tuesday"}
+    )
+    tuesday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="tuesday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Tuesday"}
+    )
+
+    wednesday_breakfast = models.ForeignKey(
+        Combo,
+        on_delete=models.CASCADE,
+        related_name="wednesday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Wednesday"},
+    )
+    wednesday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="wednesday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Wednesday"}
+    )
+    wednesday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="wednesday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Wednesday"}
+    )
+
+    thursday_breakfast = models.ForeignKey(
+        Combo,
+        on_delete=models.CASCADE,
+        related_name="thursday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Thursday"},
+    )
+    thursday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="thursday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Thursday"}
+    )
+    thursday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="thursday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Thursday"}
+    )
+
+    friday_breakfast = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="friday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Friday"}
+    )
+    friday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="friday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Friday"}
+    )
+    friday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="friday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Friday"}
+    )
+
+    saturday_breakfast = models.ForeignKey(
+        Combo,
+        on_delete=models.CASCADE,
+        related_name="saturday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Saturday"},
+    )
+    saturday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="saturday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Saturday"}
+    )
+    saturday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="saturday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Saturday"}
+    )
+
+    sunday_breakfast = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="sunday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Sunday"}
+    )
+    sunday_lunch = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="sunday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Sunday"}
+    )
+    sunday_dinner = models.ForeignKey(
+        Combo, on_delete=models.CASCADE, related_name="sunday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Sunday"}
+    )
+
+    class Meta:
+        ordering = ("user",)
+        verbose_name = _("Preferance")
+        verbose_name_plural = _("Preferances")
+
+    def __str__(self):
+        return f"{self.user}"
+
+
 class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
     tier = models.CharField(max_length=200, choices=TIER_CHOICES)
