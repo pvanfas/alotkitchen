@@ -95,3 +95,13 @@ class PreferanceAdmin(BaseAdmin):
         "sunday_lunch",
         "sunday_dinner",
     )
+    fieldsets = (
+        ("Main", {"fields": ("user", "is_active")}),
+        ("Monday", {"fields": ("monday_breakfast", "monday_lunch", "monday_dinner")}),
+        ("Tuesday", {"fields": ("tuesday_breakfast", "tuesday_lunch", "tuesday_dinner")}),
+        ("Wednesday", {"fields": ("wednesday_breakfast", "wednesday_lunch", "wednesday_dinner")}),
+        ("Thursday", {"fields": ("thursday_breakfast", "thursday_lunch", "thursday_dinner")}),
+        ("Friday", {"fields": ("friday_breakfast", "friday_lunch", "friday_dinner")}),
+        ("Saturday", {"fields": ("saturday_breakfast", "saturday_lunch", "saturday_dinner")}),
+        ("Sunday", {"fields": ("sunday_breakfast", "sunday_lunch", "sunday_dinner")}),
+    )

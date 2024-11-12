@@ -36,7 +36,63 @@
                       
                     <form action="" method="post">
                         {% csrf_token %}
-                        {{form|crispy}}
+                        
+                        <div class="table-responsive my-4">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:22%;max-width:22%;">Day</th>
+                                        <th style="width:26%;max-width:26%;">Breakfast</th>
+                                        <th style="width:26%;max-width:26%;">Lunch</th>
+                                        <th style="width:26%;max-width:26%;">Dinner</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Monday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.monday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.monday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.monday_dinner}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Tuesday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.tuesday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.tuesday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.tuesday_dinner}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Wednesday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.wednesday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.wednesday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.wednesday_dinner}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Thursday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.thursday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.thursday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.thursday_dinner}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Friday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.friday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.friday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.friday_dinner}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Saturday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.saturday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.saturday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.saturday_dinner}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:22%;max-width:22%;" class="py-3">Sunday</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.sunday_breakfast}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.sunday_lunch}}</td>
+                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.sunday_dinner}}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        
                         <div class="pt-3">
                             <button type="submit" class="btn btn-primary">Next</button>
                         </div>
@@ -49,60 +105,3 @@
 {% endblock content %}
 
 
-
-{% block javascript %}
-<script>
-    const mobileInput = document.querySelector("#id_mobile");
-    const alternateMobileInput = document.querySelector("#id_alternate_mobile");
-    const whatsappNumberInput = document.querySelector("#id_whatsapp_number");
-
-    const mobileCountryCodeInput = document.querySelector("#id_mobile_country_code");
-    const alternateMobileCountryCodeInput = document.querySelector("#id_alternate_mobile_country_code");
-    const whatsappCountryCodeInput = document.querySelector("#id_whatsapp_number_country_code");
-
-    // Function to initialize the international phone input
-    const initIntlTelInput = (input, countryCodeInput) => {
-        const iti = window.intlTelInput(input, {
-            separateDialCode: true,
-            preferredCountries: ["ae", "in", "qa", "sa", "bh", "kw"],
-            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
-        });
-
-        // Function to handle changes in the selected country
-        const handleChange = () => {
-            const countryCode = iti.getSelectedCountryData().dialCode;
-            countryCodeInput.value = countryCode;
-        };
-
-        // Add an event listener for country change
-        input.addEventListener("countrychange", handleChange);
-
-        // Initial update of the country code
-        handleChange();
-    };
-
-    // Initialize the international phone inputs
-    initIntlTelInput(mobileInput, mobileCountryCodeInput);
-    initIntlTelInput(alternateMobileInput, alternateMobileCountryCodeInput);
-    initIntlTelInput(whatsappNumberInput, whatsappCountryCodeInput);
-
-    mobileInput.addEventListener("input", (e) => {
-        e.target.value = e.target.value.replace(/\D/g, "");
-    });
-    alternateMobileInput.addEventListener("input", (e) => {
-        e.target.value = e.target.value.replace(/\D/g, "");
-    });
-    whatsappNumberInput.addEventListener("input", (e) => {
-        e.target.value = e.target.value.replace(/\D/g, "");
-    });
-</script>
-{% endblock %}
-
-
-{% block extra_css %}
-<style>
-    #div_id_mobile_country_code, #div_id_alternate_mobile_country_code, #div_id_whatsapp_number_country_code {
-        display: none;
-    }
-</style>
-{% endblock %}

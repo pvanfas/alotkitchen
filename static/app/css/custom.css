@@ -2060,3 +2060,14 @@ table.nowrap td {
     background: none;
     color: blue;
 }
+.select2-container--default {
+    width: 100% !important;
+    max-width: 235px;
+}
+table .select2-container--default .select2-selection--single {
+    border: none !important;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: #5897fb;
+    color: #000000;
+}
