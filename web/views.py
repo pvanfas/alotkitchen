@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
@@ -124,10 +125,22 @@ def customize_menu(request):
         form.fields[field].queryset = form.fields[field].queryset.filter(tier=tier)
     template_name = "web/customize_menu.html"
     context = {"form": form}
+    if not request.session.session_key:
+        request.session.save()
+
+    if request.method == "POST":
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.session_id = request.session.session_key
+            if request.user.is_authenticated:
+                data.user = request.user
+            data.save()
+            next_url = reverse("web:create_profile") + f"?menu={data.pk}"
+            return redirect(next_url)
     return render(request, template_name, context)
 
 
-def subscribe(request):
+def create_profile(request):
     form = UserForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -147,7 +160,7 @@ def subscribe(request):
             request_obj, _ = SubscriptionRequest.objects.get_or_create(user=data)
             request_obj.stage = "OBJECT_CREATED"
             return redirect("web:select_plan", pk=request_obj.pk)
-    template_name = "web/subscribe.html"
+    template_name = "web/create_profile.html"
     context = {"form": form}
     return render(request, template_name, context)
 

@@ -88,7 +88,8 @@ class Combo(BaseModel):
 
 
 class Preferance(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferances")
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferances", blank=True, null=True)
+    session_id = models.CharField(max_length=200, blank=True, null=True)
     monday_breakfast = models.ForeignKey(
         Combo, on_delete=models.CASCADE, related_name="monday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Monday"}
     )
