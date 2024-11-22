@@ -1,0 +1,197 @@
+[
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "303496d7-4591-47a4-abb2-ee53c7508ef3",
+        "fields": {
+            "created": "2024-11-22T11:19:39.333Z",
+            "updated": "2024-11-22T12:01:50.998Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Lunch",
+            "available_mealtypes": "LUNCH",
+            "plan_price": "100.00",
+            "order": 3
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "36a7d2bf-1c54-4e0b-aafe-1312f56c6ce9",
+        "fields": {
+            "created": "2024-11-22T11:19:39.330Z",
+            "updated": "2024-11-22T12:02:27.111Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Early Breakfast",
+            "available_mealtypes": "EARLY_BREAKFAST",
+            "plan_price": "100.00",
+            "order": 5
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "3b433399-42b2-4ad6-be77-8cc333100caf",
+        "fields": {
+            "created": "2024-11-22T11:19:39.342Z",
+            "updated": "2024-11-22T12:03:36.598Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Tiffin Lunch + Dinner",
+            "available_mealtypes": "TIFFIN_LUNCH,DINNER",
+            "plan_price": "100.00",
+            "order": 10
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "5e9c4ec6-1e9c-4fdc-b52e-e380cae68a2d",
+        "fields": {
+            "created": "2024-11-22T11:19:39.309Z",
+            "updated": "2024-11-22T12:02:45.658Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Break Fast, Lunch",
+            "available_mealtypes": "BREAKFAST,LUNCH",
+            "plan_price": "100.00",
+            "order": 7
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "7158ca4d-c32a-43ef-b772-69c4e081cef7",
+        "fields": {
+            "created": "2024-11-22T11:19:39.306Z",
+            "updated": "2024-11-22T12:02:45.660Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Break Fast, Dinner",
+            "available_mealtypes": "BREAKFAST,DINNER",
+            "plan_price": "100.00",
+            "order": 8
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "72405752-0140-41cd-a985-4f0d0573cb54",
+        "fields": {
+            "created": "2024-11-22T11:19:39.339Z",
+            "updated": "2024-11-22T12:01:41.343Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Tiffin Lunch",
+            "available_mealtypes": "TIFFIN_LUNCH",
+            "plan_price": "100.00",
+            "order": 2
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "976bac90-f620-479c-8539-9829c2bec962",
+        "fields": {
+            "created": "2024-11-22T11:19:39.336Z",
+            "updated": "2024-11-22T12:03:36.595Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Lunch, Dinner",
+            "available_mealtypes": "LUNCH,DINNER",
+            "plan_price": "100.00",
+            "order": 9
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "97ce706a-3143-4a51-8f60-a2f25861856d",
+        "fields": {
+            "created": "2024-11-22T11:19:39.313Z",
+            "updated": "2024-11-22T12:04:11.103Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Break Fast, Lunch, Dinner",
+            "available_mealtypes": "BREAKFAST,LUNCH,DINNER",
+            "plan_price": "100.00",
+            "order": 13
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "b550c57f-e646-4f3e-a217-9f8af26a6e89",
+        "fields": {
+            "created": "2024-11-22T11:19:39.302Z",
+            "updated": "2024-11-22T13:34:06.252Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Break Fast",
+            "available_mealtypes": "BREAKFAST",
+            "plan_price": "100.00",
+            "order": 1
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "dfb285c6-87d4-41d6-8f30-f2de9dc5950d",
+        "fields": {
+            "created": "2024-11-22T11:19:39.320Z",
+            "updated": "2024-11-22T12:04:11.106Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Break Fast, Tiffin Lunch, Dinner",
+            "available_mealtypes": "BREAKFAST,TIFFIN_LUNCH,DINNER",
+            "plan_price": "100.00",
+            "order": 12
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "e15e71a0-a4ff-44be-9041-b8110a6af458",
+        "fields": {
+            "created": "2024-11-22T11:19:39.323Z",
+            "updated": "2024-11-22T12:02:27.106Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Dinner",
+            "available_mealtypes": "DINNER",
+            "plan_price": "100.00",
+            "order": 4
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "eb114bf7-6f1c-4483-9a72-2ccc32cfcd5a",
+        "fields": {
+            "created": "2024-11-22T11:19:39.327Z",
+            "updated": "2024-11-22T12:03:36.600Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Dinner + Early Breakfast",
+            "available_mealtypes": "EARLY_BREAKFAST,DINNER",
+            "plan_price": "100.00",
+            "order": 11
+        }
+    },
+    {
+        "model": "main.subscriptionsubplan",
+        "pk": "f228d82a-1e90-483e-9549-af7347787619",
+        "fields": {
+            "created": "2024-11-22T11:19:39.318Z",
+            "updated": "2024-11-22T12:02:27.109Z",
+            "creator": null,
+            "is_active": true,
+            "plan": "fc791f0f-251d-4327-88c6-9043fe96e19c",
+            "name": "Break Fast, Tiffin Lunch",
+            "available_mealtypes": "BREAKFAST,TIFFIN_LUNCH",
+            "plan_price": "100.00",
+            "order": 6
+        }
+    }
+]

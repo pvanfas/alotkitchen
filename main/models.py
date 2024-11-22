@@ -6,17 +6,7 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-from .choices import (
-    BREAKFAST_DELIVERY_CHOICES,
-    DAY_CHOICES,
-    DINNER_DELIVERY_CHOICES,
-    GROUP_CHOICES,
-    LUNCH_DELIVERY_CHOICES,
-    MEALTYPE_CHOICES,
-    ORDER_STATUS_CHOICES,
-    VALIDITY_CHOICES,
-    WEEK_CHOICES,
-)
+from .choices import BREAKFAST_DELIVERY_CHOICES, DAY_CHOICES, DINNER_DELIVERY_CHOICES, GROUP_CHOICES, LUNCH_DELIVERY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES, WEEK_CHOICES
 
 
 def get_week_number(date):
@@ -85,6 +75,12 @@ class MealCategory(BaseModel):
         ordering = ("order",)
         verbose_name = _("Meal Category")
         verbose_name_plural = _("Meal Categories")
+
+    def get_plans(self):
+        return SubscriptionPlan.objects.filter(is_active=True, meal_category=self)
+
+    def api_url(self):
+        return reverse_lazy("web:getplans_api", kwargs={"pk": self.pk})
 
     def get_absolute_url(self):
         return reverse_lazy("web:mealcategory_detail", kwargs={"slug": self.slug})
@@ -249,9 +245,7 @@ class Preferance(BaseModel):
 class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
     meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE)
-    available_mealtypes = MultiSelectField(max_length=200, choices=MEALTYPE_CHOICES)
-    validity = models.PositiveIntegerField(choices=VALIDITY_CHOICES)
-    plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    validity = models.PositiveIntegerField(help_text="In Days")
     order = models.PositiveIntegerField(default=1)
 
     class Meta:
@@ -259,8 +253,15 @@ class SubscriptionPlan(BaseModel):
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 
-    # def get_absolute_url(self):
-    #     return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
+    def get_subs(self):
+        return SubscriptionSubPlan.objects.filter(is_active=True, plan=self)
+
+    @property
+    def subplans_count(self):
+        return self.get_subs().count()
+
+    def get_absolute_url(self):
+        return reverse_lazy("web:subscriptionplan_detail", kwargs={"pk": self.pk})
 
     # @staticmethod
     # def get_list_url():
@@ -278,6 +279,22 @@ class SubscriptionPlan(BaseModel):
 
     def __str__(self):
         return f"{self.meal_category} - ({self.name}) - {self.validity} Days"
+
+
+class SubscriptionSubPlan(BaseModel):
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    available_mealtypes = MultiSelectField(max_length=200, choices=MEALTYPE_CHOICES)
+    plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    order = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ("order",)
+        verbose_name = _("Sub Plan")
+        verbose_name_plural = _("Sub Plans")
+
+    def __str__(self):
+        return self.name
 
 
 class Subscription(BaseModel):

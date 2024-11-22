@@ -7,12 +7,24 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import PreferanceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
 from main.models import Area, ItemMaster, MealCategory, SubscriptionPlan, SubscriptionRequest
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
+
+from .serializers import SubscriptionPlanSerializer
+
+
+class SubscriptionPlanListView(APIView):
+    def get(self, request, pk):
+        meal_category = MealCategory.objects.get(pk=pk)
+        plans = SubscriptionPlan.objects.filter(meal_category=meal_category)
+        serializer = SubscriptionPlanSerializer(plans, many=True)
+        return Response(serializer.data)
 
 
 def gen_structured_table_data(items):
@@ -56,6 +68,13 @@ def mealcategory_detail(request, slug):
     meal_categories = MealCategory.objects.filter(is_active=True).order_by("group", "order")
     grouped_meal_categories = {group: list(items) for group, items in groupby(meal_categories, key=lambda x: x.group)}
     context = {"meal_category": meal_category, "groups": groups, "grouped_meal_categories": grouped_meal_categories}
+    return render(request, template_name, context)
+
+
+def subscriptionplan_detail(request, pk):
+    plan = SubscriptionPlan.objects.get(pk=pk)
+    template_name = "web/subscriptionplan_detail.html"
+    context = {}
     return render(request, template_name, context)
 
 
@@ -257,13 +276,8 @@ def complete_subscription(request, pk):
     return render(request, template_name, context)
 
 
-def get_plans(request):
-    meal_category = request.GET.get("meal_category")
-    validity = request.GET.get("validity")
-    plans = SubscriptionPlan.objects.filter(meal_category=meal_category, validity=validity).values("id", "name")
-    return JsonResponse(list(plans), safe=False)
-
-
 def test(request):
+    send_mail(subject="Test", message="This is a test email", from_email=settings.EMAIL_SENDER, recipient_list=["anfaspv.info@gmail.com"], fail_silently=False)
+    return JsonResponse({"status": "success"})
     send_mail(subject="Test", message="This is a test email", from_email=settings.EMAIL_SENDER, recipient_list=["anfaspv.info@gmail.com"], fail_silently=False)
     return JsonResponse({"status": "success"})

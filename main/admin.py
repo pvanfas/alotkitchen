@@ -4,10 +4,21 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, ItemMaster, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Area, ItemMaster, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
+
+
+@admin.register(SubscriptionSubPlan)
+class SubscriptionSubPlanAdmin(BaseAdmin):
+    list_display = ("name", "plan", "plan_price", "order")
+
+
+class SubscriptionSubPlanInline(admin.TabularInline):
+    model = SubscriptionSubPlan
+    extra = 0
+    exclude = ("is_active",)
 
 
 @admin.register(MealCategory)
@@ -21,8 +32,9 @@ class MealCategoryAdmin(BaseAdmin):
 
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
-    list_display = ("name", "meal_category", "validity", "available_mealtypes", "plan_price", "order", "is_active")
-    list_filter = ("validity", "meal_category", "validity", "plan_price")
+    list_display = ("__str__", "meal_category", "validity", "order", "subplans_count", "is_active")
+    list_filter = ("validity", "meal_category")
+    inlines = (SubscriptionSubPlanInline,)
 
 
 @admin.register(Subscription)

@@ -9,22 +9,26 @@
 
 		<div class="row">
 
-			<div class="col-12 mb-6">
+			<div class="col-12 mb-3">
 				<div class="row">
 					{% for group, categories in grouped_meal_categories.items %}
 					<div class="col-lg-6 col-md-12 text-center mb-4">
 						<h6 class="fw-bold">{{ group }}</h6>
 						{% for category in categories %}
-						<a href="{{item.get_absolute_url}}" class="btn btn-white me-3 mb-2 border-dark">{{category}}</a>
+						<a href="{{category.get_absolute_url}}" data-id="{{category.pk}}" class="btn btn-white me-3 mb-2 {% if meal_category.pk == category.pk %} border-dark{% endif %}">{{category}}</a>
 						{% endfor %}
 					</div>
 					{% endfor %}
 				</div>
-			</div>			
+			</div>
+			
 			
 			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-				<div class="border-dark border-top-bottom shadow-lg table-responsive">
-					<table class="table price-table">
+				<div id="loading" class="p-1" style="text-align: center;">
+					<span class="text-dark">Loading...</span>
+				</div>
+				<div class="border-dark border shadow-lg table-responsive">
+					<table id="price-table" class="table price-table animate__animated animate__fadeIn" style="display: none;">
 						<thead>
 							<tr class="popular">
 								<th class="price-blank"></th>
@@ -32,133 +36,17 @@
 								<th class="price-blank"></th>
 								<th class="price-table-popular">Most popular</th>
 							</tr>
-							<tr class="price_head">
+							<tr class="price_head" id="price-table-header">
 								<th></th>
-								<th>22 DAYS</th>
-								<th>26 DAYS</th>
-								<th class="green-width">30 DAYS</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>BreakFast</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Tiffin Lunch</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Lunch</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Dinner</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Early Breakfast</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>BreakFast + Tiffin Lunch</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Breakfast + Lunch</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Breakfast + Dinner</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Lunch + Dinner</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Tiffin Lunch + Dinner</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Dinner + Early Breakfast</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>BreakFast + Tiffin Lunch + Dinner</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="price-table-help"></a>Breakfast + Lunch + Dinner</td>
-								<td>100</td>
-								<td>100</td>
-								<td>100</td>
-							</tr>
-						</tbody>
-						<tfoot>
+						<tbody id="price-table-body"></tbody>
+						<tfoot id="price-table-footer">
 							<tr>
 								<td></td>
-								<td class="start"><a href="">Get Started</a></td>
-								<td class="start"><a href="">Get Started</a></td>
-								<td class="start"><a href="">Get Started</a></td>
 							</tr>
 						</tfoot>
 					</table>
-
-										
-					{% comment %} 
-					<table class="table table-bordered nowrap">
-						<thead>
-							<tr>
-								<td style="width:10%;"></td>
-								{% for mealtype in mealtypes %}
-								<td style="max-width:22%;">{{ mealtype }}</td>
-								{% endfor %}
-							</tr>
-						</thead>
-						<tbody>
-							{% for entry in structured_table_data %}
-							<tr>
-								<td style="width:10%;">{{ entry.day }}</td>
-								{% for meal in entry.meals %}
-								<td style="max-width:22%;">
-									<ul class="ps-3 list-style-cricle">
-										{% for item_name in meal.items %}
-										<li>{{ item_name }}</li>
-										{% endfor %}
-									</ul>
-								</td>
-								{% endfor %}
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>					 
-					{% endcomment %}
-					
 				</div>
 			</div>
 			
@@ -191,35 +79,58 @@
 
 {% block javascript %}
 <script>
-	document.addEventListener("DOMContentLoaded", function() {
-		// Get the table
-		const table = document.querySelector("table");
+	$(document).ready(function () {
+		const table = $("#price-table");
+		const apiUrl = "{{meal_category.api_url}}"; // Replace with your actual API URL
 	
-		// Get all rows
-		const rows = table.querySelectorAll("tr");
+		// Fetch data from the API
+		$.getJSON(apiUrl, function (data) {
+			const headerRow = $("#price-table-header");
+			const body = $("#price-table-body");
+			const footerRow = $("#price-table-footer tr");
 	
-		if (rows.length === 0) return; // No rows to process
+			// Extract unique meal types from sub_plans
+			const mealTypes = new Set(); // Use a Set to ensure uniqueness
+			data.forEach(plan => {
+				plan.sub_plans.forEach(subPlan => {
+					mealTypes.add(subPlan.name); // Add each subPlan's name
+				});
+			});
 	
-		// Iterate over each column index
-		for (let colIndex = 0; colIndex < rows[0].cells.length; colIndex++) {
-			let hideColumn = true;
+			// Populate table headers with plan validity
+			data.forEach(plan => {
+				headerRow.append(`<th data-id="${plan.id}">${plan.validity} Days</th>`);
+			});
 	
-			// Start from 1 to skip the header row
-			for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
-				const cell = rows[rowIndex].cells[colIndex];
-				if (cell && cell.textContent.trim() !== "") {
-					hideColumn = false;
-					break;
-				}
-			}
+			// Populate table body with meal types and their corresponding prices
+			Array.from(mealTypes).forEach(mealType => {
+				const row = $("<tr></tr>");
+				row.append(`<td>${mealType.replace(/_/g, ' ')}</td>`); // Add meal type
 	
-			// If all cells in the column are empty, hide the column
-			if (hideColumn) {
-				for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-					rows[rowIndex].cells[colIndex].style.display = "none";
-				}
-			}
-		}
-	});	
+				data.forEach(plan => {
+					// Find the sub-plan that matches the meal type
+					const subPlan = plan.sub_plans.find(sub => sub.name === mealType);
+					const price = subPlan ? subPlan.plan_price : "N/A";
+					row.append(`<td>${price}</td>`); // Add price for the plan
+				});
+	
+				body.append(row); // Append row to table body
+			});
+	
+			// Populate table footer with "Get Started" links
+			data.forEach(plan => {
+				footerRow.append(
+					`<td data-id="${plan.id}"><a href="${plan.absolute_url}">Get Started</a></td>`
+				);
+			});
+			
+			$("#loading").css("visibility", "hidden");
+			table.show();
+
+		}).fail(function () {
+			console.error("Error fetching data from the API.");
+		});
+	});
+	
 </script>
 {% endblock %}
