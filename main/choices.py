@@ -13,7 +13,7 @@ TIMEZONES = [(tz, tz) for tz in pytz.common_timezones]
 SELECTION_CHOICES = (("", "Select"), ("yes", "Yes"), ("no", "No"))
 PAYMENT_METHOD_CHOICES = (("CASH", "Cash"), ("CHEQUE", "Cheque"), ("BANK", "Bank Transfer"), ("CARD", "Card Payment"))
 
-MEALTYPE_CHOICES = (("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("TIFFIN_LUNCH", "Tiffin Lunch"), ("DINNER", "Dinner"))
+MEALTYPE_CHOICES = (("EARLY_BREAKFAST", "Early Break Fast"), ("BREAKFAST", "Break Fast"), ("LUNCH", "Lunch"), ("TIFFIN_LUNCH", "Tiffin Lunch"), ("DINNER", "Dinner"))
 WEEK_CHOICES = ((1, "1st & 3rd Week"), (2, "2nd & 4th Week"))
 DAY_CHOICES = (
     ("Monday", "Monday"),
@@ -26,16 +26,6 @@ DAY_CHOICES = (
 )
 VALIDITY_CHOICES = ((22, "22 Days"), (26, "26 Days"), (30, "30 Days"))
 ORDER_STATUS_CHOICES = (("PENDING", "Pending"), ("IN_PREPERATION", "In Preparation"), ("IN_TRANSIT", "In Transit"), ("DELIVERED", "Delivered"), ("CANCELLED", "Cancelled"))
-TIER_CHOICES = (
-    ("Essential", "Essential"),
-    ("ClassicVeg", "Classic Veg"),
-    ("ClassicNonVeg", "Classic Non-Veg"),
-    ("StandardNonVeg", "Standard Non-Veg"),
-    ("StandardVeg", "Standard Veg"),
-    ("Premium", "Premium"),
-    ("Signature", "Signature"),
-)
-
 BREAKFAST_DELIVERY_CHOICES = (
     ("0630:0700", "6:30AM to 7AM"),
     ("0700:0730", "7AM to 7:30AM"),

@@ -12,11 +12,11 @@ from users.tables import UserTable
 
 from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import Combo, MealOrder, Subscription, SubscriptionRequest
+from .models import ItemMaster, MealOrder, Subscription, SubscriptionRequest
 from .tables import (
-    ComboTable,
     CustomerMealOrderTable,
     DeliveryMealOrderTable,
+    ItemMasterTable,
     MealOrderDataTable,
     MealOrderTable,
     StandardMealOrderTable,
@@ -70,13 +70,13 @@ class DashboardView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        qs = self.get_queryset().values("combo__mealtype", "combo__name").annotate(total_quantity=Sum("quantity"))
+        qs = self.get_queryset().values("item__mealtype", "item__name").annotate(total_quantity=Sum("quantity"))
         data = defaultdict(list)
         for entry in qs:
-            mealtype = entry["combo__mealtype"]
-            combo_name = entry["combo__name"]
+            mealtype = entry["item__mealtype"]
+            item_name = entry["item__name"]
             total_quantity = entry["total_quantity"]
-            data[mealtype].append((combo_name, total_quantity))
+            data[mealtype].append((item_name, total_quantity))
         context["datas"] = dict(data)
         return context
 
@@ -97,13 +97,13 @@ class TomorrowOrdersView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        qs = self.get_queryset().values("combo__mealtype", "combo__name").annotate(total_quantity=Sum("quantity"))
+        qs = self.get_queryset().values("item__mealtype", "item__name").annotate(total_quantity=Sum("quantity"))
         data = defaultdict(list)
         for entry in qs:
-            mealtype = entry["combo__mealtype"]
-            combo_name = entry["combo__name"]
+            mealtype = entry["item__mealtype"]
+            item_name = entry["item__name"]
             total_quantity = entry["total_quantity"]
-            data[mealtype].append((combo_name, total_quantity))
+            data[mealtype].append((item_name, total_quantity))
         context["datas"] = dict(data)
         return context
 
@@ -113,7 +113,7 @@ class MealOrderListView(HybridListView):
     model = MealOrder
     title = "Order Master"
     table_class = MealOrderTable
-    filterset_fields = ("user", "combo", "subscription_plan", "date", "status")
+    filterset_fields = ("user", "item", "subscription_plan", "date", "status")
 
     def get_queryset(self):
         return MealOrder.objects.filter(is_active=True)
@@ -135,17 +135,17 @@ class MealOrderListData(HybridListView):
         return MealOrder.objects.filter(is_active=True)
 
 
-class ComboListView(HybridListView):
+class ItemMasterListView(HybridListView):
     filterset_fields = ("mealtype", "is_veg")
     search_fields = ("name",)
     permissions = ("Administrator", "Manager", "Accountant", "KitchenManager")
-    model = Combo
+    model = ItemMaster
     title = "Item Master"
-    table_class = ComboTable
+    table_class = ItemMasterTable
 
 
-class ComboDetailView(HybridDetailView):
-    model = Combo
+class ItemMasterDetailView(HybridDetailView):
+    model = ItemMaster
     permissions = ("Administrator", "Manager", "Accountant", "KitchenManager")
 
 
@@ -310,7 +310,7 @@ class HistoryView(HybridListView):
     model = MealOrder
     filterset_fields = ()
     table_class = MealOrderTable
-    search_fields = ("combo__name",)
+    search_fields = ("item__name",)
     permissions = ("Customer",)
 
     def get_queryset(self):

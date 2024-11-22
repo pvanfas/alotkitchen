@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, Combo, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Area, ItemMaster, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -22,7 +22,7 @@ class MealCategoryAdmin(BaseAdmin):
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
     list_display = ("__str__", "validity", "available_mealtypes", "plan_price", "is_active")
-    list_filter = ("validity", "tier", "validity", "plan_price")
+    list_filter = ("validity", "meal_category", "validity", "plan_price")
 
 
 @admin.register(Subscription)
@@ -39,19 +39,19 @@ class SubscriptionAdmin(BaseAdmin):
 #     search_fields = ("name",)
 
 
-@admin.register(Combo)
-class ComboAdmin(BaseAdmin):
-    list_display = ("item_code", "name", "tier", "is_veg", "mealtype", "available_days", "available_weeks", "price")
+@admin.register(ItemMaster)
+class ItemMasterAdmin(BaseAdmin):
+    list_display = ("item_code", "name", "meal_category", "is_veg", "mealtype", "available_days", "available_weeks", "price")
     search_fields = ("name", "item_code")
-    list_filter = ("tier", "mealtype", "meal_category", "price", "available_days", "available_weeks", "is_veg")
+    list_filter = ("meal_category", "mealtype", "meal_category", "price", "available_days", "available_weeks", "is_veg")
 
 
 @admin.register(MealOrder)
 class MealOrderAdmin(BaseAdmin):
-    list_display = ("user", "combo", "quantity", "status", "date", "mealtype", "subscription_plan")
-    search_fields = ("user__email", "combo__name")
-    list_filter = ("status", "subscription_plan", "date", "combo__mealtype")
-    autocomplete_fields = ("user", "combo", "subscription", "subscription_plan")
+    list_display = ("user", "item", "quantity", "status", "date", "mealtype", "subscription_plan")
+    search_fields = ("user__email", "item__name")
+    list_filter = ("status", "subscription_plan", "date", "item__mealtype")
+    autocomplete_fields = ("user", "item", "subscription", "subscription_plan")
 
 
 @admin.register(Area)

@@ -147,8 +147,8 @@
 								{% for meal in entry.meals %}
 								<td style="max-width:22%;">
 									<ul class="ps-3 list-style-cricle">
-										{% for combo_name in meal.combos %}
-										<li>{{ combo_name }}</li>
+										{% for item_name in meal.items %}
+										<li>{{ item_name }}</li>
 										{% endfor %}
 									</ul>
 								</td>

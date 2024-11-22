@@ -10,12 +10,12 @@ from django.utils.safestring import mark_safe
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import PreferanceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
-from main.models import Area, Combo, MealCategory, SubscriptionPlan, SubscriptionRequest
+from main.models import Area, ItemMaster, MealCategory, SubscriptionPlan, SubscriptionRequest
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
 
 
-def gen_structured_table_data(combos):
+def gen_structured_table_data(items):
     days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
 
@@ -23,14 +23,14 @@ def gen_structured_table_data(combos):
     table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
 
     # Populate table data
-    for combo in combos:
-        for day in combo["available_days"]:
+    for item in items:
+        for day in item["available_days"]:
             if day in table_data:
-                data = mark_safe(f'<span>{combo["item_code"]}</span> {combo["name"]}')
-                table_data[day][combo["mealtype"]].append(data)
+                data = mark_safe(f'<span>{item["item_code"]}</span> {item["name"]}')
+                table_data[day][item["mealtype"]].append(data)
 
     # Convert nested dictionary into a list of tuples for easier template access
-    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "combos": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
+    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "items": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
     return structured_table_data
 
 
@@ -61,58 +61,58 @@ def mealcategory_detail(request, slug):
 
 # not verified
 def essential(request):
-    tier = "Essential"
+    meal_category = "Essential"
     template_name = "web/package.html"
-    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name", "item_code")
+    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(combos)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    structured_table_data = gen_structured_table_data(items)
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
     return render(request, template_name, context)
 
 
 def classicveg(request):
-    tier = "ClassicVeg"
+    meal_category = "ClassicVeg"
     template_name = "web/package.html"
-    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name", "item_code")
+    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(combos)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    structured_table_data = gen_structured_table_data(items)
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
     return render(request, template_name, context)
 
 
 def classicnonveg(request):
-    tier = "ClassicNonVeg"
+    meal_category = "ClassicNonVeg"
     template_name = "web/package.html"
-    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name", "item_code")
+    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(combos)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    structured_table_data = gen_structured_table_data(items)
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
     return render(request, template_name, context)
 
 
 def standardnonveg(request):
-    tier = "StandardNonVeg"
+    meal_category = "StandardNonVeg"
     template_name = "web/package.html"
-    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name", "item_code")
+    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(combos)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    structured_table_data = gen_structured_table_data(items)
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
     return render(request, template_name, context)
 
 
 def standardveg(request):
-    tier = "StandardVeg"
+    meal_category = "StandardVeg"
     template_name = "web/package.html"
-    combos = Combo.objects.filter(tier=tier).values("mealtype", "available_days", "name", "item_code")
+    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
     mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(combos)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "tier": tier}
+    structured_table_data = gen_structured_table_data(items)
+    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
     return render(request, template_name, context)
 
 
 def customize_menu(request):
     form = PreferanceForm(request.POST or None)
-    tier = request.GET.get("tier")
+    meal_category = request.GET.get("meal_category")
     fields = (
         "monday_breakfast",
         "monday_lunch",
@@ -137,7 +137,7 @@ def customize_menu(request):
         "sunday_dinner",
     )
     for field in fields:
-        form.fields[field].queryset = form.fields[field].queryset.filter(tier=tier)
+        form.fields[field].queryset = form.fields[field].queryset.filter(meal_category=meal_category)
     template_name = "web/customize_menu.html"
     context = {"form": form}
     if not request.session.session_key:
@@ -258,9 +258,9 @@ def complete_subscription(request, pk):
 
 
 def get_plans(request):
-    tier = request.GET.get("tier")
+    meal_category = request.GET.get("meal_category")
     validity = request.GET.get("validity")
-    plans = SubscriptionPlan.objects.filter(tier=tier, validity=validity).values("id", "name")
+    plans = SubscriptionPlan.objects.filter(meal_category=meal_category, validity=validity).values("id", "name")
     return JsonResponse(list(plans), safe=False)
 
 

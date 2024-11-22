@@ -14,7 +14,6 @@ from .choices import (
     LUNCH_DELIVERY_CHOICES,
     MEALTYPE_CHOICES,
     ORDER_STATUS_CHOICES,
-    TIER_CHOICES,
     VALIDITY_CHOICES,
     WEEK_CHOICES,
 )
@@ -24,6 +23,53 @@ def get_week_number(date):
     day_of_month = date.day
     week_number = (day_of_month - 1) // 7 + 1
     return 2 if week_number % 2 == 0 else 1
+
+
+class Branch(BaseModel):
+    name = models.CharField(max_length=200)
+    code = models.CharField(max_length=200)
+    phone = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = _("Branch")
+        verbose_name_plural = _("Branches")
+
+    def get_absolute_url(self):
+        return reverse_lazy("main:branch_detail", kwargs={"pk": self.pk})
+
+    @staticmethod
+    def get_list_url():
+        return reverse_lazy("main:branch_list")
+
+    # @staticmethod
+    # def get_create_url():
+    #     return reverse_lazy("main:branch_create")
+
+    # def get_update_url(self):
+    #     return reverse_lazy("main:branch_update", kwargs={"pk": self.pk})
+
+    # def get_delete_url(self):
+    #     return reverse_lazy("main:branch_delete", kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return str(self.name)
+
+
+class Area(BaseModel):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
+    delivery_staffs = models.ManyToManyField("users.CustomUser", related_name="delivery_areas", limit_choices_to={"usertype": "Delivery"}, blank=True)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = _("Area")
+        verbose_name_plural = _("Areas")
+
+    def __str__(self):
+        return self.name
 
 
 class MealCategory(BaseModel):
@@ -47,23 +93,8 @@ class MealCategory(BaseModel):
         return self.name
 
 
-class Area(BaseModel):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200)
-    delivery_staffs = models.ManyToManyField("users.CustomUser", related_name="delivery_areas", limit_choices_to={"usertype": "Delivery"}, blank=True)
-
-    class Meta:
-        ordering = ("name",)
-        verbose_name = _("Area")
-        verbose_name_plural = _("Areas")
-
-    def __str__(self):
-        return self.name
-
-
-class Combo(BaseModel):
-    meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE, related_name="combos", blank=True, null=True)
-    tier = models.CharField(max_length=200, choices=TIER_CHOICES)
+class ItemMaster(BaseModel):
+    meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE, related_name="items")
     mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     name = models.CharField(max_length=200)
@@ -79,14 +110,14 @@ class Combo(BaseModel):
         verbose_name_plural = _("Item Masters")
 
     def get_absolute_url(self):
-        return reverse_lazy("main:combo_detail", kwargs={"pk": self.pk})
+        return reverse_lazy("main:item_detail", kwargs={"pk": self.pk})
 
-    def get_combo_name(self):
+    def get_item_name(self):
         return ", ".join(item.name for item in self.items.all())
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.name = "Unnamed Combo"
+            self.name = "Unnamed ItemMaster"
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -97,27 +128,37 @@ class Preferance(BaseModel):
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferances", blank=True, null=True)
     session_id = models.CharField(max_length=200, blank=True, null=True)
     monday_breakfast = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="monday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Monday"}
+        ItemMaster,
+        on_delete=models.CASCADE,
+        related_name="monday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Monday"},
     )
     monday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="monday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Monday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="monday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Monday"}
     )
     monday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="monday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Monday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="monday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Monday"}
     )
 
     tuesday_breakfast = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="tuesday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Tuesday"}
+        ItemMaster,
+        on_delete=models.CASCADE,
+        related_name="tuesday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Tuesday"},
     )
     tuesday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="tuesday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Tuesday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="tuesday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Tuesday"}
     )
     tuesday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="tuesday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Tuesday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="tuesday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Tuesday"}
     )
 
     wednesday_breakfast = models.ForeignKey(
-        Combo,
+        ItemMaster,
         on_delete=models.CASCADE,
         related_name="wednesday_breakfast",
         blank=True,
@@ -125,14 +166,19 @@ class Preferance(BaseModel):
         limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Wednesday"},
     )
     wednesday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="wednesday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Wednesday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="wednesday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Wednesday"}
     )
     wednesday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="wednesday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Wednesday"}
+        ItemMaster,
+        on_delete=models.CASCADE,
+        related_name="wednesday_dinner",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Wednesday"},
     )
 
     thursday_breakfast = models.ForeignKey(
-        Combo,
+        ItemMaster,
         on_delete=models.CASCADE,
         related_name="thursday_breakfast",
         blank=True,
@@ -140,24 +186,29 @@ class Preferance(BaseModel):
         limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Thursday"},
     )
     thursday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="thursday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Thursday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="thursday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Thursday"}
     )
     thursday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="thursday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Thursday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="thursday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Thursday"}
     )
 
     friday_breakfast = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="friday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Friday"}
+        ItemMaster,
+        on_delete=models.CASCADE,
+        related_name="friday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Friday"},
     )
     friday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="friday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Friday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="friday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Friday"}
     )
     friday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="friday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Friday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="friday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Friday"}
     )
 
     saturday_breakfast = models.ForeignKey(
-        Combo,
+        ItemMaster,
         on_delete=models.CASCADE,
         related_name="saturday_breakfast",
         blank=True,
@@ -165,20 +216,25 @@ class Preferance(BaseModel):
         limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Saturday"},
     )
     saturday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="saturday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Saturday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="saturday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Saturday"}
     )
     saturday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="saturday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Saturday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="saturday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Saturday"}
     )
 
     sunday_breakfast = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="sunday_breakfast", blank=True, null=True, limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Sunday"}
+        ItemMaster,
+        on_delete=models.CASCADE,
+        related_name="sunday_breakfast",
+        blank=True,
+        null=True,
+        limit_choices_to={"mealtype": "BREAKFAST", "available_days__contains": "Sunday"},
     )
     sunday_lunch = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="sunday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Sunday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="sunday_lunch", blank=True, null=True, limit_choices_to={"mealtype": "LUNCH", "available_days__contains": "Sunday"}
     )
     sunday_dinner = models.ForeignKey(
-        Combo, on_delete=models.CASCADE, related_name="sunday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Sunday"}
+        ItemMaster, on_delete=models.CASCADE, related_name="sunday_dinner", blank=True, null=True, limit_choices_to={"mealtype": "DINNER", "available_days__contains": "Sunday"}
     )
 
     class Meta:
@@ -192,25 +248,15 @@ class Preferance(BaseModel):
 
 class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
-    tier = models.CharField(max_length=200, choices=TIER_CHOICES)
+    meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE)
     available_mealtypes = MultiSelectField(max_length=200, choices=MEALTYPE_CHOICES)
     validity = models.IntegerField(choices=VALIDITY_CHOICES)
     plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
-        ordering = ("tier", "validity", "name")
+        ordering = ("meal_category", "validity", "name")
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
-
-    def get_menu_url(self):
-        mapping = {
-            "Essential": "web:essential",
-            "ClassicVeg": "web:classicveg",
-            "ClassicNonVeg": "web:classicnonveg",
-            "StandardNonVeg": "web:standardnonveg",
-            "StandardVeg": "web:standardveg",
-        }
-        return reverse(mapping[self.tier])
 
     # def get_absolute_url(self):
     #     return reverse_lazy("main:subscriptionplan_detail", kwargs={"pk": self.pk})
@@ -230,7 +276,7 @@ class SubscriptionPlan(BaseModel):
     #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return f"{self.tier} - ({self.name}) - {self.validity} Days"
+        return f"{self.meal_category} - ({self.name}) - {self.validity} Days"
 
 
 class Subscription(BaseModel):
@@ -271,42 +317,9 @@ class Subscription(BaseModel):
         return f"{self.user} - {self.plan} - {self.start_date}"
 
 
-class Branch(BaseModel):
-    name = models.CharField(max_length=200)
-    code = models.CharField(max_length=200)
-    phone = models.CharField(max_length=200)
-    email = models.EmailField(max_length=200, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-
-    class Meta:
-        ordering = ("name",)
-        verbose_name = _("Branch")
-        verbose_name_plural = _("Branches")
-
-    def get_absolute_url(self):
-        return reverse_lazy("main:branch_detail", kwargs={"pk": self.pk})
-
-    @staticmethod
-    def get_list_url():
-        return reverse_lazy("main:branch_list")
-
-    # @staticmethod
-    # def get_create_url():
-    #     return reverse_lazy("main:branch_create")
-
-    # def get_update_url(self):
-    #     return reverse_lazy("main:branch_update", kwargs={"pk": self.pk})
-
-    # def get_delete_url(self):
-    #     return reverse_lazy("main:branch_delete", kwargs={"pk": self.pk})
-
-    def __str__(self):
-        return str(self.name)
-
-
 class MealOrder(BaseModel):
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals")
-    combo = models.ForeignKey(Combo, on_delete=models.CASCADE, related_name="combomeals")
+    item = models.ForeignKey(ItemMaster, on_delete=models.CASCADE, related_name="itemmeals")
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name="meals")
     date = models.DateField()
@@ -330,15 +343,15 @@ class MealOrder(BaseModel):
     def get_address(self):
         req = self.subscription.request
         print(self.subscription)
-        if self.combo.mealtype == "BREAKFAST":
+        if self.item.mealtype == "BREAKFAST":
             return f"Room: {req.breakfast_address_room_no}, {req.breakfast_address_floor}, {req.breakfast_address_building_name}, {req.breakfast_address_street_name}, {req.breakfast_address_area}"
-        if self.combo.mealtype == "LUNCH":
+        if self.item.mealtype == "LUNCH":
             return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
-        if self.combo.mealtype == "DINNER":
+        if self.item.mealtype == "DINNER":
             return (
                 f"Room: {req.dinner_address_room_no}, {req.dinner_address_floor}, {req.dinner_address_building_name}, {req.dinner_address_street_name}, {req.dinner_address_area}"
             )
-        if self.combo.mealtype == "TIFFIN":
+        if self.item.mealtype == "TIFFIN":
             return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
 
     class Meta:
@@ -347,7 +360,7 @@ class MealOrder(BaseModel):
         verbose_name_plural = _("Meal Orders")
 
     def mealtype(self):
-        return self.combo.mealtype
+        return self.item.mealtype
 
     def DocNum(self):
         return " "
@@ -365,15 +378,15 @@ class MealOrder(BaseModel):
         return self.user.username
 
     def U_OrderType(self):
-        if self.combo.is_veg:
+        if self.item.is_veg:
             return "Veg"
         return "Non Veg"
 
     def U_Order_Catg(self):
-        return self.combo.tier
+        return self.item.meal_category
 
     def U_MealType(self):
-        return self.combo.mealtype.capitalize()
+        return self.item.mealtype.capitalize()
 
     def U_Zone(self):
         return self.subscription.request.area
@@ -382,13 +395,13 @@ class MealOrder(BaseModel):
         return self.subscription.request.delivery_staff
 
     def U_DT(self):
-        if self.combo.mealtype == "BREAKFAST":
+        if self.item.mealtype == "BREAKFAST":
             value = self.subscription.request.get_breakfast_time_display()
-        if self.combo.mealtype == "LUNCH":
+        if self.item.mealtype == "LUNCH":
             value = self.subscription.request.get_lunch_time_display()
-        if self.combo.mealtype == "DINNER":
+        if self.item.mealtype == "DINNER":
             value = self.subscription.request.get_dinner_time_display()
-        if self.combo.mealtype == "TIFFIN_LUNCH":
+        if self.item.mealtype == "TIFFIN_LUNCH":
             value = self.subscription.request.get_lunch_time_display()
         if value:
             return value.split("to")[0]
@@ -396,13 +409,13 @@ class MealOrder(BaseModel):
             return ""
 
     def map(self):
-        if self.combo.mealtype == "BREAKFAST":
+        if self.item.mealtype == "BREAKFAST":
             return self.subscription.request.breakfast_location
-        if self.combo.mealtype == "LUNCH":
+        if self.item.mealtype == "LUNCH":
             return self.subscription.request.lunch_location
-        if self.combo.mealtype == "DINNER":
+        if self.item.mealtype == "DINNER":
             return self.subscription.request.dinner_location
-        if self.combo.mealtype == "TIFFIN_LUNCH":
+        if self.item.mealtype == "TIFFIN_LUNCH":
             return self.subscription.request.lunch_location
         return None
 
@@ -419,13 +432,13 @@ class MealOrder(BaseModel):
         return self.quantity
 
     def ItemCode(self):
-        return self.combo.item_code
+        return self.item.item_code
 
     def PriceAfterVAT(self):
-        return self.combo.price
+        return self.item.price
 
     def __str__(self):
-        return f"{self.combo} - {self.date}"
+        return f"{self.item} - {self.date}"
 
 
 class SubscriptionRequest(BaseModel):
@@ -514,10 +527,10 @@ def create_orders(subscription):
         day_of_week = date.strftime("%A")
         mealtypes = list(subscription.plan.available_mealtypes)
         week_number = get_week_number(date)
-        combos = Combo.objects.filter(
-            is_active=True, tier=subscription.plan.tier, mealtype__in=mealtypes, available_days__contains=day_of_week, available_weeks__contains=str(week_number)
+        items = ItemMaster.objects.filter(
+            is_active=True, meal_category=subscription.plan.meal_category, mealtype__in=mealtypes, available_days__contains=day_of_week, available_weeks__contains=str(week_number)
         )
-        for combo in combos:
+        for item in items:
             for meal in mealtypes:
-                MealOrder.objects.get_or_create(user=subscription.user, combo=combo, subscription=subscription, subscription_plan=subscription.plan, date=date)
+                MealOrder.objects.get_or_create(user=subscription.user, item=item, subscription=subscription, subscription_plan=subscription.plan, date=date)
     return True

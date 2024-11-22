@@ -2,7 +2,7 @@ from django_tables2 import Table, columns
 
 from main.base import BaseTable
 
-from .models import Branch, Combo, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Branch, ItemMaster, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
 
 
 class SubscriptionTable(BaseTable):
@@ -31,7 +31,7 @@ class MealOrderTable(BaseTable):
 
     class Meta:
         model = MealOrder
-        fields = ("date", "user", "combo", "combo__mealtype", "subscription_plan", "status")
+        fields = ("date", "user", "item", "item__mealtype", "subscription_plan", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
@@ -40,7 +40,7 @@ class CustomerMealOrderTable(BaseTable):
 
     class Meta:
         model = MealOrder
-        fields = ("combo", "combo__mealtype", "subscription_plan", "is_donated", "action")
+        fields = ("item", "item__mealtype", "subscription_plan", "is_donated", "action")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
@@ -51,16 +51,16 @@ class StandardMealOrderTable(BaseTable):
 
     class Meta:
         model = MealOrder
-        fields = ("date", "user", "combo__mealtype", "combo__item_code", "combo", "address", "status")
+        fields = ("date", "user", "item__mealtype", "item__item_code", "item", "address", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
-class ComboTable(BaseTable):
+class ItemMasterTable(BaseTable):
     # action = None
 
     class Meta:
-        model = Combo
-        fields = ("item_code", "name", "tier", "price", "mealtype", "is_veg")
+        model = ItemMaster
+        fields = ("item_code", "name", "meal_category", "price", "mealtype", "is_veg")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
@@ -131,5 +131,5 @@ class DeliveryMealOrderTable(BaseTable):
 
     class Meta:
         model = MealOrder
-        fields = ("user", "combo", "combo__mealtype", "date", "delivery_time", "status", "action")
+        fields = ("user", "item", "item__mealtype", "date", "delivery_time", "status", "action")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012

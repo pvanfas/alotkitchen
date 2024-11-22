@@ -1,19 +1,17 @@
 from django import forms
 
-from .choices import TIER_CHOICES, VALIDITY_CHOICES
+from .choices import VALIDITY_CHOICES
 from .models import Preferance, SubscriptionRequest
 
-TIER_CHOICES = (("", "-- Select Plan --"),) + TIER_CHOICES
 VALIDITY_CHOICES = (("", "-- Select Days --"),) + VALIDITY_CHOICES
 
 
 class SubscriptionRequestForm(forms.ModelForm):
-    select_plan = forms.ChoiceField(choices=TIER_CHOICES, label="Select Plan")
     select_days = forms.ChoiceField(choices=VALIDITY_CHOICES, label="Select Days")
 
     class Meta:
         model = SubscriptionRequest
-        fields = ("select_plan", "select_days", "plan", "start_date")
+        fields = ("select_days", "plan", "start_date")
         widgets = {"start_date": forms.DateInput(attrs={"class": "dateinput form-control", "data-date-start-date": "0d"})}
 
 
