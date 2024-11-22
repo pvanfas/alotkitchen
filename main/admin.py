@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, Combo, ItemCategory, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Area, Combo, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -39,17 +39,11 @@ class SubscriptionAdmin(BaseAdmin):
 #     search_fields = ("name",)
 
 
-@admin.register(ItemCategory)
-class ItemCategoryAdmin(BaseAdmin):
-    list_display = ("name", "items_count", "is_active")
-    search_fields = ("name",)
-
-
 @admin.register(Combo)
 class ComboAdmin(BaseAdmin):
     list_display = ("item_code", "name", "tier", "is_veg", "mealtype", "available_days", "available_weeks", "price")
     search_fields = ("name", "item_code")
-    list_filter = ("tier", "mealtype", "category", "price", "available_days", "available_weeks", "is_veg")
+    list_filter = ("tier", "mealtype", "meal_category", "price", "available_days", "available_weeks", "is_veg")
 
 
 @admin.register(MealOrder)

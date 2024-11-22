@@ -5,7 +5,6 @@ from django.db.models import Sum
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import ListView
 
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
 from users.models import CustomUser as User
@@ -13,7 +12,7 @@ from users.tables import UserTable
 
 from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import Combo, ItemCategory, MealOrder, Subscription, SubscriptionRequest
+from .models import Combo, MealOrder, Subscription, SubscriptionRequest
 from .tables import (
     ComboTable,
     CustomerMealOrderTable,
@@ -304,13 +303,6 @@ class HelpView(HybridTemplateView):
 class HistoryDetailView(HybridDetailView):
     model = MealOrder
     permissions = ("Customer",)
-
-
-class AllEatsView(ListView):
-    template_name = "app/main/all_eats.html"
-    model = ItemCategory
-    context_object_name = "categories"
-    permissions = ("Administrator", "Manager", "Customer", "KitchenManager")
 
 
 class HistoryView(HybridListView):

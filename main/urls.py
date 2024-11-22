@@ -29,6 +29,5 @@ urlpatterns = [
     path("update_status/<str:pk>/", views.UpdateMealOrderStatusView.as_view(), name="updatemealorderstatus_view"),
     path("change_menu/", views.ChangeMenuView.as_view(), name="changemenu_view"),
     # Pages
-    path("eats/all/", views.AllEatsView.as_view(), name="all_eats_view"),
     path("history/", views.HistoryView.as_view(), name="history_view"),
 ]

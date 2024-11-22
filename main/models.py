@@ -20,6 +20,12 @@ from .choices import (
 )
 
 
+def get_week_number(date):
+    day_of_month = date.day
+    week_number = (day_of_month - 1) // 7 + 1
+    return 2 if week_number % 2 == 0 else 1
+
+
 class MealCategory(BaseModel):
     order = models.PositiveIntegerField(default=1)
     group = models.CharField(max_length=200, choices=GROUP_CHOICES)
@@ -41,12 +47,6 @@ class MealCategory(BaseModel):
         return self.name
 
 
-def get_week_number(date):
-    day_of_month = date.day
-    week_number = (day_of_month - 1) // 7 + 1
-    return 2 if week_number % 2 == 0 else 1
-
-
 class Area(BaseModel):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -61,26 +61,10 @@ class Area(BaseModel):
         return self.name
 
 
-class ItemCategory(BaseModel):
-    name = models.CharField(max_length=100)
-    icon = models.ImageField(upload_to="categories", height_field=None, width_field=None, max_length=None)
-
-    class Meta:
-        ordering = ("name",)
-        verbose_name = _("Item Category")
-        verbose_name_plural = _("Item Categories")
-
-    def items_count(self):
-        return self.combos.count()
-
-    def __str__(self):
-        return self.name
-
-
 class Combo(BaseModel):
+    meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE, related_name="combos", blank=True, null=True)
     tier = models.CharField(max_length=200, choices=TIER_CHOICES)
     mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
-    category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, related_name="combos")
     image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     name = models.CharField(max_length=200)
     item_code = models.CharField(max_length=200, blank=True, null=True)
