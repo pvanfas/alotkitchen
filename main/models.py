@@ -250,11 +250,12 @@ class SubscriptionPlan(BaseModel):
     name = models.CharField(max_length=200)
     meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE)
     available_mealtypes = MultiSelectField(max_length=200, choices=MEALTYPE_CHOICES)
-    validity = models.IntegerField(choices=VALIDITY_CHOICES)
+    validity = models.PositiveIntegerField(choices=VALIDITY_CHOICES)
     plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    order = models.PositiveIntegerField(default=1)
 
     class Meta:
-        ordering = ("meal_category", "validity", "name")
+        ordering = ("meal_category", "validity", "order")
         verbose_name = _("Subscription Plan")
         verbose_name_plural = _("Subscription Plans")
 

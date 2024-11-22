@@ -12,7 +12,7 @@
 			<div class="col-12 mb-6">
 				<div class="row">
 					{% for group, categories in grouped_meal_categories.items %}
-					<div class="col-md-6 text-center mb-4">
+					<div class="col-lg-6 col-md-12 text-center mb-4">
 						<h6 class="fw-bold">{{ group }}</h6>
 						{% for category in categories %}
 						<a href="{{item.get_absolute_url}}" class="btn btn-white me-3 mb-2 border-dark">{{category}}</a>

@@ -21,7 +21,7 @@ class MealCategoryAdmin(BaseAdmin):
 
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
-    list_display = ("__str__", "validity", "available_mealtypes", "plan_price", "is_active")
+    list_display = ("name", "meal_category", "validity", "available_mealtypes", "plan_price", "order", "is_active")
     list_filter = ("validity", "meal_category", "validity", "plan_price")
 
 
