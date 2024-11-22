@@ -4,10 +4,19 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, Combo, ItemCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Area, Combo, ItemCategory, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
+
+
+@admin.register(MealCategory)
+class MealCategoryAdmin(BaseAdmin):
+    list_display = ("name", "order", "slug", "description", "is_active")
+    search_fields = ("name",)
+    list_filter = ("is_active",)
+    list_display_links = ("name", "order", "description")
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(SubscriptionPlan)

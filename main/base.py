@@ -3,7 +3,7 @@ from uuid import uuid4
 from django.db import models
 from django.http import HttpResponseRedirect
 from django_tables2 import Table, columns
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportActionModelAdmin
 
 from users.models import CustomUser as User
 
@@ -35,7 +35,7 @@ class BaseModel(models.Model):
             super().save(*args, **kwargs)
 
 
-class BaseAdmin(ImportExportModelAdmin):
+class BaseAdmin(ImportExportActionModelAdmin):
     exclude = ("creator", "is_active")
     list_display = ("__str__", "created", "updated", "is_active")
     list_filter = ("is_active",)

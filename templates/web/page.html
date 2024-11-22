@@ -45,111 +45,28 @@
 <section style="background: #F4F1EA;" id="packages">
 	<div class="container section_padding_sm packages">
 		<div class="row">
-			
+			{% for category in meal_categories %}
 			<div class="col-lg-3 col-md-4 col-sm-6 col-6">
 				<div class="package_block">
 					<div class="package_image">
-						<img src="/static/web/images/img1.png" alt="">
+						<img src="{{category.image.url}}" alt="">
 					</div>
 					<div class="package-caption">
 						<div class="package-caption-top">
-							<h3 class=""><a href="">Essential</a></h3>
-							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
+							<h3 class=""><a href="{{category.get_absolute_url}}">{{category.name}}</a></h3>
+							<p>{{category.description}}</p>
 						</div>
 						<div class="package-caption-bottom">
-							<a href="#" class="price">Brochure</a>
-							<div class="package-continue">
-								<a href="{% url 'web:essential' %}" class="button package_type_simple">View Plan</a>
-							</div>
+							<a href="{{category.brochure.url}}" class="brochure" target="_blank">Brochure</a>
+							<a href="{{category.get_absolute_url}}" class="plan">View Plan</a>
 						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div class="col-lg-3 col-md-4 col-sm-6 col-6">
-				<div class="package_block">
-					<div class="package_image">
-						<img src="/static/web/images/img2.png" alt="">
-					</div>
-					<div class="package-caption">
-						<div class="package-caption-top">
-							<h3 class=""><a href="">Classic Veg</a></h3>
-							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
-						</div>
-						<div class="package-caption-bottom">
-							<a href="#" class="price">Brochure</a>
-							<div class="package-continue">
-								<a href="{% url 'web:classicveg' %}" class="button package_type_simple">View Plan</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-lg-3 col-md-4 col-sm-6 col-6">
-				<div class="package_block">
-					<div class="package_image">
-						<img src="/static/web/images/img3.png" alt="">
-					</div>
-					<div class="package-caption">
-						<div class="package-caption-top">
-							<h3 class=""><a href="">Classic Nonveg</a></h3>
-							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
-						</div>
-						<div class="package-caption-bottom">
-							<a href="#" class="price">Brochure</a>
-							<div class="package-continue">
-								<a href="{% url 'web:classicnonveg' %}" class="button package_type_simple">View Plan</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-lg-3 col-md-4 col-sm-6 col-6">
-				<div class="package_block">
-					<div class="package_image">
-						<img src="/static/web/images/img4.png" alt="">
-					</div>
-					<div class="package-caption">
-						<div class="package-caption-top">
-							<h3 class=""><a href="">Standard Veg</a></h3>
-							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
-						</div>
-						<div class="package-caption-bottom">
-							<a href="#" class="price">Brochure</a>
-							<div class="package-continue">
-								<a href="{% url 'web:standardveg' %}" class="button package_type_simple">View Plan</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-lg-3 col-md-4 col-sm-6 col-6">
-				<div class="package_block">
-					<div class="package_image">
-						<img src="/static/web/images/img5.png" alt="">
-					</div>
-					<div class="package-caption">
-						<div class="package-caption-top">
-							<h3 class=""><a href="">Standard Nonveg</a></h3>
-							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident, cupiditate!</p>
-						</div>
-						<div class="package-caption-bottom">
-							<a href="#" class="price">Brochure</a>
-							<div class="package-continue">
-								<a href="{% url 'web:standardnonveg' %}" class="button package_type_simple">View Plan</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
+			{% endfor %}
 		</div>
 	</div>
 </section>
-
 
 
 {% endblock content %}

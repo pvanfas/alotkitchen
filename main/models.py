@@ -10,6 +10,7 @@ from .choices import (
     BREAKFAST_DELIVERY_CHOICES,
     DAY_CHOICES,
     DINNER_DELIVERY_CHOICES,
+    GROUP_CHOICES,
     LUNCH_DELIVERY_CHOICES,
     MEALTYPE_CHOICES,
     ORDER_STATUS_CHOICES,
@@ -17,6 +18,27 @@ from .choices import (
     VALIDITY_CHOICES,
     WEEK_CHOICES,
 )
+
+
+class MealCategory(BaseModel):
+    order = models.PositiveIntegerField(default=1)
+    group = models.CharField(max_length=200, choices=GROUP_CHOICES)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=200)
+    image = models.ImageField(upload_to="mealcategories/image")
+    description = models.TextField(blank=True, null=True)
+    brochure = models.FileField(upload_to="mealcategories/brochure/", blank=True, null=True)
+
+    class Meta:
+        ordering = ("order",)
+        verbose_name = _("Meal Category")
+        verbose_name_plural = _("Meal Categories")
+
+    def get_absolute_url(self):
+        return reverse_lazy("web:mealcategory_detail", kwargs={"slug": self.slug})
+
+    def __str__(self):
+        return self.name
 
 
 def get_week_number(date):

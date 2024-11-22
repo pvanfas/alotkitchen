@@ -2062,7 +2062,6 @@ table.nowrap td {
 }
 .select2-container--default {
     width: 100% !important;
-    max-width: 235px;
 }
 table .select2-container--default .select2-selection--single {
     border: none !important;

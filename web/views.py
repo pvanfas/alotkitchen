@@ -1,3 +1,5 @@
+from itertools import groupby
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -6,9 +8,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
-from main.choices import MEALTYPE_CHOICES
+from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import PreferanceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
-from main.models import Area, Combo, SubscriptionPlan, SubscriptionRequest
+from main.models import Area, Combo, MealCategory, SubscriptionPlan, SubscriptionRequest
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
 
@@ -34,17 +36,30 @@ def gen_structured_table_data(combos):
 
 def index(request):
     template_name = "web/index.html"
-    context = {}
+    meal_categories = MealCategory.objects.filter(is_active=True)
+    context = {"meal_categories": meal_categories}
     return render(request, template_name, context)
 
 
 def page_view(request, slug):
     template_name = "web/page.html"
     area = Area.objects.get(slug=slug)
-    context = {"area": area}
+    meal_categories = MealCategory.objects.filter(is_active=True)
+    context = {"meal_categories": meal_categories, "area": area}
     return render(request, template_name, context)
 
 
+def mealcategory_detail(request, slug):
+    groups = [group for group in GROUP_CHOICES]
+    template_name = "web/mealcategory_detail.html"
+    meal_category = MealCategory.objects.get(slug=slug)
+    meal_categories = MealCategory.objects.filter(is_active=True).order_by("group", "order")
+    grouped_meal_categories = {group: list(items) for group, items in groupby(meal_categories, key=lambda x: x.group)}
+    context = {"meal_category": meal_category, "groups": groups, "grouped_meal_categories": grouped_meal_categories}
+    return render(request, template_name, context)
+
+
+# not verified
 def essential(request):
     tier = "Essential"
     template_name = "web/package.html"

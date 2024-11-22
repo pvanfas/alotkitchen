@@ -59,3 +59,9 @@ DINNER_DELIVERY_CHOICES = (
     ("2100:2130", "9PM to 9:30PM"),
     ("2130:2200", "9:30PM to 10PM"),
 )
+GROUP_CHOICES = (
+    ("ESSENTIAL", "Essential"),
+    ("REGULAR", "Regular"),
+    ("DELUXE", "Deluxe"),
+    ("STANDARD", "Standard"),
+)
