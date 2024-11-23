@@ -34,16 +34,6 @@ class Branch(BaseModel):
     def get_list_url():
         return reverse_lazy("main:branch_list")
 
-    # @staticmethod
-    # def get_create_url():
-    #     return reverse_lazy("main:branch_create")
-
-    # def get_update_url(self):
-    #     return reverse_lazy("main:branch_update", kwargs={"pk": self.pk})
-
-    # def get_delete_url(self):
-    #     return reverse_lazy("main:branch_delete", kwargs={"pk": self.pk})
-
     def __str__(self):
         return str(self.name)
 
@@ -90,7 +80,6 @@ class MealCategory(BaseModel):
 
 
 class SubscriptionPlan(BaseModel):
-    name = models.CharField(max_length=200)
     meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE)
     validity = models.PositiveIntegerField(help_text="In Days")
     order = models.PositiveIntegerField(default=1)
@@ -110,27 +99,12 @@ class SubscriptionPlan(BaseModel):
     def get_absolute_url(self):
         return reverse_lazy("web:customize_menu", kwargs={"pk": self.pk})
 
-    # @staticmethod
-    # def get_list_url():
-    #     return reverse_lazy("main:subscriptionplan_list")
-
-    # @staticmethod
-    # def get_create_url():
-    #     return reverse_lazy("main:subscriptionplan_create")
-
-    # def get_update_url(self):
-    #     return reverse_lazy("main:subscriptionplan_update", kwargs={"pk": self.pk})
-
-    # def get_delete_url(self):
-    #     return reverse_lazy("main:subscriptionplan_delete", kwargs={"pk": self.pk})
-
     def __str__(self):
         return f"{self.meal_category} - {self.validity} Days"
 
 
 class SubscriptionSubPlan(BaseModel):
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
     available_mealtypes = MultiSelectField(max_length=200, choices=MEALTYPE_CHOICES)
     plan_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     order = models.PositiveIntegerField(default=1)
@@ -140,8 +114,13 @@ class SubscriptionSubPlan(BaseModel):
         verbose_name = _("Sub Plan")
         verbose_name_plural = _("Sub Plans")
 
+    def meals(self):
+        mealtype_dict = dict(MEALTYPE_CHOICES)
+        selected_mealtypes = [mealtype_dict[meal] for meal in self.available_mealtypes if meal in mealtype_dict]
+        return ", ".join(selected_mealtypes)
+
     def __str__(self):
-        return self.name
+        return self.meals()
 
 
 class ItemMaster(BaseModel):
@@ -187,8 +166,8 @@ class MealPlan(BaseModel):
         return f"{self.day} - {self.meal_type}"
 
 
-class Preferance(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferances", blank=True, null=True)
+class Preference(BaseModel):
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferences", blank=True, null=True)
     session_id = models.CharField(max_length=200, blank=True, null=True)
 
     monday_breakfast = models.ForeignKey(ItemMaster, on_delete=models.CASCADE, related_name="monday_breakfast", blank=True, null=True)
@@ -221,8 +200,8 @@ class Preferance(BaseModel):
 
     class Meta:
         ordering = ("user",)
-        verbose_name = _("Preferance")
-        verbose_name_plural = _("Preferances")
+        verbose_name = _("Preference")
+        verbose_name_plural = _("Preferences")
 
     def __str__(self):
         return f"{self.user}"
@@ -251,16 +230,6 @@ class Subscription(BaseModel):
         self.end_date = self.start_date + timezone.timedelta(days=self.plan.validity)
         create_orders(self)
         super().save(*args, **kwargs)
-
-    # @staticmethod
-    # def get_create_url():
-    #     return reverse_lazy("main:subscription_create")
-
-    # def get_update_url(self):
-    #     return reverse_lazy("main:subscription_update", kwargs={"pk": self.pk})
-
-    # def get_delete_url(self):
-    #     return reverse_lazy("main:subscription_delete", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.user} - {self.plan} - {self.start_date}"

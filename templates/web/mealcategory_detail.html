@@ -85,7 +85,7 @@
 			// Populate table body with meal types and their corresponding prices
 			Array.from(mealTypes).forEach(mealType => {
 				const row = $("<tr></tr>");
-				row.append(`<td>${mealType.replace(/_/g, ' ')}</td>`); // Add meal type
+				row.append(`<td>${mealType}</td>`); // Add meal type
 	
 				data.forEach(plan => {
 					// Find the sub-plan that matches the meal type

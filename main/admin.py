@@ -4,15 +4,10 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, ItemMaster, MealCategory, MealOrder, Preferance, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
+from .models import Area, ItemMaster, MealCategory, MealOrder, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
-
-
-@admin.register(SubscriptionSubPlan)
-class SubscriptionSubPlanAdmin(BaseAdmin):
-    list_display = ("name", "plan", "plan_price", "order")
 
 
 class SubscriptionSubPlanInline(admin.TabularInline):
@@ -32,7 +27,7 @@ class MealCategoryAdmin(BaseAdmin):
 
 @admin.register(SubscriptionPlan)
 class SubscriptionPlanAdmin(BaseAdmin):
-    list_display = ("__str__", "meal_category", "validity", "order", "subplans_count", "is_active")
+    list_display = ("__str__", "validity", "order", "subplans_count", "is_active")
     list_filter = ("validity", "meal_category")
     inlines = (SubscriptionSubPlanInline,)
 
@@ -43,12 +38,6 @@ class SubscriptionAdmin(BaseAdmin):
     list_filter = ("is_active",)
     search_fields = ("user__email",)
     autocomplete_fields = ("user", "plan", "request")
-
-
-# @admin.register(Branch)
-# class BranchAdmin(BaseAdmin):
-#     list_display = ("name", "is_active")
-#     search_fields = ("name",)
 
 
 @admin.register(ItemMaster)
@@ -82,8 +71,8 @@ class SubscriptionRequestAdmin(BaseAdmin):
     autocomplete_fields = ("user", "plan")
 
 
-@admin.register(Preferance)
-class PreferanceAdmin(BaseAdmin):
+@admin.register(Preference)
+class PreferenceAdmin(BaseAdmin):
     list_display = ("user", "is_active")
     list_filter = ("is_active",)
     autocomplete_fields = (
@@ -120,3 +109,14 @@ class PreferanceAdmin(BaseAdmin):
         ("Saturday", {"fields": ("saturday_breakfast", "saturday_lunch", "saturday_dinner")}),
         ("Sunday", {"fields": ("sunday_breakfast", "sunday_lunch", "sunday_dinner")}),
     )
+
+
+@admin.register(SubscriptionSubPlan)
+class SubscriptionSubPlanAdmin(BaseAdmin):
+    list_display = ("plan", "__str__", "plan_price", "order")
+
+
+# @admin.register(Branch)
+# class BranchAdmin(BaseAdmin):
+#     list_display = ("name", "is_active")
+#     search_fields = ("name",)

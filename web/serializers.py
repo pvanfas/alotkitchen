@@ -4,6 +4,11 @@ from main.models import SubscriptionPlan, SubscriptionSubPlan
 
 
 class SubscriptionSubPlanSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    def get_name(self, obj):
+        return obj.meals()
+
     class Meta:
         model = SubscriptionSubPlan
         fields = ["id", "name", "plan_price", "order"]
@@ -18,4 +23,4 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubscriptionPlan
-        fields = ["id", "name", "validity", "order", "absolute_url", "sub_plans"]
+        fields = ["id", "validity", "order", "absolute_url", "sub_plans"]

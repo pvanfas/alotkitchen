@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
-from main.forms import PreferanceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
+from main.forms import PreferenceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
 from main.models import Area, MealCategory, SubscriptionPlan, SubscriptionRequest
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
@@ -73,7 +73,7 @@ def mealcategory_detail(request, slug):
 
 # not verified
 def customize_menu(request, pk):
-    form = PreferanceForm(request.POST or None)
+    form = PreferenceForm(request.POST or None)
     plan = SubscriptionPlan.objects.get(pk=pk)
     fields = (
         "monday_breakfast",
