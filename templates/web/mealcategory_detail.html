@@ -15,7 +15,7 @@
 					<div class="col-lg-6 col-md-12 text-center mb-4">
 						<h6 class="fw-bold">{{ group }}</h6>
 						{% for category in categories %}
-						<a href="{{category.get_absolute_url}}" data-id="{{category.pk}}" class="btn btn-white me-3 mb-2 {% if meal_category.pk == category.pk %} border-dark{% endif %}">{{category}}</a>
+						<a href="{{category.get_absolute_url}}" data-id="{{category.pk}}" class="btn btn-white me-3 mb-2 {% if meal_category.pk == category.pk %} border-dark{% endif %}">{{category.name}}</a>
 						{% endfor %}
 					</div>
 					{% endfor %}
@@ -27,7 +27,7 @@
 				<div id="loading" class="p-1" style="text-align: center;">
 					<span class="text-dark">Loading...</span>
 				</div>
-				<div class="border-dark border shadow-lg table-responsive">
+				<div class="border-dark border shadow-lg table-responsive bg-white">
 					<table id="price-table" class="table price-table animate__animated animate__fadeIn" style="display: none;">
 						<thead>
 							<tr class="popular">
@@ -53,26 +53,6 @@
 		</div>
 	</div>
 </section>
-
-
-<section style="background: #F4F1EA;" class="section_padding_sm cta pt-0">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="thumb">
-					<div class="card cta_card">
-						<h2>GET STARTED TODAY</h2>
-						<p>Get started with our meal plans and enjoy the best food in the town. We offer a wide range of meal plans to choose from. </p>
-						<div class="btn_container mt-4">
-							<a href="{% url 'web:customize_menu' %}?tier={{tier}}" class="btn btn-primary">Subscribe</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
 
 {% endblock content %}
 

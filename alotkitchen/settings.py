@@ -23,6 +23,7 @@ INSTALLED_PLUGINS = [
     "registration",
     "tinymce",
     "versatileimagefield",
+    "rest_framework",
 ]
 
 DJANGO_APPS = [

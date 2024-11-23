@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from main.models import Area
+from main.models import Area, MealCategory
 
 
 def main_context(request):
@@ -23,4 +23,5 @@ def main_context(request):
         "site_title": settings.APP_SETTINGS.get("site_title"),
         "site_description": settings.APP_SETTINGS.get("site_description"),
         "areas": Area.objects.filter(is_active=True),
+        "categories": MealCategory.objects.filter(is_active=True),
     }

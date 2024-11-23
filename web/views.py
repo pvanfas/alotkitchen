@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import PreferanceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
-from main.models import Area, ItemMaster, MealCategory, SubscriptionPlan, SubscriptionRequest
+from main.models import Area, MealCategory, SubscriptionPlan, SubscriptionRequest
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
 
@@ -71,67 +71,10 @@ def mealcategory_detail(request, slug):
     return render(request, template_name, context)
 
 
-def subscriptionplan_detail(request, pk):
-    plan = SubscriptionPlan.objects.get(pk=pk)
-    template_name = "web/subscriptionplan_detail.html"
-    context = {}
-    return render(request, template_name, context)
-
-
 # not verified
-def essential(request):
-    meal_category = "Essential"
-    template_name = "web/package.html"
-    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
-    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(items)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
-    return render(request, template_name, context)
-
-
-def classicveg(request):
-    meal_category = "ClassicVeg"
-    template_name = "web/package.html"
-    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
-    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(items)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
-    return render(request, template_name, context)
-
-
-def classicnonveg(request):
-    meal_category = "ClassicNonVeg"
-    template_name = "web/package.html"
-    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
-    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(items)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
-    return render(request, template_name, context)
-
-
-def standardnonveg(request):
-    meal_category = "StandardNonVeg"
-    template_name = "web/package.html"
-    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
-    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(items)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
-    return render(request, template_name, context)
-
-
-def standardveg(request):
-    meal_category = "StandardVeg"
-    template_name = "web/package.html"
-    items = ItemMaster.objects.filter(meal_category=meal_category).values("mealtype", "available_days", "name", "item_code")
-    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-    structured_table_data = gen_structured_table_data(items)
-    context = {"structured_table_data": structured_table_data, "mealtypes": mealtypes, "meal_category": meal_category}
-    return render(request, template_name, context)
-
-
-def customize_menu(request):
+def customize_menu(request, pk):
     form = PreferanceForm(request.POST or None)
-    meal_category = request.GET.get("meal_category")
+    plan = SubscriptionPlan.objects.get(pk=pk)
     fields = (
         "monday_breakfast",
         "monday_lunch",
@@ -155,10 +98,10 @@ def customize_menu(request):
         "sunday_lunch",
         "sunday_dinner",
     )
-    for field in fields:
-        form.fields[field].queryset = form.fields[field].queryset.filter(meal_category=meal_category)
+    # for field in fields:
+    #     form.fields[field].queryset = form.fields[field].queryset.filter(plan=plan)
     template_name = "web/customize_menu.html"
-    context = {"form": form}
+    context = {"form": form, "plan": plan}
     if not request.session.session_key:
         request.session.save()
 

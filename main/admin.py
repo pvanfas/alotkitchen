@@ -53,16 +53,16 @@ class SubscriptionAdmin(BaseAdmin):
 
 @admin.register(ItemMaster)
 class ItemMasterAdmin(BaseAdmin):
-    list_display = ("item_code", "name", "meal_category", "is_veg", "mealtype", "available_days", "available_weeks", "price")
+    list_display = ("item_code", "name", "group", "is_veg", "price")
     search_fields = ("name", "item_code")
-    list_filter = ("meal_category", "mealtype", "meal_category", "price", "available_days", "available_weeks", "is_veg")
+    list_filter = ("price", "is_veg", "group")
 
 
 @admin.register(MealOrder)
 class MealOrderAdmin(BaseAdmin):
     list_display = ("user", "item", "quantity", "status", "date", "mealtype", "subscription_plan")
     search_fields = ("user__email", "item__name")
-    list_filter = ("status", "subscription_plan", "date", "item__mealtype")
+    list_filter = ("status", "subscription_plan", "date")
     autocomplete_fields = ("user", "item", "subscription", "subscription_plan")
 
 
