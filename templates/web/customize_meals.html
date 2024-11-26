@@ -15,14 +15,12 @@
                 <div id="progress">
                     <div id="progress-bar"></div>
                     <ul id="progress-num">
-                      <li class="">
-                        <span class="step active">1</span>
-                        <span>select plan</span>
-                    </li>
-                      <li class="step">2</li>
-                      <li class="step">3</li>
-                      <li class="step">4</li>
-                    </ul>
+                        <li><span class="step active">1</span><span>Select Plan</span></li>
+                        <li><span class="step">2</span><span>Select Meals</span></li>
+                        <li><span class="step">3</span><span>Customize Menu</span></li>
+                        <li><span class="step">4</span></li>
+                        <li><span class="step">5</span></li>
+                      </ul>
                 </div>
             </div>
 		
@@ -45,24 +43,11 @@
                             <div class="selected_container">
                                 <span>{{plan.meal_category}}</span>
                                 <span>{{plan.validity}} Days</span>
+                                <span>{{subplan}}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row pb-3">
-                        <div class="col-md-9">
-                            <div class="d-flex mt-6 flex-wrap">
-                                {% for mealtype in subplans %}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="{{mealtype.pk}}">
-                                    <label class="form-check-label" for="{{mealtype.pk}}">
-                                      {{mealtype}}
-                                    </label>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
 
                     {% if form.errors %}
                         {% for field in form %}

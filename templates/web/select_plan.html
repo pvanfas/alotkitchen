@@ -1,103 +1,179 @@
 {% extends 'web/base.html' %}
-{% load static crispy_forms_tags %}
+{% load static %}
+
+
 {% block content %}
 
-<section style="background: #F4F1EA;" id="packages">
-	<div class="container section_padding_sm packages">
+<section style="background: #F4F1EA;">
+	<div class="container section_padding packages">
+
 		<div class="row">
-			
-			<div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
-                <div class="border_box">
-                    <div class="thumb">
-                        <img src="/static/web/images/select_plan.png" alt="">
-                    </div>
 
-                    <div id="progress">
-                        <div id="progress-bar"></div>
-                        <ul id="progress-num">
-                          <li class="step active">1</li>
-                          <li class="step active">2</li>
-                          <li class="step">3</li>
-                          <li class="step">4</li>
-                        </ul>
-                    </div>
-
-                    {% if form.errors %}
-                      {% for field in form %}
-                          {% for error in field.errors %}
-                              <div class="alert alert-danger">
-                                  <strong>{{ error|escape }}</strong>
-                              </div>
-                          {% endfor %}
-                      {% endfor %}
-                      {% for error in form.non_field_errors %}
-                          <div class="alert alert-danger">
-                              <strong>{{ error|escape }}</strong>
-                          </div>
-                      {% endfor %}
-                  {% endif %}
-                      
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{form|crispy}}
-                        <div class="pt-3">
-                            <button type="submit" class="btn btn-primary">Next</button>
-                        </div>
-                    </form>
-                </div>
+			<div class="col-12 mb-3">
+				<div class="row">
+					{% for group, categories in grouped_meal_categories.items %}
+					<div class="col-lg-6 col-md-12 text-center mb-4">
+						<h6 class="fw-bold">{{ group }}</h6>
+						{% for category in categories %}
+						<a href="{{category.get_web_url}}" data-id="{{category.pk}}" class="btn btn-white me-3 mb-2 {% if meal_category.pk == category.pk %} shadow border-dark{% endif %}">{{category.name}}</a>
+						{% endfor %}
+					</div>
+					{% endfor %}
+				</div>
 			</div>
-        </div>
+
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+				<div class="border-dark border shadow-lg table-responsive bg-white">
+					<table id="menu-table" class="table menu-table animate__animated animate__fadeIn" style="display: none;">
+						<thead>
+							<tr class="popular">
+								<th class="price-blank">Days</th>
+								<th class="price-blank" data-id="BREAKFAST">Breakfast</th>
+								<th class="price-blank" data-id="TIFFIN_LUNCH">Tiffin Lunch</th>
+								<th class="price-blank" data-id="LUNCH">Lunch</th>
+								<th class="price-blank" data-id="DINNER">Dinner</th>
+								<th class="price-blank" data-id="EARLY_BREAKFAST">Early Breakfast</th>
+							</tr>
+						</thead>
+						<tbody id="menu-table-body"></tbody>
+					</table>
+				</div>
+				<span class="reminder">*The menu with multiple meal options can be customized in the next step.</span>
+			</div>
+			
+			
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<div id="loading" class="p-1" style="text-align: center;">
+					<span class="text-dark">Loading...</span>
+				</div>
+				<div class="border-dark border shadow-lg table-responsive bg-white">
+					<table id="price-table" class="table price-table animate__animated animate__fadeIn" style="display: none;">
+						<thead>
+							<tr class="popular">
+								<th class="price-blank"></th>
+								<th class="price-blank"></th>
+								<th class="price-blank"></th>
+								<th class="price-table-popular">Most popular</th>
+							</tr>
+							<tr class="price_head" id="price-table-header">
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="price-table-body"></tbody>
+						<tfoot id="price-table-footer">
+							<tr>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+			
+		</div>
 	</div>
 </section>
-
 
 {% endblock content %}
 
 
 {% block javascript %}
 <script>
-    $('#id_plan').html('<option value="">Select Plan</option>');
+	function populatePriceTable(priceTable, priceApiUrl) {
+		$.getJSON(priceApiUrl, function (data) {
+			const headerRow = $("#price-table-header");
+			const body = $("#price-table-body");
+			const footerRow = $("#price-table-footer tr");
 
-    $(document).ready(function() {
-        // Function to reset and populate the plan dropdown
-        function populatePlanDropdown(validity, tier) {
-            $('#id_plan').html('<option value="">Select Plan</option>');
-            if (validity && tier) {
-                var url = "{% url 'web:get_plans' %}?validity=" + validity + "&tier=" + tier;
-                $.get(url, function(data) {
-                    if (data && data.length > 0) {
-                        data.forEach(function(plan) {
-                            $('#id_plan').append('<option value="' + plan.id + '">' + plan.name + '</option>');
-                        });
-                    }
-                }).fail(function() {
-                    console.error('Error fetching plans');
-                });
-            }
-        }
+			// Extract unique meal types from sub_plans
+			const mealTypes = new Set(); // Use a Set to ensure uniqueness
+			data.forEach(plan => {
+				plan.sub_plans.forEach(subPlan => {
+					mealTypes.add(subPlan.name); // Add each subPlan's name
+				});
+			});
 
-        // Event listener for the 'select days' dropdown
-        $('#id_select_days').change(function() {
-            var validity = $(this).val();
-            var tier = $('#id_select_plan').val();
-            populatePlanDropdown(validity, tier);
-        });
+			// Populate table headers with plan validity
+			data.forEach(plan => {
+				headerRow.append(`<th data-id="${plan.id}">${plan.validity} Days</th>`);
+			});
 
-        // Event listener for the 'select plan' dropdown in case tier changes
-        $('#id_select_plan').change(function() {
-            var validity = $('#id_select_days').val();
-            var tier = $(this).val();
-            populatePlanDropdown(validity, tier);
-        });
-    });
+			// Populate table body with meal types and their corresponding prices
+			Array.from(mealTypes).forEach(mealType => {
+				const row = $("<tr></tr>");
+				row.append(`<td>${mealType}</td>`); // Add meal type
+				data.forEach(plan => {
+					// Find the sub-plan that matches the meal type
+					const subPlan = plan.sub_plans.find(sub => sub.name === mealType);
+					const price = subPlan ? subPlan.plan_price : "N/A";
+					row.append(`<td>${price}</td>`); // Add price for the plan
+				});
+				body.append(row); // Append row to table body
+			});
 
-    $('input.dateinput').bootstrapdatepicker({
-        format: "dd/mm/yyyy",
-        viewMode: "date",
-        multidate: false,
-        multidateSeparator: "-",
-        orientation: "bottom right"
-    });
-    
+			// Populate table footer with "Get Started" links
+			data.forEach(plan => {
+				footerRow.append(
+					`<td data-id="${plan.id}"><a href="${plan.web_url}">Get Started</a></td>`
+				);
+			});
+
+			$("#loading").css("visibility", "hidden");
+			priceTable.show();
+
+		}).fail(function () {
+			console.error("Error fetching data from the API.");
+		});
+	};
+
+	function populateMenuTable(menuTable, menuApiUrl) {
+		$.getJSON(menuApiUrl, function (data) {
+			const body = $("#menu-table-body");
+			const menuByDayAndType = {};
+			// Initialize empty structure for all days and meal types
+			const mealTypes = ["BREAKFAST", "TIFFIN_LUNCH", "LUNCH", "DINNER", "EARLY_BREAKFAST"];
+			const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+			days.forEach(day => {
+				menuByDayAndType[day] = {};
+				mealTypes.forEach(type => {
+					menuByDayAndType[day][type] = [];
+				});
+			});
+			// Populate menu data into the structure
+			data.forEach(item => {
+				menuByDayAndType[item.day][item.meal_type].push(item.menu_item);
+			});
+
+			// Loop through the days to populate the table rows
+			days.forEach(day => {
+				const row = $("<tr></tr>");
+				row.append(`<td data-id="${day}">${day}</td>`); // Add the day
+
+				mealTypes.forEach(mealType => {
+					// Get the items for the meal type for this day
+					const items = menuByDayAndType[day][mealType];
+					// If items exist for this meal type, join them with <br>, otherwise show "N/A"
+					const cellContent = items.length > 0 ? items.join("<hr>") : "N/A";
+					row.append(`<td>${cellContent}</td>`); // Add the meal items or "N/A"
+				});
+				body.append(row); // Append the row to the table body
+			});
+			// Optionally, you can add an animation or visibility toggle
+			menuTable.show();
+			
+		}).fail(function () {
+			console.error("Error fetching data from the API.");
+		});
+	};
+
+
+	$(document).ready(function () {
+		const priceTable = $("#price-table");
+		const priceApiUrl = "{{meal_category.api_url}}";
+		const menuTable = $("#menu-table");
+		const menuApiUrl = "{{meal_category.menu_api_url}}";
+		populatePriceTable(priceTable, priceApiUrl);
+		populateMenuTable(menuTable, menuApiUrl);
+	});
+	
 </script>
 {% endblock %}

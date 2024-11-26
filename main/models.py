@@ -72,8 +72,11 @@ class MealCategory(BaseModel):
     def api_url(self):
         return reverse_lazy("web:getplans_api", kwargs={"pk": self.pk})
 
-    def get_absolute_url(self):
-        return reverse_lazy("web:mealcategory_detail", kwargs={"slug": self.slug})
+    def menu_api_url(self):
+        return reverse_lazy("web:getmeals_api", kwargs={"pk": self.pk})
+
+    def get_web_url(self):
+        return reverse_lazy("web:select_plan", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.name
@@ -96,8 +99,8 @@ class SubscriptionPlan(BaseModel):
     def subplans_count(self):
         return self.get_subs().count()
 
-    def get_absolute_url(self):
-        return reverse_lazy("web:customize_menu", kwargs={"pk": self.pk})
+    def get_web_url(self):
+        return reverse_lazy("web:select_meals", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.meal_category} - {self.validity} Days"
@@ -119,14 +122,31 @@ class SubscriptionSubPlan(BaseModel):
         selected_mealtypes = [mealtype_dict[meal] for meal in self.available_mealtypes if meal in mealtype_dict]
         return ", ".join(selected_mealtypes)
 
+    def get_web_url(self):
+        return reverse_lazy("web:customize_meals", kwargs={"pk": self.pk})
+
     def __str__(self):
         return self.meals()
 
 
-class ItemMaster(BaseModel):
-    image = models.ImageField(upload_to="items/images/", blank=True, null=True)
+class ItemCategory(BaseModel):
     name = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = _("Item Category")
+        verbose_name_plural = _("Item Categories")
+
+    def __str__(self):
+        return self.name
+
+
+class ItemMaster(BaseModel):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, related_name="items")
+    image = models.ImageField(upload_to="items/images/", blank=True, null=True)
     item_code = models.CharField(max_length=200, unique=True)
+    mealtype = models.CharField(max_length=200, choices=MEALTYPE_CHOICES, blank=True, null=True)
     group = models.CharField(max_length=200, choices=GROUP_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=10.00)
     is_veg = models.BooleanField(default=True)
@@ -148,22 +168,22 @@ class ItemMaster(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f"{self.item_code}: {self.name}"
 
 
 class MealPlan(BaseModel):
     meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE, related_name="items")
     day = models.CharField(max_length=200, choices=DAY_CHOICES)
     meal_type = models.CharField(max_length=200, choices=MEALTYPE_CHOICES)
-    menu_items = models.ManyToManyField(ItemMaster, related_name="meal_plans")
+    menu_item = models.ForeignKey("ItemMaster", on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
-        ordering = ("day", "meal_type")
+        ordering = ("meal_category", "day", "meal_type")
         verbose_name = _("Meal Plan")
         verbose_name_plural = _("Meal Plans")
 
     def __str__(self):
-        return f"{self.day} - {self.meal_type}"
+        return f"{self.meal_category}: {self.day} - {self.get_meal_type_display()}"
 
 
 class Preference(BaseModel):

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from main.models import SubscriptionPlan, SubscriptionSubPlan
+from main.models import MealPlan, SubscriptionPlan, SubscriptionSubPlan
 
 
 class SubscriptionSubPlanSerializer(serializers.ModelSerializer):
@@ -15,12 +15,27 @@ class SubscriptionSubPlanSerializer(serializers.ModelSerializer):
 
 
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
-    absolute_url = serializers.SerializerMethodField()
+    web_url = serializers.SerializerMethodField()
     sub_plans = SubscriptionSubPlanSerializer(source="subscriptionsubplan_set", many=True)
 
-    def get_absolute_url(self, obj):
-        return obj.get_absolute_url()
+    def get_web_url(self, obj):
+        return obj.get_web_url()
 
     class Meta:
         model = SubscriptionPlan
-        fields = ["id", "validity", "order", "absolute_url", "sub_plans"]
+        fields = ["id", "validity", "order", "web_url", "sub_plans"]
+
+
+class MealPlanSerializer(serializers.ModelSerializer):
+    menu_item = serializers.SerializerMethodField()
+    meal_category = serializers.SerializerMethodField()
+
+    def get_menu_item(self, obj):
+        return obj.menu_item.name
+
+    def get_meal_category(self, obj):
+        return obj.meal_category.name
+
+    class Meta:
+        model = MealPlan
+        exclude = ["created", "updated", "is_active", "creator"]

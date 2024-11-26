@@ -4,7 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
-from .models import Area, ItemMaster, MealCategory, MealOrder, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
+from .models import Area, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -20,7 +20,7 @@ class SubscriptionSubPlanInline(admin.TabularInline):
 class MealCategoryAdmin(BaseAdmin):
     list_display = ("name", "order", "slug", "description", "is_active")
     search_fields = ("name",)
-    list_filter = ("is_active",)
+    list_filter = ()
     list_display_links = ("name", "order", "description")
     prepopulated_fields = {"slug": ("name",)}
 
@@ -29,6 +29,7 @@ class MealCategoryAdmin(BaseAdmin):
 class SubscriptionPlanAdmin(BaseAdmin):
     list_display = ("__str__", "validity", "order", "subplans_count", "is_active")
     list_filter = ("validity", "meal_category")
+    autocomplete_fields = ("meal_category",)
     inlines = (SubscriptionSubPlanInline,)
 
 
@@ -40,11 +41,25 @@ class SubscriptionAdmin(BaseAdmin):
     autocomplete_fields = ("user", "plan", "request")
 
 
+@admin.register(ItemCategory)
+class ItemCategoryAdmin(BaseAdmin):
+    list_display = ("name", "is_active", "created")
+    search_fields = ("name",)
+    list_filter = ("is_active",)
+
+
 @admin.register(ItemMaster)
 class ItemMasterAdmin(BaseAdmin):
-    list_display = ("item_code", "name", "group", "is_veg", "price")
+    list_display = ("item_code", "name", "group", "mealtype", "category", "is_veg", "price")
     search_fields = ("name", "item_code")
-    list_filter = ("price", "is_veg", "group")
+    list_filter = ("price", "is_veg", "group", "category", "mealtype")
+
+
+@admin.register(MealPlan)
+class MealPlanAdmin(BaseAdmin):
+    list_display = ("meal_category", "day", "meal_type", "menu_item")
+    list_filter = ("is_active", "meal_category", "day", "meal_type")
+    autocomplete_fields = ("meal_category", "menu_item")
 
 
 @admin.register(MealOrder)
@@ -57,10 +72,11 @@ class MealOrderAdmin(BaseAdmin):
 
 @admin.register(Area)
 class AreaAdmin(BaseAdmin):
-    list_display = ("name", "is_active")
+    list_display = ("name", "slug", "is_active", "created")
     search_fields = ("name",)
     list_filter = ("is_active",)
     prepopulated_fields = {"slug": ("name",)}
+    autocomplete_fields = ("delivery_staffs",)
 
 
 @admin.register(SubscriptionRequest)
@@ -114,6 +130,7 @@ class PreferenceAdmin(BaseAdmin):
 @admin.register(SubscriptionSubPlan)
 class SubscriptionSubPlanAdmin(BaseAdmin):
     list_display = ("plan", "__str__", "plan_price", "order")
+    autocomplete_fields = ("plan",)
 
 
 # @admin.register(Branch)

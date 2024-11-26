@@ -14,8 +14,8 @@ from .functions import generate_fields
 
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False, blank=True)
-    created = models.DateTimeField(db_index=True, auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField("Created at", db_index=True, auto_now_add=True)
+    updated = models.DateTimeField("Updated at", auto_now=True)
     creator = models.ForeignKey(User, editable=False, blank=True, null=True, related_name="%(app_label)s_%(class)s_creator", on_delete=models.PROTECT)
     is_active = models.BooleanField("Mark as Active", default=True, choices=BOOL_CHOICES)
 

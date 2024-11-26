@@ -1,49 +1,35 @@
-from itertools import groupby
-
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.safestring import mark_safe
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import PreferenceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
-from main.models import Area, MealCategory, SubscriptionPlan, SubscriptionRequest
+from main.models import Area, MealCategory, MealPlan, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 from users.forms import UserForm
 
-from .serializers import SubscriptionPlanSerializer
+from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
 
 
 class SubscriptionPlanListView(APIView):
     def get(self, request, pk):
-        meal_category = MealCategory.objects.get(pk=pk)
+        meal_category = get_object_or_404(MealCategory, pk=pk)
         plans = SubscriptionPlan.objects.filter(meal_category=meal_category)
         serializer = SubscriptionPlanSerializer(plans, many=True)
         return Response(serializer.data)
 
 
-def gen_structured_table_data(items):
-    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    mealtypes = [choice[0] for choice in MEALTYPE_CHOICES]
-
-    # Initialize table data structure
-    table_data = {day: {mealtype: [] for mealtype in mealtypes} for day in days_of_week}
-
-    # Populate table data
-    for item in items:
-        for day in item["available_days"]:
-            if day in table_data:
-                data = mark_safe(f'<span>{item["item_code"]}</span> {item["name"]}')
-                table_data[day][item["mealtype"]].append(data)
-
-    # Convert nested dictionary into a list of tuples for easier template access
-    structured_table_data = [{"day": day, "meals": [{"mealtype": mealtype, "items": table_data[day][mealtype]} for mealtype in mealtypes]} for day in days_of_week]
-    return structured_table_data
+class SubscriptionPlanMealPlanListView(APIView):
+    def get(self, request, pk):
+        meal_category = get_object_or_404(MealCategory, pk=pk)
+        mealplans = MealPlan.objects.filter(meal_category=meal_category)
+        serializer = MealPlanSerializer(mealplans, many=True)
+        return Response(serializer.data)
 
 
 def index(request):
@@ -54,20 +40,35 @@ def index(request):
 
 
 def page_view(request, slug):
-    template_name = "web/page.html"
-    area = Area.objects.get(slug=slug)
+    template_name = "web/page_view.html"
+    area = get_object_or_404(Area, slug=slug)
     meal_categories = MealCategory.objects.filter(is_active=True)
     context = {"meal_categories": meal_categories, "area": area}
     return render(request, template_name, context)
 
 
-def mealcategory_detail(request, slug):
-    groups = [group for group in GROUP_CHOICES]
-    template_name = "web/mealcategory_detail.html"
-    meal_category = MealCategory.objects.get(slug=slug)
-    meal_categories = MealCategory.objects.filter(is_active=True).order_by("group", "order")
-    grouped_meal_categories = {group: list(items) for group, items in groupby(meal_categories, key=lambda x: x.group)}
-    context = {"meal_category": meal_category, "groups": groups, "grouped_meal_categories": grouped_meal_categories}
+def select_plan(request, slug):
+    template_name = "web/select_plan.html"
+    meal_category = get_object_or_404(MealCategory, slug=slug)
+    grouped_meal_categories = {group: list(MealCategory.objects.filter(is_active=True, group=group).order_by("order")) for group, _ in GROUP_CHOICES}
+    context = {"meal_category": meal_category, "groups": GROUP_CHOICES, "grouped_meal_categories": grouped_meal_categories}
+    return render(request, template_name, context)
+
+
+def select_meals(request, pk):
+    plan = get_object_or_404(SubscriptionPlan, pk=pk)
+    subplans = plan.get_subs()
+    mealtypes = MEALTYPE_CHOICES
+    template_name = "web/select_meals.html"
+    context = {"plan": plan, "mealtypes": mealtypes, "subplans": subplans}
+    return render(request, template_name, context)
+
+
+def customize_meals(request, pk):
+    subplan = get_object_or_404(SubscriptionSubPlan, pk=pk)
+    plan = subplan.plan
+    template_name = "web/customize_meals.html"
+    context = {"subplan": subplan, "plan": plan}
     return render(request, template_name, context)
 
 
@@ -75,6 +76,13 @@ def mealcategory_detail(request, slug):
 def customize_menu(request, pk):
     form = PreferenceForm(request.POST or None)
     plan = SubscriptionPlan.objects.get(pk=pk)
+    subplans = plan.get_subs()
+    mealtypes = MEALTYPE_CHOICES
+    template_name = "web/customize_menu.html"
+    context = {"form": form, "plan": plan, "mealtypes": mealtypes, "subplans": subplans}
+    if not request.session.session_key:
+        request.session.save()
+
     fields = (
         "monday_breakfast",
         "monday_lunch",
@@ -100,10 +108,6 @@ def customize_menu(request, pk):
     )
     # for field in fields:
     #     form.fields[field].queryset = form.fields[field].queryset.filter(plan=plan)
-    template_name = "web/customize_menu.html"
-    context = {"form": form, "plan": plan}
-    if not request.session.session_key:
-        request.session.save()
 
     if request.method == "POST":
         if form.is_valid():
@@ -142,7 +146,7 @@ def create_profile(request):
     return render(request, template_name, context)
 
 
-def select_plan(request, pk):
+def select_planx(request, pk):
     instance = SubscriptionRequest.objects.get(pk=pk)
     form = SubscriptionRequestForm(request.POST or None, instance=instance)
     if request.method == "POST":

@@ -1,0 +1,88 @@
+{% extends 'web/base.html' %}
+{% load static crispy_forms_tags %}
+
+
+{% block content %}
+<section style="background: #F4F1EA;" id="packages">
+	<div class="container section_padding_sm packages">
+		<div class="row">
+
+            <div class="col-12 mb-5">
+                <div id="progress">
+                    <div id="progress-bar"></div>
+                    <ul id="progress-num">
+                      <li><span class="step active">1</span><span>Select Plan</span></li>
+                      <li><span class="step">2</span><span>Select Meals</span></li>
+                      <li><span class="step">3</span><span>Customize Menu</span></li>
+                      <li><span class="step">4</span></li>
+                      <li><span class="step">5</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h3 class="text-center">Select Meals</h3>
+            </div>
+		
+			<div class="col-lg-12 col-md-6 col-sm-12 mx-auto">
+                <div class="border_box border border-dark">
+
+                    <div class="row pb-3 border-bottom">
+                        <div class="col-md-3">
+                            <div class="package_image">
+                                <img src="{{plan.meal_category.image.url}}" alt="" style="height:150px;width: 100%;object-fit: contain;text-align: center;">
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="card-title mb-2 fw-bold">Your Plan</h5>
+                            <p class="mb-1">
+                                You have selected the <strong>{{plan}}</strong> plan. 
+                                {{plan.meal_category.description}}. Changed your mind?  
+                                <a href="javascript: history.go(-1)" class="text-green">Switch to a different plan</a>
+                            </p>
+                            <div class="selected_container">
+                                <span>{{plan.meal_category}}</span>
+                                <span>{{plan.validity}} Days</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb-3">
+                        <div class="col-md-12">
+                            <div class="row mt-6">
+                                {% for subplan in subplans %}
+                                <div class="col-md-4 mb-2">
+                                    <a href="{{subplan.get_web_url}}" data-id="{{subplan.pk}}">
+                                        <div class="card meal_card">
+                                            <img src="/static/web/images/icon.png" alt="" style="width:30px;height:30px;object-fit:contain;">
+                                            {{subplan}}
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                      
+                </div>
+			</div>
+        </div>
+	</div>
+</section>
+{% endblock content %}
+

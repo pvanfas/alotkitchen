@@ -286,12 +286,16 @@ table tr td ul li span {
     display: flex;
     justify-content: space-between;
 }
+#progress-num li {
+    display: flex;
+    flex-direction: column;
+}
 
 #progress-num::before {
     content: "";
     background-color: #e0e0e0;
     position: absolute;
-    top: 50%;
+    top: 15px;
     left: 0;
     height: 1px;
     width: 100%;
@@ -316,6 +320,7 @@ table tr td ul li span {
     border-color: lightseagreen;
     background-color: lightseagreen;
     color: #fff;
+    display: inline-block;
 }
 
 .form-select {
@@ -359,7 +364,9 @@ table tr td ul li span {
 }
 
 .price-table tbody td,
-.price-table.table>:not(:last-child)>:last-child>* {
+.menu-table tbody td,
+.price-table.table>:not(:last-child)>:last-child>* ,
+.menu-table.table>:not(:last-child)>:last-child>* {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -391,7 +398,7 @@ body:not(.dark-mode) .table.price-table>thead>tr.popular>th.price-table-popular 
 }
 
 
-.price-table tbody td:nth-child(4) {
+.price-table td:nth-child(4) {
     background-color: rgba(216, 214, 227, 0.25);
 }
 
@@ -413,4 +420,46 @@ body:not(.dark-mode) .table.price-table>thead>tr.popular>th.price-table-popular 
 
 body:not(.dark-mode) .table.price-table>thead>tr>th {
     background-color: unset;
+}
+td hr {
+    margin: 4px 0;
+    background-color: #a19e9e;
+}
+.reminder {
+    font-style: italic;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+    text-align: end;
+    width: 100%;
+}
+.selected_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.selected_container span {
+    color: #000;
+    padding: 2px 10px;
+    margin-bottom: 2px;
+    display: inline-block;
+    border-radius: 14px;
+    border: 1px solid #000;
+    background: #ffffff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+.meal_card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid #e2e2e2 !important;
+    padding: 1.5rem 1.5rem;
+    margin-bottom: 5px;
+}
+.meal_card:hover {
+    background: #eeeeee;
+    border: 1px solid #616161 !important;
 }

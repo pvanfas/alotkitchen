@@ -95,7 +95,7 @@
 					<p  class="mb-3"><strong>Subscription Packages</strong></p>
 					<ul class="d-flex flex-wrap">
 						{% for category in categories %}
-						<li class="mb-2 w-50"><a href="{{category.get_absolute_url}}">{{category.name}}</a></li>
+						<li class="mb-2 w-50"><a href="{{category.get_web_url}}">{{category.name}}</a></li>
 						{% endfor %}
 					</ul>
 				</div>
