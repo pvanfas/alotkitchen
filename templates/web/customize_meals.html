@@ -7,11 +7,7 @@
 	<div class="container section_padding_sm packages">
 		<div class="row">
 
-            <div class="col-12">
-                <h3 class="text-center">Customize Your Menu</h3>
-            </div>
-
-            <div class="col-12">
+            <div class="col-12 mb-5">
                 <div id="progress">
                     <div id="progress-bar"></div>
                     <ul id="progress-num">
@@ -22,6 +18,10 @@
                         <li><span class="step">5</span></li>
                       </ul>
                 </div>
+            </div>
+
+            <div class="col-12">
+                <h3 class="text-center">Customize Your Menu</h3>
             </div>
 		
 			<div class="col-lg-12 col-md-6 col-sm-12 mx-auto">
@@ -71,53 +71,69 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th style="width:22%;max-width:22%;">Day</th>
-                                        <th style="width:26%;max-width:26%;">Breakfast</th>
-                                        <th style="width:26%;max-width:26%;">Lunch</th>
-                                        <th style="width:26%;max-width:26%;">Dinner</th>
+                                        <th style="width:15%;max-width:15%;">Day</th>
+                                        <th style="display:none;width:17%;max-width:17%;" data-id="EARLY_BREAKFAST">Early Breakfast</th>
+                                        <th style="display:none;width:17%;max-width:17%;" data-id="BREAKFAST">Breakfast</th>
+                                        <th style="display:none;width:17%;max-width:17%;" data-id="TIFFIN_LUNCH">Tiffin Lunch</th>
+                                        <th style="display:none;width:17%;max-width:17%;" data-id="LUNCH">Lunch</th>
+                                        <th style="display:none;width:17%;max-width:17%;" data-id="DINNER">Dinner</th>
                                     </tr>
                                 </thead>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Monday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.monday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.monday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.monday_dinner}}</td>
+                                <tr data-id="Monday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Monday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.monday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.monday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.monday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.monday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.monday_dinner}}</td>
                                 </tr>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Tuesday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.tuesday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.tuesday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.tuesday_dinner}}</td>
+                                 <tr data-id="Tuesday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Tuesday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.tuesday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.tuesday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.tuesday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.tuesday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.tuesday_dinner}}</td>
                                 </tr>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Wednesday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.wednesday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.wednesday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.wednesday_dinner}}</td>
+                                 <tr data-id="Wednesday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Wednesday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.wednesday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.wednesday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.wednesday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.wednesday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.wednesday_dinner}}</td>
                                 </tr>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Thursday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.thursday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.thursday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.thursday_dinner}}</td>
+                                 <tr data-id="Thursday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Thursday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.thursday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.thursday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.thursday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.thursday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.thursday_dinner}}</td>
                                 </tr>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Friday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.friday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.friday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.friday_dinner}}</td>
+                                 <tr data-id="Friday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Friday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.friday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.friday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.friday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.friday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.friday_dinner}}</td>
                                 </tr>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Saturday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.saturday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.saturday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.saturday_dinner}}</td>
+                                 <tr data-id="Saturday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Saturday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.saturday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.saturday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.saturday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.saturday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.saturday_dinner}}</td>
                                 </tr>
-                                <tr>
-                                    <td style="width:22%;max-width:22%;" class="py-3">Sunday</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.sunday_breakfast}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.sunday_lunch}}</td>
-                                    <td style="width:26%;max-width:26%;" class="p-0">{{form.sunday_dinner}}</td>
+                                 <tr data-id="Sunday">
+                                    <td style="width:15%;max-width:15%;" class="py-3">Sunday</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="EARLY_BREAKFAST">{{form.sunday_early_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="BREAKFAST">{{form.sunday_breakfast}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="TIFFIN_LUNCH">{{form.sunday_tiffin_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="LUNCH">{{form.sunday_lunch}}</td>
+                                    <td style="display:none;width:17%;max-width:17%;" class="p-0" data-id="DINNER">{{form.sunday_dinner}}</td>
                                 </tr>
 
                             </table>
@@ -134,3 +150,23 @@
 </section>
 {% endblock content %}
 
+
+{% block javascript %}
+<script>
+    const available_mealtypes = {{available_mealtypes|safe}};
+    for (let i = 0; i < available_mealtypes.length; i++) {
+        let data_id = available_mealtypes[i];
+        $(`th[data-id="${data_id}"]`).show();
+        $(`td[data-id="${data_id}"]`).show();
+        $(`td[data-id="${data_id}"] select`).each(function () {
+            $(this).prop('required',true)
+            const options = $(this).find('option').not('[value=""]'); // Exclude no-value options
+            if (options.length === 1) {
+                // Set the single option as selected
+                options.prop('selected', true);
+                // $(this).prop('disabled', true);
+            }
+        });
+    };
+</script>
+{% endblock javascript %}

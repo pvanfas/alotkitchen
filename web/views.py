@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -66,58 +65,15 @@ def select_meals(request, pk):
 
 def customize_meals(request, pk):
     subplan = get_object_or_404(SubscriptionSubPlan, pk=pk)
-    plan = subplan.plan
+    mealtypes = list(subplan.available_mealtypes)
     template_name = "web/customize_meals.html"
-    context = {"subplan": subplan, "plan": plan}
-    return render(request, template_name, context)
-
-
-# not verified
-def customize_menu(request, pk):
+    request.session.save() if not request.session.session_key else None
     form = PreferenceForm(request.POST or None)
-    plan = SubscriptionPlan.objects.get(pk=pk)
-    subplans = plan.get_subs()
-    mealtypes = MEALTYPE_CHOICES
-    template_name = "web/customize_menu.html"
-    context = {"form": form, "plan": plan, "mealtypes": mealtypes, "subplans": subplans}
-    if not request.session.session_key:
-        request.session.save()
-
-    fields = (
-        "monday_breakfast",
-        "monday_lunch",
-        "monday_dinner",
-        "tuesday_breakfast",
-        "tuesday_lunch",
-        "tuesday_dinner",
-        "wednesday_breakfast",
-        "wednesday_lunch",
-        "wednesday_dinner",
-        "thursday_breakfast",
-        "thursday_lunch",
-        "thursday_dinner",
-        "friday_breakfast",
-        "friday_lunch",
-        "friday_dinner",
-        "saturday_breakfast",
-        "saturday_lunch",
-        "saturday_dinner",
-        "sunday_breakfast",
-        "sunday_lunch",
-        "sunday_dinner",
-    )
-    # for field in fields:
-    #     form.fields[field].queryset = form.fields[field].queryset.filter(plan=plan)
-
+    for field in form.fields:
+        form.fields[field].queryset = form.fields[field].queryset.filter(meal_category=subplan.plan.meal_category)
+    context = {"subplan": subplan, "plan": subplan.plan, "available_mealtypes": mealtypes, "form": form}
     if request.method == "POST":
-        if form.is_valid():
-            data = form.save(commit=False)
-            data.session_id = request.session.session_key
-            if request.user.is_authenticated:
-                data.user = request.user
-            data.save()
-            next_url = reverse("web:create_profile") + f"?menu={data.pk}"
-            return redirect(next_url)
+        print(request.POST)
     return render(request, template_name, context)
 
 

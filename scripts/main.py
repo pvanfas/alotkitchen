@@ -1,7 +1,7 @@
 from main.models import SubscriptionPlan, SubscriptionSubPlan
 
-meal_types = ["BREAKFAST", "LUNCH", "DINNER", "TIFFIN_LUNCH", "EARLY_BREAKFAST"]
-meal_combinations = [[meal] for meal in meal_types] + [
+mealtypes = ["BREAKFAST", "LUNCH", "DINNER", "TIFFIN_LUNCH", "EARLY_BREAKFAST"]
+meal_combinations = [[meal] for meal in mealtypes] + [
     ["BREAKFAST", "LUNCH"],
     ["BREAKFAST", "DINNER"],
     ["LUNCH", "DINNER"],

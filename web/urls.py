@@ -14,7 +14,6 @@ urlpatterns = [
     path("api/tier/<str:pk>/", views.SubscriptionPlanListView.as_view(), name="getplans_api"),
     path("api/meals/<str:pk>/", views.SubscriptionPlanMealPlanListView.as_view(), name="getmeals_api"),
     # not verified
-    path("tier/<str:pk>/customize/", views.customize_menu, name="customize_menu"),
     path("create_profile/", views.create_profile, name="create_profile"),
     path("select/plan/<str:pk>/", views.select_planx, name="select_planx"),
     path("select/address/<str:pk>/", views.select_address, name="select_address"),

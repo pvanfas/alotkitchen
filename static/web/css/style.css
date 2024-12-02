@@ -463,3 +463,7 @@ td hr {
     background: #eeeeee;
     border: 1px solid #616161 !important;
 }
+form table .select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: unset;
+    cursor: default;
+}

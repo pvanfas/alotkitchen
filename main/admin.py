@@ -50,16 +50,17 @@ class ItemCategoryAdmin(BaseAdmin):
 
 @admin.register(ItemMaster)
 class ItemMasterAdmin(BaseAdmin):
-    list_display = ("item_code", "name", "group", "mealtype", "category", "is_veg", "price")
+    list_display = ("item_code", "name", "meal_category", "mealtype", "category", "is_veg", "price")
     search_fields = ("name", "item_code")
-    list_filter = ("price", "is_veg", "group", "category", "mealtype")
+    list_filter = ("price", "is_veg", "meal_category", "category", "mealtype")
 
 
 @admin.register(MealPlan)
 class MealPlanAdmin(BaseAdmin):
-    list_display = ("meal_category", "day", "meal_type", "menu_item")
-    list_filter = ("is_active", "meal_category", "day", "meal_type")
+    list_display = ("meal_category", "day", "menu_item")
+    list_filter = ("is_active", "meal_category", "day")
     autocomplete_fields = ("meal_category", "menu_item")
+    search_fields = ("menu_item__name", "menu_item__item_code")
 
 
 @admin.register(MealOrder)
@@ -94,36 +95,50 @@ class PreferenceAdmin(BaseAdmin):
     autocomplete_fields = (
         "user",
         "monday_breakfast",
+        "monday_early_breakfast",
+        "monday_tiffin_lunch",
         "monday_lunch",
         "monday_dinner",
         "tuesday_breakfast",
+        "tuesday_early_breakfast",
+        "tuesday_tiffin_lunch",
         "tuesday_lunch",
         "tuesday_dinner",
         "wednesday_breakfast",
+        "wednesday_early_breakfast",
+        "wednesday_tiffin_lunch",
         "wednesday_lunch",
         "wednesday_dinner",
         "thursday_breakfast",
+        "thursday_early_breakfast",
+        "thursday_tiffin_lunch",
         "thursday_lunch",
         "thursday_dinner",
         "friday_breakfast",
+        "friday_early_breakfast",
+        "friday_tiffin_lunch",
         "friday_lunch",
         "friday_dinner",
         "saturday_breakfast",
+        "saturday_early_breakfast",
+        "saturday_tiffin_lunch",
         "saturday_lunch",
         "saturday_dinner",
         "sunday_breakfast",
+        "sunday_early_breakfast",
+        "sunday_tiffin_lunch",
         "sunday_lunch",
         "sunday_dinner",
     )
     fieldsets = (
         ("Main", {"fields": ("user", "is_active")}),
-        ("Monday", {"fields": ("monday_breakfast", "monday_lunch", "monday_dinner")}),
-        ("Tuesday", {"fields": ("tuesday_breakfast", "tuesday_lunch", "tuesday_dinner")}),
-        ("Wednesday", {"fields": ("wednesday_breakfast", "wednesday_lunch", "wednesday_dinner")}),
-        ("Thursday", {"fields": ("thursday_breakfast", "thursday_lunch", "thursday_dinner")}),
-        ("Friday", {"fields": ("friday_breakfast", "friday_lunch", "friday_dinner")}),
-        ("Saturday", {"fields": ("saturday_breakfast", "saturday_lunch", "saturday_dinner")}),
-        ("Sunday", {"fields": ("sunday_breakfast", "sunday_lunch", "sunday_dinner")}),
+        ("Monday", {"fields": ("monday_early_breakfast", "monday_breakfast", "monday_tiffin_lunch", "monday_lunch", "monday_dinner")}),
+        ("Tuesday", {"fields": ("tuesday_early_breakfast", "tuesday_breakfast", "tuesday_tiffin_lunch", "tuesday_lunch", "tuesday_dinner")}),
+        ("Wednesday", {"fields": ("wednesday_early_breakfast", "wednesday_breakfast", "wednesday_tiffin_lunch", "wednesday_lunch", "wednesday_dinner")}),
+        ("Thursday", {"fields": ("thursday_early_breakfast", "thursday_breakfast", "thursday_tiffin_lunch", "thursday_lunch", "thursday_dinner")}),
+        ("Friday", {"fields": ("friday_early_breakfast", "friday_breakfast", "friday_tiffin_lunch", "friday_lunch", "friday_dinner")}),
+        ("Saturday", {"fields": ("saturday_early_breakfast", "saturday_breakfast", "saturday_tiffin_lunch", "saturday_lunch", "saturday_dinner")}),
+        ("Sunday", {"fields": ("sunday_early_breakfast", "sunday_breakfast", "sunday_tiffin_lunch", "sunday_lunch", "sunday_dinner")}),
     )
 
 

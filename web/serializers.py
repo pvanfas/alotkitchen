@@ -29,12 +29,16 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
 class MealPlanSerializer(serializers.ModelSerializer):
     menu_item = serializers.SerializerMethodField()
     meal_category = serializers.SerializerMethodField()
+    mealtype = serializers.SerializerMethodField()
 
     def get_menu_item(self, obj):
         return obj.menu_item.name
 
     def get_meal_category(self, obj):
         return obj.meal_category.name
+
+    def get_mealtype(self, obj):
+        return obj.menu_item.mealtype
 
     class Meta:
         model = MealPlan

@@ -7434,10 +7434,10 @@
         "pk": "31b3b103-5f63-4151-b870-afedfd0c8d56",
         "fields": {
             "created": "2024-11-24T17:02:42.791Z",
-            "updated": "2024-11-24T17:02:42.791Z",
+            "updated": "2024-11-27T11:16:06.856Z",
             "creator": null,
             "is_active": true,
-            "name": "Standard - Non Veg"
+            "name": "Standard"
         }
     },
     {
@@ -7453,7 +7453,7 @@
             "image": "",
             "item_code": "EF L001",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -7471,7 +7471,7 @@
             "image": "",
             "item_code": "DNV BF005",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -7489,7 +7489,7 @@
             "image": "",
             "item_code": "RNV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -7507,7 +7507,7 @@
             "image": "",
             "item_code": "DNV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -7525,7 +7525,7 @@
             "image": "",
             "item_code": "EV BF006",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -7543,7 +7543,7 @@
             "image": "",
             "item_code": "SF TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -7561,7 +7561,7 @@
             "image": "",
             "item_code": "EV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -7579,7 +7579,7 @@
             "image": "",
             "item_code": "RV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -7597,7 +7597,7 @@
             "image": "",
             "item_code": "EF EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -7615,7 +7615,7 @@
             "image": "",
             "item_code": "EPF L002",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -7633,7 +7633,7 @@
             "image": "",
             "item_code": "RV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -7651,7 +7651,7 @@
             "image": "",
             "item_code": "RF TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -7669,7 +7669,7 @@
             "image": "",
             "item_code": "EPF L008",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -7687,7 +7687,7 @@
             "image": "",
             "item_code": "RNV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -7705,7 +7705,7 @@
             "image": "",
             "item_code": "EF TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -7723,7 +7723,7 @@
             "image": "",
             "item_code": "EF BF007",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -7741,7 +7741,7 @@
             "image": "",
             "item_code": "DF TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -7759,7 +7759,7 @@
             "image": "",
             "item_code": "SNV D004",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -7777,7 +7777,7 @@
             "image": "",
             "item_code": "RF BF001",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -7795,7 +7795,7 @@
             "image": "",
             "item_code": "SFLT086",
             "mealtype": null,
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -7813,7 +7813,7 @@
             "image": "",
             "item_code": "DV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -7831,7 +7831,7 @@
             "image": "",
             "item_code": "SNV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -7849,7 +7849,7 @@
             "image": "",
             "item_code": "SNV L003",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -7867,7 +7867,7 @@
             "image": "",
             "item_code": "RNV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -7885,7 +7885,7 @@
             "image": "",
             "item_code": "EPF L009",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -7903,7 +7903,7 @@
             "image": "",
             "item_code": "DF D004",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -7921,7 +7921,7 @@
             "image": "",
             "item_code": "SNV BF005",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -7939,7 +7939,7 @@
             "image": "",
             "item_code": "EF D005",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -7957,7 +7957,7 @@
             "image": "",
             "item_code": "RV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -7975,7 +7975,7 @@
             "image": "",
             "item_code": "SF EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -7993,7 +7993,7 @@
             "image": "",
             "item_code": "EF L005",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -8011,7 +8011,7 @@
             "image": "",
             "item_code": "RNV D004",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -8029,7 +8029,7 @@
             "image": "",
             "item_code": "SF L001",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -8047,7 +8047,7 @@
             "image": "",
             "item_code": "RV BF005",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -8065,7 +8065,7 @@
             "image": "",
             "item_code": "RV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -8083,7 +8083,7 @@
             "image": "",
             "item_code": "EPF L007",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -8101,7 +8101,7 @@
             "image": "",
             "item_code": "DNV L003",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -8119,7 +8119,7 @@
             "image": "",
             "item_code": "SV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8137,7 +8137,7 @@
             "image": "",
             "item_code": "EV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -8155,7 +8155,7 @@
             "image": "",
             "item_code": "DNV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -8173,7 +8173,7 @@
             "image": "",
             "item_code": "SV BF001",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8191,7 +8191,7 @@
             "image": "",
             "item_code": "SV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8209,7 +8209,7 @@
             "image": "",
             "item_code": "DF BF003",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -8227,7 +8227,7 @@
             "image": "",
             "item_code": "DV D001",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8245,7 +8245,7 @@
             "image": "",
             "item_code": "RF TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8263,7 +8263,7 @@
             "image": "",
             "item_code": "SNV L006",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -8281,7 +8281,7 @@
             "image": "",
             "item_code": "RV BF007",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -8299,7 +8299,7 @@
             "image": "",
             "item_code": "DNV D005",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -8317,7 +8317,7 @@
             "image": "",
             "item_code": "SV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8335,7 +8335,7 @@
             "image": "",
             "item_code": "DV BF002",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8353,7 +8353,7 @@
             "image": "",
             "item_code": "DNV D004",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -8371,7 +8371,7 @@
             "image": "",
             "item_code": "DF L009",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -8389,7 +8389,7 @@
             "image": "",
             "item_code": "RF BF002",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8407,7 +8407,7 @@
             "image": "",
             "item_code": "DNV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -8425,7 +8425,7 @@
             "image": "",
             "item_code": "SV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8443,7 +8443,7 @@
             "image": "",
             "item_code": "EPF L010",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -8461,7 +8461,7 @@
             "image": "",
             "item_code": "RNV L006",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -8479,7 +8479,7 @@
             "image": "",
             "item_code": "DF EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -8497,7 +8497,7 @@
             "image": "",
             "item_code": "DV L004",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8515,7 +8515,7 @@
             "image": "",
             "item_code": "DNV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -8533,7 +8533,7 @@
             "image": "",
             "item_code": "RF D001",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8551,7 +8551,7 @@
             "image": "",
             "item_code": "DV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8569,7 +8569,7 @@
             "image": "",
             "item_code": "RV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -8587,7 +8587,7 @@
             "image": "",
             "item_code": "RF L004",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8605,7 +8605,7 @@
             "image": "",
             "item_code": "RV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -8623,7 +8623,7 @@
             "image": "",
             "item_code": "DV L001",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8641,7 +8641,7 @@
             "image": "",
             "item_code": "SNV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -8659,7 +8659,7 @@
             "image": "",
             "item_code": "DF L003",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -8677,7 +8677,7 @@
             "image": "",
             "item_code": "SNV BF004",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -8695,7 +8695,7 @@
             "image": "",
             "item_code": "EF BF005",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -8713,7 +8713,7 @@
             "image": "",
             "item_code": "RF D006",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8731,7 +8731,7 @@
             "image": "",
             "item_code": "DV D007",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8749,7 +8749,7 @@
             "image": "",
             "item_code": "SNV D002",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -8767,7 +8767,7 @@
             "image": "",
             "item_code": "SV BF006",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8785,7 +8785,7 @@
             "image": "",
             "item_code": "RF EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8803,7 +8803,7 @@
             "image": "",
             "item_code": "DV BF006",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8821,7 +8821,7 @@
             "image": "",
             "item_code": "DV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8839,7 +8839,7 @@
             "image": "",
             "item_code": "EV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -8857,7 +8857,7 @@
             "image": "",
             "item_code": "RNV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -8875,7 +8875,7 @@
             "image": "",
             "item_code": "SV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -8893,7 +8893,7 @@
             "image": "",
             "item_code": "RF TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8911,7 +8911,7 @@
             "image": "",
             "item_code": "SNV BF003",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -8929,7 +8929,7 @@
             "image": "",
             "item_code": "DV L006",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8947,7 +8947,7 @@
             "image": "",
             "item_code": "RF BF004",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -8965,7 +8965,7 @@
             "image": "",
             "item_code": "DV L007",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -8983,7 +8983,7 @@
             "image": "",
             "item_code": "SF D003",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9001,7 +9001,7 @@
             "image": "",
             "item_code": "EF L003",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -9019,7 +9019,7 @@
             "image": "",
             "item_code": "EPF L004",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9037,7 +9037,7 @@
             "image": "",
             "item_code": "SNV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -9055,7 +9055,7 @@
             "image": "",
             "item_code": "DF EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -9073,7 +9073,7 @@
             "image": "",
             "item_code": "RNV L005",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -9091,7 +9091,7 @@
             "image": "",
             "item_code": "EV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -9109,7 +9109,7 @@
             "image": "",
             "item_code": "SF EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9127,7 +9127,7 @@
             "image": "",
             "item_code": "DNV L001",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -9145,7 +9145,7 @@
             "image": "",
             "item_code": "RV BF003",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -9163,7 +9163,7 @@
             "image": "",
             "item_code": "SNV BF001",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -9181,7 +9181,7 @@
             "image": "",
             "item_code": "RV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -9199,7 +9199,7 @@
             "image": "",
             "item_code": "RV BF001",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -9217,7 +9217,7 @@
             "image": "",
             "item_code": "EPF EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9235,7 +9235,7 @@
             "image": "",
             "item_code": "SNV D006",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -9253,7 +9253,7 @@
             "image": "",
             "item_code": "DNV BF006",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -9271,7 +9271,7 @@
             "image": "",
             "item_code": "SF EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9289,7 +9289,7 @@
             "image": "",
             "item_code": "EPF TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9307,7 +9307,7 @@
             "image": "",
             "item_code": "EPF D002",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9325,7 +9325,7 @@
             "image": "",
             "item_code": "DV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -9343,7 +9343,7 @@
             "image": "",
             "item_code": "RNV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -9361,7 +9361,7 @@
             "image": "",
             "item_code": "RNV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -9379,7 +9379,7 @@
             "image": "",
             "item_code": "EF D013",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -9397,7 +9397,7 @@
             "image": "",
             "item_code": "DF BF002",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -9415,7 +9415,7 @@
             "image": "",
             "item_code": "DV D002",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -9433,7 +9433,7 @@
             "image": "",
             "item_code": "RNV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -9451,7 +9451,7 @@
             "image": "",
             "item_code": "RF TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -9469,7 +9469,7 @@
             "image": "",
             "item_code": "SF EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9487,7 +9487,7 @@
             "image": "",
             "item_code": "EV D002",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -9505,7 +9505,7 @@
             "image": "",
             "item_code": "EPF L005",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9523,7 +9523,7 @@
             "image": "",
             "item_code": "EPF D005",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9541,7 +9541,7 @@
             "image": "",
             "item_code": "RNV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -9559,7 +9559,7 @@
             "image": "",
             "item_code": "DNV D006",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -9577,7 +9577,7 @@
             "image": "",
             "item_code": "EF EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -9595,7 +9595,7 @@
             "image": "",
             "item_code": "SV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -9613,7 +9613,7 @@
             "image": "",
             "item_code": "EPF BF003",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9631,7 +9631,7 @@
             "image": "",
             "item_code": "RNV D007",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -9649,7 +9649,7 @@
             "image": "",
             "item_code": "SF L007",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9667,7 +9667,7 @@
             "image": "",
             "item_code": "SF L004",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9685,7 +9685,7 @@
             "image": "",
             "item_code": "RF EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -9703,7 +9703,7 @@
             "image": "",
             "item_code": "RF L001",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -9721,7 +9721,7 @@
             "image": "",
             "item_code": "DNV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -9739,7 +9739,7 @@
             "image": "",
             "item_code": "DF L001",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -9757,7 +9757,7 @@
             "image": "",
             "item_code": "EPF TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9775,7 +9775,7 @@
             "image": "",
             "item_code": "SNV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -9793,7 +9793,7 @@
             "image": "",
             "item_code": "SV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -9811,7 +9811,7 @@
             "image": "",
             "item_code": "SV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -9829,7 +9829,7 @@
             "image": "",
             "item_code": "EPF TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -9847,7 +9847,7 @@
             "image": "",
             "item_code": "SV D005",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -9865,7 +9865,7 @@
             "image": "",
             "item_code": "DV L003",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -9883,7 +9883,7 @@
             "image": "",
             "item_code": "DF BF004",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -9901,7 +9901,7 @@
             "image": "",
             "item_code": "SF L008",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9919,7 +9919,7 @@
             "image": "",
             "item_code": "SF TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -9937,7 +9937,7 @@
             "image": "",
             "item_code": "EV D005",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -9955,7 +9955,7 @@
             "image": "",
             "item_code": "SV BF007",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -9973,7 +9973,7 @@
             "image": "",
             "item_code": "RV L005",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -9991,7 +9991,7 @@
             "image": "",
             "item_code": "SNV D005",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -10009,7 +10009,7 @@
             "image": "",
             "item_code": "DNV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -10027,7 +10027,7 @@
             "image": "",
             "item_code": "DV D004",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -10045,7 +10045,7 @@
             "image": "",
             "item_code": "DNV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -10063,7 +10063,7 @@
             "image": "",
             "item_code": "RNV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -10081,7 +10081,7 @@
             "image": "",
             "item_code": "RV D005",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -10099,7 +10099,7 @@
             "image": "",
             "item_code": "EPF D007",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10117,7 +10117,7 @@
             "image": "",
             "item_code": "DF D001",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10135,7 +10135,7 @@
             "image": "",
             "item_code": "DV BF001",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -10153,7 +10153,7 @@
             "image": "",
             "item_code": "SF D007",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -10171,7 +10171,7 @@
             "image": "",
             "item_code": "SV BF004",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -10189,7 +10189,7 @@
             "image": "",
             "item_code": "RV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -10207,7 +10207,7 @@
             "image": "",
             "item_code": "EPF BF002",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10225,7 +10225,7 @@
             "image": "",
             "item_code": "SV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -10243,7 +10243,7 @@
             "image": "",
             "item_code": "DF BF007",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10261,7 +10261,7 @@
             "image": "",
             "item_code": "EF EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -10279,7 +10279,7 @@
             "image": "",
             "item_code": "RF TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -10297,7 +10297,7 @@
             "image": "",
             "item_code": "EV D006",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10315,7 +10315,7 @@
             "image": "",
             "item_code": "SNV BF002",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -10333,7 +10333,7 @@
             "image": "",
             "item_code": "EV BF004",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10351,7 +10351,7 @@
             "image": "",
             "item_code": "RV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -10369,7 +10369,7 @@
             "image": "",
             "item_code": "DF BF001",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10387,7 +10387,7 @@
             "image": "",
             "item_code": "EV D003",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10405,7 +10405,7 @@
             "image": "",
             "item_code": "SF D001",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -10423,7 +10423,7 @@
             "image": "",
             "item_code": "DNV L002",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -10441,7 +10441,7 @@
             "image": "",
             "item_code": "EF D001",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -10459,7 +10459,7 @@
             "image": "",
             "item_code": "DF L004",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10477,7 +10477,7 @@
             "image": "",
             "item_code": "EPF L006",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10495,7 +10495,7 @@
             "image": "",
             "item_code": "SF TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -10513,7 +10513,7 @@
             "image": "",
             "item_code": "DNV D007",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -10531,7 +10531,7 @@
             "image": "",
             "item_code": "SV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -10549,7 +10549,7 @@
             "image": "",
             "item_code": "EPF EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10567,7 +10567,7 @@
             "image": "",
             "item_code": "DF L005",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10585,7 +10585,7 @@
             "image": "",
             "item_code": "RV BF002",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -10603,7 +10603,7 @@
             "image": "",
             "item_code": "RNV L001",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -10621,7 +10621,7 @@
             "image": "",
             "item_code": "EV BF003",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10639,7 +10639,7 @@
             "image": "",
             "item_code": "DF EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10657,7 +10657,7 @@
             "image": "",
             "item_code": "EV D004",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10675,7 +10675,7 @@
             "image": "",
             "item_code": "EPF BF007",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10693,7 +10693,7 @@
             "image": "",
             "item_code": "RNV BF002",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -10711,7 +10711,7 @@
             "image": "",
             "item_code": "EF D006",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -10729,7 +10729,7 @@
             "image": "",
             "item_code": "DF BF006",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -10747,7 +10747,7 @@
             "image": "",
             "item_code": "SF TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -10765,7 +10765,7 @@
             "image": "",
             "item_code": "EV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10783,7 +10783,7 @@
             "image": "",
             "item_code": "EPF D004",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10801,7 +10801,7 @@
             "image": "",
             "item_code": "SV BF005",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -10819,7 +10819,7 @@
             "image": "",
             "item_code": "EV L005",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10837,7 +10837,7 @@
             "image": "",
             "item_code": "EPF TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10855,7 +10855,7 @@
             "image": "",
             "item_code": "RV L002",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -10873,7 +10873,7 @@
             "image": "",
             "item_code": "EF L004",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -10891,7 +10891,7 @@
             "image": "",
             "item_code": "RNV BF007",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -10909,7 +10909,7 @@
             "image": "",
             "item_code": "SF BF007",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -10927,7 +10927,7 @@
             "image": "",
             "item_code": "EPF D003",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10945,7 +10945,7 @@
             "image": "",
             "item_code": "EF EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -10963,7 +10963,7 @@
             "image": "",
             "item_code": "EPF D001",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -10981,7 +10981,7 @@
             "image": "",
             "item_code": "EV BF007",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -10999,7 +10999,7 @@
             "image": "",
             "item_code": "SF EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -11017,7 +11017,7 @@
             "image": "",
             "item_code": "EV BF002",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -11035,7 +11035,7 @@
             "image": "",
             "item_code": "EPF L003",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -11053,7 +11053,7 @@
             "image": "",
             "item_code": "RF EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -11071,7 +11071,7 @@
             "image": "",
             "item_code": "RF D004",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -11089,7 +11089,7 @@
             "image": "",
             "item_code": "DF L002",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -11107,7 +11107,7 @@
             "image": "",
             "item_code": "EV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -11125,7 +11125,7 @@
             "image": "",
             "item_code": "DNV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -11143,7 +11143,7 @@
             "image": "",
             "item_code": "EV D007",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -11161,7 +11161,7 @@
             "image": "",
             "item_code": "RNV D002",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11179,7 +11179,7 @@
             "image": "",
             "item_code": "RV L004",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -11197,7 +11197,7 @@
             "image": "",
             "item_code": "RNV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11215,7 +11215,7 @@
             "image": "",
             "item_code": "EPF EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -11233,7 +11233,7 @@
             "image": "",
             "item_code": "SF L003",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -11251,7 +11251,7 @@
             "image": "",
             "item_code": "EF BF004",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -11269,7 +11269,7 @@
             "image": "",
             "item_code": "RF L002",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -11287,7 +11287,7 @@
             "image": "",
             "item_code": "DV L002",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -11305,7 +11305,7 @@
             "image": "",
             "item_code": "DF TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -11323,7 +11323,7 @@
             "image": "",
             "item_code": "SF BF001",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -11341,7 +11341,7 @@
             "image": "",
             "item_code": "EV BF001",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -11359,7 +11359,7 @@
             "image": "",
             "item_code": "RNV D005",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11377,7 +11377,7 @@
             "image": "",
             "item_code": "EF BF001",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -11395,7 +11395,7 @@
             "image": "",
             "item_code": "RV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -11413,7 +11413,7 @@
             "image": "",
             "item_code": "DV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -11431,7 +11431,7 @@
             "image": "",
             "item_code": "RF EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -11449,7 +11449,7 @@
             "image": "",
             "item_code": "DV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -11467,7 +11467,7 @@
             "image": "",
             "item_code": "EF BF002",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -11485,7 +11485,7 @@
             "image": "",
             "item_code": "SV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -11503,7 +11503,7 @@
             "image": "",
             "item_code": "DF L010",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -11521,7 +11521,7 @@
             "image": "",
             "item_code": "SF TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -11539,7 +11539,7 @@
             "image": "",
             "item_code": "RNV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11557,7 +11557,7 @@
             "image": "",
             "item_code": "SV D001",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -11575,7 +11575,7 @@
             "image": "",
             "item_code": "DF D006",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -11593,7 +11593,7 @@
             "image": "",
             "item_code": "RF EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -11611,7 +11611,7 @@
             "image": "",
             "item_code": "DNV BF003",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -11629,7 +11629,7 @@
             "image": "",
             "item_code": "EV L002",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -11647,7 +11647,7 @@
             "image": "",
             "item_code": "SNV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -11665,7 +11665,7 @@
             "image": "",
             "item_code": "RNV L002",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11683,7 +11683,7 @@
             "image": "",
             "item_code": "EPF TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -11701,7 +11701,7 @@
             "image": "",
             "item_code": "EPF TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -11719,7 +11719,7 @@
             "image": "",
             "item_code": "RV D002",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -11737,7 +11737,7 @@
             "image": "",
             "item_code": "SNV L005",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -11755,7 +11755,7 @@
             "image": "",
             "item_code": "SF TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -11773,7 +11773,7 @@
             "image": "",
             "item_code": "DV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -11791,7 +11791,7 @@
             "image": "",
             "item_code": "EPF BF004",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -11809,7 +11809,7 @@
             "image": "",
             "item_code": "DF D005",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -11827,7 +11827,7 @@
             "image": "",
             "item_code": "DNV D003",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -11845,7 +11845,7 @@
             "image": "",
             "item_code": "DF BF005",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -11863,7 +11863,7 @@
             "image": "",
             "item_code": "SF D002",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -11881,7 +11881,7 @@
             "image": "",
             "item_code": "DV BF007",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -11899,7 +11899,7 @@
             "image": "",
             "item_code": "RNV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11917,7 +11917,7 @@
             "image": "",
             "item_code": "RF TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -11935,7 +11935,7 @@
             "image": "",
             "item_code": "DNV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -11953,7 +11953,7 @@
             "image": "",
             "item_code": "RNV D003",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -11971,7 +11971,7 @@
             "image": "",
             "item_code": "RV D004",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -11989,7 +11989,7 @@
             "image": "",
             "item_code": "DV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12007,7 +12007,7 @@
             "image": "",
             "item_code": "DV D006",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12025,7 +12025,7 @@
             "image": "",
             "item_code": "DNV L006",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12043,7 +12043,7 @@
             "image": "",
             "item_code": "SNV BF007",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -12061,7 +12061,7 @@
             "image": "",
             "item_code": "EV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12079,7 +12079,7 @@
             "image": "",
             "item_code": "DV D003",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12097,7 +12097,7 @@
             "image": "",
             "item_code": "EF BF003",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -12115,7 +12115,7 @@
             "image": "",
             "item_code": "EV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12133,7 +12133,7 @@
             "image": "",
             "item_code": "DNV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12151,7 +12151,7 @@
             "image": "",
             "item_code": "DF D003",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -12169,7 +12169,7 @@
             "image": "",
             "item_code": "DNV BF001",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12187,7 +12187,7 @@
             "image": "",
             "item_code": "RNV BF003",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -12205,7 +12205,7 @@
             "image": "",
             "item_code": "DF TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -12223,7 +12223,7 @@
             "image": "",
             "item_code": "DV D005",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12241,7 +12241,7 @@
             "image": "",
             "item_code": "RNV D001",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -12259,7 +12259,7 @@
             "image": "",
             "item_code": "RNV BF006",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -12277,7 +12277,7 @@
             "image": "",
             "item_code": "EPF EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -12295,7 +12295,7 @@
             "image": "",
             "item_code": "DNV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12313,7 +12313,7 @@
             "image": "",
             "item_code": "SNV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -12331,7 +12331,7 @@
             "image": "",
             "item_code": "DV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12349,7 +12349,7 @@
             "image": "",
             "item_code": "EV EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12367,7 +12367,7 @@
             "image": "",
             "item_code": "RV BF006",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -12385,7 +12385,7 @@
             "image": "",
             "item_code": "EF TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -12403,7 +12403,7 @@
             "image": "",
             "item_code": "SNV D003",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -12421,7 +12421,7 @@
             "image": "",
             "item_code": "EF D007",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -12439,7 +12439,7 @@
             "image": "",
             "item_code": "SF D004",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -12457,7 +12457,7 @@
             "image": "",
             "item_code": "DNV D002",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12475,7 +12475,7 @@
             "image": "",
             "item_code": "EV L004",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12493,7 +12493,7 @@
             "image": "",
             "item_code": "RF L006",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -12511,7 +12511,7 @@
             "image": "",
             "item_code": "RF EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -12529,7 +12529,7 @@
             "image": "",
             "item_code": "DNV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12547,7 +12547,7 @@
             "image": "",
             "item_code": "EV D001",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12565,7 +12565,7 @@
             "image": "",
             "item_code": "EV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12583,7 +12583,7 @@
             "image": "",
             "item_code": "RF BF005",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -12601,7 +12601,7 @@
             "image": "",
             "item_code": "SV D006",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -12619,7 +12619,7 @@
             "image": "",
             "item_code": "DF TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -12637,7 +12637,7 @@
             "image": "",
             "item_code": "RV D003",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -12655,7 +12655,7 @@
             "image": "",
             "item_code": "DNV BF004",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12673,7 +12673,7 @@
             "image": "",
             "item_code": "DF EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -12691,7 +12691,7 @@
             "image": "",
             "item_code": "RNV D006",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -12709,7 +12709,7 @@
             "image": "",
             "item_code": "RV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -12727,7 +12727,7 @@
             "image": "",
             "item_code": "DV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12745,7 +12745,7 @@
             "image": "",
             "item_code": "SNV D001",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -12763,7 +12763,7 @@
             "image": "",
             "item_code": "RF BF006",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -12781,7 +12781,7 @@
             "image": "",
             "item_code": "DNV D001",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12799,7 +12799,7 @@
             "image": "",
             "item_code": "DV BF003",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -12817,7 +12817,7 @@
             "image": "",
             "item_code": "EV BF005",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -12835,7 +12835,7 @@
             "image": "",
             "item_code": "DF L007",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -12853,7 +12853,7 @@
             "image": "",
             "item_code": "RF EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -12871,7 +12871,7 @@
             "image": "",
             "item_code": "EF EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -12889,7 +12889,7 @@
             "image": "",
             "item_code": "DNV L007",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -12907,7 +12907,7 @@
             "image": "",
             "item_code": "SNV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -12925,7 +12925,7 @@
             "image": "",
             "item_code": "SNV L002",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -12943,7 +12943,7 @@
             "image": "",
             "item_code": "RNV BF001",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -12961,7 +12961,7 @@
             "image": "",
             "item_code": "SF BF003",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -12979,7 +12979,7 @@
             "image": "",
             "item_code": "DF TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -12997,7 +12997,7 @@
             "image": "",
             "item_code": "RF L005",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -13015,7 +13015,7 @@
             "image": "",
             "item_code": "DV BF004",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -13033,7 +13033,7 @@
             "image": "",
             "item_code": "RV D006",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -13051,7 +13051,7 @@
             "image": "",
             "item_code": "DF EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -13069,7 +13069,7 @@
             "image": "",
             "item_code": "DV EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -13087,7 +13087,7 @@
             "image": "",
             "item_code": "EPF EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -13105,7 +13105,7 @@
             "image": "",
             "item_code": "SF BF006",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -13123,7 +13123,7 @@
             "image": "",
             "item_code": "SF BF002",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -13141,7 +13141,7 @@
             "image": "",
             "item_code": "SF EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -13159,7 +13159,7 @@
             "image": "",
             "item_code": "RV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -13177,7 +13177,7 @@
             "image": "",
             "item_code": "SNV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13195,7 +13195,7 @@
             "image": "",
             "item_code": "SNV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13213,7 +13213,7 @@
             "image": "",
             "item_code": "SV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -13231,7 +13231,7 @@
             "image": "",
             "item_code": "EV TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -13249,7 +13249,7 @@
             "image": "",
             "item_code": "DF EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -13267,7 +13267,7 @@
             "image": "",
             "item_code": "SV BF003",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -13285,7 +13285,7 @@
             "image": "",
             "item_code": "SV BF002",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -13303,7 +13303,7 @@
             "image": "",
             "item_code": "EV EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -13321,7 +13321,7 @@
             "image": "",
             "item_code": "DNV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -13339,7 +13339,7 @@
             "image": "",
             "item_code": "EPF EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -13357,7 +13357,7 @@
             "image": "",
             "item_code": "RF D003",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -13375,7 +13375,7 @@
             "image": "",
             "item_code": "EF D004",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -13393,7 +13393,7 @@
             "image": "",
             "item_code": "DF D007",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -13411,7 +13411,7 @@
             "image": "",
             "item_code": "SF L002",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -13429,7 +13429,7 @@
             "image": "",
             "item_code": "RF D005",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -13447,7 +13447,7 @@
             "image": "",
             "item_code": "RNV L003",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -13465,7 +13465,7 @@
             "image": "",
             "item_code": "SNV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13483,7 +13483,7 @@
             "image": "",
             "item_code": "EV TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -13501,7 +13501,7 @@
             "image": "",
             "item_code": "RV EBF002",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -13519,7 +13519,7 @@
             "image": "",
             "item_code": "EV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -13537,7 +13537,7 @@
             "image": "",
             "item_code": "RF L003",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -13555,7 +13555,7 @@
             "image": "",
             "item_code": "SF D005",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -13573,7 +13573,7 @@
             "image": "",
             "item_code": "EF D002",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -13591,7 +13591,7 @@
             "image": "",
             "item_code": "SNV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13609,7 +13609,7 @@
             "image": "",
             "item_code": "RF BF007",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -13627,7 +13627,7 @@
             "image": "",
             "item_code": "RV L006",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -13645,7 +13645,7 @@
             "image": "",
             "item_code": "EF TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -13663,7 +13663,7 @@
             "image": "",
             "item_code": "SNV EBF001",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13681,7 +13681,7 @@
             "image": "",
             "item_code": "SV D007",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -13699,7 +13699,7 @@
             "image": "",
             "item_code": "DV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -13717,7 +13717,7 @@
             "image": "",
             "item_code": "DV L005",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -13735,7 +13735,7 @@
             "image": "",
             "item_code": "EF BF006",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -13753,7 +13753,7 @@
             "image": "",
             "item_code": "EPF BF006",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -13771,7 +13771,7 @@
             "image": "",
             "item_code": "SF BF005",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -13789,7 +13789,7 @@
             "image": "",
             "item_code": "EF TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -13807,7 +13807,7 @@
             "image": "",
             "item_code": "SNV EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13825,7 +13825,7 @@
             "image": "",
             "item_code": "RV L001",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -13843,7 +13843,7 @@
             "image": "",
             "item_code": "EPF BF005",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -13861,7 +13861,7 @@
             "image": "",
             "item_code": "DNV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -13879,7 +13879,7 @@
             "image": "",
             "item_code": "DF TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -13897,7 +13897,7 @@
             "image": "",
             "item_code": "SNV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13915,7 +13915,7 @@
             "image": "",
             "item_code": "SNV D007",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -13933,7 +13933,7 @@
             "image": "",
             "item_code": "DV TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -13951,7 +13951,7 @@
             "image": "",
             "item_code": "RF D002",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -13969,7 +13969,7 @@
             "image": "",
             "item_code": "EF D003",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -13987,7 +13987,7 @@
             "image": "",
             "item_code": "RV D001",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -14005,7 +14005,7 @@
             "image": "",
             "item_code": "SV TL005",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -14023,7 +14023,7 @@
             "image": "",
             "item_code": "RV L003",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -14041,7 +14041,7 @@
             "image": "",
             "item_code": "RV D007",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -14059,7 +14059,7 @@
             "image": "",
             "item_code": "RV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -14077,7 +14077,7 @@
             "image": "",
             "item_code": "DF D002",
             "mealtype": "DINNER",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -14095,7 +14095,7 @@
             "image": "",
             "item_code": "EF L007",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14113,7 +14113,7 @@
             "image": "",
             "item_code": "DV TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -14131,7 +14131,7 @@
             "image": "",
             "item_code": "RF D007",
             "mealtype": "DINNER",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -14149,7 +14149,7 @@
             "image": "",
             "item_code": "RF BF003",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -14167,7 +14167,7 @@
             "image": "",
             "item_code": "EV L003",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -14185,7 +14185,7 @@
             "image": "",
             "item_code": "SF EBF005",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -14203,7 +14203,7 @@
             "image": "",
             "item_code": "EF L002",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14221,7 +14221,7 @@
             "image": "",
             "item_code": "DF L006",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -14239,7 +14239,7 @@
             "image": "",
             "item_code": "DNV L005",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -14257,7 +14257,7 @@
             "image": "",
             "item_code": "RNV TL006",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -14275,7 +14275,7 @@
             "image": "",
             "item_code": "RNV BF005",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -14293,7 +14293,7 @@
             "image": "",
             "item_code": "EV L006",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -14311,7 +14311,7 @@
             "image": "",
             "item_code": "SF BF004",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -14329,7 +14329,7 @@
             "image": "",
             "item_code": "DF L008",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -14347,7 +14347,7 @@
             "image": "",
             "item_code": "EV L007",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -14365,7 +14365,7 @@
             "image": "",
             "item_code": "EPF BF001",
             "mealtype": "BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -14383,7 +14383,7 @@
             "image": "",
             "item_code": "EPF L001",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -14401,7 +14401,7 @@
             "image": "",
             "item_code": "EPF D006",
             "mealtype": "DINNER",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -14419,7 +14419,7 @@
             "image": "",
             "item_code": "SNV L001",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -14437,7 +14437,7 @@
             "image": "",
             "item_code": "DNV BF007",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -14455,7 +14455,7 @@
             "image": "",
             "item_code": "DNV BF002",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -14473,7 +14473,7 @@
             "image": "",
             "item_code": "RNV L004",
             "mealtype": "LUNCH",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -14491,7 +14491,7 @@
             "image": "",
             "item_code": "SNV BF006",
             "mealtype": "BREAKFAST",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -14509,7 +14509,7 @@
             "image": "",
             "item_code": "SV D003",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -14527,7 +14527,7 @@
             "image": "",
             "item_code": "DF TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -14545,7 +14545,7 @@
             "image": "",
             "item_code": "EPF TL007",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -14563,7 +14563,7 @@
             "image": "",
             "item_code": "EF EBF007",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14581,7 +14581,7 @@
             "image": "",
             "item_code": "RNV BF004",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -14599,7 +14599,7 @@
             "image": "",
             "item_code": "RV BF004",
             "mealtype": "BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "77227fce-6f40-4592-a679-16b7510c52c3",
             "price": "0.00",
             "is_veg": true
         }
@@ -14617,7 +14617,7 @@
             "image": "",
             "item_code": "RF TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "REGULAR",
+            "meal_category": "14bbf17e-4650-486f-8888-33abdcc47548",
             "price": "0.00",
             "is_veg": true
         }
@@ -14635,7 +14635,7 @@
             "image": "",
             "item_code": "RNV EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "REGULAR",
+            "meal_category": "034f2beb-8948-4366-b73d-d8d88d6227d8",
             "price": "0.00",
             "is_veg": true
         }
@@ -14653,7 +14653,7 @@
             "image": "",
             "item_code": "EF TL002",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14671,7 +14671,7 @@
             "image": "",
             "item_code": "EF TL001",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14689,7 +14689,7 @@
             "image": "",
             "item_code": "EPF EBF003",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "951454a5-69aa-405f-a8c7-01211ea0dbe6",
             "price": "0.00",
             "is_veg": true
         }
@@ -14707,7 +14707,7 @@
             "image": "",
             "item_code": "EV L001",
             "mealtype": "LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "a23a42e4-85d3-4f31-bb74-1dfc1f80fd6b",
             "price": "0.00",
             "is_veg": true
         }
@@ -14725,7 +14725,7 @@
             "image": "",
             "item_code": "SNV L004",
             "mealtype": "LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f1812e31-8e9b-42b0-8231-ef33b0bfaf78",
             "price": "0.00",
             "is_veg": true
         }
@@ -14743,7 +14743,7 @@
             "image": "",
             "item_code": "EF EBF004",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14761,7 +14761,7 @@
             "image": "",
             "item_code": "DV BF005",
             "mealtype": "BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "614c04e6-ee81-47d2-86a3-3bbea8ef8077",
             "price": "0.00",
             "is_veg": true
         }
@@ -14779,7 +14779,7 @@
             "image": "",
             "item_code": "DNV L004",
             "mealtype": "LUNCH",
-            "group": "DELUXE",
+            "meal_category": "c79ac7ee-d035-4be7-beda-f0958b36fa1c",
             "price": "0.00",
             "is_veg": true
         }
@@ -14797,7 +14797,7 @@
             "image": "",
             "item_code": "SF TL004",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -14815,7 +14815,7 @@
             "image": "",
             "item_code": "EF TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "ESSENTIAL",
+            "meal_category": "cf77027a-07e9-4c64-82ac-f73a4cad7a77",
             "price": "0.00",
             "is_veg": true
         }
@@ -14833,7 +14833,7 @@
             "image": "",
             "item_code": "SV D004",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -14851,7 +14851,7 @@
             "image": "",
             "item_code": "DF EBF006",
             "mealtype": "EARLY_BREAKFAST",
-            "group": "DELUXE",
+            "meal_category": "b250add2-f03d-46b1-a908-f945b7b72ef5",
             "price": "0.00",
             "is_veg": true
         }
@@ -14869,7 +14869,7 @@
             "image": "",
             "item_code": "SV D002",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -14887,7 +14887,7 @@
             "image": "",
             "item_code": "SF D006",
             "mealtype": "DINNER",
-            "group": "STANDARD",
+            "meal_category": "f9fe5731-6e81-4831-ac35-5afa1504f65a",
             "price": "0.00",
             "is_veg": true
         }
@@ -14905,7 +14905,7 @@
             "image": "",
             "item_code": "SV TL003",
             "mealtype": "TIFFIN_LUNCH",
-            "group": "STANDARD",
+            "meal_category": "2084fac6-d7d6-427c-9c9f-f779e7e4ffc9",
             "price": "0.00",
             "is_veg": true
         }
@@ -21509,7 +21509,7 @@
         "pk": 1,
         "fields": {
             "password": "pbkdf2_sha256$600000$yMyPAY5YpuXbWKRc0qJa5n$KTLFqJSPQlkGIlHaXHwTCcj07skM7PEnMIXwBaOkgPY=",
-            "last_login": "2024-11-26T08:09:04.226Z",
+            "last_login": "2024-11-27T10:49:45.937Z",
             "is_superuser": true,
             "username": "919876543210",
             "first_name": "Administrator",
