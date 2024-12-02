@@ -4,6 +4,7 @@ from registration.models import RegistrationProfile
 
 from main.base import BaseAdmin
 
+from .helper import preference_form_fields
 from .models import Area, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 
 admin.site.unregister(Group)
@@ -52,13 +53,13 @@ class ItemCategoryAdmin(BaseAdmin):
 class ItemMasterAdmin(BaseAdmin):
     list_display = ("item_code", "name", "meal_category", "mealtype", "category", "is_veg", "price")
     search_fields = ("name", "item_code")
-    list_filter = ("price", "is_veg", "meal_category", "category", "mealtype")
+    list_filter = ("price", "is_veg", "meal_category", "category", "mealtype", "is_fallback")
 
 
 @admin.register(MealPlan)
 class MealPlanAdmin(BaseAdmin):
     list_display = ("meal_category", "day", "menu_item")
-    list_filter = ("is_active", "meal_category", "day")
+    list_filter = ("is_active", "meal_category", "day", "is_fallback")
     autocomplete_fields = ("meal_category", "menu_item")
     search_fields = ("menu_item__name", "menu_item__item_code")
 
@@ -92,44 +93,7 @@ class SubscriptionRequestAdmin(BaseAdmin):
 class PreferenceAdmin(BaseAdmin):
     list_display = ("user", "is_active")
     list_filter = ("is_active",)
-    autocomplete_fields = (
-        "user",
-        "monday_breakfast",
-        "monday_early_breakfast",
-        "monday_tiffin_lunch",
-        "monday_lunch",
-        "monday_dinner",
-        "tuesday_breakfast",
-        "tuesday_early_breakfast",
-        "tuesday_tiffin_lunch",
-        "tuesday_lunch",
-        "tuesday_dinner",
-        "wednesday_breakfast",
-        "wednesday_early_breakfast",
-        "wednesday_tiffin_lunch",
-        "wednesday_lunch",
-        "wednesday_dinner",
-        "thursday_breakfast",
-        "thursday_early_breakfast",
-        "thursday_tiffin_lunch",
-        "thursday_lunch",
-        "thursday_dinner",
-        "friday_breakfast",
-        "friday_early_breakfast",
-        "friday_tiffin_lunch",
-        "friday_lunch",
-        "friday_dinner",
-        "saturday_breakfast",
-        "saturday_early_breakfast",
-        "saturday_tiffin_lunch",
-        "saturday_lunch",
-        "saturday_dinner",
-        "sunday_breakfast",
-        "sunday_early_breakfast",
-        "sunday_tiffin_lunch",
-        "sunday_lunch",
-        "sunday_dinner",
-    )
+    autocomplete_fields = ("user",) + tuple(preference_form_fields)
     fieldsets = (
         ("Main", {"fields": ("user", "is_active")}),
         ("Monday", {"fields": ("monday_early_breakfast", "monday_breakfast", "monday_tiffin_lunch", "monday_lunch", "monday_dinner")}),
