@@ -247,12 +247,18 @@ class Preference(BaseModel):
     mobile = models.CharField(max_length=15, blank=True, null=True)
     alternate_mobile = models.CharField(max_length=15, blank=True, null=True)
     whatsapp_number = models.CharField(max_length=15, blank=True, null=True)
+    start_date = models.DateField("Subscription Starts from", blank=True, null=True)
 
     early_breakfast_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="early_breakfast_address", blank=True, null=True)
     breakfast_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="breakfast_address", blank=True, null=True)
     tiffin_lunch_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="tiffin_lunch_address", blank=True, null=True)
     lunch_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="lunch_address", blank=True, null=True)
     dinner_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="dinner_address", blank=True, null=True)
+
+    notes = models.TextField(blank=True, null=True)
+    remarks = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
+    completed_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ("user",)

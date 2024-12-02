@@ -1,6 +1,3 @@
-from django.conf import settings
-from django.core.mail import send_mail
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from rest_framework.response import Response
@@ -8,8 +5,7 @@ from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, SubscriptionNoteForm
-from main.models import Area, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
-from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
+from main.models import Area, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
 
@@ -132,14 +128,12 @@ def set_delivery_address(request, pk):
     return render(request, template_name, context)
 
 
-# NOT VERIFIED
 def confirm_subscription(request, pk):
-    instance = SubscriptionRequest.objects.get(pk=pk)
+    instance = Preference.objects.get(pk=pk)
     form = SubscriptionNoteForm(request.POST or None, instance=instance)
     if request.method == "POST":
         if form.is_valid():
-            data = form.save()
-            data.stage = "INSTRUCTIONS_ADDED"
+            form.save()
             return redirect("web:complete_subscription", pk=pk)
     template_name = "web/confirm_subscription.html"
     context = {"instance": instance, "form": form}
@@ -148,18 +142,11 @@ def confirm_subscription(request, pk):
 
 def complete_subscription(request, pk):
     template_name = "web/complete_subscription.html"
-    instance = SubscriptionRequest.objects.get(pk=pk)
-    instance.stage = "COMPLETED"
+    instance = Preference.objects.get(pk=pk)
+    instance.status = "PENDING"
     instance.completed_at = timezone.now()
     instance.save()
-    send_admin_neworder_mail(instance)
-    send_customer_neworder_mail(instance)
+    # send_admin_neworder_mail(instance)
+    # send_customer_neworder_mail(instance)
     context = {}
     return render(request, template_name, context)
-
-
-def test(request):
-    send_mail(subject="Test", message="This is a test email", from_email=settings.EMAIL_SENDER, recipient_list=["anfaspv.info@gmail.com"], fail_silently=False)
-    return JsonResponse({"status": "success"})
-    send_mail(subject="Test", message="This is a test email", from_email=settings.EMAIL_SENDER, recipient_list=["anfaspv.info@gmail.com"], fail_silently=False)
-    return JsonResponse({"status": "success"})
