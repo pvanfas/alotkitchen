@@ -7,10 +7,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
-from main.forms import PreferenceForm, SubscriptionAddressForm, SubscriptionNoteForm, SubscriptionRequestForm
-from main.models import Area, MealCategory, MealPlan, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
+from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SubscriptionNoteForm
+from main.models import Area, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
-from users.forms import UserForm
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
 
@@ -73,80 +72,44 @@ def customize_meals(request, pk):
         form.fields[field].queryset = form.fields[field].queryset.filter(meal_category=subplan.plan.meal_category)
     context = {"subplan": subplan, "plan": subplan.plan, "available_mealtypes": mealtypes, "form": form}
     if request.method == "POST":
-        print(request.POST)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.session_id = request.session.session_key
+            data.subscription_subplan = subplan
+            data.save()
+            return redirect("web:create_profile", pk=data.pk)
     return render(request, template_name, context)
 
 
-def create_profile(request):
-    form = UserForm(request.POST or None)
+def create_profile(request, pk):
+    template_name = "web/create_profile.html"
+    form = ProfileForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
-            mobile = form.cleaned_data.get("mobile")
-            alternate_mobile = form.cleaned_data.get("alternate_mobile")
-            whatsapp_number = form.cleaned_data.get("whatsapp_number")
-            mobile_country_code = form.cleaned_data.get("mobile_country_code")
-            alternate_mobile_country_code = form.cleaned_data.get("alternate_mobile_country_code")
-            whatsapp_number_country_code = form.cleaned_data.get("whatsapp_number_country_code")
-            data.mobile = f"+{mobile_country_code}{mobile}"
-            data.alternate_mobile = f"+{alternate_mobile_country_code}{alternate_mobile}"
-            data.whatsapp_number = f"+{whatsapp_number_country_code}{whatsapp_number}"
-            data.username = f"{mobile_country_code}{mobile}"
-            data.is_active = False
+
+            def format_number(country_code, number):
+                return f"+{country_code}{number}"
+
+            data.mobile = format_number(form.cleaned_data.get("mobile_country_code"), form.cleaned_data.get("mobile"))
+            data.alternate_mobile = format_number(form.cleaned_data.get("alternate_mobile_country_code"), form.cleaned_data.get("alternate_mobile"))
+            data.whatsapp_number = format_number(form.cleaned_data.get("whatsapp_number_country_code"), form.cleaned_data.get("whatsapp_number"))
             data.save()
-            request_obj, _ = SubscriptionRequest.objects.get_or_create(user=data)
-            request_obj.stage = "OBJECT_CREATED"
-            return redirect("web:select_plan", pk=request_obj.pk)
-    template_name = "web/create_profile.html"
+            return redirect("web:select_address", pk=pk)
     context = {"form": form}
     return render(request, template_name, context)
 
 
-def select_planx(request, pk):
-    instance = SubscriptionRequest.objects.get(pk=pk)
-    form = SubscriptionRequestForm(request.POST or None, instance=instance)
-    if request.method == "POST":
-        if form.is_valid():
-            data = form.save()
-            data.stage = "PLAN_SELECTED"
-            return redirect("web:select_address", pk=pk)
-    template_name = "web/select_plan.html"
-    context = {"instance": instance, "form": form}
-    return render(request, template_name, context)
-
-
+# NOT VERIFIED
 def select_address(request, pk):
-    instance = SubscriptionRequest.objects.get(pk=pk)
-    form = SubscriptionAddressForm(request.POST or None, instance=instance)
-    if "BREAKFAST" not in instance.mealtypes():
-        form.fields.pop("breakfast_address_room_no")
-        form.fields.pop("breakfast_address_floor")
-        form.fields.pop("breakfast_address_building_name")
-        form.fields.pop("breakfast_address_street_name")
-        form.fields.pop("breakfast_address_area")
-        form.fields.pop("breakfast_time")
-        form.fields.pop("breakfast_location")
-    if "LUNCH" not in instance.mealtypes():
-        form.fields.pop("lunch_address_room_no")
-        form.fields.pop("lunch_address_floor")
-        form.fields.pop("lunch_address_building_name")
-        form.fields.pop("lunch_address_street_name")
-        form.fields.pop("lunch_address_area")
-        form.fields.pop("lunch_time")
-        form.fields.pop("lunch_location")
-    if "DINNER" not in instance.mealtypes():
-        form.fields.pop("dinner_address_room_no")
-        form.fields.pop("dinner_address_floor")
-        form.fields.pop("dinner_address_building_name")
-        form.fields.pop("dinner_address_street_name")
-        form.fields.pop("dinner_address_area")
-        form.fields.pop("dinner_time")
-        form.fields.pop("dinner_location")
-
+    instance = Preference.objects.get(pk=pk)
+    form = DeliveryAddressForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            data = form.save()
-            data.stage = "ADDRESS_ADDED"
+            data = form.save(commit=False)
+            data.preferance = instance
+            data.session_id = instance.session_id
+            data.user = request.user if request.user.is_authenticated else None
             data.save()
             return redirect("web:confirm_subscription", pk=pk)
     template_name = "web/select_address.html"

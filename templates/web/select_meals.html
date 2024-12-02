@@ -7,18 +7,7 @@
 	<div class="container section_padding_sm packages">
 		<div class="row">
 
-            <div class="col-12 mb-5">
-                <div id="progress">
-                    <div id="progress-bar"></div>
-                    <ul id="progress-num">
-                      <li><span class="step active">1</span><span>Select Plan</span></li>
-                      <li><span class="step">2</span><span>Select Meals</span></li>
-                      <li><span class="step">3</span><span>Customize Menu</span></li>
-                      <li><span class="step">4</span></li>
-                      <li><span class="step">5</span></li>
-                    </ul>
-                </div>
-            </div>
+            {% include 'web/partials/navigator.html' %}
 
             <div class="col-12">
                 <h3 class="text-center">Select Meals</h3>
@@ -55,7 +44,7 @@
                                     <a href="{{subplan.get_web_url}}" data-id="{{subplan.pk}}">
                                         <div class="card meal_card">
                                             <img src="/static/web/images/icon.png" alt="" style="width:30px;height:30px;object-fit:contain;">
-                                            {{subplan}}
+                                            {{subplan.meals}}
                                         </div>
                                     </a>
                                 </div>

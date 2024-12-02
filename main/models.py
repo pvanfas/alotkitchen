@@ -7,7 +7,7 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-from .choices import BREAKFAST_DELIVERY_CHOICES, DAY_CHOICES, DINNER_DELIVERY_CHOICES, GROUP_CHOICES, LUNCH_DELIVERY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES
+from .choices import BREAKFAST_DELIVERY_CHOICES, DAY_CHOICES, DINNER_DELIVERY_CHOICES, GROUP_CHOICES, LANGUAGE_CHOICES, LUNCH_DELIVERY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES
 
 
 def get_week_number(date):
@@ -127,7 +127,7 @@ class SubscriptionSubPlan(BaseModel):
         return reverse_lazy("web:customize_meals", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return self.meals()
+        return f"{self.plan} - {self.meals()}"
 
 
 class ItemCategory(BaseModel):
@@ -177,7 +177,7 @@ class MealPlan(BaseModel):
     meal_category = models.ForeignKey(MealCategory, on_delete=models.CASCADE, related_name="items")
     day = models.CharField(max_length=200, choices=DAY_CHOICES)
     menu_item = models.ForeignKey(ItemMaster, on_delete=models.CASCADE, blank=True, null=True)
-    is_fallback = models.BooleanField(default=False, help_text="Meal category and Day will be ignored for Fallback items (No Meal)")
+    is_fallback = models.BooleanField(default=False, help_text="Day will be ignored for Fallback items (No Meal)")
 
     class Meta:
         ordering = ("meal_category", "day")
@@ -189,105 +189,64 @@ class MealPlan(BaseModel):
         return str(self.menu_item)
 
 
-def get_limit_choices_to(mealtype, day):
+def get_lcqs(mealtype, day):
     return Q(menu_item__mealtype=mealtype, day=day) | Q(is_fallback=True)
 
 
 class Preference(BaseModel):
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferences", blank=True, null=True)
     session_id = models.CharField(max_length=200, blank=True, null=True)
+    subscription_subplan = models.ForeignKey(SubscriptionSubPlan, on_delete=models.CASCADE, related_name="preferences", blank=True, null=True)
 
-    monday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="monday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Monday")
-    )
-    monday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="monday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Monday")
-    )
-    monday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="monday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Monday")
-    )
-    monday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Monday"))
-    monday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Monday"))
+    monday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Monday"))
+    monday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Monday"))
+    monday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Monday"))
+    monday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Monday"))
+    monday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="monday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Monday"))
 
-    tuesday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="tuesday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Tuesday")
-    )
-    tuesday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="tuesday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Tuesday")
-    )
-    tuesday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="tuesday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Tuesday")
-    )
-    tuesday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Tuesday"))
-    tuesday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Tuesday"))
+    tuesday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Tuesday"))
+    tuesday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Tuesday"))
+    tuesday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Tuesday"))
+    tuesday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Tuesday"))
+    tuesday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="tuesday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Tuesday"))
 
-    wednesday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="wednesday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Wednesday")
-    )
-    wednesday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="wednesday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Wednesday")
-    )
-    wednesday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="wednesday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Wednesday")
-    )
-    wednesday_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="wednesday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Wednesday")
-    )
-    wednesday_dinner = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="wednesday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Wednesday")
-    )
+    wednesday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="wednesday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Wednesday"))
+    wednesday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="wednesday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Wednesday"))
+    wednesday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="wednesday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Wednesday"))
+    wednesday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="wednesday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Wednesday"))
+    wednesday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="wednesday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Wednesday"))
 
-    thursday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="thursday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Thursday")
-    )
-    thursday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="thursday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Thursday")
-    )
-    thursday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="thursday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Thursday")
-    )
-    thursday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="thursday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Thursday"))
-    thursday_dinner = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="thursday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Thursday")
-    )
+    thursday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="thursday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Thursday"))
+    thursday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="thursday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Thursday"))
+    thursday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="thursday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Thursday"))
+    thursday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="thursday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Thursday"))
+    thursday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="thursday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Thursday"))
 
-    friday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="friday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Friday")
-    )
-    friday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="friday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Friday")
-    )
-    friday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="friday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Friday")
-    )
-    friday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Friday"))
-    friday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Friday"))
+    friday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Friday"))
+    friday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Friday"))
+    friday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Friday"))
+    friday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Friday"))
+    friday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="friday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Friday"))
 
-    saturday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="saturday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Saturday")
-    )
-    saturday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="saturday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Saturday")
-    )
-    saturday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="saturday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Saturday")
-    )
-    saturday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="saturday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Saturday"))
-    saturday_dinner = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="saturday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Saturday")
-    )
+    saturday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="saturday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Saturday"))
+    saturday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="saturday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Saturday"))
+    saturday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="saturday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Saturday"))
+    saturday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="saturday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Saturday"))
+    saturday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="saturday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Saturday"))
 
-    sunday_early_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="sunday_early_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("EARLY_BREAKFAST", "Sunday")
-    )
-    sunday_breakfast = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="sunday_breakfast", blank=True, null=True, limit_choices_to=get_limit_choices_to("BREAKFAST", "Sunday")
-    )
-    sunday_tiffin_lunch = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name="sunday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("TIFFIN_LUNCH", "Sunday")
-    )
-    sunday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_lunch", blank=True, null=True, limit_choices_to=get_limit_choices_to("LUNCH", "Sunday"))
-    sunday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_dinner", blank=True, null=True, limit_choices_to=get_limit_choices_to("DINNER", "Sunday"))
+    sunday_early_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_early_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("EARLY_BREAKFAST", "Sunday"))
+    sunday_breakfast = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_breakfast", blank=True, null=True, limit_choices_to=get_lcqs("BREAKFAST", "Sunday"))
+    sunday_tiffin_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_tiffin_lunch", blank=True, null=True, limit_choices_to=get_lcqs("TIFFIN_LUNCH", "Sunday"))
+    sunday_lunch = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_lunch", blank=True, null=True, limit_choices_to=get_lcqs("LUNCH", "Sunday"))
+    sunday_dinner = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name="sunday_dinner", blank=True, null=True, limit_choices_to=get_lcqs("DINNER", "Sunday"))
+
+    first_name = models.CharField(max_length=200, blank=True, null=True)
+    last_name = models.CharField(max_length=200, blank=True, null=True)
+    email = models.EmailField(max_length=200, blank=True, null=True)
+    preferred_language = models.CharField(max_length=200, blank=True, null=True, choices=LANGUAGE_CHOICES)
+    mobile = models.CharField(max_length=15, blank=True, null=True)
+    alternate_mobile = models.CharField(max_length=15, blank=True, null=True)
+    whatsapp_number = models.CharField(max_length=15, blank=True, null=True)
 
     class Meta:
         ordering = ("user",)
@@ -295,7 +254,26 @@ class Preference(BaseModel):
         verbose_name_plural = _("Preferences")
 
     def __str__(self):
-        return f"{self.user}"
+        return f"{self.session_id}"
+
+
+class DeliveryAddress(BaseModel):
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="delivery_addresses", blank=True, null=True)
+    preferance = models.ForeignKey(Preference, on_delete=models.CASCADE, related_name="delivery_addresses")
+    room_no = models.CharField(max_length=200)
+    floor = models.CharField(max_length=200)
+    building_name = models.CharField(max_length=200)
+    street_name = models.CharField(max_length=200)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="delivery_area")
+    location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
+
+    class Meta:
+        ordering = ("user",)
+        verbose_name = _("Delivery Address")
+        verbose_name_plural = _("Delivery Addresses")
+
+    def __str__(self):
+        return f"{self.user} - {self.room_no}"
 
 
 class Subscription(BaseModel):

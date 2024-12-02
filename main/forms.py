@@ -2,7 +2,7 @@ from django import forms
 
 from .choices import VALIDITY_CHOICES
 from .helper import preference_form_fields
-from .models import Preference, SubscriptionRequest
+from .models import DeliveryAddress, Preference, SubscriptionRequest
 
 VALIDITY_CHOICES = (("", "-- Select Days --"),) + VALIDITY_CHOICES
 
@@ -11,6 +11,32 @@ class PreferenceForm(forms.ModelForm):
     class Meta:
         model = Preference
         fields = preference_form_fields
+
+
+class ProfileForm(forms.ModelForm):
+    mobile_country_code = forms.CharField(max_length=5, required=False)
+    alternate_mobile_country_code = forms.CharField(max_length=5, required=False)
+    whatsapp_number_country_code = forms.CharField(max_length=5, required=False)
+
+    class Meta:
+        model = Preference
+        fields = ("first_name", "last_name", "email", "preferred_language", "mobile", "alternate_mobile", "whatsapp_number")
+
+        widgets = {
+            "first_name": forms.TextInput(attrs={"placeholder": "First Name", "required": "required"}),
+            "last_name": forms.TextInput(attrs={"placeholder": "Last Name", "required": "required"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Email", "required": "required"}),
+            "preferred_language": forms.Select(attrs={"required": "required"}),
+            "mobile": forms.TextInput(attrs={"placeholder": "Mobile", "required": "required"}),
+            "alternate_mobile": forms.TextInput(attrs={"placeholder": "Alternate Mobile", "required": "required"}),
+            "whatsapp_number": forms.TextInput(attrs={"placeholder": "Whatsapp Number", "required": "required"}),
+        }
+
+
+class DeliveryAddressForm(forms.ModelForm):
+    class Meta:
+        model = DeliveryAddress
+        fields = ("room_no", "floor", "building_name", "street_name", "area", "location")
 
 
 class SubscriptionRequestForm(forms.ModelForm):

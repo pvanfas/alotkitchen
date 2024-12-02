@@ -55,3 +55,4 @@ GROUP_CHOICES = (
     ("DELUXE", "Deluxe"),
     ("STANDARD", "Standard"),
 )
+LANGUAGE_CHOICES = (("en", "English"), ("ml", "Malayalam"), ("ar", "Arabic"), ("hi", "Hindi"), ("ta", "Tamil"), ("te", "Telugu"))

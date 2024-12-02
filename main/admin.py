@@ -5,7 +5,7 @@ from registration.models import RegistrationProfile
 from main.base import BaseAdmin
 
 from .helper import preference_form_fields
-from .models import Area, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
+from .models import Area, DeliveryAddress, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -91,11 +91,11 @@ class SubscriptionRequestAdmin(BaseAdmin):
 
 @admin.register(Preference)
 class PreferenceAdmin(BaseAdmin):
-    list_display = ("user", "is_active")
+    list_display = ("session_id", "is_active")
     list_filter = ("is_active",)
-    autocomplete_fields = ("user",) + tuple(preference_form_fields)
+    autocomplete_fields = ("user", "subscription_subplan") + tuple(preference_form_fields)
     fieldsets = (
-        ("Main", {"fields": ("user", "is_active")}),
+        ("Main", {"fields": ("user", "subscription_subplan", "is_active", "session_id")}),
         ("Monday", {"fields": ("monday_early_breakfast", "monday_breakfast", "monday_tiffin_lunch", "monday_lunch", "monday_dinner")}),
         ("Tuesday", {"fields": ("tuesday_early_breakfast", "tuesday_breakfast", "tuesday_tiffin_lunch", "tuesday_lunch", "tuesday_dinner")}),
         ("Wednesday", {"fields": ("wednesday_early_breakfast", "wednesday_breakfast", "wednesday_tiffin_lunch", "wednesday_lunch", "wednesday_dinner")}),
@@ -103,7 +103,15 @@ class PreferenceAdmin(BaseAdmin):
         ("Friday", {"fields": ("friday_early_breakfast", "friday_breakfast", "friday_tiffin_lunch", "friday_lunch", "friday_dinner")}),
         ("Saturday", {"fields": ("saturday_early_breakfast", "saturday_breakfast", "saturday_tiffin_lunch", "saturday_lunch", "saturday_dinner")}),
         ("Sunday", {"fields": ("sunday_early_breakfast", "sunday_breakfast", "sunday_tiffin_lunch", "sunday_lunch", "sunday_dinner")}),
+        ("Profile", {"fields": ("first_name", "last_name", "email", "preferred_language", "mobile", "alternate_mobile", "whatsapp_number")}),
     )
+
+
+@admin.register(DeliveryAddress)
+class DeliveryAddressAdmin(BaseAdmin):
+    list_display = ("preferance", "user", "area", "is_active")
+    list_filter = ("is_active",)
+    autocomplete_fields = ("preferance", "area")
 
 
 @admin.register(SubscriptionSubPlan)
