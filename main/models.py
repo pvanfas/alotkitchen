@@ -189,13 +189,14 @@ class MealPlan(BaseModel):
         return str(self.menu_item)
 
 
+def get_limit_choices_to(mealtype, day):
+    def limit_choices():
+        return Q(menu_item__mealtype=mealtype, day=day) | Q(is_fallback=True)
+
+    return limit_choices
+
+
 class Preference(BaseModel):
-    def get_limit_choices_to(mealtype, day):
-        def limit_choices():
-            return Q(menu_item__mealtype=mealtype, day=day) | Q(is_fallback=True)
-
-        return limit_choices
-
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="preferences", blank=True, null=True)
     session_id = models.CharField(max_length=200, blank=True, null=True)
 
