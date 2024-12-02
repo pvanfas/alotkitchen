@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
-from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SubscriptionNoteForm
+from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, SubscriptionNoteForm
 from main.models import Area, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
 from main.utils import send_admin_neworder_mail, send_customer_neworder_mail
 
@@ -100,7 +100,6 @@ def create_profile(request, pk):
     return render(request, template_name, context)
 
 
-# NOT VERIFIED
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     form = DeliveryAddressForm(request.POST or None)
@@ -111,12 +110,29 @@ def select_address(request, pk):
             data.session_id = instance.session_id
             data.user = request.user if request.user.is_authenticated else None
             data.save()
-            return redirect("web:confirm_subscription", pk=pk)
+            return redirect("web:set_delivery_address", pk=pk)
     template_name = "web/select_address.html"
     context = {"instance": instance, "form": form}
     return render(request, template_name, context)
 
 
+def set_delivery_address(request, pk):
+    instance = Preference.objects.get(pk=pk)
+    form = SetDeliveryAddressForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.preferance = instance
+            data.session_id = instance.session_id
+            data.user = request.user if request.user.is_authenticated else None
+            data.save()
+            return redirect("web:set_delivery_address", pk=pk)
+    template_name = "web/set_delivery_address.html"
+    context = {"instance": instance, "form": form}
+    return render(request, template_name, context)
+
+
+# NOT VERIFIED
 def confirm_subscription(request, pk):
     instance = SubscriptionRequest.objects.get(pk=pk)
     form = SubscriptionNoteForm(request.POST or None, instance=instance)

@@ -39,6 +39,12 @@ class DeliveryAddressForm(forms.ModelForm):
         fields = ("room_no", "floor", "building_name", "street_name", "area", "location")
 
 
+class SetDeliveryAddressForm(forms.ModelForm):
+    class Meta:
+        model = Preference
+        fields = ("early_breakfast_address", "breakfast_address", "tiffin_lunch_address", "lunch_address", "dinner_address")
+
+
 class SubscriptionRequestForm(forms.ModelForm):
     select_days = forms.ChoiceField(choices=VALIDITY_CHOICES, label="Select Days")
 

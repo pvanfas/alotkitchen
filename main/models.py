@@ -248,6 +248,12 @@ class Preference(BaseModel):
     alternate_mobile = models.CharField(max_length=15, blank=True, null=True)
     whatsapp_number = models.CharField(max_length=15, blank=True, null=True)
 
+    early_breakfast_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="early_breakfast_address", blank=True, null=True)
+    breakfast_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="breakfast_address", blank=True, null=True)
+    tiffin_lunch_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="tiffin_lunch_address", blank=True, null=True)
+    lunch_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="lunch_address", blank=True, null=True)
+    dinner_address = models.ForeignKey("DeliveryAddress", on_delete=models.CASCADE, related_name="dinner_address", blank=True, null=True)
+
     class Meta:
         ordering = ("user",)
         verbose_name = _("Preference")
@@ -273,7 +279,7 @@ class DeliveryAddress(BaseModel):
         verbose_name_plural = _("Delivery Addresses")
 
     def __str__(self):
-        return f"{self.user} - {self.room_no}"
+        return f"{self.room_no}, {self.floor}, {self.building_name}, {self.street_name}, {self.area}"
 
 
 class Subscription(BaseModel):

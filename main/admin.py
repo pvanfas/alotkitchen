@@ -104,6 +104,7 @@ class PreferenceAdmin(BaseAdmin):
         ("Saturday", {"fields": ("saturday_early_breakfast", "saturday_breakfast", "saturday_tiffin_lunch", "saturday_lunch", "saturday_dinner")}),
         ("Sunday", {"fields": ("sunday_early_breakfast", "sunday_breakfast", "sunday_tiffin_lunch", "sunday_lunch", "sunday_dinner")}),
         ("Profile", {"fields": ("first_name", "last_name", "email", "preferred_language", "mobile", "alternate_mobile", "whatsapp_number")}),
+        ("Delivery Address", {"fields": ("early_breakfast_address", "breakfast_address", "tiffin_lunch_address", "lunch_address", "dinner_address")}),
     )
 
 

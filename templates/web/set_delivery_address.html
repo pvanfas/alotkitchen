@@ -1,0 +1,81 @@
+{% extends 'web/base.html' %}
+{% load static crispy_forms_tags %}
+{% block content %}
+
+<section style="background: #F4F1EA;" id="packages">
+	<div class="container section_padding_sm packages">
+		<div class="row">
+            
+            {% include 'web/partials/navigator.html' %}
+
+            <div class="col-12">
+                <h3 class="text-center">Select Delivery Address</h3>
+            </div>
+			
+			<div class="col-lg-12 col-md-12 col-sm-12 mx-auto">
+                <div class="border_box">
+
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                      
+                    <form action="" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            {% for field in form %}
+                                <div class="col-md-3">
+                                    {{ field|as_crispy_field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="pt-3">
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </div>
+                    </form>
+                </div>
+			</div>
+        </div>
+	</div>
+</section>
+
+{% endblock content %}
+
+
+{% block javascript %}
+<script>
+ // on check #dinner_address, paste breakfast address to dinner address
+    $('#dinner_address').change(function() {
+        if ($(this).is(':checked')) {
+            $('#id_dinner_address_room_no').val($('#id_breakfast_address_room_no').val());
+            $('#id_dinner_address_floor').val($('#id_breakfast_address_floor').val());
+            $('#id_dinner_address_building_name').val($('#id_breakfast_address_building_name').val());
+            $('#id_dinner_address_street_name').val($('#id_breakfast_address_street_name').val());
+            $('#id_dinner_address_area').val($('#id_breakfast_address_area').val());
+        }
+    });
+
+    // on check #lunch_address, paste breakfast address to lunch address
+    $('#lunch_address').change(function() {
+        if ($(this).is(':checked')) {
+            $('#id_lunch_address_room_no').val($('#id_breakfast_address_room_no').val());
+            $('#id_lunch_address_floor').val($('#id_breakfast_address_floor').val());
+            $('#id_lunch_address_building_name').val($('#id_breakfast_address_building_name').val());
+            $('#id_lunch_address_street_name').val($('#id_breakfast_address_street_name').val());
+            $('#id_lunch_address_area').val($('#id_breakfast_address_area').val());
+        }
+    });
+</script>
+{% endblock javascript %}
