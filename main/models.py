@@ -190,10 +190,7 @@ class MealPlan(BaseModel):
 
 
 def get_limit_choices_to(mealtype, day):
-    def limit_choices():
-        return Q(menu_item__mealtype=mealtype, day=day) | Q(is_fallback=True)
-
-    return limit_choices
+    return Q(menu_item__mealtype=mealtype, day=day) | Q(is_fallback=True)
 
 
 class Preference(BaseModel):
