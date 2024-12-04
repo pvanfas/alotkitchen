@@ -21,7 +21,7 @@ class SubscriptionPlanListView(APIView):
 class SubscriptionPlanMealPlanListView(APIView):
     def get(self, request, pk):
         meal_category = get_object_or_404(MealCategory, pk=pk)
-        mealplans = MealPlan.objects.filter(meal_category=meal_category)
+        mealplans = MealPlan.objects.filter(meal_category=meal_category, is_fallback=False)
         serializer = MealPlanSerializer(mealplans, many=True)
         return Response(serializer.data)
 

@@ -140,7 +140,11 @@
 			});
 			// Populate menu data into the structure
 			data.forEach(item => {
-				menuByDayAndType[item.day][item.mealtype].push(item.menu_item);
+				if (days.includes(item.day) && mealTypes.includes(item.mealtype)) {
+					menuByDayAndType[item.day][item.mealtype].push(item.menu_item);
+				} else {
+					console.warn(`Invalid day or meal type in data:`, item);
+				}
 			});
 
 			// Loop through the days to populate the table rows
