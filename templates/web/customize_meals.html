@@ -161,7 +161,10 @@
         $(`td[data-id="${data_id}"]`).show();
         $(`td[data-id="${data_id}"] select`).each(function () {
             $(this).prop('required',true)
-            const options = $(this).find('option').not('[value=""], [value="NO MEAL"]');
+            const options = $(this).find('option').filter(function() {
+                const value = $(this).val();
+                return value && value !== "NO MEAL";
+            });
             if (options.length === 1) {
                 // Set the single option as selected
                 options.prop('selected', true);
