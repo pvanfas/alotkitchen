@@ -164,11 +164,8 @@
             const options = $(this).find('option').not('[value=""]').filter(function() {
                 return $(this).text() !== "NO MEAL";
             });
-
             if (options.length === 1) {
-                // Set the single option as selected
                 options.prop('selected', true);
-                $(this).prop('disabled', true);
             }
         });
     };
