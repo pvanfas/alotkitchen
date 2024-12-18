@@ -6,7 +6,20 @@
 <section style="background: #F4F1EA;" id="packages">
 	<div class="container section_padding_sm packages">
 		<div class="row">
-            {% include 'web/partials/navigator.html' %}
+            
+            <div class="col-12 mb-5">
+                <div id="progress">
+                    <div id="progress-bar"></div>
+                    <ul id="progress-num">
+                        <li><span class="step active">1</span><span>Select Plan</span></li>
+                        <li><span class="step active">2</span><span>Select Meals</span></li>
+                        <li><span class="step">3</span><span>Create Profile</span></li>
+                        <li><span class="step">4</span><span>Set Default Address</span></li>
+                        <li><span class="step">5</span><span>Set Delivery Address</span></li>
+                        <li><span class="step">6</span>Finish</li>
+                      </ul>
+                </div>
+            </div>
 
             <div class="col-12">
                 <h3 class="text-center">Customize Your Menu</h3>
@@ -148,11 +161,11 @@
         $(`td[data-id="${data_id}"]`).show();
         $(`td[data-id="${data_id}"] select`).each(function () {
             $(this).prop('required',true)
-            const options = $(this).find('option').not('[value=""]'); // Exclude no-value options
+            const options = $(this).find('option').not('[value=""], [value="NO MEAL"]');
             if (options.length === 1) {
                 // Set the single option as selected
                 options.prop('selected', true);
-                // $(this).prop('disabled', true);
+                $(this).prop('disabled', true);
             }
         });
     };
