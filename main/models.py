@@ -519,10 +519,7 @@ class SubscriptionRequest(BaseModel):
 def create_orders(subscription):
     for i in range(subscription.plan.validity):
         date = subscription.start_date + timezone.timedelta(days=i)
-        day_of_week = date.strftime("%A")
-        mealtypes = list(subscription.plan.available_mealtypes)
-        items = ItemMaster.objects.filter(is_active=True, meal_category=subscription.plan.meal_category, mealtype__in=mealtypes, available_days__contains=day_of_week)
+        items = ItemMaster.objects.filter(is_active=True, meal_category=subscription.plan.meal_category)
         for item in items:
-            for meal in mealtypes:
-                MealOrder.objects.get_or_create(user=subscription.user, item=item, subscription=subscription, subscription_plan=subscription.plan, date=date)
+            MealOrder.objects.get_or_create(user=subscription.user, item=item, subscription=subscription, subscription_plan=subscription.plan, date=date)
     return True
