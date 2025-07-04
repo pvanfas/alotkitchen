@@ -126,6 +126,7 @@ USE_L10N = False
 DATE_INPUT_FORMATS = (
     "%d/%m/%Y",
     "%d-%m-%Y",
+    "%Y-%m-%d",
     "%d/%m/%y",
     "%d %b %Y",
     "%d %b, %Y",

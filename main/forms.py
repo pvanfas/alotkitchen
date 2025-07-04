@@ -3,6 +3,8 @@ from django import forms
 from .choices import VALIDITY_CHOICES
 from .helper import preference_form_fields
 from .models import DeliveryAddress, Preference, SubscriptionRequest
+from datetime import datetime
+
 
 VALIDITY_CHOICES = (("", "-- Select Days --"),) + VALIDITY_CHOICES
 
@@ -30,13 +32,14 @@ class ProfileForm(forms.ModelForm):
             "mobile": forms.TextInput(attrs={"placeholder": "Mobile", "required": "required"}),
             "alternate_mobile": forms.TextInput(attrs={"placeholder": "Alternate Mobile", "required": "required"}),
             "whatsapp_number": forms.TextInput(attrs={"placeholder": "Whatsapp Number", "required": "required"}),
+            "start_date": forms.DateInput(attrs={"type": "date", "required": "required", "min": datetime.now().strftime("%Y-%m-%d")}),
         }
 
 
 class DeliveryAddressForm(forms.ModelForm):
     class Meta:
         model = DeliveryAddress
-        fields = ("room_no", "floor", "building_name", "street_name", "area", "location")
+        fields = ("room_no", "floor", "building_name", "street_name", "area", "location", "contact_number", "address_type", "is_default")
 
 
 class SetDeliveryAddressForm(forms.ModelForm):

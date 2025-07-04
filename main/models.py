@@ -265,6 +265,9 @@ class Preference(BaseModel):
         verbose_name = _("Preference")
         verbose_name_plural = _("Preferences")
 
+    def get_addresses(self):
+        return DeliveryAddress.objects.filter(preferance=self)
+
     def __str__(self):
         return f"{self.session_id}"
 
@@ -277,7 +280,10 @@ class DeliveryAddress(BaseModel):
     building_name = models.CharField(max_length=200)
     street_name = models.CharField(max_length=200)
     area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="delivery_area")
+    contact_number = models.CharField(max_length=200)
+    address_type = models.CharField(max_length=200, choices=(("Home","Home"),("Office", "Office")))
     location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
+    is_default = models.BooleanField("Set as default delivery address", default=False)
 
     class Meta:
         ordering = ("user",)
@@ -285,7 +291,7 @@ class DeliveryAddress(BaseModel):
         verbose_name_plural = _("Delivery Addresses")
 
     def __str__(self):
-        return f"{self.room_no}, {self.floor}, {self.building_name}, {self.street_name}, {self.area}"
+        return f"{self.address_type.upper()} : {self.room_no}, {self.floor}, {self.building_name}, {self.street_name}, {self.area}"
 
 
 class Subscription(BaseModel):

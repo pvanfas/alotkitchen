@@ -92,13 +92,16 @@ def create_profile(request, pk):
             data.whatsapp_number = format_number(form.cleaned_data.get("whatsapp_number_country_code"), form.cleaned_data.get("whatsapp_number"))
             data.save()
             return redirect("web:select_address", pk=pk)
+        else:
+            print(form.errors)
     context = {"form": form}
     return render(request, template_name, context)
 
 
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = DeliveryAddressForm(request.POST or None)
+    form = DeliveryAddressForm(request.POST or None, instance=instance)
+    addresses = instance.get_addresses()
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
@@ -106,15 +109,15 @@ def select_address(request, pk):
             data.session_id = instance.session_id
             data.user = request.user if request.user.is_authenticated else None
             data.save()
-            return redirect("web:set_delivery_address", pk=pk)
+            return redirect("web:select_address", pk=pk)
     template_name = "web/select_address.html"
-    context = {"instance": instance, "form": form}
+    context = {"instance": instance, "form": form, "addresses": addresses}
     return render(request, template_name, context)
 
 
 def set_delivery_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = SetDeliveryAddressForm(request.POST or None)
+    form = SetDeliveryAddressForm(request.POST or None, instance=instance)
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
@@ -122,7 +125,7 @@ def set_delivery_address(request, pk):
             data.session_id = instance.session_id
             data.user = request.user if request.user.is_authenticated else None
             data.save()
-            return redirect("web:set_delivery_address", pk=pk)
+            return redirect("web:confirm_subscription", pk=pk)
     template_name = "web/set_delivery_address.html"
     context = {"instance": instance, "form": form}
     return render(request, template_name, context)

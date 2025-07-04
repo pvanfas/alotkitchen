@@ -13,7 +13,7 @@
                         <li><span class="step active">1</span><span>Select Plan</span></li>
                         <li><span class="step active">2</span><span>Select Meals</span></li>
                         <li><span class="step active">3</span><span>Create Profile</span></li>
-                        <li><span class="step active">4</span><span>Set Default Address</span></li>
+                        <li><span class="step active">4</span><span>Add Address</span></li>
                         <li><span class="step active">5</span><span>Set Delivery Address</span></li>
                         <li><span class="step">6</span>Finish</li>
                       </ul>
@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-12">
-                <h3 class="text-center">Select Delivery Address</h3>
+                <h3 class="text-left">Select Delivery Address</h3>
             </div>
 			
 			<div class="col-lg-12 col-md-12 col-sm-12 mx-auto">
@@ -47,7 +47,7 @@
 
                         <div class="row">
                             {% for field in form %}
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     {{ field|as_crispy_field }}
                                 </div>
                             {% endfor %}
