@@ -2,6 +2,10 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+from .models import MealOrder, Subscription, SubscriptionRequest
+from django.utils import timezone
+from datetime import timedelta
+
 
 def send_admin_neworder_mail(instance):
     subject = "ALOT KITCHEN: New Subscription Request"
@@ -28,3 +32,4 @@ def send_customer_neworder_mail(instance):
     html_message = render_to_string(template, {"instance": instance})
     recipient_list = [instance.user.email]
     send_mail(subject, message, settings.EMAIL_SENDER, recipient_list, html_message=html_message)
+

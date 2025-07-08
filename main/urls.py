@@ -30,4 +30,8 @@ urlpatterns = [
     path("change_menu/", views.ChangeMenuView.as_view(), name="changemenu_view"),
     # Pages
     path("history/", views.HistoryView.as_view(), name="history_view"),
+    
+    #orders
+    path("orders/approve/<str:pk>/", views.approve_preference, name="approve-preference"),
+    path("order/detail/<str:pk>/", views.edit_preference, name="edit-preference"),
 ]

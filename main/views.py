@@ -2,7 +2,8 @@ from collections import defaultdict
 from datetime import datetime
 
 from django.db.models import Sum
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
 
@@ -12,7 +13,7 @@ from users.tables import UserTable
 
 from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import ItemMaster, MealOrder, Subscription, SubscriptionRequest
+from .models import ItemMaster, MealOrder, Preference, Subscription, SubscriptionRequest
 from .tables import (
     CustomerMealOrderTable,
     DeliveryMealOrderTable,
@@ -70,6 +71,8 @@ class DashboardView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        
         qs = self.get_queryset().values("item__mealtype", "item__name").annotate(total_quantity=Sum("quantity"))
         data = defaultdict(list)
         for entry in qs:
@@ -78,6 +81,12 @@ class DashboardView(HybridListView):
             total_quantity = entry["total_quantity"]
             data[mealtype].append((item_name, total_quantity))
         context["datas"] = dict(data)
+
+        # Add preference data 
+        
+        preferences = Preference.objects.all().values("id","first_name","last_name","start_date", "status", "mobile")
+        context["preferences"] = preferences
+        print(context)
         return context
 
 
@@ -353,3 +362,17 @@ class ChangeMenuView(HybridListView):
 
     def get_queryset(self):
         return MealOrder.objects.filter(date=datetime.today(), is_active=True)
+    
+def edit_preference(request, pk):
+    preference = get_object_or_404(Preference, pk=pk)
+    # Add your edit logic here
+    print(preference)
+    return render(request, 'app/main/edit_preference.html', {'preference': preference})
+
+def approve_preference(request, pk):
+    preference = get_object_or_404(Preference, pk=pk)
+    preference.status = 'APPROVED'
+    
+    preference.save()
+    messages.success(request, 'Preference approved successfully!')
+    return redirect('app:home')  # Redirect back to home page
