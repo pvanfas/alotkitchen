@@ -1,400 +1,354 @@
 {% extends 'app/base.html' %}
 {% load static i18n crispy_forms_tags django_tables2 humanize %}
+{% load extras %}
+
+
 {% block title %}Edit Preference: {{app_settings.site_title}}{% endblock %}
 
 {% block content %}
-
 <div class="side-app main-container">
-    <div class="main-content app-content">
-        <div class="container-fluid">
-            
-            <!-- Page Header -->
-            <div class="page-header">
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="page-title">
-                            <h4>Edit Preference</h4>
-                        </div>
-                        <div class="page-options ms-auto">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Preferences</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Edit</li>
-                                </ol>
-                            </nav>
-                        </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Edit Preference</h4>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Main Content -->
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Edit Preference - Session: {{ preference.session_id }}</h4>
-                            <div class="card-options">
-                                <span class="badge bg-{{ preference.status|lower }}">{{ preference.get_status_display }}</span>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Personal Information Section -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2 mb-3">Personal Information</h5>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" 
+                                               value="{{ preference.first_name|default:'' }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" 
+                                               value="{{ preference.last_name|default:'' }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               value="{{ preference.email|default:'' }}">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="card-body">
-                            <form method="post" id="preference-form">
-                                {% csrf_token %}
+
+                            <!-- Contact Information Section -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2 mb-3">Contact Information</h5>
+                                </div>
                                 
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs" id="preferenceTab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">
-                                            <i class="fe fe-user me-2"></i>Personal Details
-                                        </button>
-                                    </li>
-                                    {% comment %} <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="meals-tab" data-bs-toggle="tab" data-bs-target="#meals" type="button" role="tab">
-                                            <i class="fe fe-coffee me-2"></i>Meal Preferences
-                                        </button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="addresses-tab" data-bs-toggle="tab" data-bs-target="#addresses" type="button" role="tab">
-                                            <i class="fe fe-map-pin me-2"></i>Delivery Addresses
-                                        </button>
-                                    </li> {% endcomment %}
-                                </ul>
-                                
-                                <!-- Tab content -->
-                                <div class="tab-content mt-3" id="preferenceTabContent">
-                                    
-                                    <!-- Personal Details Tab -->
-                                    <div class="tab-pane fade show active" id="personal" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="first_name" class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ preference.first_name|default:'' }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="last_name" class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ preference.last_name|default:'' }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email" name="email" value="{{ preference.email|default:'' }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="preferred_language" class="form-label">Preferred Language</label>
-                                                    <select class="form-select" id="preferred_language" name="preferred_language">
-                                                        <option value="">Select Language</option>
-                                                        {% for lang_code, lang_name in language_choices %}
-                                                            <option value="{{ lang_code }}" {% if preference.preferred_language == lang_code %}selected{% endif %}>
-                                                                {{ lang_name }}
-                                                            </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group mb-3">
-                                                    <label for="mobile" class="form-label">Mobile</label>
-                                                    <input type="text" class="form-control" id="mobile" name="mobile" value="{{ preference.mobile|default:'' }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group mb-3">
-                                                    <label for="alternate_mobile" class="form-label">Alternate Mobile</label>
-                                                    <input type="text" class="form-control" id="alternate_mobile" name="alternate_mobile" value="{{ preference.alternate_mobile|default:'' }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group mb-3">
-                                                    <label for="whatsapp_number" class="form-label">WhatsApp Number</label>
-                                                    <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number" value="{{ preference.whatsapp_number|default:'' }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="start_date" class="form-label">Start Date</label>
-                                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ preference.start_date|date:'Y-m-d' }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="status" class="form-label">Status</label>
-                                                    <select class="form-select" id="status" name="status">
-                                                        <option value="PENDING" {% if preference.status == 'PENDING' %}selected{% endif %}>Pending</option>
-                                                        <option value="APPROVED" {% if preference.status == 'APPROVED' %}selected{% endif %}>Approved</option>
-                                                        <option value="REJECTED" {% if preference.status == 'REJECTED' %}selected{% endif %}>Rejected</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group mb-3">
-                                            <label for="notes" class="form-label">Notes</label>
-                                            <textarea class="form-control" id="notes" name="notes" rows="3">{{ preference.notes|default:'' }}</textarea>
-                                        </div>
-                                        
-                                        <div class="form-group mb-3">
-                                            <label for="remarks" class="form-label">Remarks</label>
-                                            <textarea class="form-control" id="remarks" name="remarks" rows="3">{{ preference.remarks|default:'' }}</textarea>
-                                        </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile</label>
+                                        <input type="tel" class="form-control" id="mobile" name="mobile" 
+                                               value="{{ preference.mobile|default:'' }}">
                                     </div>
-                                    
-                                    <!-- Meal Preferences Tab -->
-                                    {% comment %} <div class="tab-pane fade" id="meals" role="tabpanel">
-                                        <div class="accordion" id="mealAccordion">
-                                            
-                                            {% for day in days %}
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="heading{{ day }}">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ day }}" aria-expanded="false">
-                                                        {{ day }}
-                                                    </button>
-                                                </h2>
-                                                <div id="collapse{{ day }}" class="accordion-collapse collapse" data-bs-parent="#mealAccordion">
-                                                    <div class="accordion-body">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-3">
-                                                                    <label for="{{ day|lower }}_early_breakfast" class="form-label">Early Breakfast</label>
-                                                                    <select class="form-select" id="{{ day|lower }}_early_breakfast" name="{{ day|lower }}_early_breakfast">
-                                                                        <option value="">Select Meal</option>
-                                                                        {% for meal in early_breakfast_meals %}
-                                                                            <option value="{{ meal.id }}" 
-                                                                                {% if day == 'Monday' and preference.monday_early_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Tuesday' and preference.tuesday_early_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Wednesday' and preference.wednesday_early_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Thursday' and preference.thursday_early_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Friday' and preference.friday_early_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Saturday' and preference.saturday_early_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Sunday' and preference.sunday_early_breakfast == meal %}selected{% endif %}>
-                                                                                {{ meal.menu_item.name }}
-                                                                            </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-3">
-                                                                    <label for="{{ day|lower }}_breakfast" class="form-label">Breakfast</label>
-                                                                    <select class="form-select" id="{{ day|lower }}_breakfast" name="{{ day|lower }}_breakfast">
-                                                                        <option value="">Select Meal</option>
-                                                                        {% for meal in breakfast_meals %}
-                                                                            <option value="{{ meal.id }}" 
-                                                                                {% if day == 'Monday' and preference.monday_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Tuesday' and preference.tuesday_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Wednesday' and preference.wednesday_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Thursday' and preference.thursday_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Friday' and preference.friday_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Saturday' and preference.saturday_breakfast == meal %}selected{% endif %}
-                                                                                {% if day == 'Sunday' and preference.sunday_breakfast == meal %}selected{% endif %}>
-                                                                                {{ meal.menu_item.name }}
-                                                                            </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-3">
-                                                                    <label for="{{ day|lower }}_tiffin_lunch" class="form-label">Tiffin Lunch</label>
-                                                                    <select class="form-select" id="{{ day|lower }}_tiffin_lunch" name="{{ day|lower }}_tiffin_lunch">
-                                                                        <option value="">Select Meal</option>
-                                                                        {% for meal in tiffin_lunch_meals %}
-                                                                            <option value="{{ meal.id }}" 
-                                                                                {% if day == 'Monday' and preference.monday_tiffin_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Tuesday' and preference.tuesday_tiffin_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Wednesday' and preference.wednesday_tiffin_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Thursday' and preference.thursday_tiffin_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Friday' and preference.friday_tiffin_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Saturday' and preference.saturday_tiffin_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Sunday' and preference.sunday_tiffin_lunch == meal %}selected{% endif %}>
-                                                                                {{ meal.menu_item.name }}
-                                                                            </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-3">
-                                                                    <label for="{{ day|lower }}_lunch" class="form-label">Lunch</label>
-                                                                    <select class="form-select" id="{{ day|lower }}_lunch" name="{{ day|lower }}_lunch">
-                                                                        <option value="">Select Meal</option>
-                                                                        {% for meal in lunch_meals %}
-                                                                            <option value="{{ meal.id }}" 
-                                                                                {% if day == 'Monday' and preference.monday_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Tuesday' and preference.tuesday_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Wednesday' and preference.wednesday_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Thursday' and preference.thursday_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Friday' and preference.friday_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Saturday' and preference.saturday_lunch == meal %}selected{% endif %}
-                                                                                {% if day == 'Sunday' and preference.sunday_lunch == meal %}selected{% endif %}>
-                                                                                {{ meal.menu_item.name }}
-                                                                            </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-3">
-                                                                    <label for="{{ day|lower }}_dinner" class="form-label">Dinner</label>
-                                                                    <select class="form-select" id="{{ day|lower }}_dinner" name="{{ day|lower }}_dinner">
-                                                                        <option value="">Select Meal</option>
-                                                                        {% for meal in dinner_meals %}
-                                                                            <option value="{{ meal.id }}" 
-                                                                                {% if day == 'Monday' and preference.monday_dinner == meal %}selected{% endif %}
-                                                                                {% if day == 'Tuesday' and preference.tuesday_dinner == meal %}selected{% endif %}
-                                                                                {% if day == 'Wednesday' and preference.wednesday_dinner == meal %}selected{% endif %}
-                                                                                {% if day == 'Thursday' and preference.thursday_dinner == meal %}selected{% endif %}
-                                                                                {% if day == 'Friday' and preference.friday_dinner == meal %}selected{% endif %}
-                                                                                {% if day == 'Saturday' and preference.saturday_dinner == meal %}selected{% endif %}
-                                                                                {% if day == 'Sunday' and preference.sunday_dinner == meal %}selected{% endif %}>
-                                                                                {{ meal.menu_item.name }}
-                                                                            </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="alternate_mobile">Alternate Mobile</label>
+                                        <input type="tel" class="form-control" id="alternate_mobile" name="alternate_mobile" 
+                                               value="{{ preference.alternate_mobile|default:'' }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="whatsapp_number">WhatsApp Number</label>
+                                        <input type="tel" class="form-control" id="whatsapp_number" name="whatsapp_number" 
+                                               value="{{ preference.whatsapp_number|default:'' }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferences Section -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2 mb-3">Preferences</h5>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="preferred_language">Preferred Language</label>
+                                        <select class="form-control" id="preferred_language" name="preferred_language">
+                                            <option value="">Select Language</option>
+                                            {% for code, language in languages %}
+                                                <option value="{{ code }}" {% if preference.preferred_language == code %}selected{% endif %}>
+                                                    {{ language }}
+                                                </option>
                                             {% endfor %}
-                                            
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Delivery Addresses Tab -->
-                                    <div class="tab-pane fade" id="addresses" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Early Breakfast Address</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <select class="form-select" id="early_breakfast_address" name="early_breakfast_address">
-                                                            <option value="">Select Address</option>
-                                                            {% for address in delivery_addresses %}
-                                                                <option value="{{ address.id }}" {% if preference.early_breakfast_address == address %}selected{% endif %}>
-                                                                    {{ address.address_type }}: {{ address.room_no }}, {{ address.building_name }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Breakfast Address</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <select class="form-select" id="breakfast_address" name="breakfast_address">
-                                                            <option value="">Select Address</option>
-                                                            {% for address in delivery_addresses %}
-                                                                <option value="{{ address.id }}" {% if preference.breakfast_address == address %}selected{% endif %}>
-                                                                    {{ address.address_type }}: {{ address.room_no }}, {{ address.building_name }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> {% endcomment %}
-                                        
-                                        {% comment %} <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Tiffin Lunch Address</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <select class="form-select" id="tiffin_lunch_address" name="tiffin_lunch_address">
-                                                            <option value="">Select Address</option>
-                                                            {% for address in delivery_addresses %}
-                                                                <option value="{{ address.id }}" {% if preference.tiffin_lunch_address == address %}selected{% endif %}>
-                                                                    {{ address.address_type }}: {{ address.room_no }}, {{ address.building_name }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div> {% endcomment %}
-                                            
-                                            {% comment %} <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Lunch Address</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <select class="form-select" id="lunch_address" name="lunch_address">
-                                                            <option value="">Select Address</option>
-                                                            {% for address in delivery_addresses %}
-                                                                <option value="{{ address.id }}" {% if preference.lunch_address == address %}selected{% endif %}>
-                                                                    {{ address.address_type }}: {{ address.room_no }}, {{ address.building_name }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> {% endcomment %}
-                                        
-                                        {% comment %} <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Dinner Address</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <select class="form-select" id="dinner_address" name="dinner_address">
-                                                            <option value="">Select Address</option>
-                                                            {% for address in delivery_addresses %}
-                                                                <option value="{{ address.id }}" {% if preference.dinner_address == address %}selected{% endif %}>
-                                                                    {{ address.address_type }}: {{ address.room_no }}, {{ address.building_name }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> {% endcomment %}
+                                        </select>
                                     </div>
                                 </div>
                                 
-                                <!-- Form Actions -->
-                                <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fe fe-save me-2"></i>Update Preference
-                                    </button>
-                                    <a href="#" class="btn btn-secondary">
-                                        <i class="fe fe-arrow-left me-2"></i>Cancel
-                                    </a>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="start_date">Start Date</label>
+                                        <input type="date" class="form-control" id="start_date" name="start_date" 
+                                               value="{{ preference.start_date|date:'Y-m-d' }}">
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+
+                            <!-- Delivery Addresses Section -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2 mb-3">Delivery Addresses</h5>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="early_breakfast_address">Early Breakfast Address</label>
+                                        <select class="form-control" id="early_breakfast_address" name="early_breakfast_address">
+                                            <option value="">Select Address</option>
+                                            {% for address in delivery_addresses %}
+                                                <option value="{{ address.id }}" {% if preference.early_breakfast_address_id == address.id %}selected{% endif %}>
+                                                    {{ address }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="breakfast_address">Breakfast Address</label>
+                                        <select class="form-control" id="breakfast_address" name="breakfast_address">
+                                            <option value="">Select Address</option>
+                                            {% for address in delivery_addresses %}
+                                                <option value="{{ address.id }}" {% if preference.breakfast_address_id == address.id %}selected{% endif %}>
+                                                    {{ address }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tiffin_lunch_address">Tiffin Lunch Address</label>
+                                        <select class="form-control" id="tiffin_lunch_address" name="tiffin_lunch_address">
+                                            <option value="">Select Address</option>
+                                            {% for address in delivery_addresses %}
+                                                <option value="{{ address.id }}" {% if preference.tiffin_lunch_address_id == address.id %}selected{% endif %}>
+                                                    {{ address }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lunch_address">Lunch Address</label>
+                                        <select class="form-control" id="lunch_address" name="lunch_address">
+                                            <option value="">Select Address</option>
+                                            {% for address in delivery_addresses %}
+                                                <option value="{{ address.id }}" {% if preference.lunch_address_id == address.id %}selected{% endif %}>
+                                                    {{ address }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="dinner_address">Dinner Address</label>
+                                        <select class="form-control" id="dinner_address" name="dinner_address">
+                                            <option value="">Select Address</option>
+                                            {% for address in delivery_addresses %}
+                                                <option value="{{ address.id }}" {% if preference.dinner_address_id == address.id %}selected{% endif %}>
+                                                    {{ address }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Weekly Meal Plan Section -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2 mb-3">Weekly Meal Plan</h5>
+                                </div>
+                                
+                                <!-- Days Navigation -->
+                                <div class="col-12 mb-3">
+                                    <ul class="nav nav-tabs" id="dayTabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="monday-tab" data-toggle="tab" href="#monday" role="tab">Monday</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="tuesday-tab" data-toggle="tab" href="#tuesday" role="tab">Tuesday</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="wednesday-tab" data-toggle="tab" href="#wednesday" role="tab">Wednesday</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="thursday-tab" data-toggle="tab" href="#thursday" role="tab">Thursday</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="friday-tab" data-toggle="tab" href="#friday" role="tab">Friday</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="saturday-tab" data-toggle="tab" href="#saturday" role="tab">Saturday</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="sunday-tab" data-toggle="tab" href="#sunday" role="tab">Sunday</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Tab Contents -->
+                                <div class="col-12">
+                                    <div class="tab-content" id="dayTabsContent">
+                                        {% for day in days %}
+                                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
+                                                 id="{{ day }}" role="tabpanel">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="{{ day }}_early_breakfast">Early Breakfast</label>
+                                                            <select class="form-control" id="{{ day }}_early_breakfast" name="{{ day }}_early_breakfast">
+                                                                <option value="">Select Meal</option>
+                                                                {% for meal in meal_plans %}
+                                                                    {% if meal.day == day|title and meal.meal_category.name == "Early Breakfast" %}
+                                                                        <option value="{{ meal.id }}" 
+                                                                                {% if preference|lookup:day|add:"_early_breakfast_id" == meal.id %}selected{% endif %}>
+                                                                            {{ meal.menu_item }}
+                                                                        </option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="{{ day }}_breakfast">Breakfast</label>
+                                                            <select class="form-control" id="{{ day }}_breakfast" name="{{ day }}_breakfast">
+                                                                <option value="">Select Meal</option>
+                                                                {% for meal in meal_plans %}
+                                                                    {% if meal.day == day|title and meal.meal_category.name == "Breakfast" %}
+                                                                        <option value="{{ meal.id }}" 
+                                                                                {% if preference|lookup:day|add:"_breakfast_id" == meal.id %}selected{% endif %}>
+                                                                            {{ meal.menu_item }}
+                                                                        </option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="{{ day }}_tiffin_lunch">Tiffin Lunch</label>
+                                                            <select class="form-control" id="{{ day }}_tiffin_lunch" name="{{ day }}_tiffin_lunch">
+                                                                <option value="">Select Meal</option>
+                                                                {% for meal in meal_plans %}
+                                                                    {% if meal.day == day|title and meal.meal_category.name == "Tiffin Lunch" %}
+                                                                        <option value="{{ meal.id }}" 
+                                                                                {% if preference|lookup:day|add:"_tiffin_lunch_id" == meal.id %}selected{% endif %}>
+                                                                            {{ meal.menu_item }}
+                                                                        </option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="{{ day }}_lunch">Lunch</label>
+                                                            <select class="form-control" id="{{ day }}_lunch" name="{{ day }}_lunch">
+                                                                <option value="">Select Meal</option>
+                                                                {% for meal in meal_plans %}
+                                                                    {% if meal.day == day|title and meal.meal_category.name == "Lunch" %}
+                                                                        <option value="{{ meal.id }}" 
+                                                                                {% if preference|lookup:day|add:"_lunch_id" == meal.id %}selected{% endif %}>
+                                                                            {{ meal.menu_item }}
+                                                                        </option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="{{ day }}_dinner">Dinner</label>
+                                                            <select class="form-control" id="{{ day }}_dinner" name="{{ day }}_dinner">
+                                                                <option value="">Select Meal</option>
+                                                                {% for meal in meal_plans %}
+                                                                    {% if meal.day == day|title and meal.meal_category.name == "Dinner" %}
+                                                                        <option value="{{ meal.id }}" 
+                                                                                {% if preference|lookup:day|add:"_dinner_id" == meal.id %}selected{% endif %}>
+                                                                            {{ meal.menu_item }}
+                                                                        </option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Information Section -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="border-bottom pb-2 mb-3">Additional Information</h5>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="notes">Notes</label>
+                                        <textarea class="form-control" id="notes" name="notes" rows="4">{{ preference.notes|default:'' }}</textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="remarks">Remarks</label>
+                                        <textarea class="form-control" id="remarks" name="remarks" rows="4">{{ preference.remarks|default:'' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group text-right">
+                                        <a href="#" class="btn btn-secondary me-2">Cancel</a>
+                                        <button type="submit" class="btn btn-primary">Update Preference</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -405,59 +359,58 @@
 <script>
 $(document).ready(function() {
     // Initialize Bootstrap tabs
-    var triggerTabList = [].slice.call(document.querySelectorAll('#preferenceTab button'));
-    triggerTabList.forEach(function (triggerEl) {
-        var tabTrigger = new bootstrap.Tab(triggerEl);
-        triggerEl.addEventListener('click', function (event) {
-            event.preventDefault();
-            tabTrigger.show();
-        });
+    $('#dayTabs a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
     });
     
     // Form validation
-    $('#preference-form').on('submit', function(e) {
+    $('form').submit(function(e) {
         var isValid = true;
+        var requiredFields = ['first_name', 'last_name', 'email', 'mobile'];
         
-        // Basic validation
-        if (!$('#first_name').val().trim()) {
-            isValid = false;
-            $('#first_name').addClass('is-invalid');
-        } else {
-            $('#first_name').removeClass('is-invalid');
-        }
-        
-        if (!$('#email').val().trim()) {
-            isValid = false;
-            $('#email').addClass('is-invalid');
-        } else {
-            $('#email').removeClass('is-invalid');
-        }
+        requiredFields.forEach(function(field) {
+            var value = $('#' + field).val();
+            if (!value || value.trim() === '') {
+                $('#' + field).addClass('is-invalid');
+                isValid = false;
+            } else {
+                $('#' + field).removeClass('is-invalid');
+            }
+        });
         
         if (!isValid) {
             e.preventDefault();
-            $('#personal-tab').tab('show');
             alert('Please fill in all required fields.');
         }
     });
     
-    // Toggle accordion sections
-    $('a[data-target]').click(function() {
-        var target = $(this).data('target');
-        $('div[data-id="' + target + '"]').toggleClass('d-none');
-        $('div[data-id="' + target + '"]').toggleClass('d-flex');
-        $(this).hide();
-    });
-    
-    // Auto-save functionality (optional)
-    var autoSaveTimer;
-    $('input, select, textarea').on('input change', function() {
-        clearTimeout(autoSaveTimer);
-        autoSaveTimer = setTimeout(function() {
-            // You can implement auto-save logic here
-            console.log('Auto-save triggered');
-        }, 2000);
+    // Remove validation errors on input
+    $('.form-control').on('input change', function() {
+        $(this).removeClass('is-invalid');
     });
 });
 </script>
 
+<style>
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tab-content {
+    padding-top: 1rem;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+</style>
 {% endblock content %}

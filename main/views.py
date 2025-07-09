@@ -372,102 +372,81 @@ class ChangeMenuView(HybridListView):
 def edit_preference(request, pk):
     preference = get_object_or_404(Preference, pk=pk)
     
-    # Get related data for form dropdowns
-    context = {
-        'preference': preference,
-        'language_choices': LANGUAGE_CHOICES,
-        'days': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        'delivery_addresses': preference.get_addresses(),
-    }
-    
-    # Get meal plans for each meal type
-    if preference.subscription_subplan and preference.subscription_subplan.plan.meal_category:
-        meal_category = preference.subscription_subplan.plan.meal_category
-        context.update({
-            'early_breakfast_meals': MealPlan.objects.filter(
-                meal_category=meal_category,
-                menu_item__mealtype='EARLY_BREAKFAST'
-            ),
-            'breakfast_meals': MealPlan.objects.filter(
-                meal_category=meal_category,
-                menu_item__mealtype='BREAKFAST'
-            ),
-            'tiffin_lunch_meals': MealPlan.objects.filter(
-                meal_category=meal_category,
-                menu_item__mealtype='TIFFIN_LUNCH'
-            ),
-            'lunch_meals': MealPlan.objects.filter(
-                meal_category=meal_category,
-                menu_item__mealtype='LUNCH'
-            ),
-            'dinner_meals': MealPlan.objects.filter(
-                meal_category=meal_category,
-                menu_item__mealtype='DINNER'
-            ),
-        })
-    
     if request.method == 'POST':
+        # Update basic fields
+        preference.first_name = request.POST.get('first_name', '')
+        preference.last_name = request.POST.get('last_name', '')
+        preference.email = request.POST.get('email', '')
+        preference.preferred_language = request.POST.get('preferred_language', '')
+        preference.mobile = request.POST.get('mobile', '')
+        preference.alternate_mobile = request.POST.get('alternate_mobile', '')
+        preference.whatsapp_number = request.POST.get('whatsapp_number', '')
+        preference.notes = request.POST.get('notes', '')
+        preference.remarks = request.POST.get('remarks', '')
+        
+        # Handle start_date
+        start_date = request.POST.get('start_date')
+        if start_date:
+            preference.start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        
+        # Handle delivery addresses
+        for meal_type in ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']:
+            address_id = request.POST.get(f'{meal_type}_address')
+            if address_id:
+                try:
+                    address = DeliveryAddress.objects.get(id=address_id)
+                    setattr(preference, f'{meal_type}_address', address)
+                except DeliveryAddress.DoesNotExist:
+                    pass
+        
+        # Handle meal plan selections
+        days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        meal_types = ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']
+        
+        for day in days:
+            for meal_type in meal_types:
+                field_name = f'{day}_{meal_type}'
+                meal_id = request.POST.get(field_name)
+                if meal_id:
+                    try:
+                        meal_plan = MealPlan.objects.get(id=meal_id)
+                        setattr(preference, field_name, meal_plan)
+                    except MealPlan.DoesNotExist:
+                        pass
+                else:
+                    # Set to None if no meal selected
+                    setattr(preference, field_name, None)
+        
         try:
-            with transaction.atomic():
-                
-                preference.first_name = request.POST.get('first_name', '')
-                preference.last_name = request.POST.get('last_name', '')
-                preference.email = request.POST.get('email', '')
-                preference.preferred_language = request.POST.get('preferred_language', '')
-                preference.mobile = request.POST.get('mobile', '')
-                preference.alternate_mobile = request.POST.get('alternate_mobile', '')
-                preference.whatsapp_number = request.POST.get('whatsapp_number', '')
-                preference.notes = request.POST.get('notes', '')
-                preference.remarks = request.POST.get('remarks', '')
-                preference.status = request.POST.get('status', 'PENDING')
-                
-                # Update start date
-                start_date = request.POST.get('start_date')
-                if start_date:
-                    from datetime import datetime
-                    preference.start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-                
-                # Update meal preferences for each day
-                days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-                meal_types = ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']
-                
-                for day in days:
-                    for meal_type in meal_types:
-                        field_name = f"{day}_{meal_type}"
-                        meal_plan_id = request.POST.get(field_name)
-                        
-                        if meal_plan_id:
-                            try:
-                                meal_plan = MealPlan.objects.get(id=meal_plan_id)
-                                setattr(preference, field_name, meal_plan)
-                            except MealPlan.DoesNotExist:
-                                pass
-                        else:
-                            setattr(preference, field_name, None)
-                
-                # Update delivery addresses
-                address_types = ['early_breakfast_address', 'breakfast_address', 'tiffin_lunch_address', 'lunch_address', 'dinner_address']
-                for address_type in address_types:
-                    address_id = request.POST.get(address_type)
-                    if address_id:
-                        try:
-                            address = DeliveryAddress.objects.get(id=address_id)
-                            setattr(preference, address_type, address)
-                        except DeliveryAddress.DoesNotExist:
-                            pass
-                    else:
-                        setattr(preference, address_type, None)
-                
-                # Save the preference
-                preference.save()
-                
-                messages.success(request, 'Preference updated successfully!')
-                return redirect('main:preference_detail', pk=preference.pk)
-                
+            preference.save()
+            messages.success(request, 'Preference updated successfully!')
+            return redirect('preference_detail', pk=preference.pk)  # Adjust URL name as needed
         except Exception as e:
             messages.error(request, f'Error updating preference: {str(e)}')
     
+    # Group meal plans by day and meal category for easier template access
+    meal_plans_by_day = {}
+    for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:
+        meal_plans_by_day[day] = {}
+        for meal_type in ['Early Breakfast', 'Breakfast', 'Tiffin Lunch', 'Lunch', 'Dinner']:
+            meal_plans_by_day[day][meal_type] = MealPlan.objects.filter(
+                day=day,
+                meal_category__name=meal_type,
+                is_active=True
+            ).select_related('meal_category', 'menu_item')
+    
+    context = {
+        'preference': preference,
+        'languages': LANGUAGE_CHOICES,
+        'delivery_addresses': DeliveryAddress.objects.filter(user=request.user),
+        'meal_plans': MealPlan.objects.filter(is_active=True).select_related('meal_category', 'menu_item'),
+        'meal_plans_by_day': meal_plans_by_day,
+    }
+    context["days"] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
+    
     return render(request, 'app/main/edit_preference.html', context)
+
 
 def approve_preference(request, pk):
     preference = get_object_or_404(Preference, pk=pk)
