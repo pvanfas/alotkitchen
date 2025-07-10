@@ -90,7 +90,7 @@ class DashboardView(HybridListView):
 
         # Add preference data
 
-        preferences = Preference.objects.filter().values("id", "first_name", "last_name", "start_date", "status", "mobile")
+        preferences = Preference.objects.filter(session_id=self.request.session.session_key).values("id", "first_name", "last_name", "start_date", "status", "mobile")
         context["preferences"] = preferences
         # print(context)
         return context
