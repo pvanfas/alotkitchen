@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, SubscriptionNoteForm
-from main.models import Area, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
+from main.models import Area, DeliveryAddress, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
 
@@ -119,7 +119,8 @@ def create_profile(request, pk):
 
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    addresses = instance.get_addresses()
+    # addresses = instance.get_addresses()
+    addresses = DeliveryAddress.objects.filter(user = request.user)
     
     # Create form without instance since we're creating a new DeliveryAddress
     form = DeliveryAddressForm(request.POST or None)

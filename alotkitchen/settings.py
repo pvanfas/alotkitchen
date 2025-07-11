@@ -4,7 +4,7 @@ from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY", default="django-insecure-+dzmm$mla=b%tnxzqgbc*fdun_4fph99e+0!qxu3ht4pe84lro")
-DEBUG = config("DEBUG", default=True, cast=bool)
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 

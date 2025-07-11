@@ -315,7 +315,7 @@ class Subscription(BaseModel):
 
     def save(self, *args, **kwargs):
         self.end_date = self.start_date + timezone.timedelta(days=self.plan.validity)
-        create_orders(self)
+        # create_orders(self)
         super().save(*args, **kwargs)
 
     def __str__(self):

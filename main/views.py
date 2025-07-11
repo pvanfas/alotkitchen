@@ -51,7 +51,7 @@ def get_day_name():
 def get_week_value(n):
     return 2 if n % 2 == 0 else 1
 
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class DashboardView(HybridListView):
     template_name = "app/main/home.html"
     permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
@@ -390,57 +390,57 @@ def edit_preference(request, pk):
             preference.start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
         
         # Handle delivery addresses
-        for meal_type in ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']:
-            address_id = request.POST.get(f'{meal_type}_address')
-            if address_id:
-                try:
-                    address = DeliveryAddress.objects.get(id=address_id)
-                    setattr(preference, f'{meal_type}_address', address)
-                except DeliveryAddress.DoesNotExist:
-                    pass
+        # for meal_type in ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']:
+        #     address_id = request.POST.get(f'{meal_type}_address')
+        #     if address_id:
+        #         try:
+        #             address = DeliveryAddress.objects.get(id=address_id)
+        #             setattr(preference, f'{meal_type}_address', address)
+        #         except DeliveryAddress.DoesNotExist:
+        #             pass
         
         # Handle meal plan selections
-        days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-        meal_types = ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']
+        # days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        # meal_types = ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']
         
-        for day in days:
-            for meal_type in meal_types:
-                field_name = f'{day}_{meal_type}'
-                meal_id = request.POST.get(field_name)
-                if meal_id:
-                    try:
-                        meal_plan = MealPlan.objects.get(id=meal_id)
-                        setattr(preference, field_name, meal_plan)
-                    except MealPlan.DoesNotExist:
-                        pass
-                else:
-                    # Set to None if no meal selected
-                    setattr(preference, field_name, None)
+        # for day in days:
+        #     for meal_type in meal_types:
+        #         field_name = f'{day}_{meal_type}'
+        #         meal_id = request.POST.get(field_name)
+        #         if meal_id:
+        #             try:
+        #                 meal_plan = MealPlan.objects.get(id=meal_id)
+        #                 setattr(preference, field_name, meal_plan)
+        #             except MealPlan.DoesNotExist:
+        #                 pass
+        #         else:
+        #             # Set to None if no meal selected
+        #             setattr(preference, field_name, None)
         
-        try:
-            preference.save()
-            messages.success(request, 'Preference updated successfully!')
-            return redirect('preference_detail', pk=preference.pk)  # Adjust URL name as needed
-        except Exception as e:
-            messages.error(request, f'Error updating preference: {str(e)}')
+        # try:
+        #     preference.save()
+        #     messages.success(request, 'Preference updated successfully!')
+        #     return redirect('preference_detail', pk=preference.pk)  # Adjust URL name as needed
+        # except Exception as e:
+        #     messages.error(request, f'Error updating preference: {str(e)}')
     
     # Group meal plans by day and meal category for easier template access
-    meal_plans_by_day = {}
-    for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:
-        meal_plans_by_day[day] = {}
-        for meal_type in ['Early Breakfast', 'Breakfast', 'Tiffin Lunch', 'Lunch', 'Dinner']:
-            meal_plans_by_day[day][meal_type] = MealPlan.objects.filter(
-                day=day,
-                meal_category__name=meal_type,
-                is_active=True
-            ).select_related('meal_category', 'menu_item')
+    # meal_plans_by_day = {}
+    # for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:
+    #     meal_plans_by_day[day] = {}
+    #     for meal_type in ['Early Breakfast', 'Breakfast', 'Tiffin Lunch', 'Lunch', 'Dinner']:
+    #         meal_plans_by_day[day][meal_type] = MealPlan.objects.filter(
+    #             day=day,
+    #             meal_category__name=meal_type,
+    #             is_active=True
+    #         ).select_related('meal_category', 'menu_item')
     
     context = {
         'preference': preference,
         'languages': LANGUAGE_CHOICES,
         'delivery_addresses': DeliveryAddress.objects.filter(user=request.user),
         'meal_plans': MealPlan.objects.filter(is_active=True).select_related('meal_category', 'menu_item'),
-        'meal_plans_by_day': meal_plans_by_day,
+        # 'meal_plans_by_day': meal_plans_by_day,
     }
     context["days"] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 
@@ -486,42 +486,3 @@ def approve_preference(request, pk):
     return redirect('main:home_view')
 
 
-@csrf_exempt
-@require_POST
-def update_preference_ajax(request, pk):
-    """AJAX endpoint for updating preference fields"""
-    preference = get_object_or_404(Preference, pk=pk)
-    
-    field_name = request.POST.get('field_name')
-    field_value = request.POST.get('field_value')
-    
-    if hasattr(preference, field_name):
-        try:
-            with transaction.atomic():
-                # Handle different field types
-                if field_name.endswith('_address'):
-                    if field_value:
-                        address = DeliveryAddress.objects.get(id=field_value)
-                        setattr(preference, field_name, address)
-                    else:
-                        setattr(preference, field_name, None)
-                elif any(meal_type in field_name for meal_type in ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']):
-                    # Handle meal fields
-                    if field_value:
-                        meal_plan = MealPlan.objects.get(id=field_value)
-                        setattr(preference, field_name, meal_plan)
-                    else:
-                        setattr(preference, field_name, None)
-                else:
-                    # Handle regular fields
-                    setattr(preference, field_name, field_value)
-                
-                preference.save()
-                return JsonResponse({'success': True, 'message': 'Field updated successfully'})
-                
-        except (DeliveryAddress.DoesNotExist, MealPlan.DoesNotExist):
-            return JsonResponse({'success': False, 'message': 'Related object not found'})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})
-    
-    return JsonResponse({'success': False, 'message': 'Invalid field name'})
