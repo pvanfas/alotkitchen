@@ -54,8 +54,9 @@
                         {% endfor %}
                     </div>
                     {% endif %}
-
-                    <a href="{% url 'web:set_delivery_address' instance.pk %}" class="btn btn-primary px-5">Next</a>
+                    {% if addresses %}
+                        <a href="{% url 'web:set_delivery_address' instance.pk %}" class="btn btn-primary px-5">Next</a>
+                    {% endif %}
 
                 </div>
             </div>
@@ -66,11 +67,11 @@
 
 
 <!-- Modal -->
-<form action="" method="post">
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <form action="" method="post">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Add Address</h5>
@@ -93,30 +94,26 @@
                     {% endfor %}
                     {% endif %}
 
-                    <form action="" method="post">
-                        {% csrf_token %}
-
-                        <div class="row">
-                            {% for field in form %}
-                            <div class="col-md-6">
-                                {{ field|as_crispy_field }}
-                            </div>
-                            {% endfor %}
+                    <div class="row">
+                        {% for field in form %}
+                        <div class="col-md-6">
+                            {{ field|as_crispy_field }}
                         </div>
+                        {% endfor %}
+                    </div>
 
-                        <div class="pt-3">
+                    <div class="pt-3">
 
-                        </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-</form>
+</div>
 
 {% endblock content %}
 

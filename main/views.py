@@ -2,17 +2,23 @@ from collections import defaultdict
 from datetime import datetime
 
 from django.db.models import Sum
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
+from django.db import transaction
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
+from main.choices import LANGUAGE_CHOICES
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
 from users.models import CustomUser as User
 from users.tables import UserTable
 
 from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import ItemMaster, MealOrder, Subscription, SubscriptionRequest
+from .models import DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription, SubscriptionRequest
 from .tables import (
     CustomerMealOrderTable,
     DeliveryMealOrderTable,
@@ -24,6 +30,7 @@ from .tables import (
     SubscriptionRequestTable,
     SubscriptionTable,
 )
+from .utils import create_subscription_from_preference,bulk_create_meal_orders
 
 # permissions = ("Administrator","Manager", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
 
@@ -44,7 +51,7 @@ def get_day_name():
 def get_week_value(n):
     return 2 if n % 2 == 0 else 1
 
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class DashboardView(HybridListView):
     template_name = "app/main/home.html"
     permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
@@ -70,6 +77,8 @@ class DashboardView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        
         qs = self.get_queryset().values("item__mealtype", "item__name").annotate(total_quantity=Sum("quantity"))
         data = defaultdict(list)
         for entry in qs:
@@ -78,6 +87,12 @@ class DashboardView(HybridListView):
             total_quantity = entry["total_quantity"]
             data[mealtype].append((item_name, total_quantity))
         context["datas"] = dict(data)
+
+        # Add preference data
+
+        preferences = Preference.objects.filter(session_id=self.request.session.session_key).values("id", "first_name", "last_name", "start_date", "status", "mobile")
+        context["preferences"] = preferences
+        # print(context)
         return context
 
 
@@ -353,3 +368,121 @@ class ChangeMenuView(HybridListView):
 
     def get_queryset(self):
         return MealOrder.objects.filter(date=datetime.today(), is_active=True)
+    
+def edit_preference(request, pk):
+    preference = get_object_or_404(Preference, pk=pk)
+    
+    if request.method == 'POST':
+        # Update basic fields
+        preference.first_name = request.POST.get('first_name', '')
+        preference.last_name = request.POST.get('last_name', '')
+        preference.email = request.POST.get('email', '')
+        preference.preferred_language = request.POST.get('preferred_language', '')
+        preference.mobile = request.POST.get('mobile', '')
+        preference.alternate_mobile = request.POST.get('alternate_mobile', '')
+        preference.whatsapp_number = request.POST.get('whatsapp_number', '')
+        preference.notes = request.POST.get('notes', '')
+        preference.remarks = request.POST.get('remarks', '')
+        
+        # Handle start_date
+        start_date = request.POST.get('start_date')
+        if start_date:
+            preference.start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        
+        # Handle delivery addresses
+        # for meal_type in ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']:
+        #     address_id = request.POST.get(f'{meal_type}_address')
+        #     if address_id:
+        #         try:
+        #             address = DeliveryAddress.objects.get(id=address_id)
+        #             setattr(preference, f'{meal_type}_address', address)
+        #         except DeliveryAddress.DoesNotExist:
+        #             pass
+        
+        # Handle meal plan selections
+        # days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        # meal_types = ['early_breakfast', 'breakfast', 'tiffin_lunch', 'lunch', 'dinner']
+        
+        # for day in days:
+        #     for meal_type in meal_types:
+        #         field_name = f'{day}_{meal_type}'
+        #         meal_id = request.POST.get(field_name)
+        #         if meal_id:
+        #             try:
+        #                 meal_plan = MealPlan.objects.get(id=meal_id)
+        #                 setattr(preference, field_name, meal_plan)
+        #             except MealPlan.DoesNotExist:
+        #                 pass
+        #         else:
+        #             # Set to None if no meal selected
+        #             setattr(preference, field_name, None)
+        
+        # try:
+        #     preference.save()
+        #     messages.success(request, 'Preference updated successfully!')
+        #     return redirect('preference_detail', pk=preference.pk)  # Adjust URL name as needed
+        # except Exception as e:
+        #     messages.error(request, f'Error updating preference: {str(e)}')
+    
+    # Group meal plans by day and meal category for easier template access
+    # meal_plans_by_day = {}
+    # for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:
+    #     meal_plans_by_day[day] = {}
+    #     for meal_type in ['Early Breakfast', 'Breakfast', 'Tiffin Lunch', 'Lunch', 'Dinner']:
+    #         meal_plans_by_day[day][meal_type] = MealPlan.objects.filter(
+    #             day=day,
+    #             meal_category__name=meal_type,
+    #             is_active=True
+    #         ).select_related('meal_category', 'menu_item')
+    
+    context = {
+        'preference': preference,
+        'languages': LANGUAGE_CHOICES,
+        'delivery_addresses': DeliveryAddress.objects.filter(user=request.user),
+        'meal_plans': MealPlan.objects.filter(is_active=True).select_related('meal_category', 'menu_item'),
+        # 'meal_plans_by_day': meal_plans_by_day,
+    }
+    context["days"] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
+    
+    return render(request, 'app/main/edit_preference.html', context)
+
+
+def approve_preference(request, pk):
+    preference = get_object_or_404(Preference, pk=pk)
+    
+    # Check if already approved
+    if preference.status == 'APPROVED':
+        messages.warning(request, 'Preference is already approved.')
+        return redirect('main:home_view')
+    
+    if not preference.start_date:
+        messages.error(request, 'Start date is required.')
+        return redirect('main:home_view')
+    
+    try:
+        with transaction.atomic():
+            # Approve the preference
+            preference.status = 'APPROVED'
+            preference.completed_at = timezone.now()
+            preference.save()
+            
+            # Create subscription from preference
+            subscription = create_subscription_from_preference(preference)
+            
+            # Bulk create meal orders
+            orders_created = bulk_create_meal_orders(preference, subscription)
+            print(f"Orders created: {orders_created}")
+            messages.success(
+                request, 
+                f'Preference approved successfully! {orders_created} meal orders created.'
+            )
+            
+    except Exception as e:
+        
+        print(e)
+        return redirect('main:home_view')
+    
+    return redirect('main:home_view')
+
+

@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
 from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, SubscriptionNoteForm
-from main.models import Area, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
+from main.models import Area, DeliveryAddress, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
 
@@ -79,37 +79,61 @@ def customize_meals(request, pk):
 
 def create_profile(request, pk):
     template_name = "web/create_profile.html"
-    form = ProfileForm(request.POST or None)
+
+    # Attempt to retrieve an existing Preference instance
+    preference = get_object_or_404(Preference, pk=pk)
+
+    # Bind the form to the instance (for editing)
+    form = ProfileForm(request.POST or None, instance=preference)
+
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
 
             def format_number(country_code, number):
-                return f"+{country_code}{number}"
+                if country_code and number:
+                    return f"+{country_code}{number}"
+                return None
 
-            data.mobile = format_number(form.cleaned_data.get("mobile_country_code"), form.cleaned_data.get("mobile"))
-            data.alternate_mobile = format_number(form.cleaned_data.get("alternate_mobile_country_code"), form.cleaned_data.get("alternate_mobile"))
-            data.whatsapp_number = format_number(form.cleaned_data.get("whatsapp_number_country_code"), form.cleaned_data.get("whatsapp_number"))
+            data.mobile = format_number(
+                form.cleaned_data.get("mobile_country_code"),
+                form.cleaned_data.get("mobile")
+            )
+            data.alternate_mobile = format_number(
+                form.cleaned_data.get("alternate_mobile_country_code"),
+                form.cleaned_data.get("alternate_mobile")
+            )
+            data.whatsapp_number = format_number(
+                form.cleaned_data.get("whatsapp_number_country_code"),
+                form.cleaned_data.get("whatsapp_number")
+            )
+
             data.save()
             return redirect("web:select_address", pk=pk)
         else:
             print(form.errors)
+
     context = {"form": form}
     return render(request, template_name, context)
 
 
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = DeliveryAddressForm(request.POST or None, instance=instance)
-    addresses = instance.get_addresses()
+    # addresses = instance.get_addresses()
+    addresses = DeliveryAddress.objects.filter(user = request.user)
+    
+    # Create form without instance since we're creating a new DeliveryAddress
+    form = DeliveryAddressForm(request.POST or None)
+    
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
-            data.preferance = instance
+            data.preferance = instance  # Use the actual field name from the model
             data.session_id = instance.session_id
             data.user = request.user if request.user.is_authenticated else None
             data.save()
             return redirect("web:select_address", pk=pk)
+    
     template_name = "web/select_address.html"
     context = {"instance": instance, "form": form, "addresses": addresses}
     return render(request, template_name, context)

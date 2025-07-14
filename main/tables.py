@@ -65,26 +65,10 @@ class ItemMasterTable(BaseTable):
 
 
 class MealOrderDataTable(Table):
-    DocNum = columns.Column(verbose_name="DocNum")
-    Series = columns.Column(verbose_name="Series")
-    DocDate = columns.Column(verbose_name="DocDate")
-    DocDueDate = columns.Column(verbose_name="DocDueDate")
-    CardCode = columns.Column(verbose_name="CardCode")
-    U_OrderType = columns.Column(verbose_name="U_OrderType")
-    U_Order_Catg = columns.Column(verbose_name="U_Order_Catg")
-    U_MealType = columns.Column(verbose_name="U_MealType")
-    U_Zone = columns.Column(verbose_name="U_Zone")
-    U_Driver = columns.Column(verbose_name="U_Driver")
-    U_DT = columns.Column(verbose_name="U_DT")
-    ParentKey = columns.Column(verbose_name="ParentKey")
-    LineNum = columns.Column(verbose_name="LineNum")
-    Quantity = columns.Column(verbose_name="Quantity")
-    ItemCode = columns.Column(verbose_name="ItemCode")
-    PriceAfterVAT = columns.Column(verbose_name="PriceAfterVAT")
 
     class Meta:
         model = MealOrder
-        template_name = "django_tables2/table_raw.html"
+        template_name = "django_tables2/bootstrap4.html" 
         fields = (
             "DocNum",
             "Series",
@@ -97,14 +81,17 @@ class MealOrderDataTable(Table):
             "U_Zone",
             "U_Driver",
             "U_DT",
+            "Comments",
+            "U_DAddress",
             "ParentKey",
             "LineNum",
             "Quantity",
             "ItemCode",
             "PriceAfterVAT",
+            "CostingCode",
+            "OcrCode",
         )
-        attrs = {"class": "table nowrap key-buttons border-bottom table-hover normalcase", "id": "exportTable"}  # noqa: RUF012
-
+        attrs = {"class": "table nowrap key-buttons border-bottom table-hover normalcase", "id": "exportTable"}
 
 class SubscriptionRequestTable(BaseTable):
     status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
