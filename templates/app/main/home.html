@@ -70,7 +70,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Your Preferences</h5>
+                    <h5 class="mb-0">Subscription Requests</h5>
                 </div>
                 {% if preferences %}
                 <div class="card-body p-0">
@@ -112,6 +112,7 @@
                         </table>
                     </div>
                 </div>
+                {% else %}
                 <div class="card-body text-center p-6">
                     <img src="{% static '/app/images/new/expired.png' %}" alt="" class="w-25"
                         style="height:80px;object-fit:contain">
@@ -234,6 +235,65 @@
         <p>No Orders Recieved</p>
         {% endfor %}
     </div>
+
+    {% elif request.user.usertype == "Manager" %}
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Subscription Requests</h5>
+                </div>
+                {% if preferences %}
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pref in preferences %}
+                                <tr>
+                                    <td>{{ pref.first_name }}{{" "}}{{pref.last_name }}</td>
+                                    <td>{{ pref.mobile }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if pref.status == 'APPROVED' %}success{% elif pref.status == 'PENDING' %}warning{% else %}secondary{% endif %}">
+                                            {{ pref.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'main:edit-preference' pref.id %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                            {% if pref.status == 'PENDING' %}
+                                            <a href="{% url 'main:approve-preference' pref.id %}" class="btn btn-sm btn-outline-success" onclick="return confirm('Are you sure you want to approve this preference?')">
+                                                <i class="fa fa-check"></i> Approve
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card-body text-center p-6">
+                    <img src="{% static '/app/images/new/expired.png' %}" alt="" class="w-25"
+                        style="height:80px;object-fit:contain">
+                    <h4 class="mt-3">No Preferences Available</h4>
+                    <p class="mb-5">You don't have any preferences set up yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div> 
     {% endif %}
 
 

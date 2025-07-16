@@ -266,15 +266,14 @@ class Preference(BaseModel):
         verbose_name_plural = _("Preferences")
 
     def get_addresses(self):
-        return DeliveryAddress.objects.filter(preferance=self)
+        return DeliveryAddress.objects.filter(preference=self)
 
     def __str__(self):
         return f"{self.session_id}"
 
 
 class DeliveryAddress(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="delivery_addresses", blank=True, null=True)
-    preferance = models.ForeignKey(Preference, on_delete=models.CASCADE, related_name="delivery_addresses")
+    preference = models.ForeignKey(Preference, on_delete=models.CASCADE, related_name="delivery_addresses")
     room_no = models.CharField(max_length=200)
     floor = models.CharField(max_length=200)
     building_name = models.CharField(max_length=200)
@@ -286,7 +285,7 @@ class DeliveryAddress(BaseModel):
     is_default = models.BooleanField("Set as default delivery address", default=False)
 
     class Meta:
-        ordering = ("user",)
+        ordering = ("preference",)
         verbose_name = _("Delivery Address")
         verbose_name_plural = _("Delivery Addresses")
 

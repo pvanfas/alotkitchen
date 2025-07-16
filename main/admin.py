@@ -111,9 +111,9 @@ class PreferenceAdmin(BaseAdmin):
 
 @admin.register(DeliveryAddress)
 class DeliveryAddressAdmin(BaseAdmin):
-    list_display = ("preferance", "user", "area", "is_active")
+    list_display = ("preference", "area", "is_active")
     list_filter = ("is_active",)
-    autocomplete_fields = ("preferance", "area")
+    autocomplete_fields = ("preference", "area")
 
 
 @admin.register(SubscriptionSubPlan)
