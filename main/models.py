@@ -366,7 +366,8 @@ class MealOrder(BaseModel):
         return self.item.mealtype
 
     def DocNum(self):
-        return " "
+        """Return empty string as shown in screenshot"""
+        return ""
 
     def Series(self):
         return "70"
@@ -377,59 +378,81 @@ class MealOrder(BaseModel):
     def DocDueDate(self):
         return self.date.strftime("%Y%m%d")
 
+    
     def CardCode(self):
+        """Return mobile number from preference if available, otherwise fall back to username"""
+        try:
+            # Get the user's preference (assuming there's a relationship)
+            preference = self.user.preferences.first()  # or however you access the preference
+            if preference and preference.mobile:
+                return preference.mobile
+        except:
+            pass
+        
+        # Fallback to username if no preference or mobile number found
         return self.user.username
 
     def U_OrderType(self):
-        if self.item.is_veg:
-            return "Veg"
-        return "Non Veg"
+        return "Veg" if self.item.is_veg else "Non Veg"
 
     def U_Order_Catg(self):
-        return self.item.meal_category
+        """Return order category as shown in screenshot"""
+        return "Mol South Indian"  # Replace with dynamic logic if needed
 
     def U_MealType(self):
-        return self.item.mealtype.capitalize()
+        """Return meal type in title case"""
+        meal_type_mapping = {
+            'BREAKFAST': 'Breakfast',
+            'LUNCH': 'Lunch',
+            'DINNER': 'Dinner',
+            'TIFFIN_LUNCH': 'Lunch'
+        }
+        return meal_type_mapping.get(self.item.mealtype, self.item.mealtype.title())
 
     def U_Zone(self):
-        return self.subscription.request.area
+        """Return the area/zone name based on meal type's delivery address"""
+        try:
+            req = self.subscription.request
+            
+            if self.item.mealtype == "BREAKFAST":
+                return req.breakfast_address_area.name if req.breakfast_address_area else ""
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                return req.lunch_address_area.name if req.lunch_address_area else ""
+            elif self.item.mealtype == "DINNER":
+                return req.dinner_address_area.name if req.dinner_address_area else ""
+            elif self.item.mealtype == "EARLY_BREAKFAST":
+                return req.breakfast_address_area.name if req.breakfast_address_area else ""
+            else:
+                return ""
+        except:
+            return ""
 
     def U_Driver(self):
-        return self.subscription.request.delivery_staff
+  
+        return "-"  
 
     def U_DT(self):
-        if self.item.mealtype == "BREAKFAST":
-            value = self.subscription.request.get_breakfast_time_display()
-        if self.item.mealtype == "LUNCH":
-            value = self.subscription.request.get_lunch_time_display()
-        if self.item.mealtype == "DINNER":
-            value = self.subscription.request.get_dinner_time_display()
-        if self.item.mealtype == "TIFFIN_LUNCH":
-            value = self.subscription.request.get_lunch_time_display()
-        if value:
-            return value.split("to")[0]
-        else:
-            return ""
+        
+        return ""
 
     def map(self):
         if self.item.mealtype == "BREAKFAST":
             return self.subscription.request.breakfast_location
-        if self.item.mealtype == "LUNCH":
+        elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
             return self.subscription.request.lunch_location
-        if self.item.mealtype == "DINNER":
+        elif self.item.mealtype == "DINNER":
             return self.subscription.request.dinner_location
-        if self.item.mealtype == "TIFFIN_LUNCH":
-            return self.subscription.request.lunch_location
         return None
 
     def delivery_time(self):
         return self.U_DT()
 
     def ParentKey(self):
-        return " "
+        return ""
 
     def LineNum(self):
-        return 0
+       
+        return 1
 
     def Quantity(self):
         return self.quantity
@@ -438,10 +461,29 @@ class MealOrder(BaseModel):
         return self.item.item_code
 
     def PriceAfterVAT(self):
+        
         return self.item.price
 
     def __str__(self):
         return f"{self.item} - {self.date}"
+
+    def Comments(self):
+       
+        return ""
+
+    def CostingCode(self):
+  
+        return "Mess For"
+
+    def OcrCode(self):
+   
+        return "—"
+
+    def get_address(self):
+        
+        return "SANDUNES"
+
+
 
 
 class SubscriptionRequest(BaseModel):

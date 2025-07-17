@@ -65,33 +65,41 @@ class ItemMasterTable(BaseTable):
 
 
 class MealOrderDataTable(Table):
+    # Define columns exactly as shown in your screenshot
+    DocNum = columns.Column(verbose_name="DocNum", accessor="DocNum")
+    Series = columns.Column(verbose_name="Series", accessor="Series")  
+    DocDate = columns.Column(verbose_name="DocDate", accessor="DocDate")
+    DocDueDate = columns.Column(verbose_name="DocDueDate", accessor="DocDueDate")
+    CardCode = columns.Column(verbose_name="CardCode", accessor="CardCode")
+    U_OrderType = columns.Column(verbose_name="U_OrderType", accessor="U_OrderType")
+    U_Order_Catg = columns.Column(verbose_name="U_Order_Catg", accessor="U_Order_Catg")
+    U_MealType = columns.Column(verbose_name="U_MealType", accessor="U_MealType")
+    U_Zone = columns.Column(verbose_name="U_Zone", accessor="U_Zone")
+    U_Driver = columns.Column(verbose_name="U_Driver", accessor="U_Driver")
+    U_DT = columns.Column(verbose_name="U_DT", accessor="U_DT")
+    Comments = columns.Column(verbose_name="Comments", accessor="Comments")
+    U_DAddress = columns.Column(verbose_name="U_DAddress", accessor="get_address")
+    ParentKey = columns.Column(verbose_name="ParentKey", accessor="DocNum")
+    LineNum = columns.Column(verbose_name="LineNum", accessor="LineNum")
+    Quantity = columns.Column(verbose_name="Quantity", accessor="Quantity")
+    ItemCode = columns.Column(verbose_name="ItemCode", accessor="ItemCode")
+    PriceAfVAT = columns.Column(verbose_name="PriceAfVAT", accessor="PriceAfterVAT")
+    CostingCode = columns.Column(verbose_name="CostingCode", accessor="CostingCode")
 
     class Meta:
         model = MealOrder
-        template_name = "django_tables2/bootstrap4.html" 
+        template_name = "django_tables2/bootstrap4.html"
         fields = (
-            "DocNum",
-            "Series",
-            "DocDate",
-            "DocDueDate",
-            "CardCode",
-            "U_OrderType",
-            "U_Order_Catg",
-            "U_MealType",
-            "U_Zone",
-            "U_Driver",
-            "U_DT",
-            "Comments",
-            "U_DAddress",
-            "ParentKey",
-            "LineNum",
-            "Quantity",
-            "ItemCode",
-            "PriceAfterVAT",
-            "CostingCode",
-            "OcrCode",
+            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode",
+            "U_OrderType", "U_Order_Catg", "U_MealType", "U_Zone", "U_Driver", "U_DT",
+            "Comments", "U_DAddress", "ParentKey", "LineNum", "Quantity", "ItemCode", 
+            "PriceAfVAT", "CostingCode"
         )
-        attrs = {"class": "table nowrap key-buttons border-bottom table-hover normalcase", "id": "exportTable"}
+        attrs = {
+            "class": "table nowrap key-buttons border-bottom table-hover normalcase", 
+            "id": "exportTable"
+        }
+
 
 class SubscriptionRequestTable(BaseTable):
     status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)

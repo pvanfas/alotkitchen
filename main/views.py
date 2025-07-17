@@ -1,5 +1,6 @@
 from collections import defaultdict
 from datetime import datetime
+from itertools import groupby
 
 from django.db.models import Sum
 from django.http import JsonResponse
@@ -143,11 +144,35 @@ class MealOrderListData(HybridListView):
     model = MealOrder
     permissions = ("Administrator", "Manager", "Accountant")
     title = "Order Master Excel"
-    table_class = MealOrderDataTable
     template_name = "app/main/mealorder_list_data.html"
 
     def get_queryset(self):
-        return MealOrder.objects.filter(is_active=True)
+        # We must order by the key we want to group by.
+        # The CardCode() method uses user.username.
+        # .select_related() is a performance optimization.
+        return MealOrder.objects.filter(is_active=True).select_related(
+            'user', 'item__meal_category', 'subscription__request__area'
+        ).order_by('user__username', 'date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        
+        # Group the sorted queryset by the CardCode from the model's method
+        grouped_orders = {
+            key: list(group)
+            for key, group in groupby(queryset, key=lambda order: order.CardCode())
+        }
+            
+        context['grouped_orders'] = grouped_orders
+        
+        # Define the headers for the template to use
+        context['table_headers'] = [
+            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode", "Order Type", "Category", 
+            "Meal Type", "Zone", "Driver", "DT", "Comments", "D.Address", "ParentKey", 
+            "LineNum", "Quantity", "ItemCode", "PriceAfterVAT", "CostingCode", "OcrCode"
+        ]
+        return context
 
 
 class ItemMasterListView(HybridListView):
