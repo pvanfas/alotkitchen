@@ -260,6 +260,7 @@ class Preference(BaseModel):
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     completed_at = models.DateTimeField(blank=True, null=True)
 
+    # brand = models.CharField(default="mess for")
     class Meta:
         ordering = ("user",)
         verbose_name = _("Preference")
@@ -347,65 +348,88 @@ class MealOrder(BaseModel):
 
     def get_address(self):
         req = self.subscription.request
-        print(self.subscription)
         if self.item.mealtype == "BREAKFAST":
             return f"Room: {req.breakfast_address_room_no}, {req.breakfast_address_floor}, {req.breakfast_address_building_name}, {req.breakfast_address_street_name}, {req.breakfast_address_area}"
         if self.item.mealtype == "LUNCH":
             return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
         if self.item.mealtype == "DINNER":
             return f"Room: {req.dinner_address_room_no}, {req.dinner_address_floor}, {req.dinner_address_building_name}, {req.dinner_address_street_name}, {req.dinner_address_area}"
-        if self.item.mealtype == "TIFFIN":
+        if self.item.mealtype == "TIFFIN_LUNCH":
             return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
 
-    class Meta:
-        ordering = ("date",)
-        verbose_name = _("Meal Order")
-        verbose_name_plural = _("Meal Orders")
-
     def mealtype(self):
-        return self.item.mealtype
+        """Return meal type for admin display"""
+        return self.item.mealtype if self.item else ""
 
     def DocNum(self):
-        """Return empty string as shown in screenshot"""
+        """Return empty string as shown in Excel"""
         return ""
 
     def Series(self):
-        return "70"
+        """Return dynamic series based on area or branch"""
+        try:
+            req = self.subscription.request
+            
+            # Based on area
+            if req.breakfast_address_area:
+                area_code = req.breakfast_address_area.pk
+                return 70 + (area_code % 10)
+            elif req.lunch_address_area:
+                area_code = req.lunch_address_area.pk
+                return 70 + (area_code % 10)
+            elif req.dinner_address_area:
+                area_code = req.dinner_address_area.pk
+                return 70 + (area_code % 10)
+            elif self.item.meal_category:
+                category_code = self.item.meal_category.pk
+                return 70 + (category_code % 10)
+                
+            return 70
+        except:
+            return 70
 
     def DocDate(self):
-        return self.date.strftime("%Y%m%d")
+        """Return date in YYYYMMDD format as integer"""
+        return int(self.date.strftime("%Y%m%d"))
 
     def DocDueDate(self):
-        return self.date.strftime("%Y%m%d")
+        """Return same as DocDate"""
+        return int(self.date.strftime("%Y%m%d"))
 
-    
     def CardCode(self):
-        """Return mobile number from preference if available, otherwise fall back to username"""
+        """Return dynamic card code based on user data"""
         try:
-            # Get the user's preference (assuming there's a relationship)
-            preference = self.user.preferences.first()  # or however you access the preference
+            # Try to get mobile from user's preferences first
+            preference = self.user.preferences.first()
             if preference and preference.mobile:
-                return preference.mobile
+                mobile = preference.mobile
+            else:
+                mobile = self.user.username
+            
+            suffix = f"{self.subscription.pk % 100:02d}" if self.subscription else f"{self.pk % 100:02d}"
+            return f"{mobile}-{suffix}"
         except:
-            pass
-        
-        # Fallback to username if no preference or mobile number found
-        return self.user.username
+            return f"{self.user.username}-{self.pk % 100:02d}"
 
     def U_OrderType(self):
+        """Return Veg/Non Veg based on item database field"""
         return "Veg" if self.item.is_veg else "Non Veg"
 
     def U_Order_Catg(self):
-        """Return order category as shown in screenshot"""
-        return "Mol South Indian"  # Replace with dynamic logic if needed
+        """Return order category based on meal category from database"""
+        try:
+            return self.item.meal_category.name if self.item.meal_category else "General"
+        except:
+            return "General"
 
     def U_MealType(self):
         """Return meal type in title case"""
         meal_type_mapping = {
             'BREAKFAST': 'Breakfast',
+            'EARLY_BREAKFAST': 'Breakfast',
             'LUNCH': 'Lunch',
-            'DINNER': 'Dinner',
-            'TIFFIN_LUNCH': 'Lunch'
+            'TIFFIN_LUNCH': 'Lunch',
+            'DINNER': 'Dinner'
         }
         return meal_type_mapping.get(self.item.mealtype, self.item.mealtype.title())
 
@@ -414,74 +438,171 @@ class MealOrder(BaseModel):
         try:
             req = self.subscription.request
             
-            if self.item.mealtype == "BREAKFAST":
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
                 return req.breakfast_address_area.name if req.breakfast_address_area else ""
             elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
                 return req.lunch_address_area.name if req.lunch_address_area else ""
             elif self.item.mealtype == "DINNER":
                 return req.dinner_address_area.name if req.dinner_address_area else ""
-            elif self.item.mealtype == "EARLY_BREAKFAST":
-                return req.breakfast_address_area.name if req.breakfast_address_area else ""
             else:
-                return ""
+                # Fallback to the general area field
+                return req.area.name if req.area else ""
         except:
             return ""
 
     def U_Driver(self):
-  
-        return "-"  
+        """Return the delivery staff name from the subscription request"""
+        try:
+            subscription_request = self.subscription.request
+            if subscription_request.delivery_staff:
+                return subscription_request.delivery_staff.username
+            else:
+                return ""
+        except (AttributeError, Exception):
+            return ""
 
     def U_DT(self):
-        
-        return ""
+        """Return delivery time based on meal type and subscription request"""
+        try:
+            req = self.subscription.request
+            
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                time_display = req.get_breakfast_time_display() if hasattr(req, 'get_breakfast_time_display') else ""
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                time_display = req.get_lunch_time_display() if hasattr(req, 'get_lunch_time_display') else ""
+            elif self.item.mealtype == "DINNER":
+                time_display = req.get_dinner_time_display() if hasattr(req, 'get_dinner_time_display') else ""
+            else:
+                return ""
+                
+            # Extract the start time (before "to")
+            if time_display and "to" in time_display:
+                return time_display.split("to")[0].strip()
+            else:
+                return time_display or ""
+        except:
+            return ""
 
-    def map(self):
-        if self.item.mealtype == "BREAKFAST":
-            return self.subscription.request.breakfast_location
-        elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
-            return self.subscription.request.lunch_location
-        elif self.item.mealtype == "DINNER":
-            return self.subscription.request.dinner_location
-        return None
+    def Comments(self):
+        """Return comments from subscription request or notes"""
+        try:
+            comments = []
+            
+            if self.subscription.request.notes:
+                comments.append(self.subscription.request.notes)
+            
+            if self.subscription.request.remarks:
+                comments.append(self.subscription.request.remarks)
+                
+            return "; ".join(comments) if comments else ""
+        except:
+            return ""
 
-    def delivery_time(self):
-        return self.U_DT()
+    def U_DAddress(self):
+        """Return complete delivery address based on meal type"""
+        try:
+            req = self.subscription.request
+            
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                address_parts = [
+                    req.breakfast_address_room_no,
+                    req.breakfast_address_floor,
+                    req.breakfast_address_building_name,
+                    req.breakfast_address_street_name,
+                    req.breakfast_address_area.name if req.breakfast_address_area else None
+                ]
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                address_parts = [
+                    req.lunch_address_room_no,
+                    req.lunch_address_floor,
+                    req.lunch_address_building_name,
+                    req.lunch_address_street_name,
+                    req.lunch_address_area.name if req.lunch_address_area else None
+                ]
+            elif self.item.mealtype == "DINNER":
+                address_parts = [
+                    req.dinner_address_room_no,
+                    req.dinner_address_floor,
+                    req.dinner_address_building_name,
+                    req.dinner_address_street_name,
+                    req.dinner_address_area.name if req.dinner_address_area else None
+                ]
+            else:
+                return ""
+            
+            # Filter out None/empty values and join
+            filtered_parts = [str(part) for part in address_parts if part]
+            return ", ".join(filtered_parts) if filtered_parts else ""
+            
+        except Exception as e:
+            return ""
 
     def ParentKey(self):
+        """Return DocNum (empty string) as parent key"""
         return ""
 
     def LineNum(self):
-       
+        """Return line number - always 1 as shown in Excel"""
         return 1
 
     def Quantity(self):
+        """Return quantity"""
         return self.quantity
 
     def ItemCode(self):
+        """Return item code"""
         return self.item.item_code
 
     def PriceAfterVAT(self):
+        """Return price after VAT (for first header row)"""
+        return float(self.item.price)
+
+    def PriceAfVAT(self):
+        """Return price after VAT (for second header row - Excel format)"""
+        return float(self.item.price)
+
+    def CostingCode(self):
+        """Return costing code (for first header row)"""
+        try:
+            if self.item.category:
+                return self.item.category.name
+            elif self.item.meal_category:
+                return self.item.meal_category.name
+            else:
+                return "Mess For"
+        except:
+            return "Mess For"
+
+    def OcrCode(self):
+        """Return OCR code (for second header row)"""
         
-        return self.item.price
+        return "Mess For"
+
+    def map(self):
+        """Return map location based on meal type"""
+        try:
+            req = self.subscription.request
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                return req.breakfast_location
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                return req.lunch_location
+            elif self.item.mealtype == "DINNER":
+                return req.dinner_location
+            return None
+        except:
+            return None
+
+    def delivery_time(self):
+        """Alias for U_DT"""
+        return self.U_DT()
 
     def __str__(self):
         return f"{self.item} - {self.date}"
 
-    def Comments(self):
-       
-        return ""
-
-    def CostingCode(self):
-  
-        return "Mess For"
-
-    def OcrCode(self):
-   
-        return "—"
-
-    def get_address(self):
-        
-        return "SANDUNES"
+    class Meta:
+        ordering = ("date",)
+        verbose_name = _("Meal Order")
+        verbose_name_plural = _("Meal Orders")
 
 
 

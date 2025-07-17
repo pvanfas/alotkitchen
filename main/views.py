@@ -98,7 +98,7 @@ class DashboardView(HybridListView):
         context["preferences"] = preferences
         
         # Add data for the approval modal
-        context["areas"] = Area.objects.filter(is_active=True).order_by('name')
+        # context["areas"] = Area.objects.filter(is_active=True).order_by('name')
         context["delivery_staff"] = CustomUser.objects.filter(
             usertype="Delivery", 
             is_active=True
@@ -153,35 +153,11 @@ class MealOrderListData(HybridListView):
     model = MealOrder
     permissions = ("Administrator", "Manager", "Accountant")
     title = "Order Master Excel"
+    table_class = MealOrderDataTable
     template_name = "app/main/mealorder_list_data.html"
 
     def get_queryset(self):
-        # We must order by the key we want to group by.
-        # The CardCode() method uses user.username.
-        # .select_related() is a performance optimization.
-        return MealOrder.objects.filter(is_active=True).select_related(
-            'user', 'item__meal_category', 'subscription__request__area'
-        ).order_by('user__username', 'date')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        queryset = self.get_queryset()
-        
-        # Group the sorted queryset by the CardCode from the model's method
-        grouped_orders = {
-            key: list(group)
-            for key, group in groupby(queryset, key=lambda order: order.CardCode())
-        }
-            
-        context['grouped_orders'] = grouped_orders
-        
-        # Define the headers for the template to use
-        context['table_headers'] = [
-            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode", "Order Type", "Category", 
-            "Meal Type", "Zone", "Driver", "DT", "Comments", "D.Address", "ParentKey", 
-            "LineNum", "Quantity", "ItemCode", "PriceAfterVAT", "CostingCode", "OcrCode"
-        ]
-        return context
+        return MealOrder.objects.filter(is_active=True)
 
 
 class ItemMasterListView(HybridListView):
@@ -514,7 +490,7 @@ def approve_preference(request, pk):
             
             # Get the related objects
             try:
-                area = Area.objects.get(id=area_id)
+                # area = Area.objects.get(id=area_id)
                 delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
             except (Area.DoesNotExist, User.DoesNotExist):
                 messages.error(request, 'Invalid zone or delivery staff selected.')
@@ -531,7 +507,7 @@ def approve_preference(request, pk):
                 
                 # Update the subscription request with modal data
                 subscription_request = subscription.request
-                subscription_request.area = area
+                # subscription_request.area = area
                 subscription_request.delivery_staff = delivery_staff
                 subscription_request.meal_fee = float(meal_fee)
                 subscription_request.no_of_meals = int(no_of_meals)

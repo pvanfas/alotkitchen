@@ -281,7 +281,7 @@
           {% csrf_token %}
           <input type="hidden" id="preferenceId" name="preference_id" value="">
           
-          <!-- Zone Selection -->
+          {% comment %} <!-- Zone Selection -->
           <div class="mb-3 d-flex align-items-center">
             <label class="me-2 w-25" for="zoneSelect">Zone:</label>
             <select class="form-select w-50" id="zoneSelect" name="area" required>
@@ -290,7 +290,7 @@
               <option value="{{ area.id }}">{{ area.name }}</option>
               {% endfor %}
             </select>
-          </div>
+          </div> {% endcomment %}
 
           <!-- Delivery Staff -->
           <div class="mb-3 d-flex align-items-center">
