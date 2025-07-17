@@ -71,6 +71,7 @@ def customize_meals(request, pk):
         if form.is_valid():
             data = form.save(commit=False)
             data.session_id = request.session.session_key
+             data.user = request.user if request.user.is_authenticated else None
             data.subscription_subplan = subplan
             data.save()
             return redirect("web:create_profile", pk=data.pk)
