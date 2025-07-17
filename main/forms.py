@@ -46,6 +46,20 @@ class SetDeliveryAddressForm(forms.ModelForm):
     class Meta:
         model = Preference
         fields = ("early_breakfast_address", "breakfast_address", "tiffin_lunch_address", "lunch_address", "dinner_address")
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Get user from kwargs
+        super().__init__(*args, **kwargs)
+        
+        # Filter querysets to show only current user's addresses
+        if user:
+            user_addresses = DeliveryAddress.objects.filter(user=user)  # Adjust field name as needed
+            
+            self.fields['early_breakfast_address'].queryset = user_addresses
+            self.fields['breakfast_address'].queryset = user_addresses
+            self.fields['tiffin_lunch_address'].queryset = user_addresses
+            self.fields['lunch_address'].queryset = user_addresses
+            self.fields['dinner_address'].queryset = user_addresses
 
 
 class SubscriptionNoteForm(forms.ModelForm):

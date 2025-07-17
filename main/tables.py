@@ -61,7 +61,7 @@ class ItemMasterTable(BaseTable):
     class Meta:
         model = ItemMaster
         fields = ("item_code", "name", "meal_category", "price", "mealtype", "is_veg")
-        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noq2
 
 
 class MealOrderDataTable(Table):
