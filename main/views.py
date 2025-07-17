@@ -19,7 +19,7 @@ from users.tables import UserTable
 
 from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription, SubscriptionRequest
+from .models import Area, DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription, SubscriptionRequest
 from .tables import (
     CustomerMealOrderTable,
     DeliveryMealOrderTable,
@@ -31,7 +31,7 @@ from .tables import (
     SubscriptionRequestTable,
     SubscriptionTable,
 )
-from .utils import create_subscription_from_preference,bulk_create_meal_orders
+from .utils import bulk_create_orders_with_fallback, create_subscription_from_preference,bulk_create_meal_orders
 
 # permissions = ("Administrator","Manager", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
 
@@ -58,7 +58,7 @@ class DashboardView(HybridListView):
     permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
     model = MealOrder
     context_object_name = "orders"
-
+    
     def get_table_class(self):
         if self.request.user.usertype == "KitchenManager":
             return StandardMealOrderTable
@@ -67,7 +67,7 @@ class DashboardView(HybridListView):
         elif self.request.user.usertype == "Customer":
             return CustomerMealOrderTable
         return MealOrderTable
-
+    
     def get_queryset(self):
         if self.request.user.usertype == "Customer":
             return MealOrder.objects.filter(date=datetime.today(), user=self.request.user, is_active=True)
@@ -75,11 +75,13 @@ class DashboardView(HybridListView):
             return MealOrder.objects.filter(date=datetime.today(), is_active=True)
         else:
             return MealOrder.objects.filter(date=datetime.today(), is_active=True)
-
+    
     def get_context_data(self, **kwargs):
+        from users.models import CustomUser  # Import your user model
+        
         context = super().get_context_data(**kwargs)
         
-        
+        # Existing meal order data
         qs = self.get_queryset().values("item__mealtype", "item__name").annotate(total_quantity=Sum("quantity"))
         data = defaultdict(list)
         for entry in qs:
@@ -88,14 +90,21 @@ class DashboardView(HybridListView):
             total_quantity = entry["total_quantity"]
             data[mealtype].append((item_name, total_quantity))
         context["datas"] = dict(data)
-
+        
         # Add preference data
-
-        preferences = Preference.objects.filter(session_id=self.request.session.session_key).values("id", "first_name", "last_name", "start_date", "status", "mobile")
+        preferences = Preference.objects.filter(session_id=self.request.session.session_key).values(
+            "id", "first_name", "last_name", "start_date", "status", "mobile"
+        )
         context["preferences"] = preferences
-        # print(context)
+        
+        # Add data for the approval modal
+        context["areas"] = Area.objects.filter(is_active=True).order_by('name')
+        context["delivery_staff"] = CustomUser.objects.filter(
+            usertype="Delivery", 
+            is_active=True
+        ).order_by('first_name', 'last_name')
+        
         return context
-
 
 class TomorrowOrdersView(HybridListView):
     template_name = "app/main/home.html"
@@ -485,28 +494,69 @@ def approve_preference(request, pk):
         messages.error(request, 'Start date is required.')
         return redirect('main:home_view')
     
-    try:
-        with transaction.atomic():
-            # Approve the preference
-            preference.status = 'APPROVED'
-            preference.completed_at = timezone.now()
-            preference.save()
+    # Handle POST request (form submission from modal)
+    if request.method == 'POST':
+        try:
+            # Extract modal data
+            area_id = request.POST.get('area')
+            delivery_staff_id = request.POST.get('delivery_staff')
+            meal_fee = request.POST.get('meal_fee', '0.00')
+            no_of_meals = request.POST.get('no_of_meals', '0')
             
-            # Create subscription from preference
-            subscription = create_subscription_from_preference(preference)
+            # Validate required fields
+            if not area_id:
+                messages.error(request, 'Zone is required.')
+                return redirect('main:home_view')
             
-            # Bulk create meal orders
-            orders_created = bulk_create_meal_orders(preference, subscription)
-            print(f"Orders created: {orders_created}")
-            messages.success(
-                request, 
-                f'Preference approved successfully! {orders_created} meal orders created.'
-            )
+            if not delivery_staff_id:
+                messages.error(request, 'Delivery staff is required.')
+                return redirect('main:home_view')
             
-    except Exception as e:
-        
-        print(e)
-        return redirect('main:home_view')
+            # Get the related objects
+            try:
+                area = Area.objects.get(id=area_id)
+                delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
+            except (Area.DoesNotExist, User.DoesNotExist):
+                messages.error(request, 'Invalid zone or delivery staff selected.')
+                return redirect('main:home_view')
+            
+            with transaction.atomic():
+                # Approve the preference
+                preference.status = 'APPROVED'
+                preference.completed_at = timezone.now()
+                preference.save()
+                
+                # Create subscription from preference
+                subscription = create_subscription_from_preference(preference)
+                
+                # Update the subscription request with modal data
+                subscription_request = subscription.request
+                subscription_request.area = area
+                subscription_request.delivery_staff = delivery_staff
+                subscription_request.meal_fee = float(meal_fee)
+                subscription_request.no_of_meals = int(no_of_meals)
+                subscription_request.approved_by = request.user
+                subscription_request.approved_at = timezone.now()
+                subscription_request.save()
+                
+                # Bulk create meal orders with fallback
+                orders_created = bulk_create_orders_with_fallback(preference, subscription)
+                
+                messages.success(
+                    request,
+                    f'Preference approved successfully! {orders_created} meal orders created.'
+                )
+                
+        except ValueError as ve:
+            messages.error(request, f'Invalid data provided: {str(ve)}')
+            return redirect('main:home_view')
+        except Exception as e:
+            messages.error(request, f'Error approving preference: {str(e)}')
+            return redirect('main:home_view')
+    
+    else:
+        # Handle GET request (shouldn't happen with modal, but for safety)
+        messages.error(request, 'Invalid request method.')
     
     return redirect('main:home_view')
 

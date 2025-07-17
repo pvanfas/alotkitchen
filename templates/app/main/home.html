@@ -100,9 +100,16 @@
                                                 <i class="fa fa-edit"></i> Edit
                                             </a>
                                             {% if pref.status == 'PENDING' %}
-                                            <a href="{% url 'main:approve-preference' pref.id %}" class="btn btn-sm btn-outline-success" onclick="return confirm('Are you sure you want to approve this preference?')">
+                                            <!-- Approve button that triggers modal -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-outline-success"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#approveModal"
+                                                    data-url="{% url 'main:approve-preference' pref.id %}"
+                                                    data-preference-id="{{ pref.id }}">
                                                 <i class="fa fa-check"></i> Approve
-                                            </a>
+                                            </button>
+
                                             {% endif %}
                                         </div>
                                     </td>
@@ -112,6 +119,7 @@
                         </table>
                     </div>
                 </div>
+                {% else %}
                 <div class="card-body text-center p-6">
                     <img src="{% static '/app/images/new/expired.png' %}" alt="" class="w-25"
                         style="height:80px;object-fit:contain">
@@ -259,7 +267,110 @@
 
 </div>
 
+<!-- Approval Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title fw-bold" id="approveModalLabel">Delivery Preferences</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="approveForm" method="post">
+          {% csrf_token %}
+          <input type="hidden" id="preferenceId" name="preference_id" value="">
+          
+          <!-- Zone Selection -->
+          <div class="mb-3 d-flex align-items-center">
+            <label class="me-2 w-25" for="zoneSelect">Zone:</label>
+            <select class="form-select w-50" id="zoneSelect" name="area" required>
+              <option value="">---------</option>
+              {% for area in areas %}
+              <option value="{{ area.id }}">{{ area.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Delivery Staff -->
+          <div class="mb-3 d-flex align-items-center">
+            <label class="me-2 w-25" for="deliveryStaffSelect">Delivery staff:</label>
+            <select class="form-select w-50" id="deliveryStaffSelect" name="delivery_staff" required>
+              <option value="">---------</option>
+              {% for staff in delivery_staff %}
+              <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Meal Fee -->
+          <div class="mb-3 d-flex align-items-center">
+            <label class="me-2 w-25" for="mealFee">Meal fee:</label>
+            <input type="number" class="form-control w-50" id="mealFee" name="meal_fee" value="0.00" step="0.01" min="0" required>
+          </div>
+
+          <!-- Number of Meals -->
+          <div class="mb-3 d-flex align-items-center">
+            <label class="me-2 w-25" for="noOfMeals">No of meals:</label>
+            <input type="number" class="form-control w-50" id="noOfMeals" name="no_of_meals" value="0" min="0" required>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" id="confirmApproveBtn">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+    const approveModal = document.getElementById('approveModal');
+    const approveForm = document.getElementById('approveForm');
+    const confirmApproveBtn = document.getElementById('confirmApproveBtn');
+    const preferenceIdInput = document.getElementById('preferenceId');
+
+    // Handle modal show event
+    approveModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const url = button.getAttribute('data-url');
+        const preferenceId = button.getAttribute('data-preference-id');
+        
+        // Set the form action URL
+        approveForm.setAttribute('action', url);
+        
+        // Set the preference ID
+        preferenceIdInput.value = preferenceId;
+        
+        // Reset form fields
+        document.getElementById('zoneSelect').value = '';
+        document.getElementById('deliveryStaffSelect').value = '';
+        document.getElementById('mealFee').value = '0.00';
+        document.getElementById('noOfMeals').value = '0';
+    });
+
+    // Handle form submission
+    confirmApproveBtn.addEventListener('click', function() {
+        if (approveForm.checkValidity()) {
+            approveForm.submit();
+        } else {
+            approveForm.reportValidity();
+        }
+    });
+
+    // Filter delivery staff based on selected zone (optional enhancement)
+    document.getElementById('zoneSelect').addEventListener('change', function() {
+        const zoneId = this.value;
+        const deliveryStaffSelect = document.getElementById('deliveryStaffSelect');
+        
+        if (zoneId) {
+            // Optional: Filter delivery staff based on zone
+            // You can implement AJAX call here to get zone-specific delivery staff
+            // For now, we'll show all staff
+        }
+    });
+
     $(document).ready(function () {
         $('a[data-target]').click(function () {
             var target = $(this).data('target');
