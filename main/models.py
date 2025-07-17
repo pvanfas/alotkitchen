@@ -260,7 +260,9 @@ class Preference(BaseModel):
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     completed_at = models.DateTimeField(blank=True, null=True)
 
-    # brand = models.CharField(default="mess for")
+    # Added brand field with default value
+    brand = models.CharField(max_length=200, default="mess for")
+
     class Meta:
         ordering = ("user",)
         verbose_name = _("Preference")
@@ -397,7 +399,7 @@ class MealOrder(BaseModel):
         return int(self.date.strftime("%Y%m%d"))
 
     def CardCode(self):
-        """Return dynamic card code based on user data"""
+        """Return dynamic card code based on preference mobile number"""
         try:
             # Try to get mobile from user's preferences first
             preference = self.user.preferences.first()
@@ -451,11 +453,18 @@ class MealOrder(BaseModel):
             return ""
 
     def U_Driver(self):
-        """Return the delivery staff name from the subscription request"""
+        """Return the full name of the delivery staff from the subscription request"""
         try:
             subscription_request = self.subscription.request
             if subscription_request.delivery_staff:
-                return subscription_request.delivery_staff.username
+                # Try to get the full name, fallback to username
+                staff = subscription_request.delivery_staff
+                if hasattr(staff, 'first_name') and hasattr(staff, 'last_name'):
+                    full_name = f"{staff.first_name} {staff.last_name}".strip()
+                    if full_name:
+                        return full_name
+                # Fallback to username
+                return staff.username
             else:
                 return ""
         except (AttributeError, Exception):
@@ -554,12 +563,18 @@ class MealOrder(BaseModel):
         return self.item.item_code
 
     def PriceAfterVAT(self):
-        """Return price after VAT (for first header row)"""
-        return float(self.item.price)
+        """Return meal fee from subscription request"""
+        try:
+            return float(self.subscription.request.meal_fee)
+        except:
+            return float(self.item.price)
 
     def PriceAfVAT(self):
-        """Return price after VAT (for second header row - Excel format)"""
-        return float(self.item.price)
+        """Return meal fee from subscription request (for second header row - Excel format)"""
+        try:
+            return float(self.subscription.request.meal_fee)
+        except:
+            return float(self.item.price)
 
     def CostingCode(self):
         """Return costing code (for first header row)"""
@@ -574,9 +589,16 @@ class MealOrder(BaseModel):
             return "Mess For"
 
     def OcrCode(self):
-        """Return OCR code (for second header row)"""
-        
-        return "Mess For"
+        """Return brand from user's preference, defaulting to 'mess for'"""
+        try:
+            # Try to get brand from user's preferences first
+            preference = self.user.preferences.first()
+            if preference and preference.brand:
+                return preference.brand
+            else:
+                return "mess for"
+        except:
+            return "mess for"
 
     def map(self):
         """Return map location based on meal type"""
@@ -603,8 +625,6 @@ class MealOrder(BaseModel):
         ordering = ("date",)
         verbose_name = _("Meal Order")
         verbose_name_plural = _("Meal Orders")
-
-
 
 
 class SubscriptionRequest(BaseModel):

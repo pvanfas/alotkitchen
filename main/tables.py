@@ -88,7 +88,7 @@ class MealOrderDataTable(Table):
 
     class Meta:
         model = MealOrder
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = "django_tables2/table_raw.html"
         # Updated field order to match Excel exactly
         fields = (
             "DocNum", "Series", "DocDate", "DocDueDate", "CardCode",
