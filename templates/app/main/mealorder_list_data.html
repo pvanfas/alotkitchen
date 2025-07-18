@@ -56,3 +56,12 @@
   });
 </script>
 {% endblock javascript %}
+
+{% block extra_css %}
+<style>
+  .table> :not(:last-child)> :last-child>* {
+    border-bottom-color: inherit;
+    white-space: nowrap;
+  }
+</style>
+{% endblock %}
