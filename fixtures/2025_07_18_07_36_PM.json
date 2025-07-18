@@ -63,6 +63,14 @@
         }
     },
     {
+        "model": "sessions.session",
+        "pk": "8lxxukxiaur1t0n267ml751f5jzxblwp",
+        "fields": {
+            "session_data": ".eJxVjDsOwjAQBe_iGlnGu2ExJX3OEK3tZxxAiZRPhbg7REoB7ZuZ9zKdrkvt1hlT12dzMY05_G5R0wPDBvJdh9to0zgsUx_tptidzrYdM57X3f07qDrXbw3OwbO4wCDWkyZIJDAEoTA7BGpIkqgTaooHF0dnkmOJ4gjwwbw_3vw3iA:1uclUL:oqcuYwc0cItu0xz8RKYUZfGECxC8w2AnjueDim6qesA",
+            "expire_date": "2025-08-01T13:51:01.404Z"
+        }
+    },
+    {
         "model": "main.area",
         "pk": "04901ce0-ac9a-4ac5-8082-28f4cb015a9b",
         "fields": {
@@ -22269,7 +22277,11 @@
             "remarks": null,
             "status": "PENDING",
             "completed_at": null,
-            "brand": "mess for"
+            "approved_at": null,
+            "delivery_staff": null,
+            "meal_fee": "0.00",
+            "no_of_meals": 0,
+            "brand": "Mess For"
         }
     },
     {
@@ -22335,7 +22347,11 @@
             "remarks": null,
             "status": "PENDING",
             "completed_at": null,
-            "brand": "mess for"
+            "approved_at": null,
+            "delivery_staff": null,
+            "meal_fee": "0.00",
+            "no_of_meals": 0,
+            "brand": "Mess For"
         }
     },
     {
@@ -22343,7 +22359,7 @@
         "pk": "43058545-e013-4219-82ff-b0f4fb4c635b",
         "fields": {
             "created": "2025-07-18T08:37:01.917Z",
-            "updated": "2025-07-18T08:37:53.241Z",
+            "updated": "2025-07-18T14:01:17.667Z",
             "creator": null,
             "is_active": true,
             "user": null,
@@ -22399,9 +22415,13 @@
             "dinner_address": null,
             "notes": "",
             "remarks": null,
-            "status": "PENDING",
-            "completed_at": "2025-07-18T08:37:53.240Z",
-            "brand": "mess for"
+            "status": "APPROVED",
+            "completed_at": "2025-07-18T14:01:17.667Z",
+            "approved_at": "2025-07-18T14:01:17.667Z",
+            "delivery_staff": 2,
+            "meal_fee": "10.00",
+            "no_of_meals": 2,
+            "brand": "Mess For"
         }
     },
     {
@@ -22465,6 +22485,416 @@
         }
     },
     {
+        "model": "main.subscription",
+        "pk": "96f9f930-59ee-440b-b646-aca8f94facb0",
+        "fields": {
+            "created": "2025-07-18T14:01:17.669Z",
+            "updated": "2025-07-18T14:01:17.669Z",
+            "creator": null,
+            "is_active": true,
+            "request": "43058545-e013-4219-82ff-b0f4fb4c635b",
+            "plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "start_date": "2025-07-19",
+            "end_date": "2025-08-10"
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "10b83155-0edb-46fd-ae33-5f3819ed3ad4",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "02d4bbef-b690-41ae-8a62-ad17ba64c6ea",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-05",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "10e85287-bbf5-46b1-bc72-e5e918e0e6e7",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "805d1da8-8397-4a4e-98db-4b67a37b4582",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-28",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "12851d68-4c71-44ad-b457-07b76c60a425",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "6555bed7-cbcf-4080-a70b-36808b7da767",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-26",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "28bd35d7-a378-4612-bef3-4d62fc88267c",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "493bed1d-aef5-4d7d-95a7-1b8fe11a5052",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-25",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "2acb842f-cf7a-443f-bf64-caf5ed87d262",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "f1a987b5-7961-4535-8829-6962e6cb68bc",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-03",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "35f5eee4-0aa9-4992-aaa5-58927b62e529",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "f848cd69-6363-47cc-9ccb-f2348d3f8ca1",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-07",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "41fd9a32-aa30-4d4b-961a-c05569f228ce",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "f848cd69-6363-47cc-9ccb-f2348d3f8ca1",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-24",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "4968a8ef-886a-474d-8440-f5b1548f5196",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "805d1da8-8397-4a4e-98db-4b67a37b4582",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-21",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "4ccc0588-91b5-4c12-8193-36c620ae3456",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "02d4bbef-b690-41ae-8a62-ad17ba64c6ea",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-29",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "4d83e10d-d8b3-4963-9172-8978297c02f2",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "b4c28306-8545-4d5a-87ad-850623afac9c",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-23",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "62066b3b-65aa-465b-a0df-3759dbafd8e6",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "b4c28306-8545-4d5a-87ad-850623afac9c",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-30",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "65433e92-fef2-4c19-8f56-7ff64c93a350",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "6555bed7-cbcf-4080-a70b-36808b7da767",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-09",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "689a7701-28fc-47d5-8501-720938192d77",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "b4c28306-8545-4d5a-87ad-850623afac9c",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-06",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "89b9c345-ace7-48d9-9ed5-95c6e57c09fd",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "6555bed7-cbcf-4080-a70b-36808b7da767",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-02",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "8fcc4423-2264-4b31-a8d0-2557e693f83c",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "493bed1d-aef5-4d7d-95a7-1b8fe11a5052",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-01",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "95b9960d-9902-4443-b6e3-018e18680b02",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "493bed1d-aef5-4d7d-95a7-1b8fe11a5052",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-08",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "b1b1cace-6a36-44cb-8bae-af3f5c6fcc8b",
+        "fields": {
+            "created": "2025-07-18T14:01:17.677Z",
+            "updated": "2025-07-18T14:01:17.677Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "805d1da8-8397-4a4e-98db-4b67a37b4582",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-08-04",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "b4c119c1-d019-4045-8c9c-ab8748a4e809",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "f1a987b5-7961-4535-8829-6962e6cb68bc",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-27",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "c3dcbc6e-025c-48e1-ac3f-a02ddbf71652",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "f848cd69-6363-47cc-9ccb-f2348d3f8ca1",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-31",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "ed8caf44-d62a-41af-930b-24defa7a8162",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "02d4bbef-b690-41ae-8a62-ad17ba64c6ea",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-22",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "f774831a-fb33-4b1a-8892-184ab043df32",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "f1a987b5-7961-4535-8829-6962e6cb68bc",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-20",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
+        "model": "main.mealorder",
+        "pk": "f92adb09-a27d-4872-8fc2-6817139d0a60",
+        "fields": {
+            "created": "2025-07-18T14:01:17.676Z",
+            "updated": "2025-07-18T14:01:17.676Z",
+            "creator": null,
+            "is_active": true,
+            "user": null,
+            "item": "6555bed7-cbcf-4080-a70b-36808b7da767",
+            "subscription_plan": "4ba57ddf-2f04-44a0-9c48-aa4fe0ca6132",
+            "subscription": "96f9f930-59ee-440b-b646-aca8f94facb0",
+            "date": "2025-07-19",
+            "quantity": 1,
+            "status": "PENDING",
+            "is_donated": false
+        }
+    },
+    {
         "model": "users.customuser",
         "pk": 1,
         "fields": {
@@ -22496,7 +22926,7 @@
             "last_login": "2024-11-21T10:35:04.550Z",
             "is_superuser": false,
             "username": "919876543212",
-            "first_name": "Delivery Staff",
+            "first_name": "Delivery Staff 1",
             "last_name": "",
             "email": "",
             "is_staff": false,
@@ -22520,7 +22950,7 @@
             "last_login": "2024-08-09T08:21:47.749Z",
             "is_superuser": false,
             "username": "919876543213",
-            "first_name": "Customer",
+            "first_name": "Delivery Staff 2",
             "last_name": "",
             "email": "",
             "is_staff": false,
@@ -22541,7 +22971,7 @@
         "pk": 5,
         "fields": {
             "password": "pbkdf2_sha256$600000$3otkF8g3Czi5UzfMu14jFf$aIuifI2QOZviYh41quVOiNRG6yUyBJGoQAN5ZHLKDbQ=",
-            "last_login": "2025-07-18T04:42:48.688Z",
+            "last_login": "2025-07-18T13:51:01.403Z",
             "is_superuser": true,
             "username": "919876543211",
             "first_name": "Manager",
@@ -22565,7 +22995,7 @@
         "pk": 48,
         "fields": {
             "password": "pbkdf2_sha256$600000$s86HSYaKK1vmHCuTZ47mnY$vVtAB6c56Kg6wZYF1TsrtlUVN8P8O5U1uyCH/aOJWzE=",
-            "last_login": "2025-07-18T08:33:11.020Z",
+            "last_login": "2025-07-18T13:49:13.811Z",
             "is_superuser": true,
             "username": "pvanfas",
             "first_name": "",

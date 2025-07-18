@@ -5,7 +5,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-
 USERTYPE_CHOICES = (
     ("Administrator", "Administrator"),
     ("Manager", "Manager"),
@@ -32,10 +31,11 @@ class CustomUser(AbstractUser):
     @property
     def subscriptions(self):
         """
-        A property to dynamically get all subscriptions for a user by querying 
+        A property to dynamically get all subscriptions for a user by querying
         through the Preference model's 'request' field.
         """
         from main.models import Subscription
+
         return Subscription.objects.filter(request__user=self)
 
     def active_subscriptions(self):
@@ -57,7 +57,7 @@ class CustomUser(AbstractUser):
         This is safer and now works. It gets the end date of the latest
         active subscription, or None if there isn't one.
         """
-        active_sub = self.active_subscriptions().order_by('-end_date').first()
+        active_sub = self.active_subscriptions().order_by("-end_date").first()
         return active_sub.end_date if active_sub else None
 
     def has_zero_subscription(self):
@@ -76,4 +76,3 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.fullname()
-

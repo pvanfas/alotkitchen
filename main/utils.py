@@ -1,13 +1,14 @@
+from datetime import timedelta
+
 from django.conf import settings
+from django.contrib import messages
 from django.core.mail import send_mail
+from django.db import transaction
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.utils import timezone
 
 from .models import MealOrder, Preference, Subscription
-from django.utils import timezone
-from datetime import timedelta
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
-from django.db import transaction
 
 
 def send_admin_neworder_mail(instance):

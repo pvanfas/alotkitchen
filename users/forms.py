@@ -1,8 +1,8 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.contrib.auth.hashers import make_password
-from django.core.exceptions import ValidationError
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field
+
 from .models import CustomUser as User
 
 
@@ -61,7 +61,7 @@ class UserForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        country_code = self.cleaned_data.get("country_code")
+        self.cleaned_data.get("country_code")
         mobile = self.cleaned_data.get("mobile")
         username = self.cleaned_data.get("username")
 

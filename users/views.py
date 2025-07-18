@@ -1,7 +1,8 @@
 # Create your views here.
-from django.shortcuts import render, redirect
-from .forms import UserForm
 from django.contrib.auth import login
+from django.shortcuts import redirect, render
+
+from .forms import UserForm
 
 
 def custom_register(request):

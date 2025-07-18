@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
-from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, PreferenceNoteForm
+from main.forms import DeliveryAddressForm, PreferenceForm, PreferenceNoteForm, ProfileForm, SetDeliveryAddressForm
 from main.models import Area, DeliveryAddress, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
@@ -137,10 +137,10 @@ def set_delivery_address(request, pk):
     instance = get_object_or_404(Preference, pk=pk)
     # The form's __init__ now handles setting the queryset and initial values
     form = SetDeliveryAddressForm(request.POST or None, instance=instance, preference=instance)
-    
+
     # Get available meal types to dynamically show/hide fields
     mealtypes = instance.subscription_subplan.available_mealtypes
-    
+
     mealtype_field_map = {
         "EARLY_BREAKFAST": "early_breakfast_address",
         "BREAKFAST": "breakfast_address",
@@ -148,20 +148,21 @@ def set_delivery_address(request, pk):
         "TIFFIN_LUNCH": "tiffin_lunch_address",
         "DINNER": "dinner_address",
     }
-    
+
     # Remove form fields for meal types not in the customer's plan
     for mealtype, field_name in mealtype_field_map.items():
         if mealtype not in mealtypes:
             form.fields.pop(field_name, None)
-            
+
     if request.method == "POST":
         if form.is_valid():
             form.save()
             return redirect("web:confirm_subscription", pk=pk)
-            
+
     template_name = "web/set_delivery_address.html"
     context = {"instance": instance, "form": form}
     return render(request, template_name, context)
+
 
 def confirm_subscription(request, pk):
     instance = Preference.objects.get(pk=pk)

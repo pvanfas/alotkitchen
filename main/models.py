@@ -262,7 +262,7 @@ class Preference(BaseModel):
 
     approved_at = models.DateTimeField(blank=True, null=True)
     delivery_staff = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="driver_requests", blank=True, null=True, limit_choices_to={"usertype": "Delivery"})
-    meal_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    meal_fee = models.DecimalField("Meal Fee: PriceAfterVAT", max_digits=10, decimal_places=2, default=0.00)
     no_of_meals = models.PositiveIntegerField(default=0)
 
     # Added brand field with default value
@@ -329,7 +329,7 @@ class Subscription(BaseModel):
 
 
 class MealOrder(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals",blank=True,null=True)
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals", blank=True, null=True)
     item = models.ForeignKey(ItemMaster, on_delete=models.CASCADE, related_name="itemmeals")
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name="meals")
@@ -371,27 +371,7 @@ class MealOrder(BaseModel):
         return ""
 
     def Series(self):
-        """Return dynamic series based on area or branch"""
-        try:
-            req = self.subscription.request
-
-            # Based on area
-            if req.breakfast_address_area:
-                area_code = req.breakfast_address_area.pk
-                return 70 + (area_code % 10)
-            elif req.lunch_address_area:
-                area_code = req.lunch_address_area.pk
-                return 70 + (area_code % 10)
-            elif req.dinner_address_area:
-                area_code = req.dinner_address_area.pk
-                return 70 + (area_code % 10)
-            elif self.item.meal_category:
-                category_code = self.item.meal_category.pk
-                return 70 + (category_code % 10)
-
-            return 70
-        except:
-            return 70
+        return 70
 
     def DocDate(self):
         """Return date in YYYYMMDD format as integer"""
@@ -404,24 +384,10 @@ class MealOrder(BaseModel):
     def CardCode(self):
         """Return mobile number from meal preference"""
         try:
-            # Check if we have the full relationship chain
-            if self.subscription and self.subscription.request and self.subscription.request.user:
-
-                user = self.subscription.request.user
-
-                # Get the user's preferences and find one with mobile
-                preferences = user.preferences.all()
-
-                for preference in preferences:
-                    if preference.mobile:
-                        return preference.mobile
-
-                # If no mobile found in any preference, return empty string
-                return ""
-
+            if self.subscription and self.subscription.request and self.subscription.request.mobile:
+                return self.subscription.request.mobile.replace("+", "").replace(" ", "").replace("-", "")
             return ""
         except Exception as e:
-            # For debugging - you can remove this print later
             print(f"CardCode error for MealOrder {self.id}: {e}")
             return ""
 
@@ -442,20 +408,18 @@ class MealOrder(BaseModel):
         return meal_type_mapping.get(self.item.mealtype, self.item.mealtype.title())
 
     def U_Zone(self):
-        """Return the area/zone name based on meal type's delivery address"""
-        try:
-            req = self.subscription.request
-
-            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
-                return req.breakfast_address_area.name if req.breakfast_address_area else ""
-            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
-                return req.lunch_address_area.name if req.lunch_address_area else ""
-            elif self.item.mealtype == "DINNER":
-                return req.dinner_address_area.name if req.dinner_address_area else ""
-            else:
-                # Fallback to the general area field
-                return req.area.name if req.area else ""
-        except:
+        req = self.subscription.request
+        if self.item.mealtype in ["EARLY_BREAKFAST"]:
+            return req.early_breakfast_address.area.name if req.early_breakfast_address.area else ""
+        if self.item.mealtype in ["BREAKFAST"]:
+            return req.breakfast_address.area.name if req.breakfast_address.area else ""
+        if self.item.mealtype in ["TIFFIN_LUNCH"]:
+            return req.tiffin_lunch_address.area.name if req.tiffin_lunch_address.area else ""
+        elif self.item.mealtype in ["LUNCH"]:
+            return req.lunch_address.area.name if req.lunch_address.area else ""
+        elif self.item.mealtype in ["DINNER"]:
+            return req.dinner_address.area.name if req.dinner_address.area else ""
+        else:
             return ""
 
     def U_Driver(self):
@@ -477,68 +441,30 @@ class MealOrder(BaseModel):
             return ""
 
     def U_DT(self):
-        """Return delivery time based on meal type and subscription request"""
-        try:
-            req = self.subscription.request
-
-            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
-                time_display = req.get_breakfast_time_display() if hasattr(req, "get_breakfast_time_display") else ""
-            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
-                time_display = req.get_lunch_time_display() if hasattr(req, "get_lunch_time_display") else ""
-            elif self.item.mealtype == "DINNER":
-                time_display = req.get_dinner_time_display() if hasattr(req, "get_dinner_time_display") else ""
-            else:
-                return ""
-
-            # Extract the start time (before "to")
-            if time_display and "to" in time_display:
-                return time_display.split("to")[0].strip()
-            else:
-                return time_display or ""
-        except:
-            return ""
+        return ""
 
     def Comments(self):
         """Return comments from subscription request or notes"""
         try:
             comments = []
-
             if self.subscription.request.notes:
                 comments.append(self.subscription.request.notes)
-
             if self.subscription.request.remarks:
                 comments.append(self.subscription.request.remarks)
-
             return "; ".join(comments) if comments else ""
         except:
             return ""
 
     def U_DAddress(self):
-        """Return complete delivery address based on meal type"""
-        try:
-            req = self.subscription.request
+        req = self.subscription.request
+        mealtype_to_address = {"EARLY_BREAKFAST": req.early_breakfast_address, "BREAKFAST": req.breakfast_address, "TIFFIN_LUNCH": req.tiffin_lunch_address, "LUNCH": req.lunch_address, "DINNER": req.dinner_address}
 
-            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
-                address_parts = [
-                    req.breakfast_address_room_no,
-                    req.breakfast_address_floor,
-                    req.breakfast_address_building_name,
-                    req.breakfast_address_street_name,
-                    req.breakfast_address_area.name if req.breakfast_address_area else None,
-                ]
-            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
-                address_parts = [req.lunch_address_room_no, req.lunch_address_floor, req.lunch_address_building_name, req.lunch_address_street_name, req.lunch_address_area.name if req.lunch_address_area else None]
-            elif self.item.mealtype == "DINNER":
-                address_parts = [req.dinner_address_room_no, req.dinner_address_floor, req.dinner_address_building_name, req.dinner_address_street_name, req.dinner_address_area.name if req.dinner_address_area else None]
-            else:
-                return ""
-
-            # Filter out None/empty values and join
-            filtered_parts = [str(part) for part in address_parts if part]
-            return ", ".join(filtered_parts) if filtered_parts else ""
-
-        except Exception:
+        address = mealtype_to_address.get(self.item.mealtype)
+        if not address:
             return ""
+
+        address_parts = [address.room_no, address.floor, address.building_name, address.street_name, address.area.name if address.area else None]
+        return ", ".join(str(part) for part in address_parts if part)
 
     def ParentKey(self):
         """Return DocNum (empty string) as parent key"""
@@ -546,7 +472,7 @@ class MealOrder(BaseModel):
 
     def LineNum(self):
         """Return line number - always 1 as shown in Excel"""
-        return 1
+        return ""
 
     def Quantity(self):
         """Return quantity"""
@@ -590,9 +516,9 @@ class MealOrder(BaseModel):
             if preference and preference.brand:
                 return preference.brand
             else:
-                return "mess for"
+                return "Mess For"
         except:
-            return "mess for"
+            return "Mess For"
 
     def map(self):
         """Return map location based on meal type"""

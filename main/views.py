@@ -1,13 +1,13 @@
 from collections import defaultdict
 from datetime import datetime
 
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.db import transaction
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
-from django.db import transaction
-from django.contrib.auth import get_user_model
 
 from main.choices import LANGUAGE_CHOICES
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
@@ -17,18 +17,8 @@ from users.tables import UserTable
 from .forms import PreferenceApprovalForm
 from .mixins import HybridTemplateView, HybridView
 from .models import DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription
-from .tables import (
-    CustomerMealOrderTable,
-    DeliveryMealOrderTable,
-    PreferenceTable,
-    ItemMasterTable,
-    MealOrderDataTable,
-    MealOrderTable,
-    StandardMealOrderTable,
-    StandardSubscriptionTable,
-    SubscriptionTable,
-)
-from .utils import bulk_create_orders_with_fallback, create_subscription_from_preference
+from .tables import CustomerMealOrderTable, DeliveryMealOrderTable, ItemMasterTable, MealOrderDataTable, MealOrderTable, PreferenceTable, StandardMealOrderTable, StandardSubscriptionTable, SubscriptionTable
+from .utils import bulk_create_orders_with_fallback
 
 # permissions = ("Administrator","Manager", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
 
@@ -91,11 +81,9 @@ class DashboardView(HybridListView):
         # Add preference data
         preferences = Preference.objects.filter(session_id=self.request.session.session_key).values("id", "first_name", "last_name", "start_date", "status", "mobile")
         context["preferences"] = preferences
-
         # Add data for the approval modal
         # context["areas"] = Area.objects.filter(is_active=True).order_by('name')
         context["delivery_staff"] = CustomUser.objects.filter(usertype="Delivery", is_active=True).order_by("first_name", "last_name")
-
         return context
 
 
@@ -131,7 +119,7 @@ class MealOrderListView(HybridListView):
     model = MealOrder
     title = "Order Master"
     table_class = MealOrderTable
-    filterset_fields = ("user", "item", "subscription_plan", "date", "status")
+    filterset_fields = ("item", "subscription_plan", "date", "status")
 
     def get_queryset(self):
         return MealOrder.objects.filter(is_active=True)
@@ -195,15 +183,15 @@ class PreferenceRequestListView(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["all_requests_count"] = Preference.objects.filter(is_active=True).count()
-        context["pending_requests_count"] = Preference.objects.filter(is_active=True, status="PENDING").count()
-        context["approved_requests_count"] = Preference.objects.filter(is_active=True, status="APPROVED").count()
-        context["rejected_requests_count"] = Preference.objects.filter(is_active=True, status="REJECTED").count()
+        context["all_requests_count"] = self.get_queryset().count()
+        context["pending_requests_count"] = self.get_queryset().filter(status="PENDING").count()
+        context["approved_requests_count"] = self.get_queryset().filter(status="APPROVED").count()
+        context["rejected_requests_count"] = self.get_queryset().filter(status="REJECTED").count()
         context["delivery_staff"] = User.objects.filter(usertype="Delivery", is_active=True).order_by("first_name", "last_name")
         return context
 
     def get_queryset(self):
-        return super().get_queryset().filter(completed_at__isnull=False)
+        return super().get_queryset().filter(completed_at__isnull=False, is_active=True)
 
 
 class PreferenceRequestDetailView(HybridDetailView):
@@ -481,7 +469,7 @@ def approve_preference(request, pk):
         if not delivery_staff_id:
             messages.error(request, "Delivery staff is a required field.")
             return redirect("main:dashboard_view")
-        
+
         # Ensure the delivery staff user exists and is valid
         delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
 
@@ -498,19 +486,14 @@ def approve_preference(request, pk):
             # Step A: Update the existing Preference object with approval details
             preference.status = "APPROVED"
             preference.approved_at = timezone.now()
-            preference.completed_at = timezone.now() # or handle completion separately
+            preference.completed_at = timezone.now()  # or handle completion separately
             preference.delivery_staff = delivery_staff
             preference.meal_fee = meal_fee
             preference.no_of_meals = no_of_meals
             preference.save()
 
             # Step B: Create the official Subscription, linking it to the approved preference
-            subscription = Subscription.objects.create(
-                request=preference,
-                
-                plan=preference.subscription_subplan.plan,
-                start_date=preference.start_date
-            )
+            subscription = Subscription.objects.create(request=preference, plan=preference.subscription_subplan.plan, start_date=preference.start_date)
 
             # Step C: Use your existing helper to create all meal orders
             orders_created = bulk_create_orders_with_fallback(preference, subscription)

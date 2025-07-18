@@ -2,7 +2,7 @@ from django_tables2 import Table, columns
 
 from main.base import BaseTable
 
-from .models import Branch, ItemMaster, MealOrder, Subscription, SubscriptionPlan, Preference
+from .models import Branch, ItemMaster, MealOrder, Preference, Subscription, SubscriptionPlan
 
 
 class SubscriptionTable(BaseTable):
@@ -31,7 +31,7 @@ class MealOrderTable(BaseTable):
 
     class Meta:
         model = MealOrder
-        fields = ("date", "user", "item", "item__mealtype", "subscription_plan", "status")
+        fields = ("date", "item", "item__mealtype", "subscription_plan", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
@@ -137,10 +137,10 @@ class MealOrderDataTable(Table):
 
 class PreferenceTable(BaseTable):
     status = columns.TemplateColumn("{{record.get_status_display}}", orderable=False)
-    
+
     # Add this actions column
     actions = columns.TemplateColumn(
-        template_code='''
+        template_code="""
         {% if record.status == "PENDING" %}
             <button type="button" class="btn btn-sm btn-success" 
                     data-bs-toggle="modal" 
@@ -149,9 +149,9 @@ class PreferenceTable(BaseTable):
                 Approve
             </button>
         {% endif %}
-        ''',
-        verbose_name='Actions',
-        orderable=False
+        """,
+        verbose_name="Actions",
+        orderable=False,
     )
 
     class Meta:
@@ -159,8 +159,8 @@ class PreferenceTable(BaseTable):
         # Add 'actions' to the list of fields to display
         fields = ("subscription_subplan", "first_name", "last_name", "mobile", "completed_at", "start_date", "status", "actions")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
-        
-        
+
+
 class StandardSubscriptionTable(BaseTable):
     action = None
     address = columns.TemplateColumn(template_name="app/partials/address_preview.html", orderable=False)
