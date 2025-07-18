@@ -2,14 +2,12 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-from .models import MealOrder, Preference, Subscription, SubscriptionRequest
+from .models import MealOrder, Preference, Subscription
 from django.utils import timezone
 from datetime import timedelta
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.db import transaction
-from django.utils import timezone
-from datetime import timedelta
 
 
 def send_admin_neworder_mail(instance):
@@ -112,7 +110,7 @@ def create_subscription_from_preference(preference):
         )
 
     # Create or get subscription request
-    subscription_request, created = SubscriptionRequest.objects.get_or_create(user=preference.user, plan=plan, start_date=preference.start_date, defaults=subscription_request_data)
+    subscription_request, created = Preference.objects.get_or_create(user=preference.user, plan=plan, start_date=preference.start_date, defaults=subscription_request_data)
 
     # Create subscription
     subscription = Subscription.objects.create(request=subscription_request, user=preference.user, plan=plan, start_date=preference.start_date)

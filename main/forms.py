@@ -2,7 +2,7 @@ from django import forms
 
 from .choices import VALIDITY_CHOICES
 from .helper import preference_form_fields
-from .models import DeliveryAddress, Preference, SubscriptionRequest
+from .models import DeliveryAddress, Preference
 from datetime import datetime
 
 
@@ -48,7 +48,7 @@ class SetDeliveryAddressForm(forms.ModelForm):
         fields = ("early_breakfast_address", "breakfast_address", "tiffin_lunch_address", "lunch_address", "dinner_address")
 
 
-class SubscriptionNoteForm(forms.ModelForm):
+class PreferenceNoteForm(forms.ModelForm):
     class Meta:
         model = Preference
         fields = ("notes",)
@@ -56,27 +56,18 @@ class SubscriptionNoteForm(forms.ModelForm):
         widgets = {"notes": forms.Textarea(attrs={"rows": 4})}
 
 
-class SubscriptionAddressForm(forms.ModelForm):
+class PreferenceAddressForm(forms.ModelForm):
     class Meta:
-        model = SubscriptionRequest
+        model = Preference
         fields = ()
 
 
-class SubscriptionRequestApprovalForm(forms.ModelForm):
+class PreferenceApprovalForm(forms.ModelForm):
     class Meta:
-        model = SubscriptionRequest
-        fields = ("area", "delivery_staff", "meal_fee", "no_of_meals")
+        model = Preference
+        fields = ("delivery_staff", "meal_fee", "no_of_meals")
         labels = {
-            "area": "Delivery Zone",
             "delivery_staff": "Delivery Staff",
             "meal_fee": "Meal Fee",
             "no_of_meals": "No of Meals",
         }
-
-
-class MealOrderUpdateStatusForm(forms.ModelForm):
-    class Meta:
-        model = SubscriptionRequest
-        fields = ("status",)
-        labels = {"status": "Status"}
-        widgets = {"status": forms.Select(attrs={"class": "form-control"})}

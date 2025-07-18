@@ -5,7 +5,7 @@ from registration.models import RegistrationProfile
 from main.base import BaseAdmin
 
 from .helper import preference_form_fields
-from .models import Area, DeliveryAddress, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
+from .models import Area, DeliveryAddress, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionSubPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -79,14 +79,6 @@ class AreaAdmin(BaseAdmin):
     list_filter = ("is_active",)
     prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ("delivery_staffs",)
-
-
-@admin.register(SubscriptionRequest)
-class SubscriptionRequestAdmin(BaseAdmin):
-    list_display = ("user", "plan", "status")
-    search_fields = ("user__email",)
-    list_filter = ("status",)
-    autocomplete_fields = ("user", "plan")
 
 
 @admin.register(Preference)

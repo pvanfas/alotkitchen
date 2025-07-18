@@ -7,7 +7,7 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-from .choices import BREAKFAST_DELIVERY_CHOICES, DAY_CHOICES, DINNER_DELIVERY_CHOICES, GROUP_CHOICES, LANGUAGE_CHOICES, LUNCH_DELIVERY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES
+from .choices import DAY_CHOICES, GROUP_CHOICES, LANGUAGE_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES
 
 
 def get_week_number(date):
@@ -260,6 +260,11 @@ class Preference(BaseModel):
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     completed_at = models.DateTimeField(blank=True, null=True)
 
+    approved_at = models.DateTimeField(blank=True, null=True)
+    delivery_staff = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="driver_requests", blank=True, null=True, limit_choices_to={"usertype": "Delivery"})
+    meal_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    no_of_meals = models.PositiveIntegerField(default=0)
+
     # Added brand field with default value
     brand = models.CharField(max_length=200, default="Mess for")
 
@@ -297,7 +302,7 @@ class DeliveryAddress(BaseModel):
 
 
 class Subscription(BaseModel):
-    request = models.ForeignKey("main.SubscriptionRequest", on_delete=models.CASCADE, related_name="subscription_requests")
+    request = models.ForeignKey("main.Preference", on_delete=models.CASCADE, related_name="subscription_requests")
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscriptions")
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_plan")
     start_date = models.DateField()
@@ -615,84 +620,6 @@ class MealOrder(BaseModel):
         ordering = ("date",)
         verbose_name = _("Meal Order")
         verbose_name_plural = _("Meal Orders")
-
-
-class SubscriptionRequest(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscription_requests")
-    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_requests", blank=True, null=True)
-    start_date = models.DateField(blank=True, null=True)
-
-    breakfast_address_room_no = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_floor = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_building_name = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_street_name = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="breakfast_address_area", blank=True, null=True)
-    breakfast_time = models.CharField("Delivery Time (Breakfast)", max_length=200, choices=BREAKFAST_DELIVERY_CHOICES, default="0900:0930")
-    breakfast_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
-
-    lunch_address_room_no = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_floor = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_building_name = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_street_name = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="lunch_address_area", blank=True, null=True)
-    lunch_time = models.CharField("Delivery Time (Lunch", max_length=200, choices=LUNCH_DELIVERY_CHOICES, default="1230:1300")
-    lunch_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
-
-    dinner_address_room_no = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_floor = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_building_name = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_street_name = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="dinner_address_area", blank=True, null=True)
-    dinner_time = models.CharField("Delivery Time (Dinner)", max_length=200, choices=DINNER_DELIVERY_CHOICES, default="2100:2130")
-    dinner_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
-
-    notes = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
-    remarks = models.TextField(blank=True, null=True)
-    stage = models.CharField(
-        max_length=200,
-        default="OBJECT_CREATED",
-        choices=(("OBJECT_CREATED", "OBJECT_CREATED"), ("PLAN_SELECTED", "PLAN_SELECTED"), ("ADDRESS_ADDED", "ADDRESS_ADDED"), ("COMPLETED", "COMPLETED")),
-    )
-    completed_at = models.DateTimeField(blank=True, null=True)
-
-    approved_by = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="approved_requests", blank=True, null=True)
-    approved_at = models.DateTimeField(blank=True, null=True)
-    area = models.ForeignKey("main.Area", verbose_name=_("Zone"), on_delete=models.CASCADE, blank=True, null=True)
-    delivery_staff = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="driver_requests", blank=True, null=True, limit_choices_to={"usertype": "Delivery"})
-    meal_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    no_of_meals = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ("start_date",)
-        verbose_name = _("Subscription Request")
-        verbose_name_plural = _("Subscription Requests")
-
-    def get_absolute_url(self):
-        return reverse("main:subscriptionrequest_detail", kwargs={"pk": self.pk})
-
-    @staticmethod
-    def get_list_url():
-        return reverse("main:subscriptionrequest_list")
-
-    def get_update_url(self):
-        return reverse("main:subscriptionrequest_update", kwargs={"pk": self.pk})
-
-    def get_approve_url(self):
-        return reverse("main:subscriptionrequest_approve", kwargs={"pk": self.pk})
-
-    def get_reject_url(self):
-        return reverse("main:subscriptionrequest_reject", kwargs={"pk": self.pk})
-
-    def get_print_url(self):
-        return reverse("main:subscriptionrequest_print", kwargs={"pk": self.pk})
-
-    def mealtypes(self):
-        if self.plan:
-            return set(self.plan.available_mealtypes)
-
-    def __str__(self):
-        return f"{self.user} - {self.plan} - {self.start_date}"
 
 
 def create_orders(subscription):

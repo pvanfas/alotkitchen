@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
-from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, SubscriptionNoteForm
+from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, PreferenceNoteForm
 from main.models import Area, DeliveryAddress, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
@@ -175,7 +175,7 @@ def set_delivery_address(request, pk):
 
 def confirm_subscription(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = SubscriptionNoteForm(request.POST or None, instance=instance)
+    form = PreferenceNoteForm(request.POST or None, instance=instance)
     if request.method == "POST":
         if form.is_valid():
             form.save()

@@ -13,9 +13,9 @@ from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
 from users.models import CustomUser as User
 from users.tables import UserTable
 
-from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
+from .forms import PreferenceApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription, SubscriptionRequest
+from .models import DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription
 from .tables import (
     CustomerMealOrderTable,
     DeliveryMealOrderTable,
@@ -183,7 +183,7 @@ class CustomerDetailView(HybridDetailView):
     permissions = ("Administrator", "Manager")
 
 
-class SubscriptionRequestListView(HybridListView):
+class PreferenceRequestListView(HybridListView):
     metadata = {"expand": "newpage"}
     model = Preference
     permissions = ("Administrator", "Manager")
@@ -204,19 +204,19 @@ class SubscriptionRequestListView(HybridListView):
         return super().get_queryset().filter(completed_at__isnull=False)
 
 
-class SubscriptionRequestDetailView(HybridDetailView):
-    model = SubscriptionRequest
+class PreferenceRequestDetailView(HybridDetailView):
+    model = Preference
     permissions = ("Administrator", "Manager")
     template_name = "app/main/request_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = SubscriptionRequestApprovalForm(self.request.POST or None, instance=self.object)
+        context["form"] = PreferenceApprovalForm(self.request.POST or None, instance=self.object)
         return context
 
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
-        form = SubscriptionRequestApprovalForm(request.POST, instance=instance)
+        form = PreferenceApprovalForm(request.POST, instance=instance)
         subscription, _ = Subscription.objects.get_or_create(
             request=instance,
             user=instance.user,
@@ -232,15 +232,15 @@ class SubscriptionRequestDetailView(HybridDetailView):
         return self.get(request, *args, **kwargs)
 
 
-class SubscriptionRequestUpdateView(HybridUpdateView):
-    model = SubscriptionRequest
+class PreferenceRequestUpdateView(HybridUpdateView):
+    model = Preference
     permissions = ("Administrator", "Manager", "Customer")
     exclude = ("status", "is_active", "user")
 
-    def get_form_class(self):
-        if self.request.user.usertype == "Customer":
-            return SubscriptionAddressForm
-        return super().get_form_class()
+    # def get_form_class(self):
+    #     if self.request.user.usertype == "Customer":
+    #         return PreferenceAddressForm
+    #     return super().get_form_class()
 
     def get_template_names(self):
         if self.request.user.usertype == "Customer":
@@ -253,8 +253,8 @@ class SubscriptionRequestUpdateView(HybridUpdateView):
         return reverse("main:subscriptionrequest_list")
 
 
-class SubscriptionRequestApproveView(HybridDetailView):
-    model = SubscriptionRequest
+class PreferenceApproveView(HybridDetailView):
+    model = Preference
     permissions = ("Administrator", "Manager")
 
     # def get(self, request, *args, **kwargs):
@@ -271,8 +271,8 @@ class SubscriptionRequestApproveView(HybridDetailView):
     #     return redirect("main:subscription_detail", pk=subscription.pk)
 
 
-class SubscriptionRequestRejectView(HybridDetailView):
-    model = SubscriptionRequest
+class PreferenceRejectView(HybridDetailView):
+    model = Preference
     permissions = ("Administrator", "Manager")
 
     def get(self, request, *args, **kwargs):
@@ -282,8 +282,8 @@ class SubscriptionRequestRejectView(HybridDetailView):
         return redirect("main:subscriptionrequest_detail", pk=data.pk)
 
 
-class SubscriptionRequestPrintView(HybridDetailView):
-    model = SubscriptionRequest
+class PreferencePrintView(HybridDetailView):
+    model = Preference
     permissions = ("Administrator", "Manager")
     template_name = "app/main/request_print.html"
 
