@@ -260,6 +260,9 @@ class Preference(BaseModel):
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     completed_at = models.DateTimeField(blank=True, null=True)
 
+    # Added brand field with default value
+    brand = models.CharField(max_length=200, default="mess for")
+
     class Meta:
         ordering = ("user",)
         verbose_name = _("Preference")
@@ -346,101 +349,293 @@ class MealOrder(BaseModel):
 
     def get_address(self):
         req = self.subscription.request
-        print(self.subscription)
         if self.item.mealtype == "BREAKFAST":
             return f"Room: {req.breakfast_address_room_no}, {req.breakfast_address_floor}, {req.breakfast_address_building_name}, {req.breakfast_address_street_name}, {req.breakfast_address_area}"
         if self.item.mealtype == "LUNCH":
             return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
         if self.item.mealtype == "DINNER":
             return f"Room: {req.dinner_address_room_no}, {req.dinner_address_floor}, {req.dinner_address_building_name}, {req.dinner_address_street_name}, {req.dinner_address_area}"
-        if self.item.mealtype == "TIFFIN":
+        if self.item.mealtype == "TIFFIN_LUNCH":
             return f"Room: {req.lunch_address_room_no}, {req.lunch_address_floor}, {req.lunch_address_building_name}, {req.lunch_address_street_name}, {req.lunch_address_area}"
+
+    def mealtype(self):
+        """Return meal type for admin display"""
+        return self.item.mealtype if self.item else ""
+
+    def DocNum(self):
+        """Return empty string as shown in Excel"""
+        return ""
+
+    def Series(self):
+        """Return dynamic series based on area or branch"""
+        try:
+            req = self.subscription.request
+            
+            # Based on area
+            if req.breakfast_address_area:
+                area_code = req.breakfast_address_area.pk
+                return 70 + (area_code % 10)
+            elif req.lunch_address_area:
+                area_code = req.lunch_address_area.pk
+                return 70 + (area_code % 10)
+            elif req.dinner_address_area:
+                area_code = req.dinner_address_area.pk
+                return 70 + (area_code % 10)
+            elif self.item.meal_category:
+                category_code = self.item.meal_category.pk
+                return 70 + (category_code % 10)
+                
+            return 70
+        except:
+            return 70
+
+    def DocDate(self):
+        """Return date in YYYYMMDD format as integer"""
+        return int(self.date.strftime("%Y%m%d"))
+
+    def DocDueDate(self):
+        """Return same as DocDate"""
+        return int(self.date.strftime("%Y%m%d"))
+
+   
+    def CardCode(self):
+        """Return mobile number from meal preference"""
+        try:
+            # Check if we have the full relationship chain
+            if (self.subscription and 
+                self.subscription.request and 
+                self.subscription.request.user):
+                
+                user = self.subscription.request.user
+                
+                # Get the user's preferences and find one with mobile
+                preferences = user.preferences.all()
+                
+                for preference in preferences:
+                    if preference.mobile:
+                        return preference.mobile
+                
+                # If no mobile found in any preference, return empty string
+                return ""
+            
+            return ""
+        except Exception as e:
+            # For debugging - you can remove this print later
+            print(f"CardCode error for MealOrder {self.id}: {e}")
+            return ""
+
+    def U_OrderType(self):
+        """Return Veg/Non Veg based on item database field"""
+        return "Veg" if self.item.is_veg else "Non Veg"
+
+    def U_Order_Catg(self):
+        """Return order category based on meal category from database"""
+        try:
+            return self.item.meal_category.name if self.item.meal_category else "General"
+        except:
+            return "General"
+
+    def U_MealType(self):
+        """Return meal type in title case"""
+        meal_type_mapping = {
+            'BREAKFAST': 'Breakfast',
+            'EARLY_BREAKFAST': 'Breakfast',
+            'LUNCH': 'Lunch',
+            'TIFFIN_LUNCH': 'Lunch',
+            'DINNER': 'Dinner'
+        }
+        return meal_type_mapping.get(self.item.mealtype, self.item.mealtype.title())
+
+    def U_Zone(self):
+        """Return the area/zone name based on meal type's delivery address"""
+        try:
+            req = self.subscription.request
+            
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                return req.breakfast_address_area.name if req.breakfast_address_area else ""
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                return req.lunch_address_area.name if req.lunch_address_area else ""
+            elif self.item.mealtype == "DINNER":
+                return req.dinner_address_area.name if req.dinner_address_area else ""
+            else:
+                # Fallback to the general area field
+                return req.area.name if req.area else ""
+        except:
+            return ""
+
+    def U_Driver(self):
+        """Return the full name of the delivery staff from the subscription request"""
+        try:
+            subscription_request = self.subscription.request
+            if subscription_request.delivery_staff:
+                # Try to get the full name, fallback to username
+                staff = subscription_request.delivery_staff
+                if hasattr(staff, 'first_name') and hasattr(staff, 'last_name'):
+                    full_name = f"{staff.first_name} {staff.last_name}".strip()
+                    if full_name:
+                        return full_name
+                # Fallback to username
+                return staff.username
+            else:
+                return ""
+        except (AttributeError, Exception):
+            return ""
+
+    def U_DT(self):
+        """Return delivery time based on meal type and subscription request"""
+        try:
+            req = self.subscription.request
+            
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                time_display = req.get_breakfast_time_display() if hasattr(req, 'get_breakfast_time_display') else ""
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                time_display = req.get_lunch_time_display() if hasattr(req, 'get_lunch_time_display') else ""
+            elif self.item.mealtype == "DINNER":
+                time_display = req.get_dinner_time_display() if hasattr(req, 'get_dinner_time_display') else ""
+            else:
+                return ""
+                
+            # Extract the start time (before "to")
+            if time_display and "to" in time_display:
+                return time_display.split("to")[0].strip()
+            else:
+                return time_display or ""
+        except:
+            return ""
+
+    def Comments(self):
+        """Return comments from subscription request or notes"""
+        try:
+            comments = []
+            
+            if self.subscription.request.notes:
+                comments.append(self.subscription.request.notes)
+            
+            if self.subscription.request.remarks:
+                comments.append(self.subscription.request.remarks)
+                
+            return "; ".join(comments) if comments else ""
+        except:
+            return ""
+
+    def U_DAddress(self):
+        """Return complete delivery address based on meal type"""
+        try:
+            req = self.subscription.request
+            
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                address_parts = [
+                    req.breakfast_address_room_no,
+                    req.breakfast_address_floor,
+                    req.breakfast_address_building_name,
+                    req.breakfast_address_street_name,
+                    req.breakfast_address_area.name if req.breakfast_address_area else None
+                ]
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                address_parts = [
+                    req.lunch_address_room_no,
+                    req.lunch_address_floor,
+                    req.lunch_address_building_name,
+                    req.lunch_address_street_name,
+                    req.lunch_address_area.name if req.lunch_address_area else None
+                ]
+            elif self.item.mealtype == "DINNER":
+                address_parts = [
+                    req.dinner_address_room_no,
+                    req.dinner_address_floor,
+                    req.dinner_address_building_name,
+                    req.dinner_address_street_name,
+                    req.dinner_address_area.name if req.dinner_address_area else None
+                ]
+            else:
+                return ""
+            
+            # Filter out None/empty values and join
+            filtered_parts = [str(part) for part in address_parts if part]
+            return ", ".join(filtered_parts) if filtered_parts else ""
+            
+        except Exception as e:
+            return ""
+
+    def ParentKey(self):
+        """Return DocNum (empty string) as parent key"""
+        return ""
+
+    def LineNum(self):
+        """Return line number - always 1 as shown in Excel"""
+        return 1
+
+    def Quantity(self):
+        """Return quantity"""
+        return self.quantity
+
+    def ItemCode(self):
+        """Return item code"""
+        return self.item.item_code
+
+    def PriceAfterVAT(self):
+        """Return meal fee from subscription request"""
+        try:
+            return float(self.subscription.request.meal_fee)
+        except:
+            return float(self.item.price)
+
+    def PriceAfVAT(self):
+        """Return meal fee from subscription request (for second header row - Excel format)"""
+        try:
+            return float(self.subscription.request.meal_fee)
+        except:
+            return float(self.item.price)
+
+    def CostingCode(self):
+        """Return costing code (for first header row)"""
+        try:
+            if self.item.category:
+                return self.item.category.name
+            elif self.item.meal_category:
+                return self.item.meal_category.name
+            else:
+                return "Mess For"
+        except:
+            return "Mess For"
+
+    def OcrCode(self):
+        """Return brand from user's preference, defaulting to 'mess for'"""
+        try:
+            # Try to get brand from user's preferences first
+            preference = self.user.preferences.first()
+            if preference and preference.brand:
+                return preference.brand
+            else:
+                return "mess for"
+        except:
+            return "mess for"
+
+    def map(self):
+        """Return map location based on meal type"""
+        try:
+            req = self.subscription.request
+            if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
+                return req.breakfast_location
+            elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
+                return req.lunch_location
+            elif self.item.mealtype == "DINNER":
+                return req.dinner_location
+            return None
+        except:
+            return None
+
+    def delivery_time(self):
+        """Alias for U_DT"""
+        return self.U_DT()
+
+    def __str__(self):
+        return f"{self.item} - {self.date}"
 
     class Meta:
         ordering = ("date",)
         verbose_name = _("Meal Order")
         verbose_name_plural = _("Meal Orders")
-
-    def mealtype(self):
-        return self.item.mealtype
-
-    def DocNum(self):
-        return " "
-
-    def Series(self):
-        return "70"
-
-    def DocDate(self):
-        return self.date.strftime("%Y%m%d")
-
-    def DocDueDate(self):
-        return self.date.strftime("%Y%m%d")
-
-    def CardCode(self):
-        return self.user.username
-
-    def U_OrderType(self):
-        if self.item.is_veg:
-            return "Veg"
-        return "Non Veg"
-
-    def U_Order_Catg(self):
-        return self.item.meal_category
-
-    def U_MealType(self):
-        return self.item.mealtype.capitalize()
-
-    def U_Zone(self):
-        return self.subscription.request.area
-
-    def U_Driver(self):
-        return self.subscription.request.delivery_staff
-
-    def U_DT(self):
-        if self.item.mealtype == "BREAKFAST":
-            value = self.subscription.request.get_breakfast_time_display()
-        if self.item.mealtype == "LUNCH":
-            value = self.subscription.request.get_lunch_time_display()
-        if self.item.mealtype == "DINNER":
-            value = self.subscription.request.get_dinner_time_display()
-        if self.item.mealtype == "TIFFIN_LUNCH":
-            value = self.subscription.request.get_lunch_time_display()
-        if value:
-            return value.split("to")[0]
-        else:
-            return ""
-
-    def map(self):
-        if self.item.mealtype == "BREAKFAST":
-            return self.subscription.request.breakfast_location
-        if self.item.mealtype == "LUNCH":
-            return self.subscription.request.lunch_location
-        if self.item.mealtype == "DINNER":
-            return self.subscription.request.dinner_location
-        if self.item.mealtype == "TIFFIN_LUNCH":
-            return self.subscription.request.lunch_location
-        return None
-
-    def delivery_time(self):
-        return self.U_DT()
-
-    def ParentKey(self):
-        return " "
-
-    def LineNum(self):
-        return 0
-
-    def Quantity(self):
-        return self.quantity
-
-    def ItemCode(self):
-        return self.item.item_code
-
-    def PriceAfterVAT(self):
-        return self.item.price
-
-    def __str__(self):
-        return f"{self.item} - {self.date}"
 
 
 class SubscriptionRequest(BaseModel):

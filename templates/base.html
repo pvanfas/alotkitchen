@@ -61,7 +61,7 @@
 				<a href="{% url 'auth_logout' %}" class="btn btn-white">Sign out</a>
 				{% else %}
 				<a href="{% url 'auth_login' %}" class="btn border text-white me-2">Login</a>
-				<a href="{% url 'registration_register' %}" class="btn btn-white">Sign-up</a>
+				<a href="{% url 'users:custom_register' %}" class="btn btn-white">Sign-up</a>
 				{% endif %}
 			</div>
 		  </div>

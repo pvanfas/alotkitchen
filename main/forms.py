@@ -46,7 +46,45 @@ class SetDeliveryAddressForm(forms.ModelForm):
     class Meta:
         model = Preference
         fields = ("early_breakfast_address", "breakfast_address", "tiffin_lunch_address", "lunch_address", "dinner_address")
-
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Get user from kwargs
+        super().__init__(*args, **kwargs)
+        
+        # Filter querysets to show only current user's addresses
+        if user:
+            user_addresses = DeliveryAddress.objects.filter(user=user)
+            
+            self.fields['early_breakfast_address'].queryset = user_addresses
+            self.fields['breakfast_address'].queryset = user_addresses
+            self.fields['tiffin_lunch_address'].queryset = user_addresses
+            self.fields['lunch_address'].queryset = user_addresses
+            self.fields['dinner_address'].queryset = user_addresses
+            
+            # Set default address if addresses are not already set
+            if user_addresses.exists() and not any([
+                self.instance.early_breakfast_address,
+                self.instance.breakfast_address,
+                self.instance.tiffin_lunch_address,
+                self.instance.lunch_address,
+                self.instance.dinner_address
+            ]):
+                default_address = user_addresses.first()
+                
+                if default_address:
+                    # Set the same default address for all meal times
+                    self.fields['early_breakfast_address'].initial = default_address.pk
+                    self.fields['breakfast_address'].initial = default_address.pk
+                    self.fields['tiffin_lunch_address'].initial = default_address.pk
+                    self.fields['lunch_address'].initial = default_address.pk
+                    self.fields['dinner_address'].initial = default_address.pk
+                    
+                    # Also set empty_label to None to remove the "------" option
+                    self.fields['early_breakfast_address'].empty_label = None
+                    self.fields['breakfast_address'].empty_label = None
+                    self.fields['tiffin_lunch_address'].empty_label = None
+                    self.fields['lunch_address'].empty_label = None
+                    self.fields['dinner_address'].empty_label = None
 
 class SubscriptionNoteForm(forms.ModelForm):
     class Meta:

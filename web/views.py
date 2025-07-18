@@ -71,6 +71,7 @@ def customize_meals(request, pk):
         if form.is_valid():
             data = form.save(commit=False)
             data.session_id = request.session.session_key
+            data.user = request.user if request.user.is_authenticated else None
             data.subscription_subplan = subplan
             data.save()
             return redirect("web:create_profile", pk=data.pk)
@@ -144,7 +145,7 @@ def select_address(request, pk):
 
 def set_delivery_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = SetDeliveryAddressForm(request.POST or None, instance=instance)
+    form = SetDeliveryAddressForm(request.POST or None, instance=instance, user=request.user)
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
@@ -152,6 +153,7 @@ def set_delivery_address(request, pk):
             data.session_id = instance.session_id
             data.user = request.user if request.user.is_authenticated else None
             data.save()
+
             return redirect("web:confirm_subscription", pk=pk)
     template_name = "web/set_delivery_address.html"
     context = {"instance": instance, "form": form}

@@ -61,38 +61,51 @@ class ItemMasterTable(BaseTable):
     class Meta:
         model = ItemMaster
         fields = ("item_code", "name", "meal_category", "price", "mealtype", "is_veg")
-        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
+        attrs = {"class": "table key-buttons border-bottom table-hover"}  # noq2
 
 
 class MealOrderDataTable(Table):
+    # Define columns exactly as shown in Excel with correct order and naming
+    DocNum = columns.Column(verbose_name="DocNum", accessor="DocNum", orderable=False)
+    Series = columns.Column(verbose_name="Series", accessor="Series", orderable=False)  
+    DocDate = columns.Column(verbose_name="DocDate", accessor="DocDate", orderable=False)
+    DocDueDate = columns.Column(verbose_name="DocDueDate", accessor="DocDueDate", orderable=False)
+    CardCode = columns.Column(verbose_name="CardCode", accessor="CardCode", orderable=False)
+    U_OrderType = columns.Column(verbose_name="U_OrderType", accessor="U_OrderType", orderable=False)
+    U_Order_Catg = columns.Column(verbose_name="U_Order_Catg", accessor="U_Order_Catg", orderable=False)
+    U_MealType = columns.Column(verbose_name="U_MealType", accessor="U_MealType", orderable=False)
+    U_Zone = columns.Column(verbose_name="U_Zone", accessor="U_Zone", orderable=False)
+    U_Driver = columns.Column(verbose_name="U_Driver", accessor="U_Driver", orderable=False)
+    U_DT = columns.Column(verbose_name="U_DT", accessor="U_DT", orderable=False)
+    Comments = columns.Column(verbose_name="Comments", accessor="Comments", orderable=False)
+    U_DAddress = columns.Column(verbose_name="U_DAddress", accessor="U_DAddress", orderable=False)
+    ParentKey = columns.Column(verbose_name="ParentKey", accessor="ParentKey", orderable=False)  # Note: Changed from DocNum
+    LineNum = columns.Column(verbose_name="LineNum", accessor="LineNum", orderable=False)
+    Quantity = columns.Column(verbose_name="Quantity", accessor="Quantity", orderable=False)
+    ItemCode = columns.Column(verbose_name="ItemCode", accessor="ItemCode", orderable=False)
+    PriceAfterVAT = columns.Column(verbose_name="PriceAfterVAT", accessor="PriceAfterVAT", orderable=False)  # Note: Corrected name
+    OcrCode = columns.Column(verbose_name="OcrCode", accessor="OcrCode", orderable=False)  # Note: Changed from CostingCode
 
     class Meta:
         model = MealOrder
-        template_name = "django_tables2/bootstrap4.html" 
+        template_name = "django_tables2/table_raw.html"
+        # Updated field order to match Excel exactly
         fields = (
-            "DocNum",
-            "Series",
-            "DocDate",
-            "DocDueDate",
-            "CardCode",
-            "U_OrderType",
-            "U_Order_Catg",
-            "U_MealType",
-            "U_Zone",
-            "U_Driver",
-            "U_DT",
-            "Comments",
-            "U_DAddress",
-            "ParentKey",
-            "LineNum",
-            "Quantity",
-            "ItemCode",
-            "PriceAfterVAT",
-            "CostingCode",
-            "OcrCode",
+            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode",
+            "U_OrderType", "U_Order_Catg", "U_MealType", "U_Zone", "U_Driver", "U_DT",
+            "Comments", "U_DAddress", "ParentKey", "LineNum", "Quantity", "ItemCode", 
+            "PriceAfterVAT", "OcrCode"
         )
-        attrs = {"class": "table nowrap key-buttons border-bottom table-hover normalcase", "id": "exportTable"}
-
+        attrs = {
+            "class": "table nowrap key-buttons border-bottom table-hover normalcase", 
+            "id": "exportTable"
+        }
+        sequence = (
+            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode",
+            "U_OrderType", "U_Order_Catg", "U_MealType", "U_Zone", "U_Driver", "U_DT",
+            "Comments", "U_DAddress", "ParentKey", "LineNum", "Quantity", "ItemCode", 
+            "PriceAfterVAT", "OcrCode"
+        )
 class SubscriptionRequestTable(BaseTable):
     status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
 

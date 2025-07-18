@@ -1,5 +1,6 @@
 from collections import defaultdict
 from datetime import datetime
+from itertools import groupby
 
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
@@ -15,7 +16,7 @@ from users.tables import UserTable
 
 from .forms import SubscriptionAddressForm, SubscriptionRequestApprovalForm
 from .mixins import HybridTemplateView, HybridView
-from .models import DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription, SubscriptionRequest
+from .models import Area, DeliveryAddress, ItemMaster, MealOrder, MealPlan, Preference, Subscription, SubscriptionRequest
 from .tables import (
     CustomerMealOrderTable,
     DeliveryMealOrderTable,
@@ -27,7 +28,7 @@ from .tables import (
     SubscriptionRequestTable,
     SubscriptionTable,
 )
-from .utils import create_subscription_from_preference,bulk_create_meal_orders
+from .utils import bulk_create_orders_with_fallback, create_subscription_from_preference,bulk_create_meal_orders
 
 # permissions = ("Administrator","Manager", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
 
@@ -54,7 +55,7 @@ class DashboardView(HybridListView):
     permissions = ("Administrator", "Manager", "KitchenManager", "Delivery", "Customer", "Accountant")
     model = MealOrder
     context_object_name = "orders"
-
+    
     def get_table_class(self):
         if self.request.user.usertype == "KitchenManager":
             return StandardMealOrderTable
@@ -63,7 +64,7 @@ class DashboardView(HybridListView):
         elif self.request.user.usertype == "Customer":
             return CustomerMealOrderTable
         return MealOrderTable
-
+    
     def get_queryset(self):
         if self.request.user.usertype == "Customer":
             return MealOrder.objects.filter(date=datetime.today(), user=self.request.user, is_active=True)
@@ -71,11 +72,13 @@ class DashboardView(HybridListView):
             return MealOrder.objects.filter(date=datetime.today(), is_active=True)
         else:
             return MealOrder.objects.filter(date=datetime.today(), is_active=True)
-
+    
     def get_context_data(self, **kwargs):
+        from users.models import CustomUser  # Import your user model
+        
         context = super().get_context_data(**kwargs)
         
-        
+        # Existing meal order data
         qs = self.get_queryset().values("item__mealtype", "item__name").annotate(total_quantity=Sum("quantity"))
         data = defaultdict(list)
         for entry in qs:
@@ -84,14 +87,21 @@ class DashboardView(HybridListView):
             total_quantity = entry["total_quantity"]
             data[mealtype].append((item_name, total_quantity))
         context["datas"] = dict(data)
-
+        
         # Add preference data
-
-        preferences = Preference.objects.filter(session_id=self.request.session.session_key).values("id", "first_name", "last_name", "start_date", "status", "mobile")
+        preferences = Preference.objects.filter(session_id=self.request.session.session_key).values(
+            "id", "first_name", "last_name", "start_date", "status", "mobile"
+        )
         context["preferences"] = preferences
-        # print(context)
+        
+        # Add data for the approval modal
+        # context["areas"] = Area.objects.filter(is_active=True).order_by('name')
+        context["delivery_staff"] = CustomUser.objects.filter(
+            usertype="Delivery", 
+            is_active=True
+        ).order_by('first_name', 'last_name')
+        
         return context
-
 
 class TomorrowOrdersView(HybridListView):
     template_name = "app/main/home.html"
@@ -446,7 +456,12 @@ def edit_preference(request, pk):
 
 
 def approve_preference(request, pk):
+    # Add debugging
+    print(f"approve_preference called with pk={pk}, method={request.method}")
+    # logger.info(f"approve_preference called with pk={pk}, method={request.method}")
+    
     preference = get_object_or_404(Preference, pk=pk)
+    print(f"Found preference: {preference}")
     
     # Check if already approved
     if preference.status == 'APPROVED':
@@ -457,29 +472,87 @@ def approve_preference(request, pk):
         messages.error(request, 'Start date is required.')
         return redirect('main:home_view')
     
-    try:
-        with transaction.atomic():
-            # Approve the preference
-            preference.status = 'APPROVED'
-            preference.completed_at = timezone.now()
-            preference.save()
-            
-            # Create subscription from preference
-            subscription = create_subscription_from_preference(preference)
-            
-            # Bulk create meal orders
-            orders_created = bulk_create_meal_orders(preference, subscription)
-            print(f"Orders created: {orders_created}")
-            messages.success(
-                request, 
-                f'Preference approved successfully! {orders_created} meal orders created.'
-            )
-            
-    except Exception as e:
+    # Handle POST request (form submission from modal)
+    if request.method == 'POST':
+        print("Processing POST request")
+        print(f"POST data: {request.POST}")
         
-        print(e)
-        return redirect('main:home_view')
+        try:
+            # Extract modal data
+            area_id = request.POST.get('area')
+            delivery_staff_id = request.POST.get('delivery_staff')
+            meal_fee = request.POST.get('meal_fee', '0.00')
+            no_of_meals = request.POST.get('no_of_meals', '0')
+            
+            print(f"Extracted data - area_id: {area_id}, delivery_staff_id: {delivery_staff_id}, meal_fee: {meal_fee}, no_of_meals: {no_of_meals}")
+            
+            # Validate required fields - only delivery staff is required
+            if not delivery_staff_id:
+                print("Delivery staff ID is missing")
+                messages.error(request, 'Delivery staff is required.')
+                return redirect('main:home_view')
+            
+            # Get the related objects
+            try:
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+                
+                delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
+                print(f"Found delivery_staff: {delivery_staff}")
+                
+            except User.DoesNotExist:
+                print(f"Delivery staff with id {delivery_staff_id} does not exist")
+                messages.error(request, 'Invalid delivery staff selected.')
+                return redirect('main:home_view')
+            
+            with transaction.atomic():
+                print("Starting transaction")
+                
+                # Approve the preference
+                preference.status = 'APPROVED'
+                preference.completed_at = timezone.now()
+                preference.save()
+                print(f"Preference status updated to: {preference.status}")
+                
+                # Create subscription from preference
+                subscription = create_subscription_from_preference(preference)
+                print(f"Created subscription: {subscription}")
+                
+                # Update the subscription request with modal data (no area needed)
+                subscription_request = subscription.request
+                subscription_request.delivery_staff = delivery_staff
+                subscription_request.meal_fee = float(meal_fee)
+                subscription_request.no_of_meals = int(no_of_meals)
+                subscription_request.approved_by = request.user
+                subscription_request.approved_at = timezone.now()
+                subscription_request.save()
+                print(f"Updated subscription request: {subscription_request}")
+                
+                # Bulk create meal orders with fallback
+                orders_created = bulk_create_orders_with_fallback(preference, subscription)
+                print(f"Created {orders_created} meal orders")
+                
+                messages.success(
+                    request,
+                    f'Preference approved successfully! {orders_created} meal orders created.'
+                )
+                
+                print("Transaction completed successfully")
+                
+        except ValueError as ve:
+            print(f"ValueError: {ve}")
+            messages.error(request, f'Invalid data provided: {str(ve)}')
+            return redirect('main:home_view')
+        except Exception as e:
+            print(f"Exception occurred: {e}")
+            import traceback
+            traceback.print_exc()
+            messages.error(request, f'Error approving preference: {str(e)}')
+            return redirect('main:home_view')
+    
+    else:
+        # Handle GET request
+        print("GET request received - this might be the issue")
+        messages.error(request, 'Invalid request method. Please use the approval form.')
     
     return redirect('main:home_view')
-
-
