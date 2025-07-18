@@ -113,7 +113,6 @@ def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     # addresses = instance.get_addresses()
     addresses = DeliveryAddress.objects.filter(preference=instance)
-
     # Create form without instance since we're creating a new DeliveryAddress
     form = DeliveryAddressForm(request.POST or None)
 
@@ -135,13 +134,13 @@ def select_address(request, pk):
 
 
 def set_delivery_address(request, pk):
-    instance = Preference.objects.get(pk=pk)
-    addresses = DeliveryAddress.objects.filter(preference=instance)
-    form = SetDeliveryAddressForm(request.POST or None, instance=instance)
-    default_address = addresses.filter(is_default=True).first()
-
+    instance = get_object_or_404(Preference, pk=pk)
+    # The form's __init__ now handles setting the queryset and initial values
+    form = SetDeliveryAddressForm(request.POST or None, instance=instance, preference=instance)
+    
+    # Get available meal types to dynamically show/hide fields
     mealtypes = instance.subscription_subplan.available_mealtypes
-
+    
     mealtype_field_map = {
         "EARLY_BREAKFAST": "early_breakfast_address",
         "BREAKFAST": "breakfast_address",
@@ -149,29 +148,20 @@ def set_delivery_address(request, pk):
         "TIFFIN_LUNCH": "tiffin_lunch_address",
         "DINNER": "dinner_address",
     }
-
+    
+    # Remove form fields for meal types not in the customer's plan
     for mealtype, field_name in mealtype_field_map.items():
-        if mealtype in mealtypes:
-            form.fields[field_name].queryset = addresses
-            if default_address:
-                form.fields[field_name].initial = default_address
-                form.fields[field_name].empty_label = None
-        else:
+        if mealtype not in mealtypes:
             form.fields.pop(field_name, None)
-
+            
     if request.method == "POST":
         if form.is_valid():
-            data = form.save(commit=False)
-            data.preference = instance
-            data.session_id = instance.session_id
-            data.user = request.user if request.user.is_authenticated else None
-            data.save()
-
+            form.save()
             return redirect("web:confirm_subscription", pk=pk)
+            
     template_name = "web/set_delivery_address.html"
     context = {"instance": instance, "form": form}
     return render(request, template_name, context)
-
 
 def confirm_subscription(request, pk):
     instance = Preference.objects.get(pk=pk)

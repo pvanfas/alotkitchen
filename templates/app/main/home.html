@@ -278,9 +278,16 @@
                                                 <i class="fa fa-edit"></i> Edit
                                             </a>
                                             {% if pref.status == 'PENDING' %}
-                                            <a href="{% url 'main:approve-preference' pref.id %}" class="btn btn-sm btn-outline-success" onclick="return confirm('Are you sure you want to approve this preference?')">
-                                                <i class="fa fa-check"></i> Approve
-                                            </a>
+                                            
+    <button type="button"
+            class="btn btn-sm btn-outline-success"
+            data-bs-toggle="modal"
+            data-bs-target="#approveModal"
+            data-url="{% url 'main:approve-preference' pref.id %}"
+            data-preference-id="{{ pref.id }}">
+        <i class="fa fa-check"></i> Approve
+    </button>
+
                                             {% endif %}
                                         </div>
                                     </td>
@@ -394,7 +401,7 @@
         preferenceIdInput.value = preferenceId;
         
         // Reset form fields
-   
+
         document.getElementById('deliveryStaffSelect').value = '';
         document.getElementById('mealFee').value = '0.00';
         document.getElementById('noOfMeals').value = '0';
@@ -410,16 +417,16 @@
     });
 
     // Filter delivery staff based on selected zone (optional enhancement)
-    {% comment %} document.getElementById('zoneSelect').addEventListener('change', function() {
-        const zoneId = this.value;
-        const deliveryStaffSelect = document.getElementById('deliveryStaffSelect');
+//     {% comment %} document.getElementById('zoneSelect').addEventListener('change', function() {
+//         const zoneId = this.value;
+//         const deliveryStaffSelect = document.getElementById('deliveryStaffSelect');
         
-        if (zoneId) {
-            // Optional: Filter delivery staff based on zone
-            // You can implement AJAX call here to get zone-specific delivery staff
-            // For now, we'll show all staff
-        }
-    }); {% endcomment %}
+//         if (zoneId) {
+//             // Optional: Filter delivery staff based on zone
+//             // You can implement AJAX call here to get zone-specific delivery staff
+//             // For now, we'll show all staff
+//         }
+//     }); {% endcomment %}
 
     $(document).ready(function () {
         $('a[data-target]').click(function () {
