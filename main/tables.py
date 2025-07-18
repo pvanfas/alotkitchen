@@ -66,25 +66,25 @@ class ItemMasterTable(BaseTable):
 
 class MealOrderDataTable(Table):
     # Define columns exactly as shown in Excel with correct order and naming
-    DocNum = columns.Column(verbose_name="DocNum", accessor="DocNum", orderable=False)
-    Series = columns.Column(verbose_name="Series", accessor="Series", orderable=False)
-    DocDate = columns.Column(verbose_name="DocDate", accessor="DocDate", orderable=False)
-    DocDueDate = columns.Column(verbose_name="DocDueDate", accessor="DocDueDate", orderable=False)
-    CardCode = columns.Column(verbose_name="CardCode", accessor="CardCode", orderable=False)
-    U_OrderType = columns.Column(verbose_name="U_OrderType", accessor="U_OrderType", orderable=False)
-    U_Order_Catg = columns.Column(verbose_name="U_Order_Catg", accessor="U_Order_Catg", orderable=False)
-    U_MealType = columns.Column(verbose_name="U_MealType", accessor="U_MealType", orderable=False)
-    U_Zone = columns.Column(verbose_name="U_Zone", accessor="U_Zone", orderable=False)
-    U_Driver = columns.Column(verbose_name="U_Driver", accessor="U_Driver", orderable=False)
-    U_DT = columns.Column(verbose_name="U_DT", accessor="U_DT", orderable=False)
-    Comments = columns.Column(verbose_name="Comments", accessor="Comments", orderable=False)
-    U_DAddress = columns.Column(verbose_name="U_DAddress", accessor="U_DAddress", orderable=False)
-    ParentKey = columns.Column(verbose_name="ParentKey", accessor="ParentKey", orderable=False)  # Note: Changed from DocNum
-    LineNum = columns.Column(verbose_name="LineNum", accessor="LineNum", orderable=False)
-    Quantity = columns.Column(verbose_name="Quantity", accessor="Quantity", orderable=False)
-    ItemCode = columns.Column(verbose_name="ItemCode", accessor="ItemCode", orderable=False)
-    PriceAfterVAT = columns.Column(verbose_name="PriceAfterVAT", accessor="PriceAfterVAT", orderable=False)  # Note: Corrected name
-    OcrCode = columns.Column(verbose_name="OcrCode", accessor="OcrCode", orderable=False)  # Note: Changed from CostingCode
+    DocNum = columns.Column(verbose_name="DocNum", accessor="DocNum", orderable=False, empty_values=())
+    Series = columns.Column(verbose_name="Series", accessor="Series", orderable=False, empty_values=())
+    DocDate = columns.Column(verbose_name="DocDate", accessor="DocDate", orderable=False, empty_values=())
+    DocDueDate = columns.Column(verbose_name="DocDueDate", accessor="DocDueDate", orderable=False, empty_values=())
+    CardCode = columns.Column(verbose_name="CardCode", accessor="CardCode", orderable=False, empty_values=())
+    U_OrderType = columns.Column(verbose_name="U_OrderType", accessor="U_OrderType", orderable=False, empty_values=())
+    U_Order_Catg = columns.Column(verbose_name="U_Order_Catg", accessor="U_Order_Catg", orderable=False, empty_values=())
+    U_MealType = columns.Column(verbose_name="U_MealType", accessor="U_MealType", orderable=False, empty_values=())
+    U_Zone = columns.Column(verbose_name="U_Zone", accessor="U_Zone", orderable=False, empty_values=())
+    U_Driver = columns.Column(verbose_name="U_Driver", accessor="U_Driver", orderable=False, empty_values=())
+    U_DT = columns.Column(verbose_name="U_DT", accessor="U_DT", orderable=False, empty_values=())
+    Comments = columns.Column(verbose_name="Comments", accessor="Comments", orderable=False, empty_values=())
+    U_DAddress = columns.Column(verbose_name="U_DAddress", accessor="U_DAddress", orderable=False, empty_values=())
+    ParentKey = columns.Column(verbose_name="ParentKey", accessor="ParentKey", orderable=False, empty_values=())  # Note: Changed from DocNum
+    LineNum = columns.Column(verbose_name="LineNum", accessor="LineNum", orderable=False, empty_values=())
+    Quantity = columns.Column(verbose_name="Quantity", accessor="Quantity", orderable=False, empty_values=())
+    ItemCode = columns.Column(verbose_name="ItemCode", accessor="ItemCode", orderable=False, empty_values=())
+    PriceAfterVAT = columns.Column(verbose_name="PriceAfterVAT", accessor="PriceAfterVAT", orderable=False, empty_values=())  # Note: Corrected name
+    OcrCode = columns.Column(verbose_name="OcrCode", accessor="OcrCode", orderable=False, empty_values=())  # Note: Changed from CostingCode
 
     class Meta:
         model = MealOrder
