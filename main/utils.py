@@ -229,11 +229,11 @@ def approve_preference_with_fallback(request, pk):
 
     if preference.status == "APPROVED":
         messages.warning(request, "Preference is already approved.")
-        return redirect("main:home_view")
+        return redirect("main:dashboard_view")
 
     if not preference.subscription_subplan or not preference.start_date:
         messages.error(request, "Subscription subplan and start date are required.")
-        return redirect("main:home_view")
+        return redirect("main:dashboard_view")
 
     try:
         with transaction.atomic():
@@ -248,6 +248,6 @@ def approve_preference_with_fallback(request, pk):
 
     except Exception as e:
         messages.error(request, f"Error approving preference: {str(e)}")
-        return redirect("main:home_view")
+        return redirect("main:dashboard_view")
 
-    return redirect("main:home_view")
+    return redirect("main:dashboard_view")

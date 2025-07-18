@@ -11,7 +11,7 @@ def custom_register(request):
             if form.is_valid():
                 user = form.save()
                 login(request, user)
-                return redirect("main:home_view")
+                return redirect("main:dashboard_view")
         else:
             form = UserForm()
         return render(request, "registration/registration_form.html", {"form": form})

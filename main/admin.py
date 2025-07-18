@@ -36,10 +36,9 @@ class SubscriptionPlanAdmin(BaseAdmin):
 
 @admin.register(Subscription)
 class SubscriptionAdmin(BaseAdmin):
-    list_display = ("user", "plan", "start_date", "end_date", "is_active", "request")
+    list_display = ("plan", "start_date", "end_date", "is_active", "request")
     list_filter = ("is_active",)
-    search_fields = ("user__email",)
-    autocomplete_fields = ("user", "plan", "request")
+    autocomplete_fields = ("plan", "request")
 
 
 @admin.register(ItemCategory)
@@ -112,9 +111,3 @@ class DeliveryAddressAdmin(BaseAdmin):
 class SubscriptionSubPlanAdmin(BaseAdmin):
     list_display = ("plan", "__str__", "plan_price", "order")
     autocomplete_fields = ("plan",)
-
-
-# @admin.register(Branch)
-# class BranchAdmin(BaseAdmin):
-#     list_display = ("name", "is_active")
-#     search_fields = ("name",)

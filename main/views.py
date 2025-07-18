@@ -464,11 +464,11 @@ def approve_preference(request, pk):
     # Check if already approved
     if preference.status == "APPROVED":
         messages.warning(request, "Preference is already approved.")
-        return redirect("main:home_view")
+        return redirect("main:dashboard_view")
 
     if not preference.start_date:
         messages.error(request, "Start date is required.")
-        return redirect("main:home_view")
+        return redirect("main:dashboard_view")
 
     # Handle POST request (form submission from modal)
     if request.method == "POST":
@@ -488,7 +488,7 @@ def approve_preference(request, pk):
             if not delivery_staff_id:
                 print("Delivery staff ID is missing")
                 messages.error(request, "Delivery staff is required.")
-                return redirect("main:home_view")
+                return redirect("main:dashboard_view")
 
             # Get the related objects
             try:
@@ -502,7 +502,7 @@ def approve_preference(request, pk):
             except User.DoesNotExist:
                 print(f"Delivery staff with id {delivery_staff_id} does not exist")
                 messages.error(request, "Invalid delivery staff selected.")
-                return redirect("main:home_view")
+                return redirect("main:dashboard_view")
 
             with transaction.atomic():
                 print("Starting transaction")
@@ -538,18 +538,18 @@ def approve_preference(request, pk):
         except ValueError as ve:
             print(f"ValueError: {ve}")
             messages.error(request, f"Invalid data provided: {str(ve)}")
-            return redirect("main:home_view")
+            return redirect("main:dashboard_view")
         except Exception as e:
             print(f"Exception occurred: {e}")
             import traceback
 
             traceback.print_exc()
             messages.error(request, f"Error approving preference: {str(e)}")
-            return redirect("main:home_view")
+            return redirect("main:dashboard_view")
 
     else:
         # Handle GET request
         print("GET request received - this might be the issue")
         messages.error(request, "Invalid request method. Please use the approval form.")
 
-    return redirect("main:home_view")
+    return redirect("main:dashboard_view")

@@ -303,7 +303,6 @@ class DeliveryAddress(BaseModel):
 
 class Subscription(BaseModel):
     request = models.ForeignKey("main.Preference", on_delete=models.CASCADE, related_name="subscription_requests")
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscriptions")
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_plan")
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
