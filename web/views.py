@@ -151,45 +151,22 @@ def set_delivery_address(request, pk):
 
     mealtypes = instance.subscription_subplan.available_mealtypes
 
-    if "EARLY_BREAKFAST" in mealtypes:
-        form.fields['early_breakfast_address'].queryset = addresses
-        if default_address:
-            form.fields['early_breakfast_address'].initial = default_address
-            form.fields['early_breakfast_address'].empty_label = None
-    else:
-        form.fields.pop('early_breakfast_address', None)
+    mealtype_field_map = {
+        "EARLY_BREAKFAST": "early_breakfast_address",
+        "BREAKFAST": "breakfast_address",
+        "LUNCH": "lunch_address",
+        "TIFFIN_LUNCH": "tiffin_lunch_address",
+        "DINNER": "dinner_address",
+    }
 
-    if "BREAKFAST" in mealtypes:
-        form.fields['breakfast_address'].queryset = addresses
-        if default_address:
-            form.fields['breakfast_address'].initial = default_address
-            form.fields['breakfast_address'].empty_label = None
-    else:
-        form.fields.pop('breakfast_address', None)
-
-    if "LUNCH" in mealtypes:
-        form.fields['lunch_address'].queryset = addresses
-        if default_address:
-            form.fields['lunch_address'].initial = default_address
-            form.fields['lunch_address'].empty_label = None
-    else:
-        form.fields.pop('lunch_address', None)
-
-    if "TIFFIN_LUNCH" in mealtypes:
-        form.fields['tiffin_lunch_address'].queryset = addresses
-        if default_address:
-            form.fields['tiffin_lunch_address'].initial = default_address
-            form.fields['tiffin_lunch_address'].empty_label = None
-    else:
-        form.fields.pop('tiffin_lunch_address', None)
-
-    if "DINNER" in mealtypes:
-        form.fields['dinner_address'].queryset = addresses
-        if default_address:
-            form.fields['dinner_address'].initial = default_address
-            form.fields['dinner_address'].empty_label = None
-    else:
-        form.fields.pop('dinner_address', None)
+    for mealtype, field_name in mealtype_field_map.items():
+        if mealtype in mealtypes:
+            form.fields[field_name].queryset = addresses
+            if default_address:
+                form.fields[field_name].initial = default_address
+                form.fields[field_name].empty_label = None
+        else:
+            form.fields.pop(field_name, None)
     
     if request.method == "POST":
         if form.is_valid():
