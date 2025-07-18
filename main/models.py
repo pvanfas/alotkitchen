@@ -398,20 +398,32 @@ class MealOrder(BaseModel):
         """Return same as DocDate"""
         return int(self.date.strftime("%Y%m%d"))
 
+   
     def CardCode(self):
-        """Return dynamic card code based on preference mobile number"""
+        """Return mobile number from meal preference"""
         try:
-            # Try to get mobile from user's preferences first
-            preference = self.user.preferences.first()
-            if preference and preference.mobile:
-                mobile = preference.mobile
-            else:
-                mobile = self.user.username
+            # Check if we have the full relationship chain
+            if (self.subscription and 
+                self.subscription.request and 
+                self.subscription.request.user):
+                
+                user = self.subscription.request.user
+                
+                # Get the user's preferences and find one with mobile
+                preferences = user.preferences.all()
+                
+                for preference in preferences:
+                    if preference.mobile:
+                        return preference.mobile
+                
+                # If no mobile found in any preference, return empty string
+                return ""
             
-            suffix = f"{self.subscription.pk % 100:02d}" if self.subscription else f"{self.pk % 100:02d}"
-            return f"{mobile}-{suffix}"
-        except:
-            return f"{self.user.username}-{self.pk % 100:02d}"
+            return ""
+        except Exception as e:
+            # For debugging - you can remove this print later
+            print(f"CardCode error for MealOrder {self.id}: {e}")
+            return ""
 
     def U_OrderType(self):
         """Return Veg/Non Veg based on item database field"""
