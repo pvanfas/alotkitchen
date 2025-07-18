@@ -325,7 +325,7 @@ class Subscription(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user} - {self.plan} - {self.start_date}"
+        return f"{self.plan} - {self.start_date}"
 
 
 class MealOrder(BaseModel):

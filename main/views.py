@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
 from django.db import transaction
+from django.contrib.auth import get_user_model
 
 from main.choices import LANGUAGE_CHOICES
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
@@ -454,102 +455,70 @@ def edit_preference(request, pk):
 
 
 def approve_preference(request, pk):
-    # Add debugging
-    print(f"approve_preference called with pk={pk}, method={request.method}")
-    # logger.info(f"approve_preference called with pk={pk}, method={request.method}")
-
+    """
+    Approves a preference, updates it with modal data, creates the corresponding
+    Subscription, and bulk-creates all meal orders for the subscription period.
+    """
     preference = get_object_or_404(Preference, pk=pk)
-    print(f"Found preference: {preference}")
+    User = get_user_model()
 
-    # Check if already approved
+    # 1. Basic validation before processing
     if preference.status == "APPROVED":
-        messages.warning(request, "Preference is already approved.")
+        messages.warning(request, "This preference has already been approved.")
         return redirect("main:dashboard_view")
 
-    if not preference.start_date:
-        messages.error(request, "Start date is required.")
+    if not preference.start_date or not preference.subscription_subplan:
+        messages.error(request, "Cannot approve: Start Date and Sub-Plan are required.")
         return redirect("main:dashboard_view")
 
-    # Handle POST request (form submission from modal)
-    if request.method == "POST":
-        print("Processing POST request")
-        print(f"POST data: {request.POST}")
+    # 2. Extract and validate data from the modal form submission
+    try:
+        delivery_staff_id = request.POST.get("delivery_staff")
+        meal_fee = request.POST.get("meal_fee", "0.00")
+        no_of_meals = request.POST.get("no_of_meals", "0")
 
-        try:
-            # Extract modal data
-            area_id = request.POST.get("area")
-            delivery_staff_id = request.POST.get("delivery_staff")
-            meal_fee = request.POST.get("meal_fee", "0.00")
-            no_of_meals = request.POST.get("no_of_meals", "0")
-
-            print(f"Extracted data - area_id: {area_id}, delivery_staff_id: {delivery_staff_id}, meal_fee: {meal_fee}, no_of_meals: {no_of_meals}")
-
-            # Validate required fields - only delivery staff is required
-            if not delivery_staff_id:
-                print("Delivery staff ID is missing")
-                messages.error(request, "Delivery staff is required.")
-                return redirect("main:dashboard_view")
-
-            # Get the related objects
-            try:
-                from django.contrib.auth import get_user_model
-
-                User = get_user_model()
-
-                delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
-                print(f"Found delivery_staff: {delivery_staff}")
-
-            except User.DoesNotExist:
-                print(f"Delivery staff with id {delivery_staff_id} does not exist")
-                messages.error(request, "Invalid delivery staff selected.")
-                return redirect("main:dashboard_view")
-
-            with transaction.atomic():
-                print("Starting transaction")
-
-                # Approve the preference
-                preference.status = "APPROVED"
-                preference.completed_at = timezone.now()
-                preference.save()
-                print(f"Preference status updated to: {preference.status}")
-
-                # Create subscription from preference
-                subscription = create_subscription_from_preference(preference)
-                print(f"Created subscription: {subscription}")
-
-                # Update the subscription request with modal data (no area needed)
-                subscription_request = subscription.request
-                subscription_request.delivery_staff = delivery_staff
-                subscription_request.meal_fee = float(meal_fee)
-                subscription_request.no_of_meals = int(no_of_meals)
-                subscription_request.approved_by = request.user
-                subscription_request.approved_at = timezone.now()
-                subscription_request.save()
-                print(f"Updated subscription request: {subscription_request}")
-
-                # Bulk create meal orders with fallback
-                orders_created = bulk_create_orders_with_fallback(preference, subscription)
-                print(f"Created {orders_created} meal orders")
-
-                messages.success(request, f"Preference approved successfully! {orders_created} meal orders created.")
-
-                print("Transaction completed successfully")
-
-        except ValueError as ve:
-            print(f"ValueError: {ve}")
-            messages.error(request, f"Invalid data provided: {str(ve)}")
+        if not delivery_staff_id:
+            messages.error(request, "Delivery staff is a required field.")
             return redirect("main:dashboard_view")
-        except Exception as e:
-            print(f"Exception occurred: {e}")
-            import traceback
+        
+        # Ensure the delivery staff user exists and is valid
+        delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
 
-            traceback.print_exc()
-            messages.error(request, f"Error approving preference: {str(e)}")
-            return redirect("main:dashboard_view")
+    except User.DoesNotExist:
+        messages.error(request, "The selected delivery staff is not valid.")
+        return redirect("main:dashboard_view")
+    except (ValueError, TypeError) as e:
+        messages.error(request, f"Invalid data submitted in the form: {e}")
+        return redirect("main.dashboard_view")
 
-    else:
-        # Handle GET request
-        print("GET request received - this might be the issue")
-        messages.error(request, "Invalid request method. Please use the approval form.")
+    # 3. Perform all database operations in a single transaction
+    try:
+        with transaction.atomic():
+            # Step A: Update the existing Preference object with approval details
+            preference.status = "APPROVED"
+            preference.approved_at = timezone.now()
+            preference.completed_at = timezone.now() # or handle completion separately
+            preference.delivery_staff = delivery_staff
+            preference.meal_fee = meal_fee
+            preference.no_of_meals = no_of_meals
+            preference.save()
+
+            # Step B: Create the official Subscription, linking it to the approved preference
+            subscription = Subscription.objects.create(
+                request=preference,
+                
+                plan=preference.subscription_subplan.plan,
+                start_date=preference.start_date
+            )
+
+            # Step C: Use your existing helper to create all meal orders
+            orders_created = bulk_create_orders_with_fallback(preference, subscription)
+
+        messages.success(request, f"Preference approved! {orders_created} meal orders have been successfully created.")
+
+    except Exception as e:
+        # If anything goes wrong, the transaction will be rolled back.
+        print(e)
+        messages.error(request, f"An unexpected error occurred during approval: {e}")
 
     return redirect("main:dashboard_view")
