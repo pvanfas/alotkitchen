@@ -371,27 +371,7 @@ class MealOrder(BaseModel):
         return ""
 
     def Series(self):
-        """Return dynamic series based on area or branch"""
-        try:
-            req = self.subscription.request
-
-            # Based on area
-            if req.breakfast_address_area:
-                area_code = req.breakfast_address_area.pk
-                return 70 + (area_code % 10)
-            elif req.lunch_address_area:
-                area_code = req.lunch_address_area.pk
-                return 70 + (area_code % 10)
-            elif req.dinner_address_area:
-                area_code = req.dinner_address_area.pk
-                return 70 + (area_code % 10)
-            elif self.item.meal_category:
-                category_code = self.item.meal_category.pk
-                return 70 + (category_code % 10)
-
-            return 70
-        except:
-            return 70
+        return 70
 
     def DocDate(self):
         """Return date in YYYYMMDD format as integer"""
