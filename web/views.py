@@ -147,14 +147,50 @@ def set_delivery_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     addresses = DeliveryAddress.objects.filter(preference = instance)
     form = SetDeliveryAddressForm(request.POST or None, instance=instance)
-    
-    # filter the queryset to only include addresses for the current preference
-    form.fields['early_breakfast_address'].queryset = addresses
-    form.fields['breakfast_address'].queryset = addresses
-    form.fields['tiffin_lunch_address'].queryset = addresses
-    form.fields['lunch_address'].queryset = addresses
-    form.fields['dinner_address'].queryset = addresses
+    default_address = addresses.filter(is_default=True).first()
 
+    mealtypes = instance.subscription_subplan.available_mealtypes
+
+    if "EARLY_BREAKFAST" in mealtypes:
+        form.fields['early_breakfast_address'].queryset = addresses
+        if default_address:
+            form.fields['early_breakfast_address'].initial = default_address
+            form.fields['early_breakfast_address'].empty_label = None
+    else:
+        form.fields.pop('early_breakfast_address', None)
+
+    if "BREAKFAST" in mealtypes:
+        form.fields['breakfast_address'].queryset = addresses
+        if default_address:
+            form.fields['breakfast_address'].initial = default_address
+            form.fields['breakfast_address'].empty_label = None
+    else:
+        form.fields.pop('breakfast_address', None)
+
+    if "LUNCH" in mealtypes:
+        form.fields['lunch_address'].queryset = addresses
+        if default_address:
+            form.fields['lunch_address'].initial = default_address
+            form.fields['lunch_address'].empty_label = None
+    else:
+        form.fields.pop('lunch_address', None)
+
+    if "TIFFIN_LUNCH" in mealtypes:
+        form.fields['tiffin_lunch_address'].queryset = addresses
+        if default_address:
+            form.fields['tiffin_lunch_address'].initial = default_address
+            form.fields['tiffin_lunch_address'].empty_label = None
+    else:
+        form.fields.pop('tiffin_lunch_address', None)
+
+    if "DINNER" in mealtypes:
+        form.fields['dinner_address'].queryset = addresses
+        if default_address:
+            form.fields['dinner_address'].initial = default_address
+            form.fields['dinner_address'].empty_label = None
+    else:
+        form.fields.pop('dinner_address', None)
+    
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)

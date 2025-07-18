@@ -91,7 +91,7 @@ class SubscriptionRequestAdmin(BaseAdmin):
 
 @admin.register(Preference)
 class PreferenceAdmin(BaseAdmin):
-    list_display = ("session_id", "is_active")
+    list_display = ("pk", "session_id", "is_active")
     list_filter = ("is_active",)
     autocomplete_fields = ("user", "subscription_subplan") + tuple(preference_form_fields)
     fieldsets = (
