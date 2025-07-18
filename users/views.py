@@ -10,7 +10,7 @@ def custom_register(request):
             if form.is_valid():
                 user = form.save()  
                 login(request, user)  
-                return redirect('main:home_view')  # or some success page
+                return redirect('main:home_view') 
         else:
             form = UserForm()
         return render(request, 'registration/registration_form.html', {'form': form})

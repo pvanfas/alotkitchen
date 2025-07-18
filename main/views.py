@@ -459,7 +459,12 @@ def edit_preference(request, pk):
 
 
 def approve_preference(request, pk):
+    # Add debugging
+    print(f"approve_preference called with pk={pk}, method={request.method}")
+    # logger.info(f"approve_preference called with pk={pk}, method={request.method}")
+    
     preference = get_object_or_404(Preference, pk=pk)
+    print(f"Found preference: {preference}")
     
     # Check if already approved
     if preference.status == 'APPROVED':
@@ -472,6 +477,9 @@ def approve_preference(request, pk):
     
     # Handle POST request (form submission from modal)
     if request.method == 'POST':
+        print("Processing POST request")
+        print(f"POST data: {request.POST}")
+        
         try:
             # Extract modal data
             area_id = request.POST.get('area')
@@ -479,61 +487,75 @@ def approve_preference(request, pk):
             meal_fee = request.POST.get('meal_fee', '0.00')
             no_of_meals = request.POST.get('no_of_meals', '0')
             
-            # Validate required fields
-            if not area_id:
-                messages.error(request, 'Zone is required.')
-                return redirect('main:home_view')
+            print(f"Extracted data - area_id: {area_id}, delivery_staff_id: {delivery_staff_id}, meal_fee: {meal_fee}, no_of_meals: {no_of_meals}")
             
+            # Validate required fields - only delivery staff is required
             if not delivery_staff_id:
+                print("Delivery staff ID is missing")
                 messages.error(request, 'Delivery staff is required.')
                 return redirect('main:home_view')
             
             # Get the related objects
             try:
-                # area = Area.objects.get(id=area_id)
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+                
                 delivery_staff = User.objects.get(id=delivery_staff_id, usertype="Delivery")
-            except (Area.DoesNotExist, User.DoesNotExist):
-                messages.error(request, 'Invalid zone or delivery staff selected.')
+                print(f"Found delivery_staff: {delivery_staff}")
+                
+            except User.DoesNotExist:
+                print(f"Delivery staff with id {delivery_staff_id} does not exist")
+                messages.error(request, 'Invalid delivery staff selected.')
                 return redirect('main:home_view')
             
             with transaction.atomic():
+                print("Starting transaction")
+                
                 # Approve the preference
                 preference.status = 'APPROVED'
                 preference.completed_at = timezone.now()
                 preference.save()
+                print(f"Preference status updated to: {preference.status}")
                 
                 # Create subscription from preference
                 subscription = create_subscription_from_preference(preference)
+                print(f"Created subscription: {subscription}")
                 
-                # Update the subscription request with modal data
+                # Update the subscription request with modal data (no area needed)
                 subscription_request = subscription.request
-                # subscription_request.area = area
                 subscription_request.delivery_staff = delivery_staff
                 subscription_request.meal_fee = float(meal_fee)
                 subscription_request.no_of_meals = int(no_of_meals)
                 subscription_request.approved_by = request.user
                 subscription_request.approved_at = timezone.now()
                 subscription_request.save()
+                print(f"Updated subscription request: {subscription_request}")
                 
                 # Bulk create meal orders with fallback
                 orders_created = bulk_create_orders_with_fallback(preference, subscription)
+                print(f"Created {orders_created} meal orders")
                 
                 messages.success(
                     request,
                     f'Preference approved successfully! {orders_created} meal orders created.'
                 )
                 
+                print("Transaction completed successfully")
+                
         except ValueError as ve:
+            print(f"ValueError: {ve}")
             messages.error(request, f'Invalid data provided: {str(ve)}')
             return redirect('main:home_view')
         except Exception as e:
+            print(f"Exception occurred: {e}")
+            import traceback
+            traceback.print_exc()
             messages.error(request, f'Error approving preference: {str(e)}')
             return redirect('main:home_view')
     
     else:
-        # Handle GET request (shouldn't happen with modal, but for safety)
-        messages.error(request, 'Invalid request method.')
+        # Handle GET request
+        print("GET request received - this might be the issue")
+        messages.error(request, 'Invalid request method. Please use the approval form.')
     
     return redirect('main:home_view')
-
-
