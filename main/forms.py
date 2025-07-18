@@ -3,7 +3,7 @@ from datetime import datetime
 
 from .choices import VALIDITY_CHOICES
 from .helper import preference_form_fields
-from .models import DeliveryAddress, Preference, SubscriptionRequest
+from .models import DeliveryAddress, Preference
 
 
 VALIDITY_CHOICES = (("", "-- Select Days --"),) + VALIDITY_CHOICES
@@ -98,16 +98,15 @@ class PreferenceNoteForm(forms.ModelForm):
 
 class SubscriptionAddressForm(forms.ModelForm):
     class Meta:
-        model = SubscriptionRequest
+        model = Preference
         fields = ()
 
 
-class SubscriptionRequestApprovalForm(forms.ModelForm):
+class PreferenceApprovalForm(forms.ModelForm):
     class Meta:
-        model = SubscriptionRequest
-        fields = ("area", "delivery_staff", "meal_fee", "no_of_meals")
+        model = Preference
+        fields = ("delivery_staff", "meal_fee", "no_of_meals")
         labels = {
-            "area": "Delivery Zone",
             "delivery_staff": "Delivery Staff",
             "meal_fee": "Meal Fee",
             "no_of_meals": "No of Meals",
@@ -116,7 +115,7 @@ class SubscriptionRequestApprovalForm(forms.ModelForm):
 
 class MealOrderUpdateStatusForm(forms.ModelForm):
     class Meta:
-        model = SubscriptionRequest
+        model = Preference
         fields = ("status",)
         labels = {"status": "Status"}
         widgets = {"status": forms.Select(attrs={"class": "form-control"})}
