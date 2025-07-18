@@ -5,7 +5,7 @@ from registration.models import RegistrationProfile
 from main.base import BaseAdmin
 
 from .helper import preference_form_fields
-from .models import Area, DeliveryAddress, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionRequest, SubscriptionSubPlan
+from .models import Area, DeliveryAddress, ItemCategory, ItemMaster, MealCategory, MealOrder, MealPlan, Preference, Subscription, SubscriptionPlan, SubscriptionSubPlan
 
 admin.site.unregister(Group)
 admin.site.unregister(RegistrationProfile)
@@ -36,10 +36,9 @@ class SubscriptionPlanAdmin(BaseAdmin):
 
 @admin.register(Subscription)
 class SubscriptionAdmin(BaseAdmin):
-    list_display = ("user", "plan", "start_date", "end_date", "is_active", "request")
+    list_display = ("plan", "start_date", "end_date", "is_active", "request")
     list_filter = ("is_active",)
-    search_fields = ("user__email",)
-    autocomplete_fields = ("user", "plan", "request")
+    autocomplete_fields = ("plan", "request")
 
 
 @admin.register(ItemCategory)
@@ -81,17 +80,9 @@ class AreaAdmin(BaseAdmin):
     autocomplete_fields = ("delivery_staffs",)
 
 
-@admin.register(SubscriptionRequest)
-class SubscriptionRequestAdmin(BaseAdmin):
-    list_display = ("user", "plan", "status")
-    search_fields = ("user__email",)
-    list_filter = ("status",)
-    autocomplete_fields = ("user", "plan")
-
-
 @admin.register(Preference)
 class PreferenceAdmin(BaseAdmin):
-    list_display = ("session_id", "is_active")
+    list_display = ("pk", "session_id", "status", "first_name", "last_name", "is_active")
     list_filter = ("is_active",)
     autocomplete_fields = ("user", "subscription_subplan") + tuple(preference_form_fields)
     fieldsets = (
@@ -120,9 +111,3 @@ class DeliveryAddressAdmin(BaseAdmin):
 class SubscriptionSubPlanAdmin(BaseAdmin):
     list_display = ("plan", "__str__", "plan_price", "order")
     autocomplete_fields = ("plan",)
-
-
-# @admin.register(Branch)
-# class BranchAdmin(BaseAdmin):
-#     list_display = ("name", "is_active")
-#     search_fields = ("name",)

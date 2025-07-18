@@ -5,8 +5,7 @@ from . import views
 app_name = "main"
 
 urlpatterns = [
-    path("", views.DashboardView.as_view(), name="home_view"),
-    path("dash/", views.DashboardView.as_view(), name="dashboard_view"),
+    path("", views.DashboardView.as_view(), name="dashboard_view"),
     path("dash/tomorrow/", views.TomorrowOrdersView.as_view(), name="tomorrow_orders_view"),
     path("dash/subscriptions/", views.SubscriptionListView.as_view(), name="subscription_list"),
     path("dash/subscriptions/detail/<str:pk>/", views.SubscriptionDetailView.as_view(), name="subscription_detail"),
@@ -17,12 +16,12 @@ urlpatterns = [
     path("orders/", views.MealOrderListView.as_view(), name="mealorder_list"),
     path("orders/detail/<str:pk>/", views.MealOrderDetailView.as_view(), name="mealorder_detail"),
     path("orders/data/", views.MealOrderListData.as_view(), name="mealorder_list_data"),
-    path("requests/", views.SubscriptionRequestListView.as_view(), name="subscriptionrequest_list"),
-    path("requests/detail/<str:pk>/", views.SubscriptionRequestDetailView.as_view(), name="subscriptionrequest_detail"),
-    path("requests/update/<str:pk>/", views.SubscriptionRequestUpdateView.as_view(), name="subscriptionrequest_update"),
-    path("requests/approve/<str:pk>/", views.SubscriptionRequestApproveView.as_view(), name="subscriptionrequest_approve"),
-    path("requests/reject/<str:pk>/", views.SubscriptionRequestRejectView.as_view(), name="subscriptionrequest_reject"),
-    path("requests/print/<str:pk>/", views.SubscriptionRequestPrintView.as_view(), name="subscriptionrequest_print"),
+    path("requests/", views.PreferenceRequestListView.as_view(), name="subscriptionrequest_list"),
+    path("requests/detail/<str:pk>/", views.PreferenceRequestDetailView.as_view(), name="subscriptionrequest_detail"),
+    path("requests/update/<str:pk>/", views.PreferenceRequestUpdateView.as_view(), name="subscriptionrequest_update"),
+    path("requests/approve/<str:pk>/", views.PreferenceApproveView.as_view(), name="subscriptionrequest_approve"),
+    path("requests/reject/<str:pk>/", views.PreferenceRejectView.as_view(), name="subscriptionrequest_reject"),
+    path("requests/print/<str:pk>/", views.PreferencePrintView.as_view(), name="subscriptionrequest_print"),
     path("help/", views.HelpView.as_view(), name="help_view"),
     path("history/detail/<str:pk>/", views.HistoryDetailView.as_view(), name="history_detail_view"),
     path("donate/<str:pk>/", views.DonateMealOrderView.as_view(), name="donatemealorder_view"),
@@ -30,8 +29,7 @@ urlpatterns = [
     path("change_menu/", views.ChangeMenuView.as_view(), name="changemenu_view"),
     # Pages
     path("history/", views.HistoryView.as_view(), name="history_view"),
-    
-    #orders
+    # orders
     path("orders/approve/<str:pk>/", views.approve_preference, name="approve-preference"),
     path("order/detail/<str:pk>/", views.edit_preference, name="edit-preference"),
 ]

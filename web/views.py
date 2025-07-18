@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.choices import GROUP_CHOICES, MEALTYPE_CHOICES
-from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, SubscriptionNoteForm
+from main.forms import DeliveryAddressForm, PreferenceForm, ProfileForm, SetDeliveryAddressForm, PreferenceNoteForm
 from main.models import Area, DeliveryAddress, MealCategory, MealPlan, Preference, SubscriptionPlan, SubscriptionSubPlan
 
 from .serializers import MealPlanSerializer, SubscriptionPlanSerializer
@@ -96,18 +96,9 @@ def create_profile(request, pk):
                     return f"+{country_code}{number}"
                 return None
 
-            data.mobile = format_number(
-                form.cleaned_data.get("mobile_country_code"),
-                form.cleaned_data.get("mobile")
-            )
-            data.alternate_mobile = format_number(
-                form.cleaned_data.get("alternate_mobile_country_code"),
-                form.cleaned_data.get("alternate_mobile")
-            )
-            data.whatsapp_number = format_number(
-                form.cleaned_data.get("whatsapp_number_country_code"),
-                form.cleaned_data.get("whatsapp_number")
-            )
+            data.mobile = format_number(form.cleaned_data.get("mobile_country_code"), form.cleaned_data.get("mobile"))
+            data.alternate_mobile = format_number(form.cleaned_data.get("alternate_mobile_country_code"), form.cleaned_data.get("alternate_mobile"))
+            data.whatsapp_number = format_number(form.cleaned_data.get("whatsapp_number_country_code"), form.cleaned_data.get("whatsapp_number"))
 
             data.save()
             return redirect("web:select_address", pk=pk)
@@ -122,10 +113,9 @@ def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     # addresses = instance.get_addresses()
     addresses = DeliveryAddress.objects.filter(preference=instance)
-    
     # Create form without instance since we're creating a new DeliveryAddress
     form = DeliveryAddressForm(request.POST or None)
-    
+
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
@@ -137,32 +127,45 @@ def select_address(request, pk):
                 DeliveryAddress.objects.filter(preference=instance, is_default=True).update(is_default=False)
             data.save()
             return redirect("web:select_address", pk=pk)
-    
+
     template_name = "web/select_address.html"
     context = {"instance": instance, "form": form, "addresses": addresses}
     return render(request, template_name, context)
 
 
 def set_delivery_address(request, pk):
-    instance = Preference.objects.get(pk=pk)
+    instance = get_object_or_404(Preference, pk=pk)
+    # The form's __init__ now handles setting the queryset and initial values
     form = SetDeliveryAddressForm(request.POST or None, instance=instance, preference=instance)
+    
+    # Get available meal types to dynamically show/hide fields
+    mealtypes = instance.subscription_subplan.available_mealtypes
+    
+    mealtype_field_map = {
+        "EARLY_BREAKFAST": "early_breakfast_address",
+        "BREAKFAST": "breakfast_address",
+        "LUNCH": "lunch_address",
+        "TIFFIN_LUNCH": "tiffin_lunch_address",
+        "DINNER": "dinner_address",
+    }
+    
+    # Remove form fields for meal types not in the customer's plan
+    for mealtype, field_name in mealtype_field_map.items():
+        if mealtype not in mealtypes:
+            form.fields.pop(field_name, None)
+            
     if request.method == "POST":
         if form.is_valid():
-            data = form.save(commit=False)
-            data.preference = instance
-            data.session_id = instance.session_id
-            data.user = request.user if request.user.is_authenticated else None
-            data.save()
-
+            form.save()
             return redirect("web:confirm_subscription", pk=pk)
+            
     template_name = "web/set_delivery_address.html"
     context = {"instance": instance, "form": form}
     return render(request, template_name, context)
 
-
 def confirm_subscription(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = SubscriptionNoteForm(request.POST or None, instance=instance)
+    form = PreferenceNoteForm(request.POST or None, instance=instance)
     if request.method == "POST":
         if form.is_valid():
             form.save()

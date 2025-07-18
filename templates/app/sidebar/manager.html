@@ -42,6 +42,27 @@
 
                     <li class="slide">
                         <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:dashboard_view' %}">
+                            <i class="feather feather-pie-chart sidemenu_icon"></i>
+                            <span class="side-menu__label">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:subscriptionrequest_list' %}">
+                            <i class="feather feather-pie-chart sidemenu_icon"></i>
+                            <span class="side-menu__label">Subscription Requests</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:mealorder_list_data' %}">
+                            <i class="feather feather-file-text sidemenu_icon"></i>
+                            <span class="side-menu__label">Order Data</span>
+                        </a>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:dashboard_view' %}">
                             <i class="feather feather-package sidemenu_icon"></i>
                             <span class="side-menu__label">Todays Orders</span>
                         </a>
@@ -72,20 +93,6 @@
                         <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:customer_list' %}">
                             <i class="feather feather-hard-drive sidemenu_icon"></i>
                             <span class="side-menu__label">Customer Master</span>
-                        </a>
-                    </li>
-
-                    <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:subscriptionrequest_list' %}">
-                            <i class="feather feather-pie-chart sidemenu_icon"></i>
-                            <span class="side-menu__label">Subscription Requests</span>
-                        </a>
-                    </li>
-
-                    <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'main:mealorder_list_data' %}">
-                            <i class="feather feather-file-text sidemenu_icon"></i>
-                            <span class="side-menu__label">Order Data</span>
                         </a>
                     </li>
 

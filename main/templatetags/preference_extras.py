@@ -3,6 +3,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter
 def lookup(obj, key):
     """
@@ -13,6 +14,7 @@ def lookup(obj, key):
         return getattr(obj, key)
     except AttributeError:
         return None
+
 
 @register.filter
 def split(value, delimiter):

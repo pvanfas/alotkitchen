@@ -7,7 +7,7 @@ from multiselectfield import MultiSelectField
 
 from main.base import BaseModel
 
-from .choices import BREAKFAST_DELIVERY_CHOICES, DAY_CHOICES, DINNER_DELIVERY_CHOICES, GROUP_CHOICES, LANGUAGE_CHOICES, LUNCH_DELIVERY_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES
+from .choices import DAY_CHOICES, GROUP_CHOICES, LANGUAGE_CHOICES, MEALTYPE_CHOICES, ORDER_STATUS_CHOICES
 
 
 def get_week_number(date):
@@ -260,8 +260,13 @@ class Preference(BaseModel):
     status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
     completed_at = models.DateTimeField(blank=True, null=True)
 
+    approved_at = models.DateTimeField(blank=True, null=True)
+    delivery_staff = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="driver_requests", blank=True, null=True, limit_choices_to={"usertype": "Delivery"})
+    meal_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    no_of_meals = models.PositiveIntegerField(default=0)
+
     # Added brand field with default value
-    brand = models.CharField(max_length=200, default="mess for")
+    brand = models.CharField(max_length=200, default="Mess for")
 
     class Meta:
         ordering = ("user",)
@@ -272,7 +277,7 @@ class Preference(BaseModel):
         return DeliveryAddress.objects.filter(preference=self)
 
     def __str__(self):
-        return f"{self.session_id}"
+        return f"{self.session_id} - {self.first_name}"
 
 
 class DeliveryAddress(BaseModel):
@@ -283,7 +288,7 @@ class DeliveryAddress(BaseModel):
     street_name = models.CharField(max_length=200)
     area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="delivery_area")
     contact_number = models.CharField(max_length=200)
-    address_type = models.CharField(max_length=200, choices=(("Home","Home"),("Office", "Office")))
+    address_type = models.CharField(max_length=200, choices=(("Home", "Home"), ("Office", "Office")))
     location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
     is_default = models.BooleanField("Set as default delivery address", default=False)
 
@@ -297,8 +302,7 @@ class DeliveryAddress(BaseModel):
 
 
 class Subscription(BaseModel):
-    request = models.ForeignKey("main.SubscriptionRequest", on_delete=models.CASCADE, related_name="subscription_requests")
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscriptions")
+    request = models.ForeignKey("main.Preference", on_delete=models.CASCADE, related_name="subscription_requests")
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_plan")
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
@@ -370,7 +374,7 @@ class MealOrder(BaseModel):
         """Return dynamic series based on area or branch"""
         try:
             req = self.subscription.request
-            
+
             # Based on area
             if req.breakfast_address_area:
                 area_code = req.breakfast_address_area.pk
@@ -384,7 +388,7 @@ class MealOrder(BaseModel):
             elif self.item.meal_category:
                 category_code = self.item.meal_category.pk
                 return 70 + (category_code % 10)
-                
+
             return 70
         except:
             return 70
@@ -397,27 +401,24 @@ class MealOrder(BaseModel):
         """Return same as DocDate"""
         return int(self.date.strftime("%Y%m%d"))
 
-   
     def CardCode(self):
         """Return mobile number from meal preference"""
         try:
             # Check if we have the full relationship chain
-            if (self.subscription and 
-                self.subscription.request and 
-                self.subscription.request.user):
-                
+            if self.subscription and self.subscription.request and self.subscription.request.user:
+
                 user = self.subscription.request.user
-                
+
                 # Get the user's preferences and find one with mobile
                 preferences = user.preferences.all()
-                
+
                 for preference in preferences:
                     if preference.mobile:
                         return preference.mobile
-                
+
                 # If no mobile found in any preference, return empty string
                 return ""
-            
+
             return ""
         except Exception as e:
             # For debugging - you can remove this print later
@@ -437,20 +438,14 @@ class MealOrder(BaseModel):
 
     def U_MealType(self):
         """Return meal type in title case"""
-        meal_type_mapping = {
-            'BREAKFAST': 'Breakfast',
-            'EARLY_BREAKFAST': 'Breakfast',
-            'LUNCH': 'Lunch',
-            'TIFFIN_LUNCH': 'Lunch',
-            'DINNER': 'Dinner'
-        }
+        meal_type_mapping = {"BREAKFAST": "Breakfast", "EARLY_BREAKFAST": "Breakfast", "LUNCH": "Lunch", "TIFFIN_LUNCH": "Lunch", "DINNER": "Dinner"}
         return meal_type_mapping.get(self.item.mealtype, self.item.mealtype.title())
 
     def U_Zone(self):
         """Return the area/zone name based on meal type's delivery address"""
         try:
             req = self.subscription.request
-            
+
             if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
                 return req.breakfast_address_area.name if req.breakfast_address_area else ""
             elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
@@ -470,7 +465,7 @@ class MealOrder(BaseModel):
             if subscription_request.delivery_staff:
                 # Try to get the full name, fallback to username
                 staff = subscription_request.delivery_staff
-                if hasattr(staff, 'first_name') and hasattr(staff, 'last_name'):
+                if hasattr(staff, "first_name") and hasattr(staff, "last_name"):
                     full_name = f"{staff.first_name} {staff.last_name}".strip()
                     if full_name:
                         return full_name
@@ -485,16 +480,16 @@ class MealOrder(BaseModel):
         """Return delivery time based on meal type and subscription request"""
         try:
             req = self.subscription.request
-            
+
             if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
-                time_display = req.get_breakfast_time_display() if hasattr(req, 'get_breakfast_time_display') else ""
+                time_display = req.get_breakfast_time_display() if hasattr(req, "get_breakfast_time_display") else ""
             elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
-                time_display = req.get_lunch_time_display() if hasattr(req, 'get_lunch_time_display') else ""
+                time_display = req.get_lunch_time_display() if hasattr(req, "get_lunch_time_display") else ""
             elif self.item.mealtype == "DINNER":
-                time_display = req.get_dinner_time_display() if hasattr(req, 'get_dinner_time_display') else ""
+                time_display = req.get_dinner_time_display() if hasattr(req, "get_dinner_time_display") else ""
             else:
                 return ""
-                
+
             # Extract the start time (before "to")
             if time_display and "to" in time_display:
                 return time_display.split("to")[0].strip()
@@ -507,13 +502,13 @@ class MealOrder(BaseModel):
         """Return comments from subscription request or notes"""
         try:
             comments = []
-            
+
             if self.subscription.request.notes:
                 comments.append(self.subscription.request.notes)
-            
+
             if self.subscription.request.remarks:
                 comments.append(self.subscription.request.remarks)
-                
+
             return "; ".join(comments) if comments else ""
         except:
             return ""
@@ -522,39 +517,27 @@ class MealOrder(BaseModel):
         """Return complete delivery address based on meal type"""
         try:
             req = self.subscription.request
-            
+
             if self.item.mealtype in ["BREAKFAST", "EARLY_BREAKFAST"]:
                 address_parts = [
                     req.breakfast_address_room_no,
                     req.breakfast_address_floor,
                     req.breakfast_address_building_name,
                     req.breakfast_address_street_name,
-                    req.breakfast_address_area.name if req.breakfast_address_area else None
+                    req.breakfast_address_area.name if req.breakfast_address_area else None,
                 ]
             elif self.item.mealtype in ["LUNCH", "TIFFIN_LUNCH"]:
-                address_parts = [
-                    req.lunch_address_room_no,
-                    req.lunch_address_floor,
-                    req.lunch_address_building_name,
-                    req.lunch_address_street_name,
-                    req.lunch_address_area.name if req.lunch_address_area else None
-                ]
+                address_parts = [req.lunch_address_room_no, req.lunch_address_floor, req.lunch_address_building_name, req.lunch_address_street_name, req.lunch_address_area.name if req.lunch_address_area else None]
             elif self.item.mealtype == "DINNER":
-                address_parts = [
-                    req.dinner_address_room_no,
-                    req.dinner_address_floor,
-                    req.dinner_address_building_name,
-                    req.dinner_address_street_name,
-                    req.dinner_address_area.name if req.dinner_address_area else None
-                ]
+                address_parts = [req.dinner_address_room_no, req.dinner_address_floor, req.dinner_address_building_name, req.dinner_address_street_name, req.dinner_address_area.name if req.dinner_address_area else None]
             else:
                 return ""
-            
+
             # Filter out None/empty values and join
             filtered_parts = [str(part) for part in address_parts if part]
             return ", ".join(filtered_parts) if filtered_parts else ""
-            
-        except Exception as e:
+
+        except Exception:
             return ""
 
     def ParentKey(self):
@@ -636,84 +619,6 @@ class MealOrder(BaseModel):
         ordering = ("date",)
         verbose_name = _("Meal Order")
         verbose_name_plural = _("Meal Orders")
-
-
-class SubscriptionRequest(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="subscription_requests")
-    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="subscription_requests", blank=True, null=True)
-    start_date = models.DateField(blank=True, null=True)
-
-    breakfast_address_room_no = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_floor = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_building_name = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_street_name = models.CharField(max_length=200, blank=True, null=True)
-    breakfast_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="breakfast_address_area", blank=True, null=True)
-    breakfast_time = models.CharField("Delivery Time (Breakfast)", max_length=200, choices=BREAKFAST_DELIVERY_CHOICES, default="0900:0930")
-    breakfast_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
-
-    lunch_address_room_no = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_floor = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_building_name = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_street_name = models.CharField(max_length=200, blank=True, null=True)
-    lunch_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="lunch_address_area", blank=True, null=True)
-    lunch_time = models.CharField("Delivery Time (Lunch", max_length=200, choices=LUNCH_DELIVERY_CHOICES, default="1230:1300")
-    lunch_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
-
-    dinner_address_room_no = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_floor = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_building_name = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_street_name = models.CharField(max_length=200, blank=True, null=True)
-    dinner_address_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name="dinner_address_area", blank=True, null=True)
-    dinner_time = models.CharField("Delivery Time (Dinner)", max_length=200, choices=DINNER_DELIVERY_CHOICES, default="2100:2130")
-    dinner_location = models.URLField("Location Map Link", max_length=200, blank=True, null=True)
-
-    notes = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=200, default="PENDING", choices=(("PENDING", "Pending"), ("APPROVED", "Approved"), ("REJECTED", "Rejected")))
-    remarks = models.TextField(blank=True, null=True)
-    stage = models.CharField(
-        max_length=200,
-        default="OBJECT_CREATED",
-        choices=(("OBJECT_CREATED", "OBJECT_CREATED"), ("PLAN_SELECTED", "PLAN_SELECTED"), ("ADDRESS_ADDED", "ADDRESS_ADDED"), ("COMPLETED", "COMPLETED")),
-    )
-    completed_at = models.DateTimeField(blank=True, null=True)
-
-    approved_by = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="approved_requests", blank=True, null=True)
-    approved_at = models.DateTimeField(blank=True, null=True)
-    area = models.ForeignKey("main.Area", verbose_name=_("Zone"), on_delete=models.CASCADE, blank=True, null=True)
-    delivery_staff = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="driver_requests", blank=True, null=True, limit_choices_to={"usertype": "Delivery"})
-    meal_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    no_of_meals = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ("start_date",)
-        verbose_name = _("Subscription Request")
-        verbose_name_plural = _("Subscription Requests")
-
-    def get_absolute_url(self):
-        return reverse("main:subscriptionrequest_detail", kwargs={"pk": self.pk})
-
-    @staticmethod
-    def get_list_url():
-        return reverse("main:subscriptionrequest_list")
-
-    def get_update_url(self):
-        return reverse("main:subscriptionrequest_update", kwargs={"pk": self.pk})
-
-    def get_approve_url(self):
-        return reverse("main:subscriptionrequest_approve", kwargs={"pk": self.pk})
-
-    def get_reject_url(self):
-        return reverse("main:subscriptionrequest_reject", kwargs={"pk": self.pk})
-
-    def get_print_url(self):
-        return reverse("main:subscriptionrequest_print", kwargs={"pk": self.pk})
-
-    def mealtypes(self):
-        if self.plan:
-            return set(self.plan.available_mealtypes)
-
-    def __str__(self):
-        return f"{self.user} - {self.plan} - {self.start_date}"
 
 
 def create_orders(subscription):

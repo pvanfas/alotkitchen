@@ -2,7 +2,7 @@ from django_tables2 import Table, columns
 
 from main.base import BaseTable
 
-from .models import Branch, ItemMaster, MealOrder, Subscription, SubscriptionPlan, SubscriptionRequest
+from .models import Branch, ItemMaster, MealOrder, Subscription, SubscriptionPlan, Preference
 
 
 class SubscriptionTable(BaseTable):
@@ -67,7 +67,7 @@ class ItemMasterTable(BaseTable):
 class MealOrderDataTable(Table):
     # Define columns exactly as shown in Excel with correct order and naming
     DocNum = columns.Column(verbose_name="DocNum", accessor="DocNum", orderable=False)
-    Series = columns.Column(verbose_name="Series", accessor="Series", orderable=False)  
+    Series = columns.Column(verbose_name="Series", accessor="Series", orderable=False)
     DocDate = columns.Column(verbose_name="DocDate", accessor="DocDate", orderable=False)
     DocDueDate = columns.Column(verbose_name="DocDueDate", accessor="DocDueDate", orderable=False)
     CardCode = columns.Column(verbose_name="CardCode", accessor="CardCode", orderable=False)
@@ -91,27 +91,56 @@ class MealOrderDataTable(Table):
         template_name = "django_tables2/table_raw.html"
         # Updated field order to match Excel exactly
         fields = (
-            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode",
-            "U_OrderType", "U_Order_Catg", "U_MealType", "U_Zone", "U_Driver", "U_DT",
-            "Comments", "U_DAddress", "ParentKey", "LineNum", "Quantity", "ItemCode", 
-            "PriceAfterVAT", "OcrCode"
+            "DocNum",
+            "Series",
+            "DocDate",
+            "DocDueDate",
+            "CardCode",
+            "U_OrderType",
+            "U_Order_Catg",
+            "U_MealType",
+            "U_Zone",
+            "U_Driver",
+            "U_DT",
+            "Comments",
+            "U_DAddress",
+            "ParentKey",
+            "LineNum",
+            "Quantity",
+            "ItemCode",
+            "PriceAfterVAT",
+            "OcrCode",
         )
-        attrs = {
-            "class": "table nowrap key-buttons border-bottom table-hover normalcase", 
-            "id": "exportTable"
-        }
+        attrs = {"class": "table nowrap key-buttons border-bottom table-hover normalcase", "id": "exportTable"}
         sequence = (
-            "DocNum", "Series", "DocDate", "DocDueDate", "CardCode",
-            "U_OrderType", "U_Order_Catg", "U_MealType", "U_Zone", "U_Driver", "U_DT",
-            "Comments", "U_DAddress", "ParentKey", "LineNum", "Quantity", "ItemCode", 
-            "PriceAfterVAT", "OcrCode"
+            "DocNum",
+            "Series",
+            "DocDate",
+            "DocDueDate",
+            "CardCode",
+            "U_OrderType",
+            "U_Order_Catg",
+            "U_MealType",
+            "U_Zone",
+            "U_Driver",
+            "U_DT",
+            "Comments",
+            "U_DAddress",
+            "ParentKey",
+            "LineNum",
+            "Quantity",
+            "ItemCode",
+            "PriceAfterVAT",
+            "OcrCode",
         )
-class SubscriptionRequestTable(BaseTable):
+
+
+class PreferenceTable(BaseTable):
     status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
 
     class Meta:
-        model = SubscriptionRequest
-        fields = ("user", "plan", "start_date", "status")
+        model = Preference
+        fields = ("subscription_subplan", "first_name", "last_name", "mobile", "completed_at", "start_date", "status")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
 
 
