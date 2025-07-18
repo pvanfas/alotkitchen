@@ -199,6 +199,7 @@ class PreferenceRequestListView(HybridListView):
         context["pending_requests_count"] = Preference.objects.filter(is_active=True, status="PENDING").count()
         context["approved_requests_count"] = Preference.objects.filter(is_active=True, status="APPROVED").count()
         context["rejected_requests_count"] = Preference.objects.filter(is_active=True, status="REJECTED").count()
+        context["delivery_staff"] = User.objects.filter(usertype="Delivery", is_active=True).order_by("first_name", "last_name")
         return context
 
     def get_queryset(self):

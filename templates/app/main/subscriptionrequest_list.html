@@ -98,10 +98,75 @@
     </div>
 
 </div>
+<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title fw-bold" id="approveModalLabel">Delivery Preferences</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="approveForm" method="post" action="">
+                    {% csrf_token %}
+                    <div class="mb-3 d-flex align-items-center">
+                        <label class="me-2 w-25" for="deliveryStaffSelect">Delivery staff:</label>
+                        <select class="form-select w-50" id="deliveryStaffSelect" name="delivery_staff" required>
+                            <option value="">---------</option>
+                            {% for staff in delivery_staff %}
+                            <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
+                    <div class="mb-3 d-flex align-items-center">
+                        <label class="me-2 w-25" for="mealFee">Meal fee:</label>
+                        <input type="number" class="form-control w-50" id="mealFee" name="meal_fee" value="0.00" step="0.01" min="0" required>
+                    </div>
 
-
-{% include 'app/partials/filter.html' %}
-{% include 'app/partials/help.html' %}
+                    <div class="mb-3 d-flex align-items-center">
+                        <label class="me-2 w-25" for="noOfMeals">No of meals:</label>
+                        <input type="number" class="form-control w-50" id="noOfMeals" name="no_of_meals" value="0" min="0" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="confirmApproveBtn">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
+
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const approveModal = document.getElementById('approveModal');
+    if (approveModal) {
+        // This event fires just before the modal is shown
+        approveModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Button that triggered the modal
+            const preferenceId = button.getAttribute('data-preference-id'); // Get the ID from the button
+            const modalForm = approveModal.querySelector('#approveForm');
+
+            // 1. Create a template of the URL using Django's url tag. 
+            //    'PLACEHOLDER' will be replaced with the real ID.
+            const urlTemplate = "{% url 'main:approve-preference' pk='PLACEHOLDER' %}";
+            
+            // 2. Replace the placeholder with the actual preference ID.
+            const finalUrl = urlTemplate.replace('PLACEHOLDER', preferenceId);
+            
+            // 3. Set the form's 'action' attribute to the final, correct URL.
+            modalForm.setAttribute('action', finalUrl);
+        });
+
+        // Add a click listener to the modal's approve button to submit the form
+        const confirmBtn = document.getElementById('confirmApproveBtn');
+        confirmBtn.addEventListener('click', function() {
+            document.getElementById('approveForm').submit();
+        });
+    }
+});
+</script>
+{% endblock javascript %}
