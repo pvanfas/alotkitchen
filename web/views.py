@@ -121,7 +121,7 @@ def create_profile(request, pk):
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     # addresses = instance.get_addresses()
-    addresses = DeliveryAddress.objects.filter(preference = instance)
+    addresses = DeliveryAddress.objects.filter(preference=instance)
     
     # Create form without instance since we're creating a new DeliveryAddress
     form = DeliveryAddressForm(request.POST or None)
@@ -145,7 +145,7 @@ def select_address(request, pk):
 
 def set_delivery_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = SetDeliveryAddressForm(request.POST or None, instance=instance, user=request.user)
+    form = SetDeliveryAddressForm(request.POST or None, instance=instance, preference=instance)
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
