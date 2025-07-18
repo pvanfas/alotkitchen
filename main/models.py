@@ -325,11 +325,11 @@ class Subscription(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user} - {self.plan} - {self.start_date}"
+        return f"{self.plan} - {self.start_date}"
 
 
 class MealOrder(BaseModel):
-    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals")
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals",blank=True,null=True)
     item = models.ForeignKey(ItemMaster, on_delete=models.CASCADE, related_name="itemmeals")
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, related_name="meals")

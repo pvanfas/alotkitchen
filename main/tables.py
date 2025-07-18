@@ -136,14 +136,31 @@ class MealOrderDataTable(Table):
 
 
 class PreferenceTable(BaseTable):
-    status = columns.TemplateColumn("<span class='label label-{{record.flag}} br-3 label label-default mb-0 px-3 py-1'>{{record.get_status_display}}</span>", orderable=False)
+    status = columns.TemplateColumn("{{record.get_status_display}}", orderable=False)
+    
+    # Add this actions column
+    actions = columns.TemplateColumn(
+        template_code='''
+        {% if record.status == "PENDING" %}
+            <button type="button" class="btn btn-sm btn-success" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#approveModal" 
+                    data-preference-id="{{ record.id }}">
+                Approve
+            </button>
+        {% endif %}
+        ''',
+        verbose_name='Actions',
+        orderable=False
+    )
 
     class Meta:
         model = Preference
-        fields = ("subscription_subplan", "first_name", "last_name", "mobile", "completed_at", "start_date", "status")
+        # Add 'actions' to the list of fields to display
+        fields = ("subscription_subplan", "first_name", "last_name", "mobile", "completed_at", "start_date", "status", "actions")
         attrs = {"class": "table key-buttons border-bottom table-hover"}  # noqa: RUF012
-
-
+        
+        
 class StandardSubscriptionTable(BaseTable):
     action = None
     address = columns.TemplateColumn(template_name="app/partials/address_preview.html", orderable=False)

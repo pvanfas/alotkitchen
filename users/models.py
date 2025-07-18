@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
+
 USERTYPE_CHOICES = (
     ("Administrator", "Administrator"),
     ("Manager", "Manager"),
@@ -28,19 +29,39 @@ class CustomUser(AbstractUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
+    @property
+    def subscriptions(self):
+        """
+        A property to dynamically get all subscriptions for a user by querying 
+        through the Preference model's 'request' field.
+        """
+        from main.models import Subscription
+        return Subscription.objects.filter(request__user=self)
+
     def active_subscriptions(self):
+        """This method now works because self.subscriptions is available."""
         return self.subscriptions.filter(start_date__lte=timezone.now(), end_date__gte=timezone.now(), is_active=True)
 
     def has_expired_subscription(self):
+        """This method now works."""
         return self.subscriptions.filter(end_date__lt=timezone.now(), is_active=True).exists()
 
+    @property
     def has_active_subscription(self):
+        """This is better as a property and now works."""
         return self.active_subscriptions().exists()
 
+    @property
     def subscription_ends_on(self):
-        return self.active_subscriptions().first().end_date
+        """
+        This is safer and now works. It gets the end date of the latest
+        active subscription, or None if there isn't one.
+        """
+        active_sub = self.active_subscriptions().order_by('-end_date').first()
+        return active_sub.end_date if active_sub else None
 
     def has_zero_subscription(self):
+        """This method now works."""
         return not self.subscriptions.filter(is_active=True).exists()
 
     def get_absolute_url(self):
@@ -48,10 +69,11 @@ class CustomUser(AbstractUser):
 
     def fullname(self):
         if self.first_name and self.last_name:
-            return self.first_name + " " + self.last_name
+            return f"{self.first_name} {self.last_name}"
         elif self.first_name:
             return self.first_name
         return self.username
 
     def __str__(self):
         return self.fullname()
+

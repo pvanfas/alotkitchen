@@ -401,7 +401,7 @@
         preferenceIdInput.value = preferenceId;
         
         // Reset form fields
-       
+
         document.getElementById('deliveryStaffSelect').value = '';
         document.getElementById('mealFee').value = '0.00';
         document.getElementById('noOfMeals').value = '0';
@@ -417,16 +417,16 @@
     });
 
     // Filter delivery staff based on selected zone (optional enhancement)
-    document.getElementById('zoneSelect').addEventListener('change', function() {
-        const zoneId = this.value;
-        const deliveryStaffSelect = document.getElementById('deliveryStaffSelect');
+//     {% comment %} document.getElementById('zoneSelect').addEventListener('change', function() {
+//         const zoneId = this.value;
+//         const deliveryStaffSelect = document.getElementById('deliveryStaffSelect');
         
-        if (zoneId) {
-            // Optional: Filter delivery staff based on zone
-            // You can implement AJAX call here to get zone-specific delivery staff
-            // For now, we'll show all staff
-        }
-    });
+//         if (zoneId) {
+//             // Optional: Filter delivery staff based on zone
+//             // You can implement AJAX call here to get zone-specific delivery staff
+//             // For now, we'll show all staff
+//         }
+//     }); {% endcomment %}
 
     $(document).ready(function () {
         $('a[data-target]').click(function () {
