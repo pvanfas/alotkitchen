@@ -145,7 +145,7 @@ def select_address(request, pk):
 
 def set_delivery_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    form = SetDeliveryAddressForm(request.POST or None, instance=instance, user=request.user)
+    form = SetDeliveryAddressForm(request.POST or None, instance=instance)
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
