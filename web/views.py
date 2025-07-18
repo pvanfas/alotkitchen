@@ -96,18 +96,9 @@ def create_profile(request, pk):
                     return f"+{country_code}{number}"
                 return None
 
-            data.mobile = format_number(
-                form.cleaned_data.get("mobile_country_code"),
-                form.cleaned_data.get("mobile")
-            )
-            data.alternate_mobile = format_number(
-                form.cleaned_data.get("alternate_mobile_country_code"),
-                form.cleaned_data.get("alternate_mobile")
-            )
-            data.whatsapp_number = format_number(
-                form.cleaned_data.get("whatsapp_number_country_code"),
-                form.cleaned_data.get("whatsapp_number")
-            )
+            data.mobile = format_number(form.cleaned_data.get("mobile_country_code"), form.cleaned_data.get("mobile"))
+            data.alternate_mobile = format_number(form.cleaned_data.get("alternate_mobile_country_code"), form.cleaned_data.get("alternate_mobile"))
+            data.whatsapp_number = format_number(form.cleaned_data.get("whatsapp_number_country_code"), form.cleaned_data.get("whatsapp_number"))
 
             data.save()
             return redirect("web:select_address", pk=pk)
@@ -121,11 +112,11 @@ def create_profile(request, pk):
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     # addresses = instance.get_addresses()
-    addresses = DeliveryAddress.objects.filter(preference = instance)
-    
+    addresses = DeliveryAddress.objects.filter(preference=instance)
+
     # Create form without instance since we're creating a new DeliveryAddress
     form = DeliveryAddressForm(request.POST or None)
-    
+
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
@@ -137,7 +128,7 @@ def select_address(request, pk):
                 DeliveryAddress.objects.filter(preference=instance, is_default=True).update(is_default=False)
             data.save()
             return redirect("web:select_address", pk=pk)
-    
+
     template_name = "web/select_address.html"
     context = {"instance": instance, "form": form, "addresses": addresses}
     return render(request, template_name, context)
@@ -145,7 +136,7 @@ def select_address(request, pk):
 
 def set_delivery_address(request, pk):
     instance = Preference.objects.get(pk=pk)
-    addresses = DeliveryAddress.objects.filter(preference = instance)
+    addresses = DeliveryAddress.objects.filter(preference=instance)
     form = SetDeliveryAddressForm(request.POST or None, instance=instance)
     default_address = addresses.filter(is_default=True).first()
 
@@ -167,7 +158,7 @@ def set_delivery_address(request, pk):
                 form.fields[field_name].empty_label = None
         else:
             form.fields.pop(field_name, None)
-    
+
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
