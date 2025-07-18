@@ -3,14 +3,11 @@ from datetime import datetime
 from itertools import groupby
 
 from django.db.models import Sum
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
 from django.db import transaction
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
 
 from main.choices import LANGUAGE_CHOICES
 from main.mixins import HybridDetailView, HybridListView, HybridUpdateView
@@ -448,7 +445,7 @@ def edit_preference(request, pk):
     context = {
         'preference': preference,
         'languages': LANGUAGE_CHOICES,
-        'delivery_addresses': DeliveryAddress.objects.filter(user=request.user),
+        'delivery_addresses': DeliveryAddress.objects.filter(preference=preference),
         'meal_plans': MealPlan.objects.filter(is_active=True).select_related('meal_category', 'menu_item'),
         # 'meal_plans_by_day': meal_plans_by_day,
     }

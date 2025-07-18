@@ -121,7 +121,7 @@ def create_profile(request, pk):
 def select_address(request, pk):
     instance = Preference.objects.get(pk=pk)
     # addresses = instance.get_addresses()
-    addresses = DeliveryAddress.objects.filter(user = request.user)
+    addresses = DeliveryAddress.objects.filter(preference = instance)
     
     # Create form without instance since we're creating a new DeliveryAddress
     form = DeliveryAddressForm(request.POST or None)
@@ -129,9 +129,12 @@ def select_address(request, pk):
     if request.method == "POST":
         if form.is_valid():
             data = form.save(commit=False)
-            data.preferance = instance  # Use the actual field name from the model
+            data.preference = instance  # Use the actual field name from the model
             data.session_id = instance.session_id
             data.user = request.user if request.user.is_authenticated else None
+            if data.is_default:
+                # Set all other addresses to not default if this one is set as default
+                DeliveryAddress.objects.filter(preference=instance, is_default=True).update(is_default=False)
             data.save()
             return redirect("web:select_address", pk=pk)
     
@@ -145,7 +148,12 @@ def set_delivery_address(request, pk):
     form = SetDeliveryAddressForm(request.POST or None, instance=instance, user=request.user)
     if request.method == "POST":
         if form.is_valid():
-            form.save()
+            data = form.save(commit=False)
+            data.preference = instance
+            data.session_id = instance.session_id
+            data.user = request.user if request.user.is_authenticated else None
+            data.save()
+
             return redirect("web:confirm_subscription", pk=pk)
     template_name = "web/set_delivery_address.html"
     context = {"instance": instance, "form": form}
