@@ -65,10 +65,10 @@ class MealPlanAdmin(BaseAdmin):
 
 @admin.register(MealOrder)
 class MealOrderAdmin(BaseAdmin):
-    list_display = ("user", "item", "quantity", "status", "date", "mealtype", "subscription_plan")
-    search_fields = ("user__email", "item__name")
+    list_display = ("item", "quantity", "status", "date", "mealtype", "subscription_plan")
+    search_fields = ( "item__name",)
     list_filter = ("status", "subscription_plan", "date")
-    autocomplete_fields = ("user", "item", "subscription", "subscription_plan")
+    autocomplete_fields = ("item", "subscription", "subscription_plan")
 
 
 @admin.register(Area)

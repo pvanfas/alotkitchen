@@ -4,6 +4,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
+from .choices import BOOL_CHOICES
+from users.models import CustomUser as User
 
 from main.base import BaseModel
 
@@ -328,7 +330,11 @@ class Subscription(BaseModel):
         return f"{self.plan} - {self.start_date}"
 
 
-class MealOrder(BaseModel):
+class MealOrder(models.Model):
+    created = models.DateTimeField("Created at", db_index=True, auto_now_add=True)
+    updated = models.DateTimeField("Updated at", auto_now=True)
+    creator = models.ForeignKey(User, editable=False, blank=True, null=True, related_name="%(app_label)s_%(class)s_creator", on_delete=models.PROTECT)
+    is_active = models.BooleanField("Mark as Active", default=True, choices=BOOL_CHOICES)
     user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, related_name="usermeals", blank=True, null=True)
     item = models.ForeignKey(ItemMaster, on_delete=models.CASCADE, related_name="itemmeals")
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, related_name="mealsplan")
@@ -337,7 +343,7 @@ class MealOrder(BaseModel):
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=200, default="PENDING", choices=ORDER_STATUS_CHOICES)
     is_donated = models.BooleanField(default=False)
-
+        
     def flag(self):
         data = {
             "PENDING": "warning",
@@ -368,7 +374,7 @@ class MealOrder(BaseModel):
 
     def DocNum(self):
         """Return empty string as shown in Excel"""
-        return ""
+        return self.id
 
     def Series(self):
         return 70
@@ -552,5 +558,5 @@ def create_orders(subscription):
         date = subscription.start_date + timezone.timedelta(days=i)
         items = ItemMaster.objects.filter(is_active=True, meal_category=subscription.plan.meal_category)
         for item in items:
-            MealOrder.objects.get_or_create(user=subscription.user, item=item, subscription=subscription, subscription_plan=subscription.plan, date=date)
+            order, created = MealOrder.objects.get_or_create(item=item, subscription=subscription, subscription_plan=subscription.plan, date=date)
     return True
